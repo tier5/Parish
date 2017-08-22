@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading"><strong>Log In</strong></div>
+            <div class="panel-body">
+                <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+                    <div
+                        *ngIf="!loginRequestStatus && responseReceived"
+                        class="alert alert-danger"
+                    >
+                        <strong>{{ loginRequestResponseMsg }}</strong>
+                    </div>
+                    <fieldset>
+                        <div class="form-group">
+                            <input
+                                class="form-control"
+                                placeholder="Username"
+                                name="username"
+                                ngModel
+                                required
+                                #username="ngModel"
+                            >
+                        </div>
+                        <div
+                            class="alert alert-danger"
+                            *ngIf="username.invalid && username.touched"
+                        >
+                            UserName is Required!
+                        </div>
+
+
+                        <div class="form-group">
+                            <input
+                                class="form-control"
+                                placeholder="Password"
+                                type="password"
+                                name="password"
+                                ngModel
+                                required
+                                #password="ngModel"
+                            >
+                        </div>
+                        <div
+                            class="alert alert-danger"
+                            *ngIf="password.invalid && password.touched"
+                        >
+                            Password is Required!
+                        </div>
+
+                        <!--<div class="checkbox">-->
+                            <!--<label>-->
+                                <!--<input name="remember" type="checkbox" value="Remember Me">Remember Me-->
+                            <!--</label>-->
+                        <!--</div>-->
+
+                        <button
+                            [disabled]="form.invalid"
+                            class="btn btn-primary"
+                        >
+                            <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                            Login
+                        </button>
+                        <button type="reset" class="btn btn-default" (click)="onReset(form)">Reset</button>
+                        <button type="button" class="btn btn-primary pull-right" (click)="onNavigate()">Register</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.col-->
+</div><!-- /.row -->
