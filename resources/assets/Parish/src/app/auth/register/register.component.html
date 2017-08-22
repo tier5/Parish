@@ -1,31 +1,107 @@
 <div class="row">
-  <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
-    <div class="login-panel panel panel-default">
-      <div class="panel-heading">Register</div>
-      <div class="panel-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-          <fieldset>
-            <div class="form-group">
-              <input [formControl]="fname" class="form-control" placeholder="First Name" type="text" autofocus="" required>
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading"><strong>Register</strong></div>
+            <div class="panel-body">
+                <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
+                    <div *ngIf="!userRegisterStatus && responseReceived" class="alert alert-danger">
+                        <strong>{{ userRegisteredMsg }}</strong>
+                    </div>
+                    <div *ngIf="userRegisterStatus && responseReceived" class="alert alert-success">
+                        <strong>{{ userRegisteredMsg }}</strong>
+                    </div>
+                    <fieldset>
+                        <!-- First Name -->
+                        <div class="form-group">
+                            <input
+                                class="form-control"
+                                formControlName="first_name"
+                                placeholder="First Name"
+                            >
+                        </div>
+                        <div *ngIf="formRegister.get('first_name').invalid && formRegister.get('first_name').touched">
+                            <div class="alert alert-danger" *ngIf="formRegister.get('first_name').hasError('required')">
+                                Your First Name is Required!
+                            </div>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="form-group">
+                            <input
+                                class="form-control"
+                                formControlName="last_name"
+                                placeholder="Last Name"
+                            >
+                        </div>
+                        <div *ngIf="formRegister.get('last_name').invalid && formRegister.get('last_name').touched">
+                            <div class="alert alert-danger" *ngIf="formRegister.get('last_name').hasError('required')">
+                                Your Last Name is Required!
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <input
+                                class="form-control"
+                                formControlName="email"
+                                placeholder="Email Address"
+                            >
+                        </div>
+                        <div *ngIf="formRegister.get('email').invalid && formRegister.get('email').touched">
+                            <div class="alert alert-danger">
+                                <div *ngIf="formRegister.get('email').hasError('required')">
+                                   Your Email is Required!
+                                </div>
+                                <div *ngIf="formRegister.get('email').hasError('email')">
+                                    Enter a Proper Email!
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group">
+                            <input
+                                class="form-control"
+                                formControlName="password"
+                                type="password"
+                                placeholder="Password"
+                            >
+                        </div>
+                        <div *ngIf="formRegister.get('password').invalid && formRegister.get('password').touched">
+                            <div class="alert alert-danger" *ngIf="formRegister.get('password').hasError('required')">
+                                Your Password is Required!
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-group">
+                            <input
+                                class="form-control"
+                                formControlName="confirm_password"
+                                type="password"
+                                placeholder="Confirm Password"
+                            >
+                        </div>
+                        <div *ngIf="formRegister.get('confirm_password').invalid && formRegister.get('confirm_password').touched">
+                            <div class="alert alert-danger" >
+                                <div *ngIf="formRegister.get('confirm_password').hasError('required')">
+                                    Confirm password is Required!
+                                </div>
+                                <div *ngIf="formRegister.get('confirm_password').hasError('confirmPassword')">
+                                    Confirm Password didnot Match!
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" [disabled]="formRegister.invalid || userRegisterRequested">
+                            <i *ngIf="userRegisterRequested" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                            Register
+                        </button>
+                        <button type="reset" class="btn btn-default" (click)="onReset()">Reset</button>
+                        <button type="button" class="btn btn-primary pull-right" (click)="onNavigate()">Login</button>
+                    </fieldset>
+                </form>
             </div>
-            <div class="form-group">
-              <input [formControl]="lname" class="form-control" placeholder="Last Name" type="text" autofocus="" required>
-            </div>
-            <div class="form-group">
-              <input [formControl]="email" class="form-control" placeholder="E-mail" type="email" autofocus="">
-            </div>
-            <div class="form-group">
-              <input [formControl]="password" class="form-control" placeholder="Password" type="password" value="">
-            </div>
-            <div class="form-group">
-              <input [formControl]="cpassword" class="form-control" placeholder="Confirm Password" type="password" value="">
-            </div>
-            <button [disabled]="!form.valid" type="submit" class="btn btn-primary">Register</button>
-              <button type="reset" class="btn btn-default">Reset</button>
-              <button type="button" class="btn btn-primary pull-right">Login</button>
-          </fieldset>
-        </form>
-      </div>
-    </div>
-  </div><!-- /.col-->
+        </div>
+    </div><!-- /.col-->
 </div><!-- /.row -->

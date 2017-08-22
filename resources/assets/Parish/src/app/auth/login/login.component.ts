@@ -38,4 +38,8 @@ export class LoginComponent {
 		formSignIn.reset();
 	}
 	
+	onNavigate() {
+		this.router.navigate(['/register']);
+	}
+	
 }

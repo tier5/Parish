@@ -1,8 +1,8 @@
 {
-  "name": "PaperAdmin",
+  "name": "Parish",
   "version": "1.0.0",
-  "author": "Mohammed Rashid",
-  "description": "A flat Angular JS 2/4 Dashboard",
+  "author": "Tier5",
+  "description": "Parish",
   "keywords": [
     "angular",
     "angular2",

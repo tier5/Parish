@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Functional Scope: API for Sign Up, Sign In and Sign Out.
+ */
 namespace App\Http\Controllers\Api\V1;
 use App\Exceptions\HttpBadRequestException;
 use App\Models\User;
@@ -61,10 +63,27 @@ class AuthController extends Controller {
             else
                 throw new HttpBadRequestException("Password is required");
 
-            $user->save();
+            /**
+             * Check user present or not then update or create only for soft deleted user
+             */
+            $registerUser = User::where('email', $request->input('email'))->whereNotNull('deleted_at')->first();
+
+            if(count($registerUser)) {
+
+                $registerUser->first_name = $request->input('first_name');
+                $registerUser->last_name = $request->input('last_name');
+                $registerUser->email = $request->input('email');
+                $registerUser->password = $request->input('password');
+                $registerUser->deleted_at = NULL;
+                $registerUser->save();
+            }
+            else
+            {
+                $user->save();
+            }
 
             /**
-             * Fire a mail to info@parish.com with original subject and message
+             * Fire a mail to user with original subject and message
              */
              Mail::send('emails.registerEmail', [
                 'firstName' => $user->first_name,
@@ -74,8 +93,8 @@ class AuthController extends Controller {
                 /** @noinspection PhpUndefinedMethodInspection */
                 $mail->from($user->email, 'WEM Registraion');
                 /** @noinspection PhpUndefinedMethodInspection */
-                $mail->to('work@tier5.us', "Parish")
-                    ->subject('Parish Registraion');
+                $mail->to($user->email, "Parish")
+                    ->subject('Parish WEM Registraion');
             });
 
             $response = [
@@ -152,15 +171,19 @@ class AuthController extends Controller {
             /**
              * Validate mandatory fields
              */
-            if (!$request->has('email'))
-                throw new HttpBadRequestException("Email is required.");
+            if (!$request->has('username'))
+                throw new HttpBadRequestException("UserName is required.");
             if (!$request->has('password'))
                 throw new HttpBadRequestException("Password is required.");
 
             /**
              * Authenticate user using JWTAuth
              */
-            if ($token = JWTAuth::attempt($request->only('email', 'password'))) {
+
+            $field = filter_var($request->input('username'), FILTER_VALIDATE_EMAIL) ? 'email' : 'parish_id';
+            $request->merge([$field => $request->input('username')]);
+
+            if ($token = JWTAuth::attempt($request->only($field, 'password'))) {
                 $user = Auth::user();
 
                 if ($user->deleted_at != null){
@@ -181,7 +204,7 @@ class AuthController extends Controller {
                         'error' => "User account on hold.",
                         'token' => $token
                     ];
-                    $responseCode = 422;
+                    $responseCode = 423;
                     }
                     else
                     {
@@ -208,7 +231,8 @@ class AuthController extends Controller {
                 'error' => $httpBadRequestException->getMessage()
             ];
             $responseCode = 400;
-        } /** @noinspection PhpUndefinedClassInspection */ catch (JWTAuthException $JWTAuthException) {
+        } /** @noinspection PhpUndefinedClassInspection */ 
+        catch (JWTAuthException $JWTAuthException) {
             $response = [
                 'status' => false,
                 'error' => "Failed to create token.",

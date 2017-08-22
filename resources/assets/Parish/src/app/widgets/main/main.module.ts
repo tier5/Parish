@@ -24,6 +24,6 @@ import {Ng2NewsList} from "../../components/ng2-newslist/ng2newslist.module";
 
   ],
   declarations: [ MainWidgetComponent, CalendarComponent, AlertComponent],
-  providers: [  ]
+  providers: [  ],
 })
 export class MainWidgetModule { }

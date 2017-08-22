@@ -20,7 +20,7 @@
                         </div>
                         <button [disabled]="!form.valid" type="submit" class="btn btn-primary">Login</button>
                         <button type="reset" class="btn btn-default">Reset</button>
-                        <button type="button" class="btn btn-primary pull-right">Register</button>
+                        <button type="button" class="btn btn-primary pull-right" (click)="onNavigate()">Register</button>
                     </fieldset>
                 </form>
             </div>
