@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->boolean('user_type')
-                ->comment('0 => SUPER ADMIN, 1 => WEM, 2 => PASTOR')
+                ->comment('0 => SUPER ADMIN, 1 => WEM, 2 => PASTOR, 3 => PASTOR')
                 ->default('1');
             $table->boolean('user_status')
                 ->comment('0 => ON HOLD, 1 => EXEMPTION')

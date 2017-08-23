@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 /**
  * Routes group for API Version 1
  */
-Route::group(['prefix' => 'v1'], function () {
+Route::group(['prefix' => 'v1'], function() {
 	/**
      * Routes for unauthenticated user
      */
@@ -33,4 +33,10 @@ Route::group(['prefix' => 'v1'], function () {
        'uses' => 'Api\V1\AuthController@signOut',
         'as' => 'api.v1.signOut.post'
     ]);
+    /**
+     * Route for Authenticated user
+     */
+    Route::group(['middleware' => ['jwt.auth']], function() {
+        // TODO: every logged in user route will be here & remove this comments
+    });
 });

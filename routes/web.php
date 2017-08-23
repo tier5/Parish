@@ -21,12 +21,12 @@ Route::get('/{angular_route}', function () {
 Route::get('/{angular_route}/{angular_sub_route}', function () {
     return response()->file( public_path() . '/index.html' );
 });
-Route::get('/{angular_route}/{angular_sub_route}/{angular_sub_route}', function () {
+Route::get('/{angular_route}/{angular_sub_route}/{angular_sub_sub_route}', function () {
     return response()->file( public_path() . '/index.html' );
 });
-Route::get('/{angular_route}/{angular_sub_route}/{angular_sub_route}/{angular_sub_route}', function () {
+Route::get('/{angular_route}/{angular_sub_route}/{angular_sub_sub_route}/{angular_sub_sub_sub_route}', function () {
    return response()->file( public_path() . '/index.html' );
 });
-Route::get('/{angular_route}/{angular_sub_route}/{angular_sub_route}/{angular_sub_route}/{angular_sub_route}', function () {
+Route::get('/{angular_route}/{angular_sub_route}/{angular_sub_sub_route}/{angular_sub_sub_sub_route}/{angular_sub_sub_sub_sub_route}', function () {
     return response()->file( public_path() . '/index.html' );
 });

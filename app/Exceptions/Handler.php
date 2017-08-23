@@ -5,6 +5,8 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 class Handler extends ExceptionHandler
 {
@@ -23,6 +25,43 @@ class Handler extends ExceptionHandler
     ];
 
     /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return mixed
+     */
+    public function render($request, Exception $exception)
+    {
+        /*
+         * Handle API Route Exception with JSON Response
+         */
+        if ($request->is('api/*')) {
+            /*
+             * API Route Not Found Exception Response
+             */
+            if ($exception instanceOf NotFoundHttpException) {
+                return response()->json([
+                    'status' => false,
+                    'error' => "Requested API endpoint not found."
+                ], 404);
+            }
+            /*
+             * API Method Not Allowed Exception Response
+             */
+            if ($exception instanceOf MethodNotAllowedException) {
+                return response()->json([
+                    'status' => false,
+                    'error' => $exception->getMessage() ?
+                        $exception->getMessage() : $request->method() . " method is not allowed."
+                ], 405);
+            }
+        }
+
+        return parent::render($request, $exception);
+    }
+
+    /**
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
@@ -36,22 +75,6 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $exception)
-    {
-        // if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-        //     return response()->file( public_path() . '/index.php' );
-        // }
-
-        return parent::render($request, $exception);
-    }
-
-    /**
      * Convert an authentication exception into an unauthenticated response.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -61,7 +84,10 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'status' => false,
+                'error' => "Unauthenticated."
+            ], 401);
         }
 
         return redirect()->guest(route('login'));

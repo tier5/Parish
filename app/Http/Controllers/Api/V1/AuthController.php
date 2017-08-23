@@ -172,7 +172,7 @@ class AuthController extends Controller {
              * Validate mandatory fields
              */
             if (!$request->has('username'))
-                throw new HttpBadRequestException("UserName is required.");
+                throw new HttpBadRequestException("Username is required.");
             if (!$request->has('password'))
                 throw new HttpBadRequestException("Password is required.");
 
@@ -190,7 +190,7 @@ class AuthController extends Controller {
                 /** can't login due to soft delete */
                  $response = [
                     'status' => false,
-                    'error' => "Invalid email or password.",
+                    'error' => "Invalid username or password.",
                     'token' => $token
                 ];
                 $responseCode = 422;
@@ -220,8 +220,7 @@ class AuthController extends Controller {
             } else {
                 $response = [
                     'status' => false,
-                    'error' => "Invalid email or password.",
-                    'token' => $token
+                    'error' => "Invalid username or password."
                 ];
                 $responseCode = 422;
             }
