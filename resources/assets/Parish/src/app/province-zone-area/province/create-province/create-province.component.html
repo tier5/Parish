@@ -9,45 +9,108 @@
         <div class="panel panel-default">
             <div class="panel-heading">Create New Province</div>
             <div class="panel-body">
-                <form>
+                <form
+                    #createProvinceForm="ngForm"
+                    (submit)="onSubmit(createProvinceForm)"
+                >
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="pname">Province Name</label>
-                                <input id="pname" class="form-control">
+                                <input
+                                    id="pname"
+                                    class="form-control"
+                                    name="provience_name"
+                                    required
+                                    ngModel
+                                    #provinceName="ngModel"
+                                >
                             </div>
                         </div>
                         <div class="col-md-6">
-
+                            <div
+                                class="alert alert-danger"
+                                *ngIf="provinceName.invalid && provinceName.touched"
+                            >
+                                Province Name is Required!
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="fname">Pastor's First Name</label>
-                                <input id="fname" class="form-control">
+                                <input
+                                    id="fname"
+                                    class="form-control"
+                                    name="first_name"
+                                    required
+                                    ngModel
+                                    #firstName="ngModel"
+                                >
                             </div>
                         </div>
                         <div class="col-md-6">
-
+                            <div
+                                class="alert alert-danger"
+                                *ngIf="firstName.invalid && firstName.touched"
+                            >
+                                First Name is Required!
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="lname">Pastor's Last Name</label>
-                                <input id="lname" class="form-control">
+                                <input
+                                    id="lname"
+                                    class="form-control"
+                                    name="last_name"
+                                    required
+                                    ngModel
+                                    #lastName="ngModel"
+                                >
                             </div>
                         </div>
                         <div class="col-md-6">
-
+                            <div
+                                class="alert alert-danger"
+                                *ngIf="lastName.invalid && lastName.touched"
+                            >
+                                Last Name is Required!
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6  col-md-offset-6">
-                            <button class="btn btn-primary">Submit</button>
-                            <button type="button" class="btn btn-default">Reset</button>
+                        <div class="col-md-6">
+                            <div
+                                *ngIf="!responseStatus && responseReceived"
+                                class="alert alert-danger"
+                            >
+                                <strong>{{ responseMsg }}</strong>
+                            </div>
+                            <div
+                                *ngIf="responseStatus && responseReceived"
+                                class="alert alert-success"
+                            >
+                                <strong>{{ responseMsg }}</strong>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button
+                                class="btn btn-primary"
+                                [disabled]="createProvinceForm.invalid || showLoader"
+                            >
+                                <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                                Submit
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-default"
+                                (click)="onReset(createProvinceForm)"
+                            >Reset</button>
                         </div>
                     </div>
                 </form>

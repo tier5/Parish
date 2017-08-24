@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 import { CreateProvinceComponent } from './create-province/create-province.component';
 import { ListProvinceComponent } from './list-province/list-province.component';
 import { ProvinceRoutingModule } from './province-routing.module';
+import { ProvinceService } from './province.service';
 
 @NgModule({
 	declarations: [
@@ -12,9 +14,10 @@ import { ProvinceRoutingModule } from './province-routing.module';
 	],
 	imports: [
 		CommonModule,
+		FormsModule,
 		ProvinceRoutingModule
 	],
-	providers: [],
+	providers: [ ProvinceService ],
 	exports: [],
 })
 export class ProvinceModule { }

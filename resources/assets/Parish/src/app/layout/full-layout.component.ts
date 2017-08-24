@@ -22,13 +22,14 @@ export class FullLayoutComponent {
 		const token = this.authService.getToken();
 		this.authService.logout( token ).subscribe(
 			( response: Response ) => {
-				console.log( response.json().message );
 				localStorage.removeItem( 'token' );
 				localStorage.removeItem( 'user_type' )
 			},
 			( error: Response ) => {
 				console.log( error );
-				alert(error.json().error);
+				if( error.status === 401) {
+					this.authService.removeToken();
+				}
 			},
 			() => {
 				this.router.navigate( [ '/login' ] );

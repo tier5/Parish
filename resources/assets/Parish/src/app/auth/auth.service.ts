@@ -24,6 +24,11 @@ export class AuthService {
 		return localStorage.getItem('token');
 	}
 	
+	removeToken() {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user_type');
+	}
+	
 	isAuthenticated() {
 		if (this.getToken() !== null) {
 			return true;
