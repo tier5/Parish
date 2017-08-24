@@ -18,7 +18,10 @@ const appRoutes: Routes = [
 			{ path: 'main', loadChildren: './widgets/main/main.module#MainWidgetModule' },
 			{ path: 'table', loadChildren: './widgets/tables/tables.module#TablesWidgetModule' },
 			{ path: 'chart', loadChildren: './widgets/charts/charts.module#ChartsWidgetModule' }
-		] }
+		] },
+		{ path: 'province', loadChildren: './province-zone-area/province/province.module#ProvinceModule' },
+		{ path: 'zone', loadChildren: './province-zone-area/zone/zone.module#ZoneModule' },
+		{ path: 'area', loadChildren: './province-zone-area/area/area.module#AreaModule' }
 	] }
 ];
 @NgModule( {
