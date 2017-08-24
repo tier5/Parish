@@ -39,4 +39,27 @@ Route::group(['prefix' => 'v1'], function() {
     Route::group(['middleware' => ['jwt.auth']], function() {
         // TODO: every logged in user route will be here & remove this comments
     });
+
+    /*
+     * Routes group for authenticate user
+     */
+
+    Route::group(['middleware' => ['jwt.auth']], function () {
+
+        Route::group(['prefix' => 'proviences'], function () {
+
+            Route::post('/', [
+                'uses' => 'Api\V1\ProvienceController@createProvience',
+                'as' => 'api.v1.createProvience.post'
+            ]);
+        });
+
+        Route::group(['prefix' => 'zones'], function () {
+
+            Route::post('/', [
+                'uses' => 'Api\V1\ZoneController@createZone',
+                'as' => 'api.v1.createZone.post'
+            ]);
+        });
+    });
 });

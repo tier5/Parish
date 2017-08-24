@@ -74,12 +74,35 @@ class AuthController extends Controller {
                 $registerUser->last_name = $request->input('last_name');
                 $registerUser->email = $request->input('email');
                 $registerUser->password = $request->input('password');
+                $registerUser->uniqueKey = Crypt::encrypt($request->input('password'));
                 $registerUser->deleted_at = NULL;
                 $registerUser->save();
             }
             else
             {
+
+                /**
+                 * Check unique user
+                 */
+            
+                $registerUser = User::where('email', $request->input('email'))->first();
+
+                if(count($registerUser)) {
+
+                $response = [
+                    'status' => false,
+                    'error' => "User is already signed up.",
+                ];
+                $responseCode = 409;
+
+                return response()->json($response, $responseCode);
+
+                } else {
+
+                $user->uniqueKey = Crypt::encrypt($request->input('password'));
                 $user->save();
+
+                }
             }
 
             /**
