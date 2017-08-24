@@ -19,23 +19,24 @@ export class FullLayoutComponent {
 	) { }
 	
 	onLogout() {
-		const token = this.authService.getToken();
-		this.authService.logout( token ).subscribe(
+		const data = this.authService.getToken();
+		this.authService.logout( data.token ).subscribe(
 			( response: Response ) => {
-				console.log( response.json().message );
-				localStorage.removeItem( 'token' );
-				localStorage.removeItem( 'user_type' )
+				localStorage.removeItem( 'loggedInUserData' );
 			},
 			( error: Response ) => {
 				console.log( error );
-				alert(error.json().error);
+				if( error.status === 401) {
+					this.authService.removeToken();
+					this.router.navigate( ['/login'] );
+				}
 			},
 			() => {
 				this.router.navigate( [ '/login' ] );
 			}
 		);
 	}
-	
+
 	toggle(): void {
 		let self = this;
 		setTimeout( () => {

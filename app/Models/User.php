@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable{
     //
 
-    use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -37,6 +37,9 @@ class User extends Authenticatable{
      * @var array
      */
     protected $dates = ['deleted_at'];
+
+
+    protected $softDelete = true;
 
     /**
      * Bind password field with bcrypt encryption

@@ -1,0 +1,27 @@
+<!-- Pop Up -->
+<div class="row">
+
+    <div class="col-md-6">
+
+        <!-- Popup -->
+        <div class="alert-middle">
+
+            <div class="alert-middle-main">
+                <h4>
+                    Are you sure you want to delete this<br/>
+                    <strong>{{calledFrom}}</strong>?
+                </h4>
+                <span class="closebtn" (click)="hidePrompt()">&times;</span>
+                <div class=btn-confirm>
+                    <button class="btn btn-primary" (click)="deletePrompt()">Confirm</button>
+                    <button class="btn btn-danger" (click)="hidePrompt()">Cancel</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
