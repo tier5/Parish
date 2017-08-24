@@ -6,7 +6,7 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i class="fa {{toggleBarIcon?'fa-bars':'fa-remove'}} text-white custom-nav-toggle"></i>
             </button>
-            <a class="navbar-brand" href="#"><span>Parish </span><!--Admin--></a>
+            <a class="navbar-brand" [routerLink]="['/dashboard']" ><span>Parish </span><!--Admin--></a>
             <ul class="user-menu">
                 <li class="dropdown pull-right">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -29,15 +29,83 @@
         </div>
     </form>
     <ul class="nav menu">
-        <li><a routerLinkActive="active" [routerLink]="['/dashboard']"><i class="fa fa-dashboard fa-fw"></i>
-            Dashboard</a></li>
-        <li><a routerLinkActive="active" [routerLink]="['/form']"><i class="fa fa-list fa-fw"></i> Form</a></li>
 
+        <!-- Dashboard Section -->
+        <li>
+            <a routerLinkActive="active" [routerLink]="['/dashboard']">
+                <i class="fa fa-dashboard fa-fw"></i>
+                Dashboard
+            </a>
+        </li>
+
+        <li role="presentation" class="divider"></li>
+
+        <!-- Province Section -->
         <li class="parent ">
             <a data-toggle="collapse" href="#sub-item-1">
-                <i class="fa fa-fw fa-chevron-circle-down"></i> Widgets
+                <i class="fa fa-fw fa-chevron-circle-down"></i> Province
             </a>
             <ul class="children collapse" id="sub-item-1">
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/province/create']">
+                        <i class="fa fa-fw fa-plus-square"></i> Create
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/province/list']">
+                        <i class="fa fa-fw fa-th-list"></i> List
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Zone Section -->
+        <li class="parent ">
+            <a data-toggle="collapse" href="#sub-item-2">
+                <i class="fa fa-fw fa-chevron-circle-down"></i> Zone
+            </a>
+            <ul class="children collapse" id="sub-item-2">
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/zone/create']">
+                        <i class="fa fa-fw fa-plus-square"></i> Create
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/zone/list']">
+                        <i class="fa fa-fw fa-th-list"></i> List
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- Area Section -->
+        <li class="parent ">
+            <a data-toggle="collapse" href="#sub-item-3">
+                <i class="fa fa-fw fa-chevron-circle-down"></i> Area
+            </a>
+            <ul class="children collapse" id="sub-item-3">
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/area/create']">
+                        <i class="fa fa-fw fa-plus-square"></i> Create
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/area/list']">
+                        <i class="fa fa-fw fa-th-list"></i> List
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li role="presentation" class="divider"></li>
+
+<!--         <li><a routerLinkActive="active" [routerLink]="['/form']"><i class="fa fa-list fa-fw"></i> Form</a></li>
+
+        <li class="parent ">
+            <a data-toggle="collapse" href="#sub-item-4">
+                <i class="fa fa-fw fa-chevron-circle-down"></i> Widgets
+            </a>
+            <ul class="children collapse" id="sub-item-4">
                 <li>
                     <a routerLinkActive="active" [routerLink]="['/widget/main']">
                         <i class="fa fa-fw fa-cogs"></i> Main
@@ -55,17 +123,9 @@
                 </li>
             </ul>
         </li>
-        <li role="presentation" class="divider"></li>
-        <!--<li><a routerLinkActive="active" [routerLink]="['/login']"><i class="fa fa-user fa-fw"></i> Login</a></li>-->
-        <!--<li><a routerLinkActive="active" [routerLink]="['/register']"><i class="fa fa-users fa-fw"></i> Register</a>-->
-        <!--</li>-->
+        <li role="presentation" class="divider"></li> -->
 
     </ul>
-    <!--<div class="attribution">Angular JS 2/4 Dashboard by-->
-        <!--<a href="https://github.com/mohdrashid">@mohdrashid</a><br/>-->
-        <!--CSS by <a href="http://www.medialoot.com/item/lumino-admin-bootstrap-template/">Medialoot</a>-->
-
-    <!--</div>-->
 </div><!--/.sidebar-->
 <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
     <!-- Main content -->

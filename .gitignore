@@ -6,7 +6,7 @@
 /resources/assets/Parish/.idea
 /resources/assets/Parish/e2e/*.js
 /resources/assets/Parish/e2e/*.map
-/public/*
+/resources/assets/Parish/src/environments/environment.prod.ts
 /storage/*.key
 /vendor
 /.idea
