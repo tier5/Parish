@@ -27,8 +27,7 @@ class CreateProviencesTable extends Migration
              */
             $table->foreign('user_id')
                 ->on('users')
-                ->references('id')
-                ->onDelete('cascade');
+                ->references('id');
         });
     }
 

@@ -21,7 +21,7 @@ class CreateAreasTable extends Migration
                 ->index();
             $table->integer('zone_id')
                 ->unsigned()
-                ->index();
+               ->index();
             $table->integer('created_by');
             $table->softDeletes();
             $table->timestamps();
@@ -30,16 +30,13 @@ class CreateAreasTable extends Migration
              */
             $table->foreign('user_id')
                 ->on('users')
-                ->references('id')
-                ->onDelete('cascade');
+                ->references('id');
                 
             $table->foreign('zone_id')
                 ->on('zones')
-                ->references('id')
-                ->onDelete('cascade');
+                ->references('id');
         });
     }
-
     /**
      * Reverse the migrations.
      *

@@ -30,13 +30,11 @@ class CreateZonesTable extends Migration
              */
             $table->foreign('user_id')
                 ->on('users')
-                ->references('id')
-                ->onDelete('cascade');
+                ->references('id');
                 
             $table->foreign('provience_id')
                 ->on('proviences')
-                ->references('id')
-                ->onDelete('cascade');
+                ->references('id');
         });
     }
 

@@ -234,6 +234,9 @@ class AuthController extends Controller {
                       $response = [
                     'status' => true,
                     'message' => "User signed in successfully.",
+                    'user_id' => $user->id,
+                    'user_first_name' => $user->first_name,
+                    'user_last_name' => $user->last_name,
                     'user_type' => $user->user_type,
                     'token' => $token,
                     ];
@@ -243,8 +246,7 @@ class AuthController extends Controller {
             } else {
                 $response = [
                     'status' => false,
-                    'error' => "Invalid username or password.",
-                    'token' => $token
+                    'error' => "Invalid username or password."
                 ];
                 $responseCode = 422;
             }

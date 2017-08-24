@@ -3,19 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Area extends Model
 {
+
+    use SoftDeletes;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'sortname', 'name', 'zone_id', 'user_id'
+
+        'name', 'zone_id', 'user_id'
     ];
 
+    public $timestamps = true;
 
    /**
      * The attributes that should be mutated to dates.
@@ -32,10 +37,22 @@ class Area extends Model
      */ 
 
     public function zones() {
-    return $this->hasOne('App\Models\Zone');
+
+        return $this->belongsTo('App\Models\Zone','zone_id');
 	}
 
 	public function users() {
-    return $this->hasOne('App\Models\User');
-	} 
+
+        return $this->belongsTo('App\Models\User','user_id');
+	}
+
+  
+
+    protected static function boot() {
+        parent::boot();
+
+        static::deleting(function($area) {
+            $area->users()->delete();
+        });
+    }
 }

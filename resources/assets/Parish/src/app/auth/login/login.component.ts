@@ -34,8 +34,7 @@ export class LoginComponent {
 				
 				this.showLoader = false;
 				if(response.json().status){
-					localStorage.setItem( 'token', response.json().token );
-					localStorage.setItem( 'user_type', response.json().user_type );
+					localStorage.setItem( 'loggedInUserData', JSON.stringify(response.json()) );
 					this.loginRequestStatus = true;
 					this.loginRequestResponseMsg = response.json().message;
 				} else {

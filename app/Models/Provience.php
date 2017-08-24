@@ -3,18 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use SoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Provience extends Model
 {
 
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'sortname', 'name', 'user_id'
+
+        'name', 'user_id'
     ];
 
 
@@ -26,17 +28,51 @@ class Provience extends Model
 
     protected $dates = ['deleted_at'];
 
+
+    protected $softDelete = true;
+
     /**
      * Bind password field with bcrypt encryption
      *
      * @param $password
      */ 
 
-    public function zones() {
-    return $this->hasMany('App\Models\Zone');
+    public function zoneDel() {
+        return $this->hasMany('App\Models\Zone','provience_id');
 	}
 
+    public function zones() {
+        return $this->hasMany('App\Models\Zone');
+    }
+
 	public function users() {
-    return $this->hasOne('App\Models\User');
-	}    
+        return $this->belongsTo('App\Models\User','user_id');
+	}
+
+    /**
+     * Get all of the area for the Province.
+     */
+    
+    public function areas()
+    {
+        return $this->hasManyThrough('App\Models\Area', 'App\Models\Zone');
+    }
+
+    /**
+     * Delete functionality bewteen related models
+     */
+
+    protected static function boot() {
+       parent::boot();
+        static::deleting(function($province) {
+            foreach(['zoneDel'] as $relation)
+            {
+                foreach($province->{$relation} as $item)
+                {
+                    $item->delete();
+                }
+            }
+            $province->users()->delete();
+        });
+    }    
 }

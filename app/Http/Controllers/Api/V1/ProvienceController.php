@@ -1,4 +1,9 @@
 <?php
+/**
+* ProvienceController constructor.
+* @param Request $request
+*/
+
 namespace App\Http\Controllers\Api\V1;
 
 use App\Exceptions\EntityConflictException;
@@ -18,12 +23,6 @@ use Log;
 use SoftDeletes;
 
 class ProvienceController extends Controller {
-
-
-    /**
-     * @var null
-     */
-    private $authToken = null;
 
     /**
      * @var null|string
@@ -46,12 +45,67 @@ class ProvienceController extends Controller {
     private $randomPassword = null;   
 
     /**
-     * ProvienceController constructor.
+     * Get Provience list
+     *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    function __construct(Request $request)
-    {
-    }
+
+    public function getProvinceList(Request $request,$user_id){
+         try {
+            DB::beginTransaction();
+
+            $provinces=Provience::where('created_by',$user_id)->whereNull('deleted_at')->get();
+
+            $noOfProvinces =count($provinces);
+            if($noOfProvinces){
+
+                $provinceArray = [];
+                foreach ($provinces as $key => $province) {
+
+                    $provinceArray[$key]['id'] = $province->id;
+                    $provinceArray[$key]['province_name'] = $province->name;
+                    $provinceArray[$key]['user_id'] = $province->users->id;
+                    $provinceArray[$key]['parish_id'] = $province->users->parish_id;
+                    $provinceArray[$key]['password'] = $province->users->uniqueKey;
+                    $provinceArray[$key]['first_name'] = $province->users->first_name;
+                    $provinceArray[$key]['last_name'] = $province->users->last_name;
+                }
+
+                    $response = [
+                        'status' => true,
+                        'message' => $noOfProvinces . ($noOfProvinces > 1 ? " provinces have " : " province has ") . "been found.",
+                        'provinces' => $provinceArray
+                    ];
+                    $responseCode = 200;
+
+                } else {
+                    $response = [
+                        'status' => true,
+                        'noData' => "No Province been found."
+                    ];
+                    $responseCode = 200;
+                }
+
+                }
+                catch (Exception $exception) {
+                    DB::rollBack();
+
+                    Log::error($exception->getMessage());
+
+                    $response = [
+                        'status' => false,
+                        'error' => "Internal server error.",
+                        'error_info' => $exception->getMessage()
+                    ];
+
+                    $responseCode = 500;
+                } finally {
+                    DB::commit();
+                }
+
+                return response()->json($response, $responseCode);
+        }
 
     /**
      * Create a new Provience with Poster
@@ -69,12 +123,12 @@ class ProvienceController extends Controller {
             $user = new User();
 
             /*
-             * Validate mandatory fields according to Stratics API
+             * Validate mandatory fields
              */
             if ($request->has('provience_name'))
                 $provience->name = $request->input('provience_name');
             else
-                throw new HttpBadRequestException("Porvience name is required.");
+                throw new HttpBadRequestException("Province name is required.");
 
             if ($request->has('first_name'))
                 $user->first_name = $request->input('first_name');
@@ -85,13 +139,31 @@ class ProvienceController extends Controller {
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
+            
+            /**
+             * Check WEM already create poster in this province
+             */
 
+            $checkProvince = Provience::where('created_by',  $request->input('user_id'))
+                            ->where('name' , $request->input('provience_name'))
+                            ->whereNull('deleted_at')->first();
+
+            if(count($checkProvince)) {
+
+                $response = [
+                'status' => false,
+                'error' => "You have already created a Provincial Pastor for this Province.",
+                ];
+                $responseCode = 422;
+
+                return response()->json($response, $responseCode);
+            }
 
             $length = 8;
 
-			$this->randomUsername = $this->generateUsername();
+			$this->randomUsername = $this->generateNumber();
 
-			$this->randomPassword = $this->generateUsername();
+			$this->randomPassword = $this->generateNumber();
 
             /**
              * Check unique user
@@ -110,7 +182,7 @@ class ProvienceController extends Controller {
 
             $user->password = $this->randomPassword;
 
-            $user->uniqueKey = Crypt::encrypt($request->input('password'));
+            $user->uniqueKey = $this->randomPassword;
 
             $user->user_type = 2;
 
@@ -122,14 +194,14 @@ class ProvienceController extends Controller {
 
             $provience->user_id = $insertedId;
 
-            $provience->created_by =1;
+            $provience->created_by = $request->input('user_id');
 
             $provience->save();
 
             $response = [
             'status' => true,
             'password' => $this->randomPassword,
-            'message' => "Pastor created successfully."
+            'message' => "Provincial Pastor created successfully."
             ];
             $responseCode = 201;
            
@@ -164,11 +236,231 @@ class ProvienceController extends Controller {
 	            DB::commit();
 
 	            unset($user);
+                unset($provience);
 	        }
 
         return response()->json($response, $responseCode);
 
 	}
+
+    /**
+     * Get Provience poster Detail
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getProvinceDetail(Request $request, $province_id){
+         try {
+            DB::beginTransaction();
+
+            $province=Provience::find($province_id);
+
+            $noOfProvince =count($province);
+            if($noOfProvince){
+
+                $provinceArray = [];
+
+                    $provinceArray['id'] = $province->id;
+                    $provinceArray['province_name'] = $province->name;
+                    $provinceArray['user_id'] = $province->users->id;
+                    $provinceArray['first_name'] = $province->users->first_name;
+                    $provinceArray['last_name'] = $province->users->last_name;
+
+                    $response = [
+                        'status' => true,
+                        'message' => $noOfProvince . ($noOfProvince > 1 ? " provinces have " : " province has ") . "been found.",
+                        'provinces' => $provinceArray
+                    ];
+                    $responseCode = 200;
+
+                } else {
+                    $response = [
+                        'status' => false,
+                        'error' => "No province detail has been found."
+                    ];
+                    $responseCode = 200;
+                }
+
+                }
+                catch (Exception $exception) {
+                    DB::rollBack();
+
+                    Log::error($exception->getMessage());
+
+                    $response = [
+                        'status' => false,
+                        'error' => "Internal server error.",
+                        'error_info' => $exception->getMessage()
+                    ];
+
+                    $responseCode = 500;
+                } finally {
+                    DB::commit();
+                }
+
+                return response()->json($response, $responseCode);
+        }
+
+
+    /**
+     * Update Provience with Poster
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateProvience(Request $request, $user_id, $created_by, $province_id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $provience = Provience::find($province_id);
+
+            $user = User::find($user_id);
+
+            /*
+             * Validate mandatory fields
+             */
+            if ($request->has('provience_name'))
+                $provience->name = $request->input('provience_name');
+            else
+                throw new HttpBadRequestException("Province name is required.");
+
+            if ($request->has('first_name'))
+                $user->first_name = $request->input('first_name');
+            else
+                throw new HttpBadRequestException("Fist name is required.");
+
+            if ($request->has('last_name'))
+                $user->last_name = $request->input('last_name');
+            else
+                throw new HttpBadRequestException("Last name is required.");
+
+            $user->first_name = $request->input('first_name');
+
+            $user->last_name = $request->input('last_name');
+
+            $user->user_type = 2;
+
+            $user->save();
+
+            $provience->name =$provience->name;
+
+            $provience->save();
+
+            $response = [
+            'status' => true,
+            'message' => "Parish updated successfully."
+            ];
+            $responseCode = 200;
+           
+            } catch (HttpBadRequestException $httpBadRequestException) {
+                $response = [
+                    'status' => false,
+                    'error' => $httpBadRequestException->getMessage()
+                ];
+                $responseCode = 400;
+            } catch (ClientException $clientException) {
+                DB::rollBack();
+
+                $response = [
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $clientException->getMessage()
+                ];
+                $responseCode = 500;
+            } catch (Exception $exception) {
+                DB::rollBack();
+
+                Log::error($exception->getMessage());
+
+                $response = [
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $exception->getMessage()
+                ];
+
+                $responseCode = 500;
+            } finally {
+                DB::commit();
+
+                unset($user);
+                unset($provience);
+            }
+
+        return response()->json($response, $responseCode);
+
+    }
+
+    /**
+     * Delete an existing Province
+     *
+     * @param Request $request
+     * @param $listId
+     * @return \Illuminate\Http\JsonResponse
+     */
+   
+    public function deleteProvience(Request $request, $user_id, $province_id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $province = Provience::findOrFail($province_id)->delete();
+
+           if($province)
+           {
+
+                $response = [
+                'status' => true,
+                'message' => "Province Pastor deleted successfully."
+                ];
+                $responseCode = 200;
+            }
+            else
+            {
+
+               $response = [
+                'status' => true,
+                'error' => "No province has been found."
+                ];
+                $responseCode = 200;  
+            }
+           
+            } catch (HttpBadRequestException $httpBadRequestException) {
+                $response = [
+                    'status' => false,
+                    'error' => $httpBadRequestException->getMessage()
+                ];
+                $responseCode = 400;
+            } catch (ClientException $clientException) {
+                DB::rollBack();
+
+                $response = [
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $clientException->getMessage()
+                ];
+                $responseCode = 500;
+            } catch (Exception $exception) {
+                DB::rollBack();
+
+                Log::error($exception->getMessage());
+
+                $response = [
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $exception->getMessage()
+                ];
+
+                $responseCode = 500;
+            } finally {
+                DB::commit();
+
+                unset($user);
+                unset($area);
+            }
+
+        return response()->json($response, $responseCode);
+    }
 
 	 /**
      * Generate Random username and password
@@ -177,23 +469,13 @@ class ProvienceController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-	public function generateUsername() {
+	public function generateNumber() {
 
 		$length = 8;
 
-		$randomUserName = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
+		$randomNumber = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
 
-		return $randomUserName;
-
-	}
-
-	public function generatePassword() {
-
-		$length = 8;
-
-		$randomPassword = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
-
-		return $randomPassword;
+		return $randomNumber;
 
 	}
 }
