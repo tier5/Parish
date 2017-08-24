@@ -74,12 +74,35 @@ class AuthController extends Controller {
                 $registerUser->last_name = $request->input('last_name');
                 $registerUser->email = $request->input('email');
                 $registerUser->password = $request->input('password');
+                $registerUser->uniqueKey = Crypt::encrypt($request->input('password'));
                 $registerUser->deleted_at = NULL;
                 $registerUser->save();
             }
             else
             {
+
+                /**
+                 * Check unique user
+                 */
+            
+                $registerUser = User::where('email', $request->input('email'))->first();
+
+                if(count($registerUser)) {
+
+                $response = [
+                    'status' => false,
+                    'error' => "User is already signed up.",
+                ];
+                $responseCode = 409;
+
+                return response()->json($response, $responseCode);
+
+                } else {
+
+                $user->uniqueKey = Crypt::encrypt($request->input('password'));
                 $user->save();
+
+                }
             }
 
             /**
@@ -211,6 +234,9 @@ class AuthController extends Controller {
                       $response = [
                     'status' => true,
                     'message' => "User signed in successfully.",
+                    'user_id' => $user->id,
+                    'user_first_name' => $user->first_name,
+                    'user_last_name' => $user->last_name,
                     'user_type' => $user->user_type,
                     'token' => $token,
                     ];
@@ -220,8 +246,7 @@ class AuthController extends Controller {
             } else {
                 $response = [
                     'status' => false,
-                    'error' => "Invalid username or password.",
-                    'token' => $token
+                    'error' => "Invalid username or password."
                 ];
                 $responseCode = 422;
             }

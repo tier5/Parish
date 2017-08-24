@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Zone - List</h3>
+    </div>
+</div><!--/.row-->
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Zone List
+            </div>
+            <div class="panel-body overflowFix">
+               <!-- show success or error message --> 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div> 
+                    <div class="col-lg-12">   
+                        <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-4"> 
+                        <p></p>
+                        <button (click)="onResetList()">Reset Filter</button>
+                    </div>
+                    <div class="col-md-4 col-md-offset-8">
+                        <label>Filter Province:</label>
+                        <select
+                                #selected
+                                name="provience_id"
+                                class="form-control"
+                                [(ngModel)]="selectionProvince"
+                                (change)="onSelectProvince(selected.value)"
+                        >
+                            <option
+                                    *ngFor="let province of provinceList"
+                                    [value]="province.id"
+                            >
+                                {{province.province_name}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Province/Zone</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let zone of zoneList">
+                                <td>{{ zone.first_name }}</td>
+                                <td>{{ zone.last_name }}</td>
+                                <td>{{ zone.provience_name }}&nbsp;=>&nbsp;{{ zone.zone_name }}</td>
+                                <td>{{ zone.parish_id }}</td>
+                                <td>{{ zone.password}}</td>
+                                <td>
+                                    <button
+                                        class="btn btn-warning btn-xs"
+                                        type="button"
+                                        (click)="onEdit(zone)"
+                                    >
+                                        <i class="fa fa-pencil fa-fw"></i>
+                                    </button>
+                                    <button
+                                        class="btn btn-danger btn-xs"
+                                        type="button"
+                                        (click)="showPrompt(zone)"
+                                    >
+                                        <i class="fa fa-trash fa-fw"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        <tr *ngIf="!zoneList" colspan="6">
+                            <td>{{ responseNoRecord }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div><!--/.row-->
+
+<app-prompt
+    *ngIf="showDeletePrompt"
+    [calledFrom]="'Zone'"
+    [itemInfo]="toDeleteZone"
+></app-prompt>

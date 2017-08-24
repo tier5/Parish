@@ -12,20 +12,25 @@ export class AuthService {
 	constructor( private http: Http) { }
 	
 	logout(token: string): Observable<any> {
-		console.log('Bearer '+ this.getToken());
 		const header = new Headers({
 			'X-Requested-With': 'XMLHttpRequest',
-			'Authorization': 'Bearer '+ this.getToken()
+			'Authorization': 'Bearer '+ token
 		});
 		return this.http.post( environment.API_URL + 'sign-out', '', {headers: header} );
 	}
 	
 	getToken() {
-		return localStorage.getItem('token');
+		const data = localStorage.getItem('loggedInUserData');
+		return JSON.parse(data);
+	}
+	
+	removeToken() {
+		localStorage.removeItem('loggedInUserData');
 	}
 	
 	isAuthenticated() {
-		if (this.getToken() !== null) {
+		const data = this.getToken();
+		if ( data && (data.token !== null) ) {
 			return true;
 		} else {
 			return false;

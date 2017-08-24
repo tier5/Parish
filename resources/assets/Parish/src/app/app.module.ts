@@ -11,6 +11,7 @@ import { FullLayoutComponent } from './layout/full-layout.component';
 import { Ng2AutoBreadCrumb } from 'ng2-auto-breadcrumb';
 import { Ng2NewsListComponent } from './components/ng2-newslist/ng2newslist.component';
 import { NotAuthGuard } from './auth/not-auth.guard';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule( {
@@ -19,7 +20,8 @@ import { NotAuthGuard } from './auth/not-auth.guard';
 		BrowserModule,
 		CommonModule,
 		HttpModule,
-		Ng2AutoBreadCrumb
+		Ng2AutoBreadCrumb,
+		SharedModule
 	],
 	declarations: [
 		FullLayoutComponent,
