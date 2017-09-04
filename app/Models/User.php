@@ -1,5 +1,8 @@
 <?php
-
+/**
+* User Model for WEM and Pastor with soft delete
+* @param Request $request
+*/
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

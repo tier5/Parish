@@ -12,11 +12,18 @@ import { Router } from '@angular/router';
 export class FullLayoutComponent {
 	
 	public toggleBarIcon: boolean = true;
-	
+	showSidebar: boolean = true;
 	constructor (
 		private authService: AuthService,
 		private router: Router
 	) { }
+	
+	ngOnInit() {
+		const user_type = this.authService.getToken().user_type;
+		if(user_type !=1){
+			this.showSidebar = false;
+		}
+	}
 	
 	onLogout() {
 		const data = this.authService.getToken();
@@ -25,7 +32,6 @@ export class FullLayoutComponent {
 				localStorage.removeItem( 'loggedInUserData' );
 			},
 			( error: Response ) => {
-				console.log( error );
 				if( error.status === 401) {
 					this.authService.removeToken();
 					this.router.navigate( ['/login'] );

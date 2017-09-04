@@ -11,6 +11,7 @@ use App\Exceptions\HttpBadRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\Provience;
 use App\Models\User;
+use App\Helpers;
 use Crypt;
 use DB;
 use Exception;
@@ -125,15 +126,15 @@ class ProvienceController extends Controller {
             /*
              * Validate mandatory fields
              */
-            if ($request->has('provience_name'))
-                $provience->name = $request->input('provience_name');
+            if ($request->has('province_name'))
+                $provience->name = $request->input('province_name');
             else
                 throw new HttpBadRequestException("Province name is required.");
 
             if ($request->has('first_name'))
                 $user->first_name = $request->input('first_name');
             else
-                throw new HttpBadRequestException("Fist name is required.");
+                throw new HttpBadRequestException("First name is required.");
 
             if ($request->has('last_name'))
                 $user->last_name = $request->input('last_name');
@@ -145,7 +146,7 @@ class ProvienceController extends Controller {
              */
 
             $checkProvince = Provience::where('created_by',  $request->input('user_id'))
-                            ->where('name' , $request->input('provience_name'))
+                            ->where('name' , $request->input('province_name'))
                             ->whereNull('deleted_at')->first();
 
             if(count($checkProvince)) {
@@ -159,11 +160,9 @@ class ProvienceController extends Controller {
                 return response()->json($response, $responseCode);
             }
 
-            $length = 8;
+			$this->randomUsername =Helpers::generateNumber();
 
-			$this->randomUsername = $this->generateNumber();
-
-			$this->randomPassword = $this->generateNumber();
+			$this->randomPassword = Helpers::generateNumber();
 
             /**
              * Check unique user
@@ -189,8 +188,6 @@ class ProvienceController extends Controller {
             $user->save();
 
             $insertedId = $user->id;
-
-            $provience->name =$provience->name;
 
             $provience->user_id = $insertedId;
 
@@ -320,8 +317,8 @@ class ProvienceController extends Controller {
             /*
              * Validate mandatory fields
              */
-            if ($request->has('provience_name'))
-                $provience->name = $request->input('provience_name');
+            if ($request->has('province_name'))
+                $provience->name = $request->input('province_name');
             else
                 throw new HttpBadRequestException("Province name is required.");
 
@@ -335,21 +332,15 @@ class ProvienceController extends Controller {
             else
                 throw new HttpBadRequestException("Last name is required.");
 
-            $user->first_name = $request->input('first_name');
-
-            $user->last_name = $request->input('last_name');
-
             $user->user_type = 2;
 
             $user->save();
-
-            $provience->name =$provience->name;
 
             $provience->save();
 
             $response = [
             'status' => true,
-            'message' => "Parish updated successfully."
+            'message' => "Province updated successfully."
             ];
             $responseCode = 200;
            
@@ -461,21 +452,4 @@ class ProvienceController extends Controller {
 
         return response()->json($response, $responseCode);
     }
-
-	 /**
-     * Generate Random username and password
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-
-	public function generateNumber() {
-
-		$length = 8;
-
-		$randomNumber = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
-
-		return $randomNumber;
-
-	}
 }

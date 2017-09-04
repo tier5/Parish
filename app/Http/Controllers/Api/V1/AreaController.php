@@ -13,6 +13,7 @@ use App\Models\Provience;
 use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
+use App\Helpers;
 use Crypt;
 use DB;
 use Exception;
@@ -87,7 +88,8 @@ class AreaController extends Controller {
                     $areaArray[$key]['id'] = $area->id;
                     $areaArray[$key]['area_name'] = $area->name;
                     $areaArray[$key]['zone_id'] = $area->zone_id;
-                    $areaArray[$key]['provience_name'] = $area->zones->proviences->name;
+                    $areaArray[$key]['province_name'] = $area->zones->proviences->name;
+                    $areaArray[$key]['province_id'] = $area->zones->proviences->id;
                     $areaArray[$key]['zone_name'] = $area->zones->name;
                     $areaArray[$key]['user_id'] = $area->users->id;
                     $areaArray[$key]['parish_id'] = $area->users->parish_id;
@@ -156,7 +158,8 @@ class AreaController extends Controller {
                     $areaArray[$key]['id'] = $area->id;
                     $areaArray[$key]['area_name'] = $area->name;
                     $areaArray[$key]['zone_id'] = $area->zone_id;
-                    $areaArray[$key]['provience_name'] = $area->zones->proviences->name;
+                    $areaArray[$key]['province_name'] = $area->zones->proviences->name;
+                    $areaArray[$key]['province_id'] = $area->zones->proviences->id;
                     $areaArray[$key]['zone_name'] = $area->zones->name;
                     $areaArray[$key]['user_id'] = $area->users->id;
                     $areaArray[$key]['parish_id'] = $area->users->parish_id;
@@ -222,8 +225,8 @@ class AreaController extends Controller {
                     $areaArray['id'] = $area->id;
                     $areaArray['area_name'] = $area->name;
                     $areaArray['zone_id'] = $area->zone_id;
-                    $areaArray['provience_id'] = $area->zones->proviences->id;
-                    $areaArray['provience_name'] = $area->zones->proviences->name;
+                    $areaArray['province_id'] = $area->zones->proviences->id;
+                    $areaArray['province_name'] = $area->zones->proviences->name;
                     $areaArray['zone_name'] = $area->zones->name;
                     $areaArray['user_id'] = $area->users->id;
                     $areaArray['parish_id'] = $area->users->parish_id;
@@ -285,8 +288,8 @@ class AreaController extends Controller {
              * Validate mandatory fields
              */
 
-            if ($request->has('provience_id'))
-             $request->input('provience_id');
+            if ($request->has('province_id'))
+             $request->input('province_id');
             else
                 throw new HttpBadRequestException("Please select province.");
 
@@ -333,9 +336,9 @@ class AreaController extends Controller {
 
             $length = 8;
 
-            $this->randomUsername = $this->generateUsername();
+            $this->randomUsername = Helpers::generateNumber();
 
-            $this->randomPassword = $this->generateUsername();
+            $this->randomPassword = Helpers::generateNumber();
 
             /**
              * Check unique user
@@ -360,10 +363,6 @@ class AreaController extends Controller {
             $user->save();
 
             $insertedId = $user->id;
-
-            $area->name =$area->name;
-
-            $area->zone_id = $request->input('zone_id');
 
             $area->user_id = $insertedId;
 
@@ -432,8 +431,8 @@ class AreaController extends Controller {
              * Validate mandatory fields
              */
 
-            if ($request->has('provience_id'))
-             $request->input('provience_id');
+            if ($request->has('province_id'))
+             $request->input('province_id');
             else
                 throw new HttpBadRequestException("Please select province.");
 
@@ -477,18 +476,9 @@ class AreaController extends Controller {
                 return response()->json($response, $responseCode);
             }
 
-            $user->first_name = $request->input('first_name');
-
-            $user->last_name = $request->input('last_name');
-
-
             $user->user_type = 2;
 
             $user->save();
-
-            $area->name =$area->name;
-
-            $area->zone_id = $request->input('zone_id');
 
             $area->save();
 
@@ -602,33 +592,7 @@ class AreaController extends Controller {
 
         return response()->json($response, $responseCode);
     }
-
-     /**
-     * Generate Random username and password
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-
-    public function generateUsername() {
-
-        $length = 8;
-
-        $randomUserName = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
-
-        return $randomUserName;
-
-    }
-
-    public function generatePassword() {
-
-        $length = 8;
-
-        $randomPassword = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
-
-        return $randomPassword;
-    }
-
+    
     /**
     * Filter Area using Province id and Zone id
     *
@@ -636,14 +600,13 @@ class AreaController extends Controller {
     * @return \Illuminate\Http\JsonResponse
     */
     
-    public function filterArea(Request $request)
-    {
+    public function filterArea(Request $request) {
         try {
             DB::beginTransaction();
            
-           if($request->has('provience_id') || $request->has('zone_id')){
+           if($request->has('province_id') || $request->has('zone_id')){
 
-                $province_id =  $request->input('provience_id');
+                $province_id =  $request->input('province_id');
                 $zone_id    =   $request->input('zone_id');
 
                 if($request->has('zone_id')){
@@ -653,7 +616,14 @@ class AreaController extends Controller {
                 }
            
             }else{
-               throw new HttpBadRequestException("Please select province or zone from filter.");
+
+                if($request->has('user_id')) {
+                   
+                    $areas=Area::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+
+                } else {
+                    throw new HttpBadRequestException("Please Provide user id.");
+                }
             }
             
             if(count($areas)>0)
@@ -665,8 +635,11 @@ class AreaController extends Controller {
                     $areaArray[$key]['id'] = $area->id;
                     $areaArray[$key]['area_name'] = $area->name;
                     $areaArray[$key]['zone_id'] = $area->zone_id;
-                    $areaArray[$key]['provience_name'] = $area->zones->proviences->name;
                     $areaArray[$key]['zone_name'] = $area->zones->name;
+                    $areaArray[$key]['province_name'] = $area->zones->proviences->name;
+                    $areaArray[$key]['province_id'] = $area->zones->proviences->id;
+                    $areaArray[$key]['pastor_name_zone'] = $area->zones->users->first_name;
+                    $areaArray[$key]['pastor_name_province'] = $area->zones->proviences->users->first_name;
                     $areaArray[$key]['user_id'] = $area->users->id;
                     $areaArray[$key]['parish_id'] = $area->users->parish_id;
                     $areaArray[$key]['password'] = $area->users->uniqueKey;

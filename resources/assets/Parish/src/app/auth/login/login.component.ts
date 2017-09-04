@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { LoginService } from './login.service';
+import {AuthService} from "../auth.service";
+import {ProvinceZoneAreaParishService} from "../../province-zone-area-parish/province-zone-area-parish.service";
+import {ProfileService} from "../../profile-details/profile.service";
 
 @Component( {
 	selector: 'login',
@@ -19,7 +22,10 @@ export class LoginComponent {
 	loginRequestResponseMsg: string; // Store success or error message from backend depending on response
 	
 	/** Service injection */
-	constructor( private loginService: LoginService, private router: Router ) { }
+	constructor( private pzapService: ProvinceZoneAreaParishService,
+				 private loginService: LoginService,
+	             private router: Router,
+	             private profileService: ProfileService) { }
 	
 	/** Function call on submit */
 	onSubmit( formSignIn: NgForm ) {
@@ -37,6 +43,8 @@ export class LoginComponent {
 					localStorage.setItem( 'loggedInUserData', JSON.stringify(response.json()) );
 					this.loginRequestStatus = true;
 					this.loginRequestResponseMsg = response.json().message;
+					this.pzapService.refreshHeader();
+					this.profileService.refreshHeader();
 				} else {
 					this.loginRequestStatus = false;
 					this.loginRequestResponseMsg = response.json().error;

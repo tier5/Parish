@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Provience;
 use App\Models\Zone;
 use App\Models\User;
+use App\Helpers;
 use Crypt;
 use DB;
 use Exception;
@@ -67,8 +68,8 @@ class ZoneController extends Controller {
 
                     $zoneArray[$key]['id'] = $zone->id;
                     $zoneArray[$key]['zone_name'] = $zone->name;
-                    $zoneArray[$key]['provience_id'] = $zone->provience_id;
-                    $zoneArray[$key]['provience_name'] = $zone->proviences->name;
+                    $zoneArray[$key]['province_id'] = $zone->provience_id;
+                    $zoneArray[$key]['province_name'] = $zone->proviences->name;
                     $zoneArray[$key]['user_id'] = $zone->users->id;
                     $zoneArray[$key]['parish_id'] = $zone->users->parish_id;
                     $zoneArray[$key]['password'] = $zone->users->uniqueKey;
@@ -135,8 +136,8 @@ class ZoneController extends Controller {
 
                     $zoneArray[$key]['id'] = $zone->id;
                     $zoneArray[$key]['zone_name'] = $zone->name;
-                    $zoneArray[$key]['provience_id'] = $zone->provience_id;
-                    $zoneArray[$key]['provience_name'] = $zone->proviences->name;
+                    $zoneArray[$key]['province_id'] = $zone->provience_id;
+                    $zoneArray[$key]['province_name'] = $zone->proviences->name;
                     $zoneArray[$key]['user_id'] = $zone->users->id;
                     $zoneArray[$key]['parish_id'] = $zone->users->parish_id;
                     $zoneArray[$key]['password'] = $zone->users->uniqueKey;
@@ -188,6 +189,7 @@ class ZoneController extends Controller {
      */
 
     public function getZoneDetail(Request $request, $zone_id) {
+       
          try {
             DB::beginTransaction();
 
@@ -201,8 +203,8 @@ class ZoneController extends Controller {
 
                     $zoneArray['id'] = $zone->id;
                     $zoneArray['zone_name'] = $zone->name;
-                    $zoneArray['provience_id'] = $zone->provience_id;
-                    $zoneArray['provience_name'] = $zone->proviences->name;
+                    $zoneArray['province_id'] = $zone->provience_id;
+                    $zoneArray['province_name'] = $zone->proviences->name;
                     $zoneArray['user_id'] = $zone->users->id;
                     $zoneArray['parish_id'] = $zone->users->parish_id;
                     $zoneArray['password'] = $zone->users->uniqueKey;
@@ -251,8 +253,8 @@ class ZoneController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function createZone(Request $request)
-    {
+    public function createZone(Request $request){
+        
         try {
             DB::beginTransaction();
 
@@ -264,8 +266,8 @@ class ZoneController extends Controller {
              * Validate mandatory fields
              */
 
-            if ($request->has('provience_id'))
-                $zone->provience_id = $request->input('provience_id');
+            if ($request->has('province_id'))
+                $zone->provience_id = $request->input('province_id');
             else
                 throw new HttpBadRequestException("Please select province.");
 
@@ -289,7 +291,7 @@ class ZoneController extends Controller {
             */
 
             $checkZone = Zone::where('created_by', $request->input('user_id'))
-                        ->where('provience_id',$request->input('provience_id'))
+                        ->where('provience_id',$request->input('province_id'))
                         ->where('name',$request->input('zone_name'))
                         ->whereNull('deleted_at')->first();
 
@@ -303,13 +305,10 @@ class ZoneController extends Controller {
 
             return response()->json($response, $responseCode);
             }
-            
 
-            $length = 8;
+			$this->randomUsername = Helpers::generateNumber();
 
-			$this->randomUsername = $this->generateUsername();
-
-			$this->randomPassword = $this->generateUsername();
+			$this->randomPassword = Helpers::generateNumber();
 
             /**
              * Check unique user
@@ -334,10 +333,6 @@ class ZoneController extends Controller {
             $user->save();
 
             $insertedId = $user->id;
-
-            $zone->name =$zone->name;
-
-            $zone->provience_id = $request->input('provience_id');
 
             $zone->user_id = $insertedId;
 
@@ -397,8 +392,7 @@ class ZoneController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateZone(Request $request, $user_id, $created_by, $zone_id)
-    {
+    public function updateZone(Request $request, $user_id, $created_by, $zone_id){
         try {
             DB::beginTransaction();
 
@@ -410,8 +404,8 @@ class ZoneController extends Controller {
              * Validate mandatory fields
              */
 
-            if ($request->has('provience_id'))
-                $zone->provience_id = $request->input('provience_id');
+            if ($request->has('province_id'))
+                $zone->provience_id = $request->input('province_id');
             else
                 throw new HttpBadRequestException("Please select province.");
 
@@ -450,19 +444,10 @@ class ZoneController extends Controller {
                 return response()->json($response, $responseCode);
             }
 
-            $user->first_name = $request->input('first_name');
-
-            $user->last_name = $request->input('last_name');
-
-
             $user->user_type = 2;
 
             $user->save();
-
-            $zone->name =$zone->name;
-
-            $zone->provience_id = $request->input('provience_id');
-
+            
             $zone->save();
 
             $response = [
@@ -508,34 +493,6 @@ class ZoneController extends Controller {
         return response()->json($response, $responseCode);
 
     }
-
-	 /**
-     * Generate Random username and password
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-
-	public function generateUsername() {
-
-		$length = 8;
-
-		$randomUserName = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
-
-		return $randomUserName;
-
-	}
-
-	public function generatePassword() {
-
-		$length = 8;
-
-		$randomPassword = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
-
-		return $randomPassword;
-
-	}
-
     /**
      * Delete an existing Zone
      *
@@ -619,14 +576,20 @@ class ZoneController extends Controller {
         try {
             DB::beginTransaction();
            
-           if($request->has('provience_id')){
+           if($request->has('province_id')){
 
-                $province_id =  $request->input('provience_id');
+                $province_id =  $request->input('province_id');
                 
                 $zones = Provience::find($province_id)->zones;
                
             }else{
-               throw new HttpBadRequestException("Please select province from filter.");
+              if($request->has('user_id')) {
+                   
+                    $zones=Zone::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+
+                } else {
+                    throw new HttpBadRequestException("Please Provide user id.");
+                }
             }
             
             if(count($zones)>0)
@@ -636,10 +599,9 @@ class ZoneController extends Controller {
                 foreach($zones as $key => $zone){
 
                     $zoneArray[$key]['id'] = $zone->id;
-                    $zoneArray[$key]['area_name'] = $zone->name;
-                    $zoneArray[$key]['zone_id'] = $zone->zone_id;
-                    $zoneArray[$key]['provience_name'] = $zone->proviences->name;
                     $zoneArray[$key]['zone_name'] = $zone->name;
+                    $zoneArray[$key]['province_name'] = $zone->proviences->name;
+                    $zoneArray[$key]['province_id'] = $zone->proviences->id;
                     $zoneArray[$key]['user_id'] = $zone->users->id;
                     $zoneArray[$key]['parish_id'] = $zone->users->parish_id;
                     $zoneArray[$key]['password'] = $zone->users->uniqueKey;

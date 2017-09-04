@@ -14,6 +14,7 @@ use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
 use App\Models\Parish;
+use App\Helpers;
 use Crypt;
 use DB;
 use Exception;
@@ -72,7 +73,7 @@ class ParishController extends Controller {
                     $parishArray[$key]['user_id'] = $parish->users->id;
                     $parishArray[$key]['parish_id'] = $parish->users->parish_id;
                     $parishArray[$key]['parish_name'] = $parish->name;
-                    $parishArray[$key]['provience_name'] = $parish->areas->zones->proviences->name;
+                    $parishArray[$key]['province_name'] = $parish->areas->zones->proviences->name;
                     $parishArray[$key]['zone_name'] = $parish->areas->zones->name;
                     $parishArray[$key]['area_name'] = $parish->areas->name;
                     $parishArray[$key]['pastor_name_area'] = $parish->areas->users->first_name;
@@ -82,7 +83,7 @@ class ParishController extends Controller {
                     $parishArray[$key]['first_name'] = $parish->users->first_name;
                     $parishArray[$key]['last_name'] = $parish->users->last_name;
                 }
-                
+                dd($parishArray);
                     $response = [
                         'status' => true,
                         'message' => $noOfParish . ($noOfParish > 1 ? " parish have " : " parish has ") . "been found.",
@@ -141,26 +142,24 @@ class ParishController extends Controller {
             else
                 throw new HttpBadRequestException("Area selection is required.");
 
-            if ($request->has('name'))
-                $parish->name = $request->input('name');
+            if ($request->has('parish_name'))
+                $parish->name = $request->input('parish_name');
             else
-                throw new HttpBadRequestException("Fist name is required.");
+                throw new HttpBadRequestException("Parish name is required.");
 
             if ($request->has('first_name'))
                 $user->first_name = $request->input('first_name');
             else
-                throw new HttpBadRequestException("Fist name is required.");
+                throw new HttpBadRequestException("First name is required.");
 
             if ($request->has('last_name'))
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
-            
-            $length = 8;
 
-            $this->randomUsername = $this->generateNumber();
+            $this->randomUsername = Helpers::generateNumber();
 
-            $this->randomPassword = $this->generateNumber();
+            $this->randomPassword = Helpers::generateNumber();
 
             /**
              * Check unique user
@@ -237,24 +236,6 @@ class ParishController extends Controller {
         return response()->json($response, $responseCode);
     }
 
-    
-
-     /**
-     * Generate Random username and password
-     *
-     * @param Request $request
-     * @return \Illuminate\Http     d\JsonResponse
-     */
-
-    public function generateNumber() {
-
-        $length = 8;
-
-        $randomNumber = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
-
-        return $randomNumber;
-    }
-
     /**
      * Update Parish with Poster
      *
@@ -262,8 +243,7 @@ class ParishController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function updateParish(Request $request, $user_id, $created_by, $parish_id)
-    {
+    public function updateParish(Request $request, $user_id, $created_by, $parish_id) {
         try {
             DB::beginTransaction();
 
@@ -274,8 +254,8 @@ class ParishController extends Controller {
             /*
              * Validate mandatory fields
              */
-            if ($request->has('name'))
-                $parish->name = $request->input('name');
+            if ($request->has('parish_name'))
+                $parish->name = $request->input('parish_name');
             else
                 throw new HttpBadRequestException("Parish name is required.");
 
@@ -350,7 +330,7 @@ class ParishController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function deleteParish($parish_id){
+    public function deleteParish($parish_id) {
 
         try {
             DB::beginTransaction();
@@ -412,4 +392,201 @@ class ParishController extends Controller {
 
         return response()->json($response, $responseCode);
     }
+
+    /**
+    * Filter Parish using Province id , Zone id , Area Id
+    *
+    * @param $province_id ,$zone_id, $area_id
+    * @return \Illuminate\Http\JsonResponse
+    */
+    
+    public function filteParish(Request $request) {
+        try {
+            DB::beginTransaction();
+           
+           if($request->has('province_id') || $request->has('zone_id') || $request->has('area_id')){
+
+                $province_id    =   $request->input('province_id');
+                $zone_id        =   $request->input('zone_id');
+                $area_id        =   $request->input('area_id');
+
+                if($request->has('area_id')) {
+                    $parishes = Area::find($area_id)->parishes;
+                } else {
+                   if($request->has('zone_id')) {
+                        $parishes = Zone::find($zone_id)->parishes;
+                    } else {
+                        $areas = Provience::find($province_id)->areas;
+                        $area_array=[];
+                        foreach ($areas as  $area) {
+                            array_push($area_array,$area->id);
+                        }
+                        $parishes = Parish::whereIn('area_id',$area_array)->get();
+                    }
+                }
+             
+            }else{
+                if($request->has('user_id')) {
+                   
+                    $parishes=Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+
+                } else {
+                    throw new HttpBadRequestException("Please Provide user id.");
+                }
+            }
+            
+            if(count($parishes)>0)
+            {
+                $parishArray = [];
+                $noOfParishes = count($parishes);
+                foreach ($parishes as $key=>$parish) {
+                    
+                    $parishArray[$key]['id'] = $parish->id;
+                    $parishArray[$key]['user_id'] = $parish->users->id;
+                    $parishArray[$key]['parish_id'] = $parish->users->parish_id;
+                    $parishArray[$key]['parish_name'] = $parish->name;
+                    $parishArray[$key]['province_name'] = $parish->areas->zones->proviences->name;
+                    $parishArray[$key]['province_id'] = $parish->areas->zones->proviences->id;
+                    $parishArray[$key]['zone_name'] = $parish->areas->zones->name;
+                    $parishArray[$key]['zone_id'] = $parish->areas->zones->id;
+                    $parishArray[$key]['area_name'] = $parish->areas->name;
+                    $parishArray[$key]['area_id'] = $parish->areas->id;
+                    $parishArray[$key]['pastor_name_area'] = $parish->areas->users->first_name;
+                    $parishArray[$key]['pastor_name_zone'] = $parish->areas->zones->users->first_name;
+                    $parishArray[$key]['pastor_name_province'] = $parish->areas->zones->proviences->users->first_name;
+                    $parishArray[$key]['password'] = $parish->users->uniqueKey;
+                    $parishArray[$key]['first_name'] = $parish->users->first_name;
+                    $parishArray[$key]['last_name'] = $parish->users->last_name;
+                }
+                
+                $response = [
+                'status' => true,
+                'message' => $noOfParishes . ($noOfParishes > 1 ? " parishes have " : " parish has ") . "been found.",
+                'parishes' => $parishArray
+                ];
+                $responseCode = 200;
+            }
+            else
+            {
+                $response = [
+                    'status' => true,
+                    'noData' => "No parish has been found.",
+                ];
+                $responseCode = 200;  
+            }
+           
+            } catch (HttpBadRequestException $httpBadRequestException) {
+                $response = [
+                    'status' => false,
+                    'error' => $httpBadRequestException->getMessage()
+                ];
+                $responseCode = 400;
+            } catch (ClientException $clientException) {
+                DB::rollBack();
+
+                $response = [
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $clientException->getMessage()
+                ];
+                $responseCode = 500;
+            } catch (Exception $exception) {
+                DB::rollBack();
+
+                Log::error($exception->getMessage());
+
+                $response = [
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $exception->getMessage()
+                ];
+
+                $responseCode = 500;
+            } finally {
+                    DB::commit();
+                }
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Get Parish poster Detail
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function getParishDetail(Request $request, $parish_id){
+        try {
+            DB::beginTransaction();
+
+            $parish = Parish::find($parish_id);
+            $noOfParish = count($parish);
+            if($parish){
+                $parishArray = [];
+                
+                $parishArray['id'] = $parish->id;
+                $parishArray['user_id'] = $parish->users->id;
+                $parishArray['parish_id'] = $parish->users->parish_id;
+                $parishArray['parish_name'] = $parish->name;
+                $parishArray['province_name'] = $parish->areas->zones->proviences->name;
+                $parishArray['province_id'] = $parish->areas->zones->proviences->id;
+                $parishArray['zone_name'] = $parish->areas->zones->name;
+                $parishArray['zone_id'] = $parish->areas->zones->id;
+                $parishArray['area_name'] = $parish->areas->name;
+                $parishArray['area_id'] = $parish->areas->id;
+                $parishArray['pastor_name_area'] = $parish->areas->users->first_name;
+                $parishArray['pastor_name_zone'] = $parish->areas->zones->users->first_name;
+                $parishArray['pastor_name_province'] = $parish->areas->zones->proviences->users->first_name;
+                $parishArray['password'] = $parish->users->uniqueKey;
+                $parishArray['first_name'] = $parish->users->first_name;
+                $parishArray['last_name'] = $parish->users->last_name;
+
+                $response = [
+                    'status' => true,
+                    'message' => $noOfParish . ($noOfParish > 1 ? " parishes have " : " parish has ") . "been found.",
+                    'parish' => $parishArray
+                ];
+                $responseCode = 200;
+            } else {
+                    $response = [
+                        'status' => false,
+                        'error' => "No parish detail has been found."
+                    ];
+                    $responseCode = 200;
+                }
+            }
+            catch (Exception $exception) {
+                DB::rollBack();
+
+                Log::error($exception->getMessage());
+
+                $response = [
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $exception->getMessage()
+                ];
+
+                $responseCode = 500;
+            } finally {
+                DB::commit();
+            }
+
+            return response()->json($response, $responseCode);
+        }
+
+/**
+ * Generate Random username and password
+ *
+ * @param Request $request
+ * @return \Illuminate\Http\JsonResponse
+ */
+
+        public function generateNumber() {
+
+            $length = 8;
+
+            $randomNumber = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
+
+            return $randomNumber;
+        }
 }

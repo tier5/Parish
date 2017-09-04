@@ -1,4 +1,7 @@
 <?php
+/**
+* HttpBadRequestException method use to hand API Route Exception for 400, 500 etc
+*/
 
 namespace App\Exceptions;
 
