@@ -1,4 +1,8 @@
 <?php
+/**
+* EntityConflictException method use to handle API Route Exception with Entity
+* @param Request $request
+*/
 
 namespace app\Exceptions;
 

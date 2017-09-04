@@ -1,0 +1,156 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">{{ title }}</h3>
+    </div>
+</div><!--/.row-->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ heading }} Area</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                </div>
+                <form
+                        #createAreaForm="ngForm"
+                        (submit)="onSubmit(createAreaForm)">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Select Province</label>
+                                <select
+                                        #selectedProvince
+                                        name="province_id"
+                                        [ngModel]="areaData.province_id"
+                                        class="form-control"
+                                        (change)="onSelectProvince(selectedProvince.value)">
+                                    <option value="0" selected>Choose...</option>
+                                    <option
+                                            *ngFor="let province of provinceList"
+                                            [value]="province.id">
+                                        {{province.province_name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="provinceSelected">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Select Zone</label>
+                                <select
+                                        #selectedZone
+                                        name="zone_id"
+                                        [ngModel]="areaData.zone_id"
+                                        class="form-control"
+                                        [disabled]="!provinceList || !provinceSelected"
+                                        (change)="onSelectZone(selectedZone.value)">
+                                    <option value="0" selected>Choose...</option>
+                                    <option
+                                            *ngFor="let zone of zoneList"
+                                            [value]="zone.id">
+                                        {{zone.zone_name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="aname">Area Name</label>
+                                <input
+                                        id="aname"
+                                        class="form-control"
+                                        [disabled]="!provinceList || !provinceSelected || (zoneList && !zoneList) || !zoneSelected"
+                                        name="area_name"
+                                        required
+                                        [ngModel]="areaData.area_name"
+                                        #areaName="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="areaName.invalid && areaName.touched">
+                                Area Name is Required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fname">Pastor's First Name</label>
+                                <input
+                                        id="fname"
+                                        class="form-control"
+                                        [disabled]="!provinceList || !provinceSelected || (zoneList && !zoneList) || !zoneSelected"
+                                        name="first_name"
+                                        required
+                                        [ngModel]="areaData.first_name"
+                                        #firstName="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="firstName.invalid && firstName.touched">
+                                First Name is Required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="lname">Pastor's Last Name</label>
+                                <input
+                                        id="lname"
+                                        class="form-control"
+                                        [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected"
+                                        name="last_name"
+                                        required
+                                        [ngModel]="areaData.last_name"
+                                        #lastName="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="lastName.invalid && lastName.touched">
+                                Last Name is Required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button
+                                    class="btn btn-primary"
+                                    [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || ( createAreaForm.invalid && createAreaForm.touched )">
+                                <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                                Submit
+                            </button>
+                            <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    (click)="onReset(createAreaForm)">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

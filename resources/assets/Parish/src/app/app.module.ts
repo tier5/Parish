@@ -11,7 +11,9 @@ import { FullLayoutComponent } from './layout/full-layout.component';
 import { Ng2AutoBreadCrumb } from 'ng2-auto-breadcrumb';
 import { Ng2NewsListComponent } from './components/ng2-newslist/ng2newslist.component';
 import { NotAuthGuard } from './auth/not-auth.guard';
+import { ProvinceZoneAreaParishService } from './province-zone-area-parish/province-zone-area-parish.service';
 import { SharedModule } from './shared/shared.module';
+import { ProfileService } from "./profile-details/profile.service";
 
 
 @NgModule( {
@@ -30,7 +32,9 @@ import { SharedModule } from './shared/shared.module';
 	providers: [
 		AuthService,
 		AuthGuard,
-		NotAuthGuard
+		NotAuthGuard,
+		ProvinceZoneAreaParishService,
+		ProfileService
 	],
 	bootstrap: [ AppComponent ]
 } )

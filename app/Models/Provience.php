@@ -1,5 +1,10 @@
 <?php
 
+/**
+* Province Model for WEM and Pastor with soft delete
+* @param Request $request
+*/
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -53,9 +58,20 @@ class Provience extends Model
      * Get all of the area for the Province.
      */
     
-    public function areas()
-    {
+    public function areas() {
         return $this->hasManyThrough('App\Models\Area', 'App\Models\Zone');
+    }
+
+    /**
+     * Get all of the area for the Province.
+     */
+    
+    public function parishes() {
+        $parishes = collect();
+        foreach ($this->areas as $area) {
+            $parishes = $area->parishes;
+        }
+        return $parishes;
     }
 
     /**

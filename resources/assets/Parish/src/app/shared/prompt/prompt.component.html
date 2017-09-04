@@ -8,23 +8,29 @@
 
             <div class="alert-middle-main">
                 <h4 *ngIf="calledFrom=='Province'">
-                    Deleting this Province will Delete all related <strong>Zones</strong> as well as <strong>Areas</strong>.<br/>
+                    Deleting this Province will Delete all related <strong>Zones</strong> as well as <strong>Areas</strong> and Parishes.<br/>
                     Are you sure you want to delete this<br/>
                     <strong>{{calledFrom}}</strong>?
                 </h4>
 
                 <h4 *ngIf="calledFrom=='Zone'">
-                    Deleting this Zone will Delete all related <strong>Areas</strong>.<br/>
+                    Deleting this Zone will Delete all related <strong>Areas</strong> and Parishes.<br/>
                     Are you sure you want to delete this<br/>
                     <strong>{{calledFrom}}</strong>?
                 </h4>
 
                 <h4 *ngIf="calledFrom=='Area'">
+                    Deleting this Area will Delete all related <strong>Parishes</strong>.<br/>
                     Are you sure you want to delete this<br/>
                     <strong>{{calledFrom}}</strong>?
                 </h4>
 
-                <span class="closebtn" (click)="hidePrompt()">&times;</span>
+                <h4 *ngIf="calledFrom=='Parish'">
+                    Are you sure you want to delete this<br/>
+                    <strong>{{calledFrom}}</strong>?
+                </h4>
+
+                <span class="close-btn" (click)="hidePrompt()">&times;</span>
                 <div class=btn-confirm>
                     <button class="btn btn-primary" (click)="deletePrompt()">Confirm</button>
                     <button class="btn btn-danger" (click)="hidePrompt()">Cancel</button>

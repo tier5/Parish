@@ -46,27 +46,27 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::group(['middleware' => ['jwt.auth']], function () {
 
-        Route::group(['prefix' => 'provinces'], function () {
+        Route::group(['prefix' => 'province'], function () {
 
-            Route::post('/', [
+            Route::post('/create', [
                 'uses' => 'Api\V1\ProvienceController@createProvience',
                 'as' => 'api.v1.createProvience.post'
             ]);
 
             Route::get('/{user_id}', [
                 'uses' => 'Api\V1\ProvienceController@getProvinceList',
-                'as' => 'api.v1.getProvinceList.post'
+                'as' => 'api.v1.getProvinceList.get'
             ]);
 
-            Route::get('/showDetail/{province_id}', [
+            Route::get('/show-detail/{province_id}', [
                 'uses' => 'Api\V1\ProvienceController@getProvinceDetail',
-                'as' => 'api.v1.getProvinceDetail.post'
+                'as' => 'api.v1.getProvinceDetail.get'
             ]);            
-            Route::put('/{user_id}/{created_by}/{province_id}', [
+            Route::put('/edit/{user_id}/{created_by}/{province_id}', [
                 'uses' => 'Api\V1\ProvienceController@updateProvience',
                 'as' => 'api.v1.updateProvience.put'
             ]);
-            Route::patch('/{user_id}/{created_by}/{province_id}', [
+            Route::patch('/edit/{user_id}/{created_by}/{province_id}', [
                 'uses' => 'Api\V1\ProvienceController@updateProvience',
                 'as' => 'api.v1.updateProvience.patch'
             ]);
@@ -79,31 +79,33 @@ Route::group(['prefix' => 'v1'], function() {
 
         });
 
-        Route::group(['prefix' => 'zones'], function () {
+        Route::group(['prefix' => 'zone'], function () {
 
-            Route::post('/', [
+            Route::post('/create', [
                 'uses' => 'Api\V1\ZoneController@createZone',
                 'as' => 'api.v1.createZone.post'
             ]);
+
+            Route::get('/show-detail/{zone_id}', [
+                'uses' => 'Api\V1\ZoneController@getZoneDetail',
+                'as' => 'api.v1.ZoneController.get'
+            ]);
+
             Route::get('/{created_by}/{province_id}', [
                 'uses' => 'Api\V1\ZoneController@getZoneList',
-                'as' => 'api.v1.getZoneList.post'
+                'as' => 'api.v1.getZoneList.get'
             ]);
-
-            Route::get('/showDetail/zone/{zone_id}', [
-                'uses' => 'Api\V1\ZoneController@getZoneDetail',
-                'as' => 'api.v1.ZoneController.post'
-            ]); 
+            
             Route::get('/{created_by}', [
                 'uses' => 'Api\V1\ZoneController@getAllZone',
-                'as' => 'api.v1.getAllZone.post'
+                'as' => 'api.v1.getAllZone.get'
             ]);
 
-            Route::put('/{user_id}/{created_by}/{zone_id}', [
+            Route::put('/edit/{user_id}/{created_by}/{zone_id}', [
                 'uses' => 'Api\V1\ZoneController@updateZone',
                 'as' => 'api.v1.updateZone.put'
             ]);
-            Route::patch('/{user_id}/{created_by}/{zone_id}', [
+            Route::patch('/edit/{user_id}/{created_by}/{zone_id}', [
                 'uses' => 'Api\V1\ZoneController@updateZone',
                 'as' => 'api.v1.updateZone.patch'
             ]);
@@ -113,36 +115,40 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.deleteZone.delete'
             ]);
 
-            Route::post('/filterZone', [
+            Route::post('/filter-zone', [
                 'uses' => 'Api\V1\ZoneController@filterZone',
                 'as' => 'api.v1.filterZone.post'
             ]);
 
         });
 
-        Route::group(['prefix' => 'areas'], function () {
+        Route::group(['prefix' => 'area'], function () {
 
-            Route::post('/', [
+            Route::post('/create', [
                 'uses' => 'Api\V1\AreaController@createArea',
                 'as' => 'api.v1.createArea.post'
             ]);
+
+            Route::get('/show-detail/{area_id}', [
+                'uses' => 'Api\V1\AreaController@getAreaDetail',
+                'as' => 'api.v1.getAreaDetail.get'
+            ]);
+
             Route::get('/{created_by}/{area_id}', [
                 'uses' => 'Api\V1\AreaController@getAreaList',
-                'as' => 'api.v1.getAreaList.post'
+                'as' => 'api.v1.getAreaList.get'
             ]);
-            Route::get('/showDetail/area/{area_id}', [
-                'uses' => 'Api\V1\AreaController@getAreaDetail',
-                'as' => 'api.v1.getAreaDetail.post'
-            ]);
+
             Route::get('/{created_by}', [
                 'uses' => 'Api\V1\AreaController@getAllArea',
-                'as' => 'api.v1.getAllArea.post'
+                'as' => 'api.v1.getAllArea.get'
             ]);
-            Route::put('/{user_id}/{created_by}/{area_id}', [
+            
+            Route::put('/edit/{user_id}/{created_by}/{area_id}', [
                 'uses' => 'Api\V1\AreaController@updateArea',
                 'as' => 'api.v1.updateArea.put'
             ]);
-            Route::patch('/{user_id}/{created_by}/{area_id}', [
+            Route::patch('/edit/{user_id}/{created_by}/{area_id}', [
                 'uses' => 'Api\V1\AreaController@updateArea',
                 'as' => 'api.v1.updateArea.patch'
             ]);
@@ -152,25 +158,25 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.deleteArea.delete'
             ]);
             
-            Route::post('/filterArea', [
+            Route::post('/filter-area', [
                 'uses' => 'Api\V1\AreaController@filterArea',
                 'as' => 'api.v1.filterArea.post'
             ]);
         });
         
-        Route::group(['prefix' => 'parishs'], function () {
+        Route::group(['prefix' => 'parish'], function () {
 
-            Route::post('/', [
+            Route::post('/create', [
                 'uses' => 'Api\V1\ParishController@createParish',
                 'as' => 'api.v1.createParish.post'
             ]);
 
-            Route::put('/{user_id}/{created_by}/{parish_id}', [
+            Route::put('/edit/{user_id}/{created_by}/{parish_id}', [
                 'uses' => 'Api\V1\ParishController@updateParish',
                 'as' => 'api.v1.updateParish.put'
             ]);
 
-            Route::patch('/{user_id}/{created_by}/{parish_id}', [
+            Route::patch('/edit/{user_id}/{created_by}/{parish_id}', [
                 'uses' => 'Api\V1\ParishController@updateParish',
                 'as' => 'api.v1.updateParish.patch'
             ]);
@@ -184,6 +190,40 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses' => 'Api\V1\ParishController@getParishList',
                 'as' => 'api.v1.getParishList.post'
             ]);
+
+            Route::post('/filter-parish', [
+                'uses' => 'Api\V1\ParishController@filteParish',
+                'as' => 'api.v1.filteParish.post'
+            ]);
+
+            Route::get('/show-detail/{parish_id}', [
+                'uses' => 'Api\V1\ParishController@getParishDetail',
+                'as' => 'api.v1.getParishDetail.get'
+            ]);
+        });
+    
+        Route::group(['prefix' => 'user'], function () {
+
+            Route::get('/password-reset/{user_id}', [
+                'uses' => 'Api\V1\UserController@resetPassword',
+                'as' => 'api.v1.resetPassword.get'
+            ]);
+            
+            Route::get('/show-detail/{user_id}', [
+                'uses' => 'Api\V1\UserController@getDetail',
+                'as' => 'api.v1.getDetail.get'
+            ]);
+
+            Route::put('/edit/{user_id}', [
+                'uses' => 'Api\V1\UserController@updateUserDetail',
+                'as' => 'api.v1.updateUserDetail.put'
+            ]);
+
+            Route::patch('/edit/{user_id}', [
+                'uses' => 'Api\V1\UserController@updateUserDetail',
+                'as' => 'api.v1.updateUserDetail.patch'
+            ]);
+
         });
 
     });

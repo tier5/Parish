@@ -1,0 +1,8 @@
+.passwordDiv .form-group label{
+    display: block;
+}
+.passwordDiv .form-group input {
+    width: 72%;
+    margin-right: 18px;
+    margin-bottom: 20px;
+}

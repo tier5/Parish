@@ -1,0 +1,176 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">{{ title }}</h3>
+     </div>
+</div><!--/.row-->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">{{ heading }} Parish</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                </div>
+                <form
+                        #createParishForm="ngForm"
+                        (submit)="onSubmit(createParishForm)">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Select Province</label>
+                                <select
+                                        #selectedProvince
+                                        name="provience_id"
+                                        [ngModel]="parishData.province_id"
+                                        class="form-control"
+                                        (change)="onSelectProvince(selectedProvince.value)">
+                                    <option value="0" selected>Choose...</option>
+                                    <option
+                                            *ngFor="let province of provinceList"
+                                            [value]="province.id">
+                                        {{province.province_name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="provinceSelected">
+                            <div class="form-group">
+                                <label>Select Zone</label>
+                                <select
+                                        #selectedZone
+                                        name="zone_id"
+                                        [ngModel]="parishData.zone_id"
+                                        class="form-control"
+                                        [disabled]="!provinceList || !provinceSelected"
+                                        (change)="onSelectZone(selectedZone.value)">
+                                    <option value="0" selected>Choose...</option>
+                                    <option
+                                            *ngFor="let zone of zoneList"
+                                            [value]="zone.id">
+                                        {{zone.zone_name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4" *ngIf="provinceSelected && zoneSelected">
+                            <div class="form-group">
+                                <label>Select Area</label>
+                                <select
+                                        #selectedArea
+                                        name="area_id"
+                                        [ngModel]="parishData.area_id"
+                                        class="form-control"
+                                        [disabled]="!provinceList|| !zoneList|| !provinceSelected || !zoneSelected"
+                                        (change)="onSelectArea(selectedArea.value)">
+                                    <option value="0" selected>Choose...</option>
+                                    <option
+                                            *ngFor="let area of areaList"
+                                            [value]="area.id">
+                                        {{area.area_name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pname">Parish Name</label>
+                                <input
+                                        id="pname"
+                                        class="form-control"
+                                        placeholder="Enter..."
+                                        [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected"
+                                        name="parish_name"
+                                        required
+                                        [ngModel]="parishData.parish_name"
+                                        #parishName="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="parishName.invalid && parishName.touched">
+                                Parish Name is Required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fname">Pastor's First Name</label>
+                                <input
+                                        id="fname"
+                                        class="form-control"
+                                        placeholder="Enter..."
+                                        [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected"
+                                        name="first_name"
+                                        required
+                                        [ngModel]="parishData.first_name"
+                                        #firstName="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="firstName.invalid && firstName.touched">
+                                First Name is Required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="lname">Pastor's Last Name</label>
+                                <input
+                                        id="lname"
+                                        class="form-control"
+                                        placeholder="Enter..."
+                                        [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected"
+                                        name="last_name"
+                                        required
+                                        [ngModel]="parishData.last_name"
+                                        #lastName="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="lastName.invalid && lastName.touched">
+                                Last Name is Required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button
+                                    class="btn btn-primary"
+                                    [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected || ( createParishForm.invalid && createParishForm.touched )">
+                                <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                                Submit
+                            </button>
+                            <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    (click)="onReset(createParishForm)"
+                            >Reset
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

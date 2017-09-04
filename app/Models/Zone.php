@@ -1,5 +1,8 @@
 <?php
-
+/**
+* Zone Model for WEM and Pastor with soft delete
+* @param Request $request
+*/
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -38,7 +41,7 @@ class Zone extends Model
      */ 
 
     public function areas() {
-    return $this->hasMany('App\Models\Area');
+        return $this->hasMany('App\Models\Area');
 	}
 
     public function areaDel() {
@@ -52,6 +55,10 @@ class Zone extends Model
 	public function users() {
         return $this->belongsTo('App\Models\User','user_id');
 	}
+
+    public function parishes() {
+        return $this->hasManyThrough('App\Models\Parish', 'App\Models\Area');
+    }
 
     /**
      * Delete functionality bewteen related models

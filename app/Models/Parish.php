@@ -1,5 +1,10 @@
 <?php
 
+/**
+* Parish Model to make relation with area and soft delete.
+* @param Request $request
+*/
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;

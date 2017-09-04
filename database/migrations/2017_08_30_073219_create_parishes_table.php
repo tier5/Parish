@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
+
 class CreateParishesTable extends Migration
 {
     /**
@@ -36,6 +37,9 @@ class CreateParishesTable extends Migration
                 ->on('areas')
                 ->references('id');
         });
+
+        $statement = "ALTER TABLE parishes AUTO_INCREMENT = 1001;";
+        DB::unprepared($statement);
     }
 
     /**

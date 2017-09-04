@@ -19,9 +19,12 @@ const appRoutes: Routes = [
 			{ path: 'table', loadChildren: './widgets/tables/tables.module#TablesWidgetModule' },
 			{ path: 'chart', loadChildren: './widgets/charts/charts.module#ChartsWidgetModule' }
 		] },
-		{ path: 'province', loadChildren: './province-zone-area/province/province.module#ProvinceModule' },
-		{ path: 'zone', loadChildren: './province-zone-area/zone/zone.module#ZoneModule' },
-		{ path: 'area', loadChildren: './province-zone-area/area/area.module#AreaModule' }
+		{ path: 'province', loadChildren: './province-zone-area-parish/province/province.module#ProvinceModule' },
+		{ path: 'zone', loadChildren: './province-zone-area-parish/zone/zone.module#ZoneModule' },
+		{ path: 'area', loadChildren: './province-zone-area-parish/area/area.module#AreaModule' },
+		{ path: 'parish', loadChildren: './province-zone-area-parish/parish/parish.module#ParishModule' },
+		{ path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' }
+		
 	] }
 ];
 @NgModule( {

@@ -12,7 +12,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         User <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a><i class="fa fa-fw fa-user"></i> Profile</a></li>
+                        <li [routerLink]="['/profile']"><a><i class="fa fa-fw fa-user"></i> Profile</a></li>
                         <li><a><i class="fa fa-fw fa-cogs"></i> Settings</a></li>
                         <li><a (click)="onLogout()"><i class="fa fa-fw fa-lock"></i> Logout</a></li>
                     </ul>
@@ -41,7 +41,7 @@
         <li role="presentation" class="divider"></li>
 
         <!-- Province Section -->
-        <li class="parent ">
+        <li class="parent " *ngIf="showSidebar">
             <a data-toggle="collapse" href="#sub-item-1">
                 <i class="fa fa-fw fa-chevron-circle-down"></i> Province
             </a>
@@ -60,7 +60,7 @@
         </li>
 
         <!-- Zone Section -->
-        <li class="parent ">
+        <li class="parent" *ngIf="showSidebar">
             <a data-toggle="collapse" href="#sub-item-2">
                 <i class="fa fa-fw fa-chevron-circle-down"></i> Zone
             </a>
@@ -79,7 +79,7 @@
         </li>
 
         <!-- Area Section -->
-        <li class="parent ">
+        <li class="parent" *ngIf="showSidebar">
             <a data-toggle="collapse" href="#sub-item-3">
                 <i class="fa fa-fw fa-chevron-circle-down"></i> Area
             </a>
@@ -97,7 +97,28 @@
             </ul>
         </li>
 
-        <li role="presentation" class="divider"></li>
+        <li role="presentation" class="divider" *ngIf="showSidebar"></li>
+
+        <!-- Parish Section -->
+        <li class="parent" *ngIf="showSidebar">
+            <a data-toggle="collapse" href="#parish-section">
+                <i class="fa fa-fw fa-chevron-circle-down"></i> Parish
+            </a>
+            <ul class="children collapse" id="parish-section">
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/parish/create']">
+                        <i class="fa fa-fw fa-plus-square"></i> Create
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/parish/list']">
+                        <i class="fa fa-fw fa-th-list"></i> List
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li role="presentation" class="divider" *ngIf="showSidebar"></li>
 
 <!--         <li><a routerLinkActive="active" [routerLink]="['/form']"><i class="fa fa-list fa-fw"></i> Form</a></li>
 
