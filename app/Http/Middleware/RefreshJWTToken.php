@@ -1,5 +1,8 @@
 <?php
-
+/**
+* Moddleware to refresh JWT token
+* @param Request $request
+*/
 namespace App\Http\Middleware;
 
 use Closure;
@@ -24,15 +27,15 @@ class RefreshJWTToken extends BaseMiddleware
             $newToken = $this->auth->setRequest($request)->parseToken()->refresh();
         } catch (TokenExpiredException $tokenExpiredException) {
             return response()->json([
-                'status' => false,
-                'error' => 'Unauthorized! Token is expired.',
-                'error_info' => $tokenExpiredException->getMessage()
+                'status'        => false,
+                'error'         => 'Unauthorized! Token is expired.',
+                'error_info'    => $tokenExpiredException->getMessage()
             ], $tokenExpiredException->getStatusCode());
         } catch (JWTException $JWTException) {
             return response()->json([
-                'status' => false,
-                'error' => 'Unauthorized! Token is invalid.',
-                'error_info' => $JWTException->getMessage()
+                'status'        => false,
+                'error'         => 'Unauthorized! Token is invalid.',
+                'error_info'    => $JWTException->getMessage()
             ], $JWTException->getStatusCode());
         }
 
