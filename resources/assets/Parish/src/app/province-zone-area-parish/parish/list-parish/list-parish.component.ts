@@ -18,27 +18,30 @@ import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.s
 })
 export class ListParishComponent implements OnInit, OnDestroy {
 	
-	provinceList: ProvinceListModel[];
-	zoneList: ZoneListModel[];
-	areaList: AreaListModel[];
-	parishList: ParishListModel[];
-	responseMsg: string = '';
-	responseNoRecord: string = '';
-	responseStatus: boolean = false;
-	responseReceived: boolean = false;
-	showDeletePrompt: boolean = false;
-	toDeleteParish: ParishListModel;
-	provinceSelected: boolean = false;
-	zoneSelected: boolean = false;
-	areaSelected: boolean = false;
-	refreshParishListSubscription: Subscription;
-	closePromptEventSubscription: Subscription;
-	deleteParishEventSubscription: Subscription;
-	provID: number;
-	zoneID: number;
-	selectionProvince : number = 0;
-	selectionZone : number = 0;
-	selectionArea : number = 0;
+	
+	zoneList            : ZoneListModel[];
+	areaList            : AreaListModel[];
+	parishList          : ParishListModel[];
+	provinceList        : ProvinceListModel[];
+	toDeleteParish      : ParishListModel;
+	
+	provID              : number;
+	zoneID              : number;
+	responseMsg         : string    = '';
+	responseNoRecord    : string    = '';
+	responseStatus      : boolean   = false;
+	responseReceived    : boolean   = false;
+	showDeletePrompt    : boolean   = false;
+	zoneSelected        : boolean   = false;
+	areaSelected        : boolean   = false;
+	provinceSelected    : boolean   = false;
+	selectionProvince   : number    = 0;
+	selectionZone       : number    = 0;
+	selectionArea       : number    = 0;
+	
+	refreshParishListSubscription   : Subscription;
+	closePromptEventSubscription    : Subscription;
+	deleteParishEventSubscription   : Subscription;
 	
 	/** Injecting services to be used in this component */
 	constructor( private router: Router,
@@ -52,24 +55,24 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			( body ) => {
 				this.pzapService.filterParish( body ).subscribe(
 					( response: Response ) => {
+						this.responseStatus = response.json().status;
+						
 						if( response.json().status ) {
-							this.responseStatus = true;
-							this.parishList = response.json().parishes;
+							this.parishList       = response.json().parishes;
 							this.responseNoRecord = response.json().noData;
 						} else {
-							this.responseStatus = false;
-							this.parishList = [];
-							this.selectionProvince = null;
-							this.selectionZone = null;
-							this.responseMsg = response.json().message;
-							this.responseNoRecord = response.json().noData;
+							this.parishList         = [];
+							this.selectionProvince  = null;
+							this.selectionZone      = null;
+							this.responseMsg        = response.json().message;
+							this.responseNoRecord   = response.json().noData;
 						}
 					},
 					( error: Response ) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.parishList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.parishList         = [];
+						this.responseMsg        = error.json().error;
 					}
 				);
 			}
@@ -95,25 +98,25 @@ export class ListParishComponent implements OnInit, OnDestroy {
 				this.showDeletePrompt = false;
 				this.pzapService.deleteParish( id ).subscribe(
 					(response: Response) => {
-						this.responseReceived = true;
+						this.responseReceived   = true;
+						this.responseStatus     = response.json().status;
+						
 						if( response.json().status ) {
-							this.responseStatus = true;
 							this.responseMsg = response.json().message;
 							this.pzapService.refreshList.next( {} );
 						} else {
-							this.responseStatus = false;
-							this.areaList = [];
-							this.responseMsg = response.json().message;
+							this.areaList       = [];
+							this.responseMsg    = response.json().message;
 						}
 						setTimeout( () => {
 							this.responseReceived = false;
 						}, 3000 )
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.areaList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.areaList           = [];
+						this.responseMsg        = error.json().error;
 						setTimeout( () => {
 							this.responseReceived = false;
 						}, 3000 )
@@ -126,20 +129,20 @@ export class ListParishComponent implements OnInit, OnDestroy {
 		this.pzapService.listProvince()
 		.subscribe(
 			(response: Response) => {
+				this.responseStatus = response.json().status;
+				
 				if( response.json().status ) {
-					this.responseStatus = true;
-					this.provinceList = response.json().provinces;
+					this.provinceList   = response.json().provinces;
 				} else {
-					this.responseStatus = false;
-					this.provinceList = [];
-					this.responseMsg = response.json().message;
+					this.provinceList   = [];
+					this.responseMsg    = response.json().message;
 				}
 			},
 			(error: Response) => {
-				this.responseStatus = false;
-				this.responseReceived = true;
-				this.provinceList = [];
-				this.responseMsg = error.json().error;
+				this.responseStatus     = false;
+				this.responseReceived   = true;
+				this.provinceList       = [];
+				this.responseMsg        = error.json().error;
 			}
 		);
 		
@@ -147,20 +150,20 @@ export class ListParishComponent implements OnInit, OnDestroy {
 		this.pzapService.filterZone( {} )
 		.subscribe(
 			(response: Response) => {
+				this.responseStatus = response.json().status;
+				
 				if( response.json().status ) {
-					this.responseStatus = true;
 					this.zoneList = response.json().zones;
 				} else {
-					this.responseStatus = false;
-					this.zoneList = [];
-					this.responseMsg = response.json().message;
+					this.zoneList       = [];
+					this.responseMsg    = response.json().message;
 				}
 			},
 			(error: Response) => {
-				this.responseStatus = false;
-				this.responseReceived = true;
-				this.zoneList = [];
-				this.responseMsg = error.json().error;
+				this.responseStatus     = false;
+				this.responseReceived   = true;
+				this.zoneList           = [];
+				this.responseMsg        = error.json().error;
 			}
 		);
 		
@@ -168,29 +171,29 @@ export class ListParishComponent implements OnInit, OnDestroy {
 		this.pzapService.filterArea( {} )
 		.subscribe(
 			(response: Response) => {
+				this.responseStatus = response.json().status;
+				
 				if( response.json().status ) {
-					this.responseStatus = true;
 					this.areaList = response.json().areas;
 				} else {
-					this.responseStatus = false;
-					this.areaList = [];
-					this.responseMsg = response.json().message;
+					this.areaList       = [];
+					this.responseMsg    = response.json().message;
 				}
 			},
 			(error: Response) => {
-				this.responseStatus = false;
-				this.responseReceived = true;
-				this.areaList = [];
-				this.responseMsg = error.json().error;
+				this.responseStatus     = false;
+				this.responseReceived   = true;
+				this.areaList           = [];
+				this.responseMsg        = error.json().error;
 			}
 		);
 	}
 	
 	/** Function to reset all filter value and reset list */
 	onResetFilters(){
-		this.selectionProvince =null;
-		this.selectionZone = null;
-		this.selectionArea = null;
+		this.selectionProvince  = null;
+		this.selectionZone      = null;
+		this.selectionArea      = null;
 		this.pzapService.refreshList.next( {} );
 	}
 	
@@ -214,8 +217,8 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			this.pzapService.filterZone({province_id: id})
 				.subscribe(
 					(response: Response) => {
+						this.responseStatus = response.json().status;
 						if (response.json().status) {
-							this.responseStatus = true;
 							if(response.json().zones != undefined) {
 								this.zoneList = response.json().zones;
 								this.selectionArea = null;
@@ -228,47 +231,46 @@ export class ListParishComponent implements OnInit, OnDestroy {
 									this.pzapService.filterArea( { province_id: id } )
 										.subscribe(
 											(response: Response) => {
+												this.responseStatus         = response.json().status;
 												if( response.json().status ) {
-													this.responseStatus = true;
 													if(response.json().areas!=undefined){
-														this.areaList = response.json().areas;
-														this.selectionArea = 0;
+														this.areaList       = response.json().areas;
+														this.selectionArea  = 0;
 													}
 													
 												} else {
-													this.responseStatus = false;
+													this.responseMsg ='';
 												}
 											},
 											(error: Response) => {
-												this.responseStatus = false;
-												this.responseReceived = true;
-												this.zoneList = [];
-												this.areaList = [];
+												this.responseStatus     = false;
+												this.responseReceived   = true;
+												this.zoneList           = [];
+												this.areaList           = [];
 											}
 										);
 								}
 							} else {
 								this.responseStatus = false;
-								this.zoneList = [];
-								this.areaList = [];
-								this.responseMsg = response.json().message;
-								this.selectionZone = 0;
-								this.selectionArea = 0;
+								this.zoneList       = [];
+								this.areaList       = [];
+								this.responseMsg    = response.json().message;
+								this.selectionZone  = 0;
+								this.selectionArea  = 0;
 							}
 						} else {
-							this.responseStatus = false;
-							this.zoneList = [];
-							this.areaList = [];
-							this.responseMsg = response.json().message;
-							this.selectionZone = 0;
-							this.selectionArea = 0;
+							this.zoneList       = [];
+							this.areaList       = [];
+							this.responseMsg    = response.json().message;
+							this.selectionZone  = 0;
+							this.selectionArea  = 0;
 						}
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.zoneList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.zoneList           = [];
+						this.responseMsg        = error.json().error;
 					}
 				);
 		} else {
@@ -286,14 +288,15 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	/** Function call on selection of zone from filters */
 	onSelectZone(id: number) {
 		if ( id > 0 ) {
-			this.zoneSelected = true;
-			this.zoneID = id;
+			this.zoneSelected   = true;
+			this.zoneID         = id;
 			this.pzapService.refreshList.next({zone_id: id});
 			this.pzapService.filterArea({zone_id: id})
 				.subscribe(
 					(response: Response) => {
+						this.responseStatus = response.json().status;
+						
 						if (response.json().status) {
-							this.responseStatus = true;
 							this.areaList = response.json().areas;
 							this.selectionArea = null;
 							if (this.areaList != undefined && this.areaList.length == 1) {
@@ -306,17 +309,16 @@ export class ListParishComponent implements OnInit, OnDestroy {
 								this.selectionArea = null;
 							}
 						} else {
-							this.selectionArea = null;
-							this.responseStatus = false;
-							this.areaList = [];
-							this.responseMsg = response.json().message;
+							this.selectionArea  = null;
+							this.areaList       = [];
+							this.responseMsg    = response.json().message;
 						}
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.areaList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.areaList           = [];
+						this.responseMsg        = error.json().error;
 					}
 				);
 		}else{
@@ -341,17 +343,17 @@ export class ListParishComponent implements OnInit, OnDestroy {
 					(response: Response) => {
 						if( response.json().status ) {
 							if(response.json().parishes != undefined) {
-								this.selectionProvince = response.json().parishes[0]['province_id'];
-								this.selectionZone = response.json().parishes[0]['zone_id'];
+								this.selectionProvince  = response.json().parishes[0]['province_id'];
+								this.selectionZone      = response.json().parishes[0]['zone_id'];
 							}
 						} else {
-							this.selectionProvince = null;
-							this.selectionZone = null;
+							this.selectionProvince  = null;
+							this.selectionZone      = null;
 						}
 					},
 					(error: Response) => {
-						this.selectionProvince = null;
-						this.selectionZone = null;
+						this.selectionProvince  = null;
+						this.selectionZone      = null;
 					}
 				);
 		} else {

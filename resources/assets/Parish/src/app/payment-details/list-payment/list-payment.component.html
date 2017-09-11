@@ -1,0 +1,93 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Payment - List</h3>
+    </div>
+</div><!--/.row-->
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                List Payment
+            </div>
+            <div class="panel-body overflowFix">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Serial</th>
+                            <th>Description</th>
+                            <th>Payment Date</th>
+                            <th>File</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let payment of paymentDetails">
+                            <td>{{ payment.id }}</td>
+                            <td>{{ payment.payment_description }}</td>
+                            <td>{{ payment.upload_month }} / {{ payment.upload_year }}</td>
+                            <td></td>
+                            <td>{{ payment.pay_status }}
+
+                            </td>
+                            <td>
+                                <!-- Appear Only in Admin Section -->
+                                <span *ngIf="payment.hold">
+                                    <button
+                                            class="btn btn-warning btn-xs"
+                                            type="button" *ngIf="isAdmin" (click)="OnChangeStatus(payment,0)"> Accept
+                                    </button>
+                                    <button
+                                            class="btn btn-warning btn-xs"
+                                            type="button" *ngIf="isAdmin" (click)="OnChangeStatus(payment,1)"> Reject
+                                    </button>
+                                </span>
+                                <!-- End appear in admin section -->
+
+                                <button
+                                        class="btn btn-active btn-xs"
+                                        type="button" *ngIf="!isAdmin && payment.accept">
+                                    <i class="fa fa-download fa-fw"></i><a [href]="base_url+'/paymentReceipt/'+payment.file_name" [download]="payment.file_name">Download</a>
+
+                                </button>
+
+                                <input type="file" ng2FileSelect [uploader]="uploader" class="upload_file" *ngIf="!isAdmin && payment.payment_status == 1 " (change)="showUploader(payment,$event)" accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"/>
+
+                                <button type="button" class="btn btn-success btn-xs"
+                                        (click)="upload(payment)" *ngIf="showUploadButton == payment.id">
+                                    <span class="glyphicon glyphicon-upload"></span> Upload
+                                </button>
+
+                                <div class="progress" *ngIf="showUploadButton == payment.id">
+                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress  + '%' }"></div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr *ngIf="!paymentDetails" colspan="6">
+                            <td> No record found </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div><!--/.row-->
+

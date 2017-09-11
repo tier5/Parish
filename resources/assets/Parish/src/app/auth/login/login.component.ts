@@ -5,8 +5,9 @@ import { NgForm } from '@angular/forms';
 
 import { LoginService } from './login.service';
 import {AuthService} from "../auth.service";
-import {ProvinceZoneAreaParishService} from "../../province-zone-area-parish/province-zone-area-parish.service";
-import {ProfileService} from "../../profile-details/profile.service";
+import { ProvinceZoneAreaParishService } from "../../province-zone-area-parish/province-zone-area-parish.service";
+import { ProfileService } from "../../profile-details/profile.service";
+import { PaymentService } from "../../payment-details/payment.service";
 
 @Component( {
 	selector: 'login',
@@ -25,7 +26,8 @@ export class LoginComponent {
 	constructor( private pzapService: ProvinceZoneAreaParishService,
 				 private loginService: LoginService,
 	             private router: Router,
-	             private profileService: ProfileService) { }
+	             private profileService: ProfileService,
+	             private paymentService: PaymentService) { }
 	
 	/** Function call on submit */
 	onSubmit( formSignIn: NgForm ) {
@@ -45,6 +47,8 @@ export class LoginComponent {
 					this.loginRequestResponseMsg = response.json().message;
 					this.pzapService.refreshHeader();
 					this.profileService.refreshHeader();
+					this.profileService.refreshHeader();
+					this.paymentService.refreshHeader();
 				} else {
 					this.loginRequestStatus = false;
 					this.loginRequestResponseMsg = response.json().error;

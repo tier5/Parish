@@ -1,6 +1,6 @@
 <?php
 /**
-* AreaController constructor.
+* AreaController to manage CRUD operation of area.
 * @param Request $request
 */
 
@@ -13,6 +13,7 @@ use App\Models\Provience;
 use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
+use App\Models\Payment;
 use App\Helpers;
 use Crypt;
 use DB;
@@ -42,7 +43,7 @@ class AreaController extends Controller {
      */
     private $randomUsername = null;
 
-     /**
+    /**
      * @var null|string
      */
     private $randomPassword = null;
@@ -62,7 +63,9 @@ class AreaController extends Controller {
     public function __construct(){
 
         $user = JWTAuth::parseToken()->toUser();
-        $this->user_type = $user->user_type;
+
+        $this->user_type    = $user->user_type;
+        $this->pastor_type  = $user->pastor_type;
     }
 
     /**
@@ -74,64 +77,70 @@ class AreaController extends Controller {
 
     public function getAllArea(Request $request,$created_by) {
 
-         try {
+        try {
+
             DB::beginTransaction();
+
             $areas= ($this->user_type == 1) ? Area::where('created_by',$created_by)
                                 ->whereNull('deleted_at')->get() : Area::find($created_by)->zones->proviences->areas;
 
             $noOfAreas =count($areas);
-            if($noOfAreas){
+
+            if($noOfAreas) {
 
                 $areaArray = [];
+
                 foreach ($areas as $key => $area) {
 
-                    $areaArray[$key]['id'] = $area->id;
-                    $areaArray[$key]['area_name'] = $area->name;
-                    $areaArray[$key]['zone_id'] = $area->zone_id;
-                    $areaArray[$key]['province_name'] = $area->zones->proviences->name;
-                    $areaArray[$key]['province_id'] = $area->zones->proviences->id;
-                    $areaArray[$key]['zone_name'] = $area->zones->name;
-                    $areaArray[$key]['user_id'] = $area->users->id;
-                    $areaArray[$key]['parish_id'] = $area->users->parish_id;
-                    $areaArray[$key]['password'] = $area->users->uniqueKey;
-                    $areaArray[$key]['first_name'] = $area->users->first_name;
-                    $areaArray[$key]['last_name'] = $area->users->last_name;
+                    $areaArray[$key]['id']              = $area->id;
+                    $areaArray[$key]['area_name']       = $area->name;
+                    $areaArray[$key]['zone_id']         = $area->zone_id;
+                    $areaArray[$key]['province_name']   = $area->zones->proviences->name;
+                    $areaArray[$key]['province_id']     = $area->zones->proviences->id;
+                    $areaArray[$key]['zone_name']       = $area->zones->name;
+                    $areaArray[$key]['user_id']         = $area->users->id;
+                    $areaArray[$key]['parish_id']       = $area->users->parish_id;
+                    $areaArray[$key]['password']        = $area->users->uniqueKey;
+                    $areaArray[$key]['first_name']      = $area->users->first_name;
+                    $areaArray[$key]['last_name']       = $area->users->last_name;
                 }
 
-                    $response = [
-                        'status' => true,
-                        'message' => $noOfAreas . ($noOfAreas > 1 ? " areas have " : " area has ") . "been found.",
-                        'areas' => $areaArray
-                    ];
-                    $responseCode = 200;
+                $response = [
+                    'status'        => true,
+                    'message'       => $noOfAreas . ($noOfAreas > 1 ? " areas have " : " area has ") . "been found.",
+                    'areas'         => $areaArray
+                ];
+                $responseCode = 200;
 
-                } else {
-                    $response = [
-                        'status' => true,
-                        'noData' => "No area has been found."
-                    ];
-                    $responseCode = 200;
-                }
+            } else {
+                $response = [
+                    'status' => true,
+                    'noData' => "No area has been found."
+                ];
+                $responseCode = 200;
+            }
 
-                }
-                catch (Exception $exception) {
-                    DB::rollBack();
-
-                    Log::error($exception->getMessage());
-
-                    $response = [
-                        'status' => false,
-                        'error' => "Internal server error.",
-                        'error_info' => $exception->getMessage()
-                    ];
-
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
-
-                return response()->json($response, $responseCode);
         }
+        catch (Exception $exception) {
+
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
 
     /**
      * Get Area list with respect to province and zone
@@ -142,7 +151,8 @@ class AreaController extends Controller {
 
     public function getAreaList(Request $request,$created_by,$zone_id) {
 
-         try {
+        try {
+
             DB::beginTransaction();
 
             $areas=Area::where('created_by',$created_by)
@@ -150,61 +160,66 @@ class AreaController extends Controller {
                         ->whereNull('deleted_at')->get();
 
             $noOfAreas =count($areas);
+
             if($noOfAreas){
 
                 $areaArray = [];
                 foreach ($areas as $key => $area) {
 
-                    $areaArray[$key]['id'] = $area->id;
-                    $areaArray[$key]['area_name'] = $area->name;
-                    $areaArray[$key]['zone_id'] = $area->zone_id;
-                    $areaArray[$key]['province_name'] = $area->zones->proviences->name;
-                    $areaArray[$key]['province_id'] = $area->zones->proviences->id;
-                    $areaArray[$key]['zone_name'] = $area->zones->name;
-                    $areaArray[$key]['user_id'] = $area->users->id;
-                    $areaArray[$key]['parish_id'] = $area->users->parish_id;
-                    $areaArray[$key]['password'] = $area->users->uniqueKey;
-                    $areaArray[$key]['first_name'] = $area->users->first_name;
-                    $areaArray[$key]['last_name'] = $area->users->last_name;
+                    $areaArray[$key]['id']              = $area->id;
+                    $areaArray[$key]['area_name']       = $area->name;
+                    $areaArray[$key]['zone_id']         = $area->zone_id;
+                    $areaArray[$key]['province_name']   = $area->zones->proviences->name;
+                    $areaArray[$key]['province_id']     = $area->zones->proviences->id;
+                    $areaArray[$key]['zone_name']       = $area->zones->name;
+                    $areaArray[$key]['user_id']         = $area->users->id;
+                    $areaArray[$key]['parish_id']       = $area->users->parish_id;
+                    $areaArray[$key]['password']        = $area->users->uniqueKey;
+                    $areaArray[$key]['first_name']      = $area->users->first_name;
+                    $areaArray[$key]['last_name']       = $area->users->last_name;
                 }
 
-                    $response = [
-                        'status' => true,
-                        'message' => $noOfAreas . ($noOfAreas > 1 ? " areas have " : " area has ") . "been found.",
-                        'areas' => $areaArray
-                    ];
-                    $responseCode = 200;
+                $response = [
+                    'status'        => true,
+                    'message'       => $noOfAreas . ($noOfAreas > 1 ? " areas have " : " area has ") . "been found.",
+                    'areas'         => $areaArray
+                ];
+                $responseCode = 200;
 
-                } else {
-                    $response = [
-                        'status' => false,
-                        'message' => "No Area has been found."
-                    ];
-                    $responseCode = 200;
-                }
+            } else {
 
-                }
-                catch (Exception $exception) {
-                    DB::rollBack();
+                $response = [
+                    'status'        => false,
+                    'message'       => "No Area has been found."
+                ];
+                $responseCode = 200;
+            }
 
-                    Log::error($exception->getMessage());
+        }
+        catch (Exception $exception) {
 
-                    $response = [
-                        'status' => false,
-                        'error' => "Internal server error.",
-                        'error_info' => $exception->getMessage()
-                    ];
+            DB::rollBack();
 
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
+            Log::error($exception->getMessage());
 
-                return response()->json($response, $responseCode);
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+
+        } finally {
+
+            DB::commit();
         }
 
-   /**
-     * Get Zonal Pastor Detail
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Get zone detail
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -212,62 +227,67 @@ class AreaController extends Controller {
 
     public function getAreaDetail(Request $request, $area_id) {
 
-         try {
+        try {
+
             DB::beginTransaction();
 
             $area=Area::find($area_id);
 
             $noOfArea =count($area);
+
             if($noOfArea){
 
                 $areaArray = [];
 
-                    $areaArray['id'] = $area->id;
-                    $areaArray['area_name'] = $area->name;
-                    $areaArray['zone_id'] = $area->zone_id;
-                    $areaArray['province_id'] = $area->zones->proviences->id;
-                    $areaArray['province_name'] = $area->zones->proviences->name;
-                    $areaArray['zone_name'] = $area->zones->name;
-                    $areaArray['user_id'] = $area->users->id;
-                    $areaArray['parish_id'] = $area->users->parish_id;
-                    $areaArray['password'] = $area->users->uniqueKey;
-                    $areaArray['first_name'] = $area->users->first_name;
-                    $areaArray['last_name'] = $area->users->last_name;
+                $areaArray['id']            = $area->id;
+                $areaArray['area_name']     = $area->name;
+                $areaArray['zone_id']       = $area->zone_id;
+                $areaArray['province_id']   = $area->zones->proviences->id;
+                $areaArray['province_name'] = $area->zones->proviences->name;
+                $areaArray['zone_name']     = $area->zones->name;
+                $areaArray['user_id']       = $area->users->id;
+                $areaArray['parish_id']     = $area->users->parish_id;
+                $areaArray['password']      = $area->users->uniqueKey;
+                $areaArray['first_name']    = $area->users->first_name;
+                $areaArray['last_name']     = $area->users->last_name;
 
-                    $response = [
-                        'status' => true,
-                        'message' => $noOfArea . ($noOfArea > 1 ? " areas have " : " area has ") . "been found.",
-                        'areas' => $areaArray
-                    ];
-                    $responseCode = 200;
+                $response = [
+                    'status'        => true,
+                    'message'       => $noOfArea . ($noOfArea > 1 ? " areas have " : " area has ") . "been found.",
+                    'areas'         => $areaArray
+                ];
+                $responseCode = 200;
 
-                } else {
-                    $response = [
-                        'status' => false,
-                        'message' => "No area detail has been found."
-                    ];
-                    $responseCode = 200;
-                }
+            } else {
+                $response = [
+                    'status'        => false,
+                    'message'       => "No area detail has been found."
+                ];
+                $responseCode = 200;
+            }
 
-                }
-                catch (Exception $exception) {
-                    DB::rollBack();
-
-                    Log::error($exception->getMessage());
-
-                    $response = [
-                        'status' => false,
-                        'error' => "Internal server error.",
-                        'error_info' => $exception->getMessage()
-                    ];
-
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
-
-                return response()->json($response, $responseCode);
         }
+        catch (Exception $exception) {
+
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+
+        } finally {
+
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
 
     /**
      * Create a new Area with Poster
@@ -275,9 +295,11 @@ class AreaController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function createArea(Request $request){
+
+    public function createArea(Request $request) {
         
         try {
+
             DB::beginTransaction();
 
             $area = new Area();
@@ -289,48 +311,54 @@ class AreaController extends Controller {
              */
 
             if ($request->has('province_id'))
+
              $request->input('province_id');
+
             else
                 throw new HttpBadRequestException("Please select province.");
 
             if ($request->has('zone_id'))
+
                 $area->zone_id = $request->input('zone_id');
             else
                 throw new HttpBadRequestException("Please select zone.");
 
             if ($request->has('area_name'))
+
                 $area->name = $request->input('area_name');
             else
                 throw new HttpBadRequestException("Area name is required.");
 
             if ($request->has('first_name'))
+
                 $user->first_name = $request->input('first_name');
             else
                 throw new HttpBadRequestException("Fist name is required.");
 
             if ($request->has('last_name'))
+
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
 
             /**
-            * Check WEM already create poster in this area
-            */
+             * Check WEM already create poster in this area
+             */
 
             $checkArea = Area::where('created_by', $request->input('user_id'))
-                        ->where('zone_id',$request->input('zone_id'))
-                        ->where('name',$request->input('area_name'))
-                        ->whereNull('deleted_at')->first();
+                                ->where('zone_id',$request->input('zone_id'))
+                                ->where('name',$request->input('area_name'))
+                                ->whereNull('deleted_at')->first();
 
             if(count($checkArea)) {
 
-            $response = [
-            'status' => false,
-            'error' => "You have already created a Area Pastor for this Area."
-            ];
-            $responseCode = 422;
+                $response = [
+                    'status'    => false,
+                    'error'     => "You have already created a Area Pastor for this area."
+                ];
+                $responseCode = 422;
 
-            return response()->json($response, $responseCode);
+                return response()->json($response, $responseCode);
             }
 
 
@@ -352,64 +380,76 @@ class AreaController extends Controller {
                 return $this->createArea();
             } 
 
-            $user->parish_id = $this->randomUsername;
+            $user->parish_id    = $this->randomUsername;
 
-            $user->password = $this->randomPassword;
+            $user->password     = $this->randomPassword;
 
-            $user->uniqueKey = $this->randomPassword;
+            $user->uniqueKey    = $this->randomPassword;
 
-            $user->user_type = 2;
+            $user->user_type    = 2;
+
+            $user->pastor_type  = 3;
 
             $user->save();
 
-            $insertedId = $user->id;
+            $insertedId         = $user->id;
 
-            $area->user_id = $insertedId;
+            $area->user_id      = $insertedId;
 
-            $area->created_by = $request->input('user_id');
+            $area->created_by   = $request->input('user_id');
 
             $area->save();
 
             $response = [
-            'status' => true,
-            'password' => $this->randomPassword,
-            'message' => "Area Pastor created successfully."
+                'status'            => true,
+                'password'          => $this->randomPassword,
+                'message'           => "Area Pastor created successfully."
             ];
+
             $responseCode = 201;
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
 
-                $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
 
-                Log::error($exception->getMessage());
+            $responseCode = 400;
 
-                $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
-                ];
+        } catch (ClientException $clientException) {
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            DB::rollBack();
 
-                unset($user);
-                unset($area);
-            }
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+
+        } catch (Exception $exception) {
+
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+
+            DB::commit();
+
+            unset($user);
+
+            unset($area);
+        }
+
         return response()->json($response, $responseCode);
     }
     
@@ -419,8 +459,11 @@ class AreaController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateArea(Request $request, $user_id, $created_by, $area_id){
+
+    public function updateArea(Request $request, $user_id, $created_by, $area_id) {
+
         try {
+
             DB::beginTransaction();
 
             $area = Area::find($area_id);
@@ -432,26 +475,31 @@ class AreaController extends Controller {
              */
 
             if ($request->has('province_id'))
+
              $request->input('province_id');
             else
                 throw new HttpBadRequestException("Please select province.");
 
             if ($request->has('zone_id'))
+
                 $area->zone_id = $request->input('zone_id');
             else
                 throw new HttpBadRequestException("Please select zone.");
 
             if ($request->has('area_name'))
+
                 $area->name = $request->input('area_name');
             else
                 throw new HttpBadRequestException("Area name is required.");
 
             if ($request->has('first_name'))
+
                 $user->first_name = $request->input('first_name');
             else
                 throw new HttpBadRequestException("Fist name is required.");
 
             if ($request->has('last_name'))
+
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
@@ -461,66 +509,74 @@ class AreaController extends Controller {
              */
 
             $checkArea = Area::where('created_by',  $created_by)
-                            ->where('name' , $request->input('area_name'))
-                            ->where('id' , '!=' , $area_id)
-                            ->whereNull('deleted_at')->first();
+                                ->where('name' , $request->input('area_name'))
+                                ->where('id' , '!=' , $area_id)
+                                ->whereNull('deleted_at')->first();
 
             if(count($checkArea)) {
 
                 $response = [
-                'status' => false,
-                'error' => "You have already created a Area Pastor for this Area and Province.",
+                    'status'    => false,
+                    'error'     => "You have already created a Area Pastor for this area and province.",
                 ];
                 $responseCode = 422;
 
                 return response()->json($response, $responseCode);
             }
 
-            $user->user_type = 2;
+            $user->user_type    = 2;
+
+            $user->pastor_type  = 3;
 
             $user->save();
 
             $area->save();
 
             $response = [
-            'status' => true,
-            'message' => "Area Pastor updated successfully."
+                'status'    => true,
+                'message'   => "Area Pastor updated successfully."
             ];
             $responseCode = 200;
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
 
-                $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
 
-                $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
-                ];
+        } catch (Exception $exception) {
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            DB::rollBack();
 
-                //unset($user);
-                //unset($area);
-            }
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+
+        } finally {
+
+            DB::commit();
+
+            unset($user);
+
+            unset($area);
+        }
         return response()->json($response, $responseCode);
     }
 
@@ -531,169 +587,194 @@ class AreaController extends Controller {
      * @param $listId
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function deleteArea(Request $request, $user_id, $area_id){
+
         try {
+
             DB::beginTransaction();
 
             $area = Area::findOrFail($area_id)->delete();
 
-           if($area)
-           {
+            if($area) {
+
+                $payment = Payment::where('created_by',$user_id)->delete();
 
                 $response = [
-                'status' => true,
-                'message' => "Area Pastor deleted successfully."
-                ];
-                $responseCode = 200;
-            }
-            else
-            {
+                        'status'    => true,
+                        'message'   => "Area Pastor deleted successfully."
+                    ];
+                    $responseCode = 200;
+
+            }  else {
 
                $response = [
-                'status' => true,
-                'message' => "No area has been found."
+                    'status'    => true,
+                    'message'   => "No area has been found."
                 ];
                 $responseCode = 200;  
             }
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
 
-                $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
 
-                Log::error($exception->getMessage());
+            $responseCode = 400;
 
-                $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
-                ];
+        } catch (ClientException $clientException) {
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            DB::rollBack();
 
-                unset($user);
-                unset($area);
-            }
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+
+            $responseCode = 500;
+
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+
+        } finally {
+
+            DB::commit();
+
+            unset($user);
+
+            unset($area);
+        }
 
         return response()->json($response, $responseCode);
     }
     
     /**
-    * Filter Area using Province id and Zone id
-    *
-    * @param $province_id ,$zone_id
-    * @return \Illuminate\Http\JsonResponse
-    */
+     * Filter Area by province and zone Id
+     *
+     * @param Request $request
+     * @param $listId
+     * @return \Illuminate\Http\JsonResponse
+     */
     
     public function filterArea(Request $request) {
+
         try {
+
             DB::beginTransaction();
            
-           if($request->has('province_id') || $request->has('zone_id')){
+               if($request->has('province_id') || $request->has('zone_id')){
 
-                $province_id =  $request->input('province_id');
-                $zone_id    =   $request->input('zone_id');
+                    $province_id    =  $request->input('province_id');
+                    $zone_id        =   $request->input('zone_id');
 
-                if($request->has('zone_id')){
-                    $areas = Zone::find($zone_id)->areas;
-                }else{
-                   $areas = Provience::find($province_id)->areas;
-                }
-           
-            }else{
+                    if($request->has('zone_id')) {
 
-                if($request->has('user_id')) {
-                   
-                    $areas=Area::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                        $areas  = Zone::find($zone_id)->areas;
+                    } else {
 
+                       $areas   = Provience::find($province_id)->areas;
+                    }
+               
                 } else {
-                    throw new HttpBadRequestException("Please Provide user id.");
-                }
-            }
-            
-            if(count($areas)>0)
-            {
-                $areaArray = [];
-                $noOfAreas = count($areas);
-                foreach ($areas as $key => $area) {
 
-                    $areaArray[$key]['id'] = $area->id;
-                    $areaArray[$key]['area_name'] = $area->name;
-                    $areaArray[$key]['zone_id'] = $area->zone_id;
-                    $areaArray[$key]['zone_name'] = $area->zones->name;
-                    $areaArray[$key]['province_name'] = $area->zones->proviences->name;
-                    $areaArray[$key]['province_id'] = $area->zones->proviences->id;
-                    $areaArray[$key]['pastor_name_zone'] = $area->zones->users->first_name;
-                    $areaArray[$key]['pastor_name_province'] = $area->zones->proviences->users->first_name;
-                    $areaArray[$key]['user_id'] = $area->users->id;
-                    $areaArray[$key]['parish_id'] = $area->users->parish_id;
-                    $areaArray[$key]['password'] = $area->users->uniqueKey;
-                    $areaArray[$key]['first_name'] = $area->users->first_name;
-                    $areaArray[$key]['last_name'] = $area->users->last_name;
+                    if($request->has('user_id')) {
+                       
+                        $areas=Area::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+
+                    } else {
+
+                        throw new HttpBadRequestException("Please Provide user id.");
+                    }
                 }
                 
-                $response = [
-                'status' => true,
-                'message' => $noOfAreas . ($noOfAreas > 1 ? " areas have " : " area has ") . "been found.",
-                'areas' => $areaArray
-                ];
-                $responseCode = 200;
-            }
-            else
-            {
+                if(count($areas)>0)
+                {
+                    $areaArray = [];
+                    $noOfAreas = count($areas);
 
-               $response = [
-                'status' => true,
-                'noData' => "No area has been found.",
-                ];
-                $responseCode = 200;  
-            }
-           
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+                    foreach ($areas as $key => $area) {
 
-                $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
-
-                Log::error($exception->getMessage());
-
-                $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
-                ];
-
-                $responseCode = 500;
-            } finally {
-                    DB::commit();
+                        $areaArray[$key]['id']                      = $area->id;
+                        $areaArray[$key]['area_name']               = $area->name;
+                        $areaArray[$key]['zone_id']                 = $area->zone_id;
+                        $areaArray[$key]['zone_name']               = $area->zones->name;
+                        $areaArray[$key]['province_name']           = $area->zones->proviences->name;
+                        $areaArray[$key]['province_id']             = $area->zones->proviences->id;
+                        $areaArray[$key]['pastor_name_zone']        = $area->zones->users->first_name;
+                        $areaArray[$key]['pastor_name_province']    = $area->zones->proviences->users->first_name;
+                        $areaArray[$key]['user_id']                 = $area->users->id;
+                        $areaArray[$key]['parish_id']               = $area->users->parish_id;
+                        $areaArray[$key]['password']                = $area->users->uniqueKey;
+                        $areaArray[$key]['first_name']              = $area->users->first_name;
+                        $areaArray[$key]['last_name']               = $area->users->last_name;
+                    }
+                    
+                    $response = [
+                        'status'    => true,
+                        'message'   => $noOfAreas . ($noOfAreas > 1 ? " areas have " : " area has ") . "been found.",
+                        'areas'     => $areaArray
+                    ];
+                    $responseCode = 200;
                 }
+                else
+                {
+
+                   $response = [
+                        'status' => true,
+                        'noData' => "No area has been found.",
+                    ];
+                    $responseCode = 200;  
+                }
+           
+        } catch (HttpBadRequestException $httpBadRequestException) {
+
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+
+        } catch (ClientException $clientException) {
+
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+
+        } catch (Exception $exception) {
+
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+
+        } finally {
+                DB::commit();
+        }
 
         return response()->json($response, $responseCode);
     }

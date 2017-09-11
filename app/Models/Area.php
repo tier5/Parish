@@ -22,17 +22,16 @@ class Area extends Model
      */
     protected $fillable = [
 
-        'name', 'zone_id', 'user_id'
+        'name', 'zone_id', 'user_id', 'created_by'
     ];
 
     public $timestamps = true;
 
-   /**
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
-
     protected $dates = ['deleted_at'];
 
     /**
@@ -44,22 +43,28 @@ class Area extends Model
     public function zones() {
 
         return $this->belongsTo('App\Models\Zone','zone_id');
-	}
+    }
 
-	public function users() {
+    public function users() {
 
         return $this->belongsTo('App\Models\User','user_id');
-	}
+
+    }
 
     public function parishes() {
+
         return $this->hasMany('App\Models\Parish');
+
     }
 
     public function parishDel() {
+
         return $this->hasMany('App\Models\Parish','area_id');
+
     }
 
     protected static function boot() {
+
         parent::boot();
 
         static::deleting(function($area) {
@@ -70,6 +75,7 @@ class Area extends Model
                     $item->delete();
                 }
             }
+            
             $area->users()->delete();
             
         });

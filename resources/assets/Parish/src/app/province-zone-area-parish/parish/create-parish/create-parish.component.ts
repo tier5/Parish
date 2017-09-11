@@ -10,48 +10,53 @@ import { AuthService } from '../../../auth/auth.service';
 import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.service';
 
 @Component({
-	selector: 'app-create-parish',
-	templateUrl: './create-parish.component.html',
-	styleUrls: [ './create-parish.component.css' ]
+	selector    : 'app-create-parish',
+	templateUrl : './create-parish.component.html',
+	styleUrls   : [ './create-parish.component.css' ]
 })
 export class CreateParishComponent {
 	
-	editMode: boolean = false;
+	zoneId      : number;
+	parishId    : number = 0;
+	provinceId  : number;
+	editMode    : boolean = false;
+	
 	parishData = {
-		id: 0,
-		user_id: 0,
-		parish_id: 0,
-		first_name: '',
-		last_name: '',
-		password: '',
-		province_id: 0,
-		province_name: '',
-		zone_id: 0,
-		zone_name: '',
-		area_id: 0,
-		area_name: '',
-		parish_name: ''
+		id              : 0,
+		user_id         : 0,
+		parish_id       : 0,
+		first_name      : '',
+		last_name       : '',
+		password        : '',
+		zone_id         : 0,
+		area_id         : 0,
+		province_id     : 0,
+		zone_name       : '',
+		area_name       : '',
+		parish_name     : '',
+		province_name   : ''
+		
 	};
-	parishId:number = 0;
-	provinceId: number;
-	zoneId: number;
+	
 	default = {
-		province: 0,
-		zone: 0,
-		area: 0
+		province    : 0,
+		zone        : 0,
+		area        : 0
 	};
-	provinceList: { id: number, province_name: string }[] = [];
+	
+	provinceList    : { id: number, province_name: string }[] = [];
+	zoneList        : { id: number, zone_name: string }[] = [];
+	areaList        : { id: number, area_name: string }[] = [];
+	zoneSelected    : boolean;
 	provinceSelected: boolean;
-	zoneList: { id: number, zone_name: string }[] = [];
-	zoneSelected: boolean;
-	areaList: { id: number, area_name: string }[] = [];
-	areaSelected: boolean;
-	responseReceived: boolean = false;
-	responseMsg: string = '';
-	title: string = 'Parish - Create';
-	heading: string = 'Create New';
-	responseStatus: boolean = false;
-	showLoader: boolean = false;
+	areaSelected    : boolean;
+	responseReceived: boolean   = false;
+	responseMsg     : string    = '';
+	heading         : string    = 'Create New';
+	title           : string    = 'Parish - Create';
+	showLoader      : boolean   = false;
+	responseStatus  : boolean   = false;
+	
 	
 	/** Injecting services to be used in this component */
 	constructor( private pzapService: ProvinceZoneAreaParishService,
@@ -65,11 +70,11 @@ export class CreateParishComponent {
 		this.pzapService.listProvince()
 		.subscribe(
 			(response: Response) => {
+				this.responseStatus = response.json().status;
+				
 				if( response.json().status ) {
-					this.responseStatus = true;
 					this.provinceList = response.json().provinces;
 				} else {
-					this.responseStatus = false;
 					this.provinceList = [];
 					this.responseMsg = response.json().message;
 				}
@@ -81,11 +86,12 @@ export class CreateParishComponent {
 
 						/** Perform operation is present mode is edit mode */
 						if( this.editMode ) {
-							this.provinceSelected = true;
-							this.zoneSelected = true;
-							this.areaSelected = true;
-							this.title = 'Parish - Update';
-							this.heading = 'Update';
+							this.provinceSelected   = true;
+							this.zoneSelected       = true;
+							this.areaSelected       = true;
+							this.heading            = 'Update';
+							this.title              = 'Parish - Update';
+							
 							/** Checking route params to get id of area to edit */
 							this.activatedRoute.params.subscribe(
 								(params: Params) => {
@@ -115,9 +121,9 @@ export class CreateParishComponent {
 								() => { }
 							);
 						} else {
-							this.provinceSelected = false;
-							this.zoneSelected = false;
-							this.areaSelected = false;
+							this.provinceSelected   = false;
+							this.zoneSelected       = false;
+							this.areaSelected       = false;
 						}
 					}
 				);
@@ -143,23 +149,23 @@ export class CreateParishComponent {
 				this.pzapService.filterZone( { province_id: id } )
 				.subscribe(
 					( response: Response ) => {
+							this.responseStatus = response.json().status;
+						
 						if ( response.json().status ) {
-							this.responseStatus = true;
-							this.zoneList = response.json().zones;
-							this.areaList = [];
+							this.zoneList       = response.json().zones;
+							this.areaList       = [];
 						} else {
-							this.responseStatus = false;
-							this.zoneList = [];
-							this.areaList = [];
-							this.responseMsg = response.json().message;
+							this.zoneList       = [];
+							this.areaList       = [];
+							this.responseMsg    = response.json().message;
 						}
 					},
 					( error: Response ) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.zoneList = [];
-						this.areaList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.zoneList           = [];
+						this.areaList           = [];
+						this.responseMsg        = error.json().error;
 					}
 				);
 			} else {
@@ -182,20 +188,20 @@ export class CreateParishComponent {
 				this.pzapService.filterArea( { zone_id: id } )
 				.subscribe(
 					( response: Response ) => {
+						this.responseStatus = response.json().status;
+						
 						if ( response.json().status ) {
-							this.responseStatus = true;
 							this.areaList = response.json().areas;
 						} else {
-							this.responseStatus = false;
-							this.areaList = [];
-							this.responseMsg = response.json().message;
+							this.areaList       = [];
+							this.responseMsg    = response.json().message;
 						}
 					},
 					( error: Response ) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.zoneList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.zoneList           = [];
+						this.responseMsg        = error.json().error;
 					}
 				);
 			} else {
@@ -225,13 +231,12 @@ export class CreateParishComponent {
 			.subscribe(
 				( response: Response ) => {
 					this.showLoader = false;
+					this.responseStatus = response.json().status;
+					
 					if ( response.json().status ) {
-						this.responseStatus = true;
 						this.responseMsg = response.json().message;
 					} else {
-						this.responseStatus = false;
-						console.log( response );
-						console.log( response.status );
+						this.responseMsg = '';
 					}
 				},
 				( error: Response ) => {
@@ -239,10 +244,10 @@ export class CreateParishComponent {
 						this.authService.removeToken();
 					}
 					console.log( error );
-					this.showLoader = false;
-					this.responseStatus = false;
-					this.responseReceived = true;
-					this.responseMsg = error.json().error;
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
 					setTimeout( () => {
 						this.responseReceived = false;
 					}, 3000 )
@@ -272,21 +277,22 @@ export class CreateParishComponent {
 						this.authService.removeToken();
 						this.router.navigate( [ '/login' ] );
 					}
-					this.showLoader = false;
-					this.responseStatus = false;
-					this.responseReceived = true;
-					this.responseMsg = error.json().error;
+					
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
 					setTimeout( () => {
 						this.responseReceived = false;
 					}, 3000 );
 				},
 				() => {
-					this.responseReceived = true;
+					this.responseReceived       = true;
 					createParishForm.reset();
-					this.provinceSelected = false;
-					this.zoneSelected = false;
+					this.provinceSelected       = false;
+					this.zoneSelected           = false;
 					setTimeout( () => {
-						this.responseReceived = false;
+						this.responseReceived   = false;
 					}, 3000 );
 				}
 			);
@@ -301,32 +307,32 @@ export class CreateParishComponent {
 			this.pzapService.parishToEdit( this.parishId )
 			.subscribe(
 				(response: Response) => {
-					this.provinceSelected = true;
-					this.parishData = response.json().parish;
+					this.provinceSelected   = true;
+					this.parishData         = response.json().parish;
 					this.onSelectProvince( this.parishData.province_id );
 					this.onSelectZone( this.parishData.zone_id );
-					this.zoneSelected = true;
+					this.zoneSelected       = true;
 					this.onSelectArea( this.parishData.area_id );
-					this.areaSelected = true;
+					this.areaSelected       = true;
 					createParishForm.form.patchValue({
-						first_name: this.parishData.first_name,
-						last_name: this.parishData.last_name,
-						province_id: this.parishData.province_id,
-						zone_id: this.parishData.zone_id,
-						area_id: this.parishData.area_id,
-						parish_name: this.parishData.parish_name
+						first_name  : this.parishData.first_name,
+						last_name   : this.parishData.last_name,
+						province_id : this.parishData.province_id,
+						zone_id     : this.parishData.zone_id,
+						area_id     : this.parishData.area_id,
+						parish_name : this.parishData.parish_name
 					} );
 				}
 			);
 		} else {
 			createParishForm.reset();
-			this.provinceSelected = false;
-			this.zoneSelected = false;
-			this.areaSelected = false;
+			this.provinceSelected   = false;
+			this.zoneSelected       = false;
+			this.areaSelected       = false;
 			createParishForm.form.patchValue( {
-				province_id: 0,
-				zone_id: 0,
-				area_is:0
+				province_id : 0,
+				zone_id     : 0,
+				area_is     : 0
 			} );
 		}
 	}
