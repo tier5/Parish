@@ -10,6 +10,7 @@ use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\Provience;
+use App\Models\Payment;
 use App\Models\User;
 use App\Helpers;
 use Crypt;
@@ -64,19 +65,19 @@ class ProvienceController extends Controller {
                 $provinceArray = [];
                 foreach ($provinces as $key => $province) {
 
-                    $provinceArray[$key]['id'] = $province->id;
-                    $provinceArray[$key]['province_name'] = $province->name;
-                    $provinceArray[$key]['user_id'] = $province->users->id;
-                    $provinceArray[$key]['parish_id'] = $province->users->parish_id;
-                    $provinceArray[$key]['password'] = $province->users->uniqueKey;
-                    $provinceArray[$key]['first_name'] = $province->users->first_name;
-                    $provinceArray[$key]['last_name'] = $province->users->last_name;
+                    $provinceArray[$key]['id']              = $province->id;
+                    $provinceArray[$key]['province_name']   = $province->name;
+                    $provinceArray[$key]['user_id']         = $province->users->id;
+                    $provinceArray[$key]['parish_id']       = $province->users->parish_id;
+                    $provinceArray[$key]['password']        = $province->users->uniqueKey;
+                    $provinceArray[$key]['first_name']      = $province->users->first_name;
+                    $provinceArray[$key]['last_name']       = $province->users->last_name;
                 }
 
                     $response = [
-                        'status' => true,
-                        'message' => $noOfProvinces . ($noOfProvinces > 1 ? " provinces have " : " province has ") . "been found.",
-                        'provinces' => $provinceArray
+                        'status'        => true,
+                        'message'       => $noOfProvinces . ($noOfProvinces > 1 ? " provinces have " : " province has ") . "been found.",
+                        'provinces'     => $provinceArray
                     ];
                     $responseCode = 200;
 
@@ -95,9 +96,9 @@ class ProvienceController extends Controller {
                     Log::error($exception->getMessage());
 
                     $response = [
-                        'status' => false,
-                        'error' => "Internal server error.",
-                        'error_info' => $exception->getMessage()
+                        'status'        => false,
+                        'error'         => "Internal server error.",
+                        'error_info'    => $exception->getMessage()
                     ];
 
                     $responseCode = 500;
@@ -105,7 +106,7 @@ class ProvienceController extends Controller {
                     DB::commit();
                 }
 
-                return response()->json($response, $responseCode);
+            return response()->json($response, $responseCode);
         }
 
     /**
@@ -127,16 +128,19 @@ class ProvienceController extends Controller {
              * Validate mandatory fields
              */
             if ($request->has('province_name'))
+
                 $provience->name = $request->input('province_name');
             else
                 throw new HttpBadRequestException("Province name is required.");
 
             if ($request->has('first_name'))
+
                 $user->first_name = $request->input('first_name');
             else
                 throw new HttpBadRequestException("First name is required.");
 
             if ($request->has('last_name'))
+
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
@@ -152,8 +156,8 @@ class ProvienceController extends Controller {
             if(count($checkProvince)) {
 
                 $response = [
-                'status' => false,
-                'error' => "You have already created a Provincial Pastor for this Province.",
+                    'status'    => false,
+                    'error'     => "You have already created a Provincial Pastor for this Province.",
                 ];
                 $responseCode = 422;
 
@@ -177,44 +181,46 @@ class ProvienceController extends Controller {
 
             } 
 
-            $user->parish_id = $this->randomUsername;
+            $user->parish_id        = $this->randomUsername;
 
-            $user->password = $this->randomPassword;
+            $user->password         = $this->randomPassword;
 
-            $user->uniqueKey = $this->randomPassword;
+            $user->uniqueKey        = $this->randomPassword;
 
-            $user->user_type = 2;
+            $user->user_type        = 2;
+
+            $user->pastor_type      = 1;
 
             $user->save();
 
-            $insertedId = $user->id;
+            $insertedId             = $user->id;
 
-            $provience->user_id = $insertedId;
+            $provience->user_id     = $insertedId;
 
-            $provience->created_by = $request->input('user_id');
+            $provience->created_by  = $request->input('user_id');
 
             $provience->save();
 
             $response = [
-            'status' => true,
-            'password' => $this->randomPassword,
-            'message' => "Provincial Pastor created successfully."
+                'status' => true,
+                'password' => $this->randomPassword,
+                'message' => "Provincial Pastor created successfully."
             ];
             $responseCode = 201;
            
 	        } catch (HttpBadRequestException $httpBadRequestException) {
 	            $response = [
-	                'status' => false,
-	                'error' => $httpBadRequestException->getMessage()
+	                'status'   => false,
+	                'error'    => $httpBadRequestException->getMessage()
 	            ];
 	            $responseCode = 400;
 	        } catch (ClientException $clientException) {
 	            DB::rollBack();
 
 	            $response = [
-	                'status' => false,
-	                'error' => "Internal server error.",
-	                'error_info' => $clientException->getMessage()
+	                'status'       => false,
+	                'error'        => "Internal server error.",
+	                'error_info'   => $clientException->getMessage()
 	            ];
 	            $responseCode = 500;
 	        } catch (Exception $exception) {
@@ -223,9 +229,9 @@ class ProvienceController extends Controller {
 	            Log::error($exception->getMessage());
 
 	            $response = [
-	                'status' => false,
-	                'error' => "Internal server error.",
-	                'error_info' => $exception->getMessage()
+	                'status'       => false,
+	                'error'        => "Internal server error.",
+	                'error_info'   => $exception->getMessage()
 	            ];
 
 	            $responseCode = 500;
@@ -257,23 +263,23 @@ class ProvienceController extends Controller {
 
                 $provinceArray = [];
 
-                    $provinceArray['id'] = $province->id;
+                    $provinceArray['id']            = $province->id;
                     $provinceArray['province_name'] = $province->name;
-                    $provinceArray['user_id'] = $province->users->id;
-                    $provinceArray['first_name'] = $province->users->first_name;
-                    $provinceArray['last_name'] = $province->users->last_name;
+                    $provinceArray['user_id']       = $province->users->id;
+                    $provinceArray['first_name']    = $province->users->first_name;
+                    $provinceArray['last_name']     = $province->users->last_name;
 
                     $response = [
-                        'status' => true,
-                        'message' => $noOfProvince . ($noOfProvince > 1 ? " provinces have " : " province has ") . "been found.",
-                        'provinces' => $provinceArray
+                        'status'        => true,
+                        'message'       => $noOfProvince . ($noOfProvince > 1 ? " provinces have " : " province has ") . "been found.",
+                        'provinces'     => $provinceArray
                     ];
                     $responseCode = 200;
 
                 } else {
                     $response = [
-                        'status' => false,
-                        'error' => "No province detail has been found."
+                        'status'    => false,
+                        'error'     => "No province detail has been found."
                     ];
                     $responseCode = 200;
                 }
@@ -285,9 +291,9 @@ class ProvienceController extends Controller {
                     Log::error($exception->getMessage());
 
                     $response = [
-                        'status' => false,
-                        'error' => "Internal server error.",
-                        'error_info' => $exception->getMessage()
+                        'status'        => false,
+                        'error'         => "Internal server error.",
+                        'error_info'    => $exception->getMessage()
                     ];
 
                     $responseCode = 500;
@@ -295,7 +301,7 @@ class ProvienceController extends Controller {
                     DB::commit();
                 }
 
-                return response()->json($response, $responseCode);
+            return response()->json($response, $responseCode);
         }
 
 
@@ -318,45 +324,50 @@ class ProvienceController extends Controller {
              * Validate mandatory fields
              */
             if ($request->has('province_name'))
+
                 $provience->name = $request->input('province_name');
             else
                 throw new HttpBadRequestException("Province name is required.");
 
             if ($request->has('first_name'))
+
                 $user->first_name = $request->input('first_name');
             else
                 throw new HttpBadRequestException("Fist name is required.");
 
             if ($request->has('last_name'))
+
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
 
-            $user->user_type = 2;
+            $user->user_type    = 2;
+
+            $user->pastor_type  = 1;
 
             $user->save();
 
             $provience->save();
 
             $response = [
-            'status' => true,
-            'message' => "Province updated successfully."
+                'status'    => true,
+                'message'   => "Province updated successfully."
             ];
             $responseCode = 200;
            
             } catch (HttpBadRequestException $httpBadRequestException) {
                 $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
                 ];
                 $responseCode = 400;
             } catch (ClientException $clientException) {
                 DB::rollBack();
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $clientException->getMessage()
                 ];
                 $responseCode = 500;
             } catch (Exception $exception) {
@@ -365,9 +376,9 @@ class ProvienceController extends Controller {
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
@@ -399,50 +410,58 @@ class ProvienceController extends Controller {
 
            if($province)
            {
+                $payment = Payment::where('created_by',$user_id)->delete();
 
                 $response = [
-                'status' => true,
-                'message' => "Province Pastor deleted successfully."
+                    'status'    => true,
+                    'message'   => "Province Pastor deleted successfully."
                 ];
+
                 $responseCode = 200;
             }
             else
             {
-
-               $response = [
-                'status' => true,
-                'error' => "No province has been found."
+                $response = [
+                    'status'    => true,
+                    'error'     => "No province has been found."
                 ];
+
                 $responseCode = 200;  
             }
            
             } catch (HttpBadRequestException $httpBadRequestException) {
+
                 $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
                 ];
+
                 $responseCode = 400;
+
             } catch (ClientException $clientException) {
                 DB::rollBack();
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $clientException->getMessage()
                 ];
+
                 $responseCode = 500;
+
             } catch (Exception $exception) {
                 DB::rollBack();
 
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
+
             } finally {
                 DB::commit();
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
 * Helper file with static method generateNumber to generate random number
 * @param Request $request

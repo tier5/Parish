@@ -1,11 +1,14 @@
 <?php
+/**
+* UserController controller to manage sign in , sign up, reset password and disable user
+* @param Request $request
+*/
+
 namespace App\Http\Controllers\Api\V1;
 
 use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use App\Http\Controllers\Controller;
-use App\Models\Account;
-use App\Models\Admin;
 use App\Models\User;
 use App\Helpers;
 use Crypt;
@@ -49,23 +52,23 @@ class UserController extends Controller {
 
                 $userArray = [];
 
-                    $userArray['id'] = $user->id;
-                    $userArray['parish_id'] = $user->parish_id;
-                    $userArray['first_name'] = $user->first_name;
-                    $userArray['last_name'] = $user->last_name;
-                    $userArray['uniqueKey'] = $user->uniqueKey;
+                    $userArray['id']            = $user->id;
+                    $userArray['parish_id']     = $user->parish_id;
+                    $userArray['first_name']    = $user->first_name;
+                    $userArray['last_name']     = $user->last_name;
+                    $userArray['uniqueKey']     = $user->uniqueKey;
 
                     $response = [
-                        'status' => true,
-                        'message' => 'get user detail',
-                        'userDetail' => $userArray
+                        'status'        => true,
+                        'message'       => 'get user detail',
+                        'userDetail'    => $userArray
                     ];
                     $responseCode = 200;
 
                 } else {
                     $response = [
-                        'status' => false,
-                        'error' => "No user has been found."
+                        'status'    => false,
+                        'error'     => "No user has been found."
                     ];
                     $responseCode = 200;
                 }
@@ -77,9 +80,9 @@ class UserController extends Controller {
                     Log::error($exception->getMessage());
 
                     $response = [
-                        'status' => false,
-                        'error' => "Internal server error.",
-                        'error_info' => $exception->getMessage()
+                        'status'        => false,
+                        'error'         => "Internal server error.",
+                        'error_info'    => $exception->getMessage()
                     ];
 
                     $responseCode = 500;
@@ -87,7 +90,7 @@ class UserController extends Controller {
                     DB::commit();
                 }
 
-                return response()->json($response, $responseCode);
+            return response()->json($response, $responseCode);
      }
 
     /**
@@ -96,6 +99,7 @@ class UserController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function updateUserDetail(Request $request, $userId)
     {
         try {
@@ -108,36 +112,38 @@ class UserController extends Controller {
              */
 
             if ($request->has('first_name'))
+
                 $user->first_name = $request->input('first_name');
             else
                 throw new HttpBadRequestException("Fist name is required.");
 
             if ($request->has('last_name'))
+
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
 
-            $user->save();
+                $user->save();
 
-            $response = [
-            'status' => true,
-            'message' => "User updated successfully."
-            ];
-            $responseCode = 200;
+                $response = [
+                    'status'    => true,
+                    'message'   => "User updated successfully."
+                ];
+                $responseCode = 200;
            
             } catch (HttpBadRequestException $httpBadRequestException) {
                 $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
                 ];
                 $responseCode = 400;
             } catch (ClientException $clientException) {
                 DB::rollBack();
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $clientException->getMessage()
                 ];
                 $responseCode = 500;
             } catch (Exception $exception) {
@@ -146,9 +152,9 @@ class UserController extends Controller {
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
@@ -159,7 +165,6 @@ class UserController extends Controller {
             }
 
         return response()->json($response, $responseCode);
-
     }
     /**
      * Reset Password poster Detail
@@ -167,24 +172,25 @@ class UserController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function resetPassword(Request $request, $userId){
 
         try {
             
                 DB::beginTransaction();
 
-                 $user=User::findOrFail($userId);
+                $user=User::findOrFail($userId);
 
-                $this->randomPassword = Helpers::generateNumber();
+                $this->randomPassword   = Helpers::generateNumber();
 
-                $user->password     =  $this->randomPassword;
-                $user->uniqueKey    =  $this->randomPassword;
+                $user->password         =  $this->randomPassword;
+                $user->uniqueKey        =  $this->randomPassword;
                 $user->save();
 
                 $response = [
-                            'status' => true,
-                            'password' => $this->randomPassword,
-                            'message' => "Password reset successfully."
+                    'status'    => true,
+                    'password'  => $this->randomPassword,
+                    'message'   => "Password reset successfully."
                             ];
                 $responseCode = 200;
             }
@@ -194,9 +200,9 @@ class UserController extends Controller {
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
@@ -204,7 +210,7 @@ class UserController extends Controller {
                 DB::commit();
             }
 
-            return response()->json($response, $responseCode);
+        return response()->json($response, $responseCode);
 	}
 
 

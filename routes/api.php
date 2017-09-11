@@ -46,6 +46,10 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::group(['middleware' => ['jwt.auth']], function () {
 
+    /*
+     * Province Group Operation
+     */
+
         Route::group(['prefix' => 'province'], function () {
 
             Route::post('/create', [
@@ -76,9 +80,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.deleteProvience.delete'
             ]);
 
-
         });
 
+    /*
+     * Zone Group Operation
+     */
         Route::group(['prefix' => 'zone'], function () {
 
             Route::post('/create', [
@@ -122,6 +128,9 @@ Route::group(['prefix' => 'v1'], function() {
 
         });
 
+    /*
+     * Province Area Operation
+     */
         Route::group(['prefix' => 'area'], function () {
 
             Route::post('/create', [
@@ -163,7 +172,10 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.filterArea.post'
             ]);
         });
-        
+
+    /*
+     * Parish Group Operation
+     */        
         Route::group(['prefix' => 'parish'], function () {
 
             Route::post('/create', [
@@ -201,7 +213,9 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.getParishDetail.get'
             ]);
         });
-    
+    /*
+     * User Group Operation
+     */    
         Route::group(['prefix' => 'user'], function () {
 
             Route::get('/password-reset/{user_id}', [
@@ -222,6 +236,33 @@ Route::group(['prefix' => 'v1'], function() {
             Route::patch('/edit/{user_id}', [
                 'uses' => 'Api\V1\UserController@updateUserDetail',
                 'as' => 'api.v1.updateUserDetail.patch'
+            ]);
+
+        });
+
+    /*
+     * Payment Group Operation
+     */
+        Route::group(['prefix' => 'payment'], function () {
+
+            Route::post('/upload-payment', [
+                'uses' => 'Api\V1\PaymentController@createPayment',
+                'as' => 'api.v1.createPayment.post'
+            ]);
+            
+            Route::get('/{user_id}/{user_type}', [
+                'uses' => 'Api\V1\PaymentController@getPastorPaymentList',
+                'as' => 'api.v1.getPastorPaymentList.get'
+            ]);
+
+            Route::put('/update-payment-status/{payment_id}', [
+                'uses' => 'Api\V1\PaymentController@updatePaymentStatus',
+                'as' => 'api.v1.updatePaymentStatus.put'
+            ]);
+
+            Route::patch('/update-payment-status/{payment_id}', [
+                'uses' => 'Api\V1\PaymentController@updatePaymentStatus',
+                'as' => 'api.v1.updatePaymentStatus.patch'
             ]);
 
         });
