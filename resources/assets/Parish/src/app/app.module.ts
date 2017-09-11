@@ -34,7 +34,7 @@ import { ProfileService } from "./profile-details/profile.service";
 		AuthGuard,
 		NotAuthGuard,
 		ProvinceZoneAreaParishService,
-		ProfileService
+		ProfileService,
 	],
 	bootstrap: [ AppComponent ]
 } )

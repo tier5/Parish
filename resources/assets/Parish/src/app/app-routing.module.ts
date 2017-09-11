@@ -23,7 +23,9 @@ const appRoutes: Routes = [
 		{ path: 'zone', loadChildren: './province-zone-area-parish/zone/zone.module#ZoneModule' },
 		{ path: 'area', loadChildren: './province-zone-area-parish/area/area.module#AreaModule' },
 		{ path: 'parish', loadChildren: './province-zone-area-parish/parish/parish.module#ParishModule' },
-		{ path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' }
+		{ path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' },
+		{ path: 'payment', loadChildren: './payment-details/payment.module#PaymentModule'}
+		
 		
 	] }
 ];
