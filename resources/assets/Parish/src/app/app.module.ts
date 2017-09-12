@@ -14,6 +14,7 @@ import { NotAuthGuard } from './auth/not-auth.guard';
 import { ProvinceZoneAreaParishService } from './province-zone-area-parish/province-zone-area-parish.service';
 import { SharedModule } from './shared/shared.module';
 import { ProfileService } from "./profile-details/profile.service";
+import { PaymentService } from "./payment-details/payment.service"
 
 
 @NgModule( {
@@ -36,6 +37,7 @@ import { ProfileService } from "./profile-details/profile.service";
 		NotAuthGuard,
 		ProvinceZoneAreaParishService,
 		ProfileService,
+		PaymentService
 	],
 	bootstrap: [ AppComponent ]
 } )

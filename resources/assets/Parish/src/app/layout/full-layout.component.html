@@ -127,7 +127,7 @@
                 <i class="fa fa-fw fa-chevron-circle-down"></i> Payment
             </a>
             <ul class="children collapse" id="payment-section">
-                <li>
+                <li *ngIf="paymentOption">
                     <a routerLinkActive="active" [routerLink]="['/payment/upload']">
                         <i class="fa fa-fw fa-plus-square"></i> Upload
                     </a>

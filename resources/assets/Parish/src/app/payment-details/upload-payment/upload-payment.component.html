@@ -26,25 +26,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="pdate">Choose Year & Month</label>
-                                <!--<input
-                                        id="pdate"
-                                        class="form-control"
-                                        name="payment_date"
-                                        required
-                                        [ngModel]="paymentDate.payment_date"
-                                        #paymentDate="ngModel">-->
-                              <!--  <input id="pdate"
-                                       class="form-control"
-                                       datepicker-popup="MM/yyyy"
-                                       ng-model="dt"
-                                       is-open="opened"
-                                       datepicker-options="{minMode: 'month'}"
-                                       datepicker-mode="'month'"/>-->
-
-                                <dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date"></dp-month-calendar>
-
-
+                                <label >Choose Year & Month</label>
+                                <dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date" datestyle="yyyy/MM"></dp-month-calendar>
                             </div>
                         </div>
 
@@ -54,6 +37,16 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pdescription">Payment Description</label>
+                                <textarea class="form-control" rows="3" id="pdescription" [(ngModel)]="paymentDate.payment_description"  name="payment_description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -92,11 +85,7 @@
                                 Submit
                             </button>
 
-                           <!-- <button type="button" class="btn btn-success btn-xs"
-                                    (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                                <span class="glyphicon glyphicon-upload"></span> Upload
-                            </button>-->
-                            <button
+                           <button
                                     type="button"
                                     class="btn btn-default"
                                     [disabled]="showLoader"

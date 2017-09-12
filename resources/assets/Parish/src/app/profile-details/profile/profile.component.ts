@@ -37,7 +37,7 @@ export class ProfileComponent{
 	constructor( private profileService: ProfileService,
 	             private activatedRoute: ActivatedRoute,
 	             private authService: AuthService,
-	             private router: Router,
+	             private router: Router
 	) { }
 	
 	ngOnInit() {

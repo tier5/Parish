@@ -1,6 +1,6 @@
-/** Service created for show and update profile */
+/** Service created for upload payment */
 
-import { Headers, Http } from '@angular/http';
+import {Headers, Http, RequestOptions} from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -30,5 +30,11 @@ export class PaymentService {
 		this.headers.set('Authorization', 'Bearer ' + this.authService.getToken().token);
 	}
 	
+	/** Function to create a new province */
+	paymentCreate( body: any): Observable<any> {
+		const headers = this.headers;
+		headers.delete('Content-Type');
+		return this.http.post( environment.API_URL + 'payment/upload-payment', body, { headers: this.headers } );
+	}
 	
 }
