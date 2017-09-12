@@ -23,7 +23,8 @@ import { ProfileService } from "./profile-details/profile.service";
 		CommonModule,
 		HttpModule,
 		Ng2AutoBreadCrumb,
-		SharedModule
+		SharedModule,
+		
 	],
 	declarations: [
 		FullLayoutComponent,

@@ -34,15 +34,20 @@
                                         required
                                         [ngModel]="paymentDate.payment_date"
                                         #paymentDate="ngModel">-->
-                                <input id="pdate"
+                              <!--  <input id="pdate"
                                        class="form-control"
                                        datepicker-popup="MM/yyyy"
                                        ng-model="dt"
                                        is-open="opened"
                                        datepicker-options="{minMode: 'month'}"
-                                       datepicker-mode="'month'"/>
+                                       datepicker-mode="'month'"/>-->
+
+                                <dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date"></dp-month-calendar>
+
+
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="alert alert-danger" *ngIf="paymentDate.invalid && paymentDate.touched">
                                 Payment Date is Required!

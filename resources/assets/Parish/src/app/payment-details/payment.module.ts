@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { UploadPaymentComponent } from './upload-payment/upload-payment.component';
 import { PaymentRoutingModule } from "./payment-routing.module";
 import { FileSelectDirective, FileUploadModule } from "ng2-file-upload";
+import {DpDatePickerModule} from 'ng2-date-picker';
 
 @NgModule({
 	declarations: [
@@ -14,10 +15,12 @@ import { FileSelectDirective, FileUploadModule } from "ng2-file-upload";
 		CommonModule,
 		FormsModule,
 		PaymentRoutingModule,
-		FileUploadModule
-		
+		FileUploadModule,
+		DpDatePickerModule
 	],
 	providers: [],
 	exports: [],
 })
-export class PaymentModule { }
+export class PaymentModule {
+
+}
