@@ -27,7 +27,7 @@ class Parish extends Model
 
     public $timestamps = true;
 
-   /**
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -50,13 +50,13 @@ class Parish extends Model
 
         return $this->belongsTo('App\Models\User','user_id');
 	}
-
-  
-
+    
     protected static function boot() {
+
         parent::boot();
 
         static::deleting(function($parish) {
+
             $parish->users()->delete();
         });
     }

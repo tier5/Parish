@@ -59,7 +59,7 @@ class ParishController extends Controller {
         try {
             DB::beginTransaction();
 
-            $parishes=Parish::where('created_by',$user_id)->whereNull('deleted_at')->get();
+            $parishes   =Parish::where('created_by',$user_id)->whereNull('deleted_at')->get();
 
             $noOfParish =count($parishes);
 
@@ -69,25 +69,24 @@ class ParishController extends Controller {
 
                 foreach ($parishes as $key => $parish) {
 
-                    $parishArray[$key]['id'] = $parish->id;
-                    $parishArray[$key]['user_id'] = $parish->users->id;
-                    $parishArray[$key]['parish_id'] = $parish->users->parish_id;
-                    $parishArray[$key]['parish_name'] = $parish->name;
-                    $parishArray[$key]['province_name'] = $parish->areas->zones->proviences->name;
-                    $parishArray[$key]['zone_name'] = $parish->areas->zones->name;
-                    $parishArray[$key]['area_name'] = $parish->areas->name;
-                    $parishArray[$key]['pastor_name_area'] = $parish->areas->users->first_name;
-                    $parishArray[$key]['pastor_name_zone'] = $parish->areas->zones->users->first_name;
-                    $parishArray[$key]['pastor_name_province'] = $parish->areas->zones->proviences->users->first_name;
-                    $parishArray[$key]['password'] = $parish->users->uniqueKey;
-                    $parishArray[$key]['first_name'] = $parish->users->first_name;
-                    $parishArray[$key]['last_name'] = $parish->users->last_name;
+                    $parishArray[$key]['id']                    = $parish->id;
+                    $parishArray[$key]['user_id']               = $parish->users->id;
+                    $parishArray[$key]['parish_id']             = $parish->users->parish_id;
+                    $parishArray[$key]['parish_name']           = $parish->name;
+                    $parishArray[$key]['province_name']         = $parish->areas->zones->proviences->name;
+                    $parishArray[$key]['zone_name']             = $parish->areas->zones->name;
+                    $parishArray[$key]['area_name']             = $parish->areas->name;
+                    $parishArray[$key]['pastor_name_area']      = $parish->areas->users->first_name;
+                    $parishArray[$key]['pastor_name_zone']      = $parish->areas->zones->users->first_name;
+                    $parishArray[$key]['pastor_name_province']  = $parish->areas->zones->proviences->users->first_name;
+                    $parishArray[$key]['password']              = $parish->users->uniqueKey;
+                    $parishArray[$key]['first_name']            = $parish->users->first_name;
+                    $parishArray[$key]['last_name']             = $parish->users->last_name;
                 }
-                dd($parishArray);
                     $response = [
-                        'status' => true,
-                        'message' => $noOfParish . ($noOfParish > 1 ? " parish have " : " parish has ") . "been found.",
-                        'parish' => $parishArray
+                        'status'    => true,
+                        'message'   => $noOfParish . ($noOfParish > 1 ? " parish have " : " parish has ") . "been found.",
+                        'parish'    => $parishArray
                     ];
                     $responseCode = 200;
 
@@ -106,9 +105,9 @@ class ParishController extends Controller {
                     Log::error($exception->getMessage());
 
                     $response = [
-                        'status' => false,
-                        'error' => "Internal server error.",
-                        'error_info' => $exception->getMessage()
+                        'status'        => false,
+                        'error'         => "Internal server error.",
+                        'error_info'    => $exception->getMessage()
                     ];
 
                     $responseCode = 500;
@@ -125,6 +124,7 @@ class ParishController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function createParish(Request $request)
     {
         try {
@@ -132,27 +132,31 @@ class ParishController extends Controller {
 
             $parish = new Parish();
 
-            $user = new User();
+            $user   = new User();
 
             /*
              * Validate mandatory fields
              */
             if ($request->has('area_id'))
+
                 $parish->area_id = $request->input('area_id');
             else
                 throw new HttpBadRequestException("Area selection is required.");
 
             if ($request->has('parish_name'))
+
                 $parish->name = $request->input('parish_name');
             else
                 throw new HttpBadRequestException("Parish name is required.");
 
             if ($request->has('first_name'))
+
                 $user->first_name = $request->input('first_name');
             else
                 throw new HttpBadRequestException("First name is required.");
 
             if ($request->has('last_name'))
+
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
@@ -174,44 +178,44 @@ class ParishController extends Controller {
 
             } 
 
-            $user->parish_id = $this->randomUsername;
+            $user->parish_id    = $this->randomUsername;
 
-            $user->password = $this->randomPassword;
+            $user->password     = $this->randomPassword;
 
-            $user->uniqueKey = $this->randomPassword;
+            $user->uniqueKey    = $this->randomPassword;
 
-            $user->user_type = 3;
+            $user->user_type    = 3;
 
             $user->save();
 
-            $insertedId = $user->id;
+            $insertedId         = $user->id;
 
-            $parish->user_id = $insertedId;
+            $parish->user_id    = $insertedId;
 
             $parish->created_by = $request->input('user_id');
 
             $parish->save();
 
             $response = [
-            'status' => true,
-            'password' => $this->randomPassword,
-            'message' => "Parish created successfully."
+            'status'        => true,
+            'password'      => $this->randomPassword,
+            'message'       => "Parish created successfully."
             ];
             $responseCode = 201;
            
             } catch (HttpBadRequestException $httpBadRequestException) {
                 $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
                 ];
                 $responseCode = 400;
             } catch (ClientException $clientException) {
                 DB::rollBack();
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $clientException->getMessage()
                 ];
                 $responseCode = 500;
             } catch (Exception $exception) {
@@ -220,9 +224,9 @@ class ParishController extends Controller {
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
@@ -249,56 +253,60 @@ class ParishController extends Controller {
 
             $parish = Parish::find($parish_id);
 
-            $user = User::find($user_id);
+            $user   = User::find($user_id);
 
             /*
              * Validate mandatory fields
              */
             if ($request->has('parish_name'))
+
                 $parish->name = $request->input('parish_name');
             else
                 throw new HttpBadRequestException("Parish name is required.");
 
             if ($request->has('first_name'))
+
                 $user->first_name = $request->input('first_name');
             else
                 throw new HttpBadRequestException("Fist name is required.");
 
             if ($request->has('last_name'))
+
                 $user->last_name = $request->input('last_name');
             else
                 throw new HttpBadRequestException("Last name is required.");
             
-            $user->first_name = $request->input('first_name');
+            $user->first_name   = $request->input('first_name');
 
-            $user->last_name = $request->input('last_name');
+            $user->last_name    = $request->input('last_name');
             
             $user->save();
 
             if ($request->has('area_id'))
+
                 $parish->area_id = $request->input('area_id');
 
             $parish->save();
 
             $response = [
-            'status' => true,
-            'message' => "Parish updated successfully."
+            'status'    => true,
+            'message'   => "Parish updated successfully."
             ];
             $responseCode = 200;
            
             } catch (HttpBadRequestException $httpBadRequestException) {
                 $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
                 ];
                 $responseCode = 400;
             } catch (ClientException $clientException) {
                 DB::rollBack();
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $clientException->getMessage()
                 ];
                 $responseCode = 500;
             } catch (Exception $exception) {
@@ -307,9 +315,9 @@ class ParishController extends Controller {
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
@@ -340,9 +348,9 @@ class ParishController extends Controller {
            if($parish)
            {
 
-                $response = [
-                'status' => true,
-                'message' => "Parish deleted successfully."
+            $response = [
+                'status'    => true,
+                'message'   => "Parish deleted successfully."
                 ];
                 $responseCode = 200;
             }
@@ -350,25 +358,25 @@ class ParishController extends Controller {
             {
 
                $response = [
-                'status' => true,
-                'message' => "No province has been found."
+                'status'    => true,
+                'message'   => "No province has been found."
                 ];
                 $responseCode = 404;  
             }
            
             } catch (HttpBadRequestException $httpBadRequestException) {
                 $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
                 ];
                 $responseCode = 400;
             } catch (ClientException $clientException) {
                 DB::rollBack();
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $clientException->getMessage()
                 ];
                 $responseCode = 500;
             } catch (Exception $exception) {
@@ -377,9 +385,9 @@ class ParishController extends Controller {
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
@@ -411,16 +419,22 @@ class ParishController extends Controller {
                 $area_id        =   $request->input('area_id');
 
                 if($request->has('area_id')) {
+
                     $parishes = Area::find($area_id)->parishes;
                 } else {
+
                    if($request->has('zone_id')) {
+
                         $parishes = Zone::find($zone_id)->parishes;
                     } else {
+
                         $areas = Provience::find($province_id)->areas;
-                        $area_array=[];
+                        $area_array =[];
                         foreach ($areas as  $area) {
+
                             array_push($area_array,$area->id);
                         }
+
                         $parishes = Parish::whereIn('area_id',$area_array)->get();
                     }
                 }
@@ -437,32 +451,33 @@ class ParishController extends Controller {
             
             if(count($parishes)>0)
             {
-                $parishArray = [];
-                $noOfParishes = count($parishes);
+                $parishArray    = [];
+                $noOfParishes   = count($parishes);
+
                 foreach ($parishes as $key=>$parish) {
                     
-                    $parishArray[$key]['id'] = $parish->id;
-                    $parishArray[$key]['user_id'] = $parish->users->id;
-                    $parishArray[$key]['parish_id'] = $parish->users->parish_id;
-                    $parishArray[$key]['parish_name'] = $parish->name;
-                    $parishArray[$key]['province_name'] = $parish->areas->zones->proviences->name;
-                    $parishArray[$key]['province_id'] = $parish->areas->zones->proviences->id;
-                    $parishArray[$key]['zone_name'] = $parish->areas->zones->name;
-                    $parishArray[$key]['zone_id'] = $parish->areas->zones->id;
-                    $parishArray[$key]['area_name'] = $parish->areas->name;
-                    $parishArray[$key]['area_id'] = $parish->areas->id;
-                    $parishArray[$key]['pastor_name_area'] = $parish->areas->users->first_name;
-                    $parishArray[$key]['pastor_name_zone'] = $parish->areas->zones->users->first_name;
-                    $parishArray[$key]['pastor_name_province'] = $parish->areas->zones->proviences->users->first_name;
-                    $parishArray[$key]['password'] = $parish->users->uniqueKey;
-                    $parishArray[$key]['first_name'] = $parish->users->first_name;
-                    $parishArray[$key]['last_name'] = $parish->users->last_name;
+                    $parishArray[$key]['id']                    = $parish->id;
+                    $parishArray[$key]['user_id']               = $parish->users->id;
+                    $parishArray[$key]['parish_id']             = $parish->users->parish_id;
+                    $parishArray[$key]['parish_name']           = $parish->name;
+                    $parishArray[$key]['province_name']         = $parish->areas->zones->proviences->name;
+                    $parishArray[$key]['province_id']           = $parish->areas->zones->proviences->id;
+                    $parishArray[$key]['zone_name']             = $parish->areas->zones->name;
+                    $parishArray[$key]['zone_id']               = $parish->areas->zones->id;
+                    $parishArray[$key]['area_name']             = $parish->areas->name;
+                    $parishArray[$key]['area_id']               = $parish->areas->id;
+                    $parishArray[$key]['pastor_name_area']      = $parish->areas->users->first_name;
+                    $parishArray[$key]['pastor_name_zone']      = $parish->areas->zones->users->first_name;
+                    $parishArray[$key]['pastor_name_province']  = $parish->areas->zones->proviences->users->first_name;
+                    $parishArray[$key]['password']              = $parish->users->uniqueKey;
+                    $parishArray[$key]['first_name']            = $parish->users->first_name;
+                    $parishArray[$key]['last_name']             = $parish->users->last_name;
                 }
                 
                 $response = [
-                'status' => true,
-                'message' => $noOfParishes . ($noOfParishes > 1 ? " parishes have " : " parish has ") . "been found.",
-                'parishes' => $parishArray
+                'status'        => true,
+                'message'       => $noOfParishes . ($noOfParishes > 1 ? " parishes have " : " parish has ") . "been found.",
+                'parishes'      => $parishArray
                 ];
                 $responseCode = 200;
             }
@@ -477,17 +492,17 @@ class ParishController extends Controller {
            
             } catch (HttpBadRequestException $httpBadRequestException) {
                 $response = [
-                    'status' => false,
-                    'error' => $httpBadRequestException->getMessage()
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
                 ];
                 $responseCode = 400;
             } catch (ClientException $clientException) {
                 DB::rollBack();
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $clientException->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $clientException->getMessage()
                 ];
                 $responseCode = 500;
             } catch (Exception $exception) {
@@ -496,9 +511,9 @@ class ParishController extends Controller {
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
@@ -521,36 +536,37 @@ class ParishController extends Controller {
 
             $parish = Parish::find($parish_id);
             $noOfParish = count($parish);
+            
             if($parish){
                 $parishArray = [];
                 
-                $parishArray['id'] = $parish->id;
-                $parishArray['user_id'] = $parish->users->id;
-                $parishArray['parish_id'] = $parish->users->parish_id;
-                $parishArray['parish_name'] = $parish->name;
-                $parishArray['province_name'] = $parish->areas->zones->proviences->name;
-                $parishArray['province_id'] = $parish->areas->zones->proviences->id;
-                $parishArray['zone_name'] = $parish->areas->zones->name;
-                $parishArray['zone_id'] = $parish->areas->zones->id;
-                $parishArray['area_name'] = $parish->areas->name;
-                $parishArray['area_id'] = $parish->areas->id;
-                $parishArray['pastor_name_area'] = $parish->areas->users->first_name;
-                $parishArray['pastor_name_zone'] = $parish->areas->zones->users->first_name;
-                $parishArray['pastor_name_province'] = $parish->areas->zones->proviences->users->first_name;
-                $parishArray['password'] = $parish->users->uniqueKey;
-                $parishArray['first_name'] = $parish->users->first_name;
-                $parishArray['last_name'] = $parish->users->last_name;
+                $parishArray['id']                      = $parish->id;
+                $parishArray['user_id']                 = $parish->users->id;
+                $parishArray['parish_id']               = $parish->users->parish_id;
+                $parishArray['parish_name']             = $parish->name;
+                $parishArray['province_name']           = $parish->areas->zones->proviences->name;
+                $parishArray['province_id']             = $parish->areas->zones->proviences->id;
+                $parishArray['zone_name']               = $parish->areas->zones->name;
+                $parishArray['zone_id']                 = $parish->areas->zones->id;
+                $parishArray['area_name']               = $parish->areas->name;
+                $parishArray['area_id']                 = $parish->areas->id;
+                $parishArray['pastor_name_area']        = $parish->areas->users->first_name;
+                $parishArray['pastor_name_zone']        = $parish->areas->zones->users->first_name;
+                $parishArray['pastor_name_province']    = $parish->areas->zones->proviences->users->first_name;
+                $parishArray['password']                = $parish->users->uniqueKey;
+                $parishArray['first_name']              = $parish->users->first_name;
+                $parishArray['last_name']               = $parish->users->last_name;
 
-                $response = [
-                    'status' => true,
-                    'message' => $noOfParish . ($noOfParish > 1 ? " parishes have " : " parish has ") . "been found.",
-                    'parish' => $parishArray
-                ];
-                $responseCode = 200;
+                    $response = [
+                        'status'    => true,
+                        'message'   => $noOfParish . ($noOfParish > 1 ? " parishes have " : " parish has ") . "been found.",
+                        'parish'    => $parishArray
+                    ];
+                    $responseCode = 200;
             } else {
                     $response = [
-                        'status' => false,
-                        'error' => "No parish detail has been found."
+                        'status'    => false,
+                        'error'     => "No parish detail has been found."
                     ];
                     $responseCode = 200;
                 }
@@ -561,9 +577,9 @@ class ParishController extends Controller {
                 Log::error($exception->getMessage());
 
                 $response = [
-                    'status' => false,
-                    'error' => "Internal server error.",
-                    'error_info' => $exception->getMessage()
+                    'status'        => false,
+                    'error'         => "Internal server error.",
+                    'error_info'    => $exception->getMessage()
                 ];
 
                 $responseCode = 500;
@@ -572,21 +588,5 @@ class ParishController extends Controller {
             }
 
             return response()->json($response, $responseCode);
-        }
-
-/**
- * Generate Random username and password
- *
- * @param Request $request
- * @return \Illuminate\Http\JsonResponse
- */
-
-        public function generateNumber() {
-
-            $length = 8;
-
-            $randomNumber = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, $length);
-
-            return $randomNumber;
         }
 }

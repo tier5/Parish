@@ -1,5 +1,8 @@
 <?php
-
+/**
+* Moddleware to generate and check JWT token
+* @param Request $request
+*/
 namespace App\Http\Middleware;
 
 use Closure;
@@ -20,8 +23,8 @@ class VerifyJWTToken extends BaseMiddleware
     {
         if (!$token = $this->auth->setRequest($request)->getToken()) {
             return  response()->json([
-                'status' => false,
-                'error' => 'Token is not provided.'
+                'status'    => false,
+                'error'     => 'Token is not provided.'
             ], 400);
         }
 
@@ -29,22 +32,22 @@ class VerifyJWTToken extends BaseMiddleware
             $user = $this->auth->authenticate($token);
         } catch (TokenExpiredException $tokenExpiredException) {
             return response()->json([
-                'status' => false,
-                'error' => 'Unauthorized! Token is expired.',
-                'error_info' => $tokenExpiredException->getMessage()
+                'status'        => false,
+                'error'         => 'Unauthorized! Token is expired.',
+                'error_info'    => $tokenExpiredException->getMessage()
             ], $tokenExpiredException->getStatusCode());
         } catch (JWTException $JWTException) {
             return response()->json([
-                'status' => false,
-                'error' => 'Unauthorized! Token is invalid.',
-                'error_info' => $JWTException->getMessage()
+                'status'        => false,
+                'error'         => 'Unauthorized! Token is invalid.',
+                'error_info'    => $JWTException->getMessage()
             ], $JWTException->getStatusCode());
         }
 
         if (!$user) {
             response()->json([
-                'status' => false,
-                'error' => 'No user found.'
+                'status'    => false,
+                'error'     => 'No user found.'
             ], 404);
         }
 
