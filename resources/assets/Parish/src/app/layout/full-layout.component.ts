@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class FullLayoutComponent {
 	
 	public toggleBarIcon: boolean = true;
-	showSidebar: boolean = true;
+	public showSidebar: boolean = true;
 	paymentOption: boolean = false;
 	constructor (
 		private authService: AuthService,

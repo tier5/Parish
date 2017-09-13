@@ -60,6 +60,7 @@
                                         #uploadFile="ngModel"
                                         type="file"
                                         ng2FileSelect [uploader]="uploader"
+                                        (ngModelChange)="doSomething($event)"
                                 >
                             </div>
                         </div>
