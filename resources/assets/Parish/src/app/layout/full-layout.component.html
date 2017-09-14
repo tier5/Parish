@@ -120,6 +120,27 @@
 
         <li role="presentation" class="divider" *ngIf="showSidebar"></li>
 
+        <!-- Report Section -->
+        <li class="parent" *ngIf="showSidebar">
+            <a data-toggle="collapse" href="#report-section">
+                <i class="fa fa-fw fa-chevron-circle-down"></i> Report
+            </a>
+            <ul class="children collapse" id="report-section">
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/report/create']">
+                        <i class="fa fa-fw fa-plus-square"></i> Create
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/report/list']">
+                        <i class="fa fa-fw fa-th-list"></i> List
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li role="presentation" class="divider" *ngIf="showSidebar"></li>
+
 <!--         <li><a routerLinkActive="active" [routerLink]="['/form']"><i class="fa fa-list fa-fw"></i> Form</a></li>
 
         <li class="parent ">
