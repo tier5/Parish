@@ -9,7 +9,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Upload Payment</div>
             <div class="panel-body">
-                <!--<div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
                             <strong>{{ responseMsg }}</strong>
@@ -20,8 +20,8 @@
                             <strong>{{ responseMsg }}</strong>
                         </div>
                     </div>
-                </div>-->
-                <form #uploadPaymentForm="ngForm" (submit)="onSubmit(uploadPaymentForm)">
+                </div>
+                <form #uploadPaymentForm="ngForm" (submit)="onSubmit(uploadPaymentForm)" enctype="multipart/form-data">
 
                     <div class="row">
                         <div class="col-md-6">
@@ -60,28 +60,43 @@
                                         #uploadFile="ngModel"
                                         type="file"
                                         ng2FileSelect [uploader]="uploader"
-                                        (ngModelChange)="doSomething($event)"
+                                        accept=".pdf,.doc,.docx,.jpeg,.jpg"
+                                        (change)="checkUploadedFileType($event)"
                                 >
+
+                                <!--<input type="file"
+                                       class="form-control"
+                                       name="uploadfile"
+                                       required
+                                       [ngModel]="paymentDate.uploadfile"
+                                       #uploadFile="ngModel"
+                                       id="pfile"
+                                       accept=".pdf,.doc,.docx,.jpeg,.jpg"
+                                       (change)="checkUploadedFileType($event)">-->
                             </div>
                         </div>
-                        <div class="col-md-6">
+
+
+                     <!--   <div class="col-md-6">
+                            <div class="form-group" *ngIf="uploader?.queue?.length">
+                                <label></label>
+                                <div class="progress">
+                                    <div data-percentage="0%" [ngStyle]="{ 'width': progress  + '%' }" class="progress-bar progress-bar-blue" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+
                             <div class="alert alert-danger" *ngIf="uploader?.queue?.length == 0 && uploadFile.touched">
                                 File is Required!
                             </div>
-                        </div>
-                    </div>
-                    <p>Queue length: {{ uploader?.queue?.length }}</p>
+                        </div>-->
 
-                    <div *ngFor="let item of uploader.queue">
-                        <div class="progress" style="margin-bottom: 0;">
-                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                        </div>
                     </div>
+
 
 
                     <div class="row">
                         <div class="col-md-6">
-                            <button class="btn btn-primary" [disabled]="uploader?.queue?.length == 0 || paymentDate.invalid ||showLoader">
+                            <button class="btn btn-primary" [disabled]="paymentDate.invalid || !paymentDate.payment_date || showLoader">
                                 <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                 Submit
                             </button>
@@ -99,5 +114,6 @@
         </div>
     </div>
 </div>
+
 
 

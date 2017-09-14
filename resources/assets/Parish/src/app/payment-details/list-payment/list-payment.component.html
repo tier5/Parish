@@ -41,7 +41,7 @@
                             <td>{{ payment.id }}</td>
                             <td>{{ payment.payment_description }}</td>
                             <td>{{ payment.upload_month }} / {{ payment.upload_year }}</td>
-                            <td>{{ payment.first_name }}</td>
+                            <td>{{ payment.first_name }} <img src="paymentReceipt/"></td>
                             <td>{{ payment.payment_status }}</td>
                             <td>
                                 <!-- Appear Only in Admin Section -->
@@ -63,7 +63,7 @@
                                     <i class="fa fa-download fa-fw"></i>Download
                                 </button>
 
-                                <input type="file" ng2FileSelect [uploader]="uploader" *ngIf="!isAdmin && payment.payment_status == 1 " (change)="showUploader(payment)"/>
+                                <input type="file" ng2FileSelect [uploader]="uploader" class="upload_file" *ngIf="!isAdmin && payment.payment_status == 1 " (change)="showUploader(payment,$event)"/>
 
                                 <button type="button" class="btn btn-success btn-xs"
                                         (click)="upload(payment)" *ngIf="showUploadButton == payment.id">

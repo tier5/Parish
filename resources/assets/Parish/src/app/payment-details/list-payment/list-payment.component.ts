@@ -30,7 +30,7 @@ export class ListPaymentComponent {
 	refreshPaymentListSubscription  : Subscription;
 	showUploadButton                : number =  0 ;
 	progress                        : number =  0 ;
-	
+	files                           : FileList;
 	
 	/** Injecting services to be used in this component */
 	constructor( private payservice: PaymentService,
@@ -75,31 +75,45 @@ export class ListPaymentComponent {
 	/** upload doc Function */
 	
 	upload(payment){
-		console.log(this.uploader.queue[0]._file);
-		this.progress = 10;
+		
+		this.progress       = 10;
 		const user_id       = this.authService.getToken().user_id;
+		
 		const formData      = new FormData();
-		formData.append("file_name", this.uploader.queue[0]._file);
+		formData.append("file_name", this.files[0]);
 		formData.append("upload_month",payment.upload_month);
 		formData.append('upload_year',payment.upload_year);
 		formData.append("payment_description",payment.payment_description);
 		formData.append("user_id", user_id);
+		
 		this.payservice.paymentCreate(formData)
 			.subscribe(
 				(response: Response) => {
 					this.responseStatus = response.json().status;
 					if(response.json().status){
-						this.progress = 100;
-						console.log(response.json().message);
+						this.progress           = 100;
+						this.responseMsg        = response.json().message;
+						this.responseReceived   = true;
+					} else {
+						this.responseMsg        = '';
 					}
+					this.payservice.refreshList.next();
+				},(error: Response) => {
+					this.progress           = 0;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
 				}
 			);
+		
 	}
 	
 	/** Show upload button when try to upload any doc */
 	
-	showUploader(payment){
-		this.showUploadButton = payment.id;
+	showUploader(payment,event){
+		this.showUploadButton   = payment.id;
+		this.files              = event.target.files;
+		this.progress           = 10;
 	}
 	
 	/** Download file function */
@@ -134,6 +148,10 @@ export class ListPaymentComponent {
 						this.responseMsg = '';
 					}
 					this.payservice.refreshList.next();
+				},(error: Response) => {
+					this.responseStatus = false;
+					this.responseReceived = true;
+					this.responseMsg = error.json().error;
 				}
 			);
 	}

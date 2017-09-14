@@ -24,8 +24,9 @@ export class UploadPaymentComponent {
 	responseStatus          = false;
 	responseReceived        = false;
 	responseMsg : string    = '';
+	progress    : number    = 0;
 	uploader                = new FileUploader({});
-	
+	files       : FileList;
 	
 	/** Injecting services to be used in this component */
 	constructor( private payservice: PaymentService,
@@ -35,6 +36,7 @@ export class UploadPaymentComponent {
 	onSubmit(uploadPaymentForm: NgForm) {
 		
 		this.showLoader     = true;
+		this.progress       = 30;
 		var payment_date    = new Date(uploadPaymentForm.value.payment_date);
 		var month           = payment_date.getMonth()+1;
 		const user_id       = this.authService.getToken().user_id;
@@ -42,7 +44,7 @@ export class UploadPaymentComponent {
 		const month_data    = month.toString();
 		const formData      = new FormData();
 		
-		formData.append("file_name", this.uploader.queue[0]._file);
+		formData.append("file_name",this.files[0]);
 		formData.append("upload_month",year_data);
 		formData.append('upload_year', month_data);
 		formData.append("payment_description", uploadPaymentForm.value.payment_description);
@@ -51,14 +53,25 @@ export class UploadPaymentComponent {
 		this.payservice.paymentCreate(formData)
 			.subscribe(
 				(response: Response) => {
-					this.showLoader = false;
-					console.log(response);
+					this.responseStatus     = response.json().status;
+					this.showLoader         = true;
+					if(response.json().status){
+						this.progress       = 100;
+						this.responseMsg    = response.json().message;
+					}
+				},(error: Response) => {
+					this.showLoader         = true;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
 				}
 			);
 	}
 	
-	doSomething(event){
-		console.log(event);
+	/** function to set files to be uploaded and increase progressbar */
+	checkUploadedFileType(event){
+		this.progress   = 10;
+		this.files      = event.target.files;
 	}
 	
 }
