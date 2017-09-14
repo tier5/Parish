@@ -7,12 +7,12 @@ namespace App;
 
 class Helpers {
 
-    /**
-    * Generate Random username and password
-    *
-    * @param Request $request
-    * @return \Illuminate\Http\JsonResponse
-    */
+  /**
+   * Generate Random username and password
+   *
+   * @param Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
 
   public static function generateNumber() {
      $length = 8;

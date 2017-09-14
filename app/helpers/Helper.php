@@ -4,7 +4,7 @@
 * Generate random number to make random pastor username and password
 * @param Request $request
 */
-public function generateNumber() {
+	public function generateNumber() {
 
 		$length = 8;
 

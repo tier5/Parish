@@ -59,7 +59,7 @@
 
                                 <button
                                         class="btn btn-active btn-xs"
-                                        type="button" *ngIf="!isAdmin && payment.payment_status == 2">
+                                        type="button" *ngIf="!isAdmin && payment.payment_status == 0" (click)="downloadFile(payment)">
                                     <i class="fa fa-download fa-fw"></i>Download
                                 </button>
 

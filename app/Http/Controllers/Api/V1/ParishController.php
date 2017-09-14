@@ -31,21 +31,25 @@ class ParishController extends Controller {
     /**
      * @var null|string
      */
+
     private $userId = null;
 
     /**
      * @var null|string
      */
+
     private $userName = null;
 
     /**
      * @var null|string
      */
+
     private $randomUsername = null;
 
      /**
      * @var null|string
      */
+
     private $randomPassword = null;   
 
     /**
@@ -55,8 +59,10 @@ class ParishController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function getParishList(Request $request,$user_id){
+    public function getParishList(Request $request,$user_id) {
+
         try {
+
             DB::beginTransaction();
 
             $parishes   =Parish::where('created_by',$user_id)->whereNull('deleted_at')->get();
@@ -90,30 +96,29 @@ class ParishController extends Controller {
                     ];
                     $responseCode = 200;
 
-                } else {
-                    $response = [
-                        'status' => false,
-                        'message' => "No parish has been found."
-                    ];
-                    $responseCode = 404;
-                }
+            } else {
+                $response = [
+                    'status' => false,
+                    'message' => "No parish has been found."
+                ];
+                $responseCode = 404;
+            }
 
-                }
-                catch (Exception $exception) {
-                    DB::rollBack();
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                    Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                    $response = [
-                        'status'        => false,
-                        'error'         => "Internal server error.",
-                        'error_info'    => $exception->getMessage()
-                    ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
 
         return response()->json($response, $responseCode);
     }
@@ -128,6 +133,7 @@ class ParishController extends Controller {
     public function createParish(Request $request)
     {
         try {
+
             DB::beginTransaction();
 
             $parish = new Parish();
@@ -203,39 +209,39 @@ class ParishController extends Controller {
             ];
             $responseCode = 201;
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
+        } catch (HttpBadRequestException $httpBadRequestException) {
                 $response = [
                     'status'    => false,
                     'error'     => $httpBadRequestException->getMessage()
                 ];
                 $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-                unset($user);
-                unset($provience);
-            }
+            unset($user);
+            unset($provience);
+        }
 
         return response()->json($response, $responseCode);
     }
@@ -248,6 +254,7 @@ class ParishController extends Controller {
      */
 
     public function updateParish(Request $request, $user_id, $created_by, $parish_id) {
+
         try {
             DB::beginTransaction();
 
@@ -294,39 +301,40 @@ class ParishController extends Controller {
             ];
             $responseCode = 200;
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-                unset($user);
-                unset($provience);
-            }
+            unset($user);
+            unset($provience);
+        }
+        
         return response()->json($response, $responseCode);
     }
 
@@ -345,8 +353,8 @@ class ParishController extends Controller {
 
             $parish = Parish::findOrFail($parish_id)->delete();
 
-           if($parish)
-           {
+            if($parish)
+            {
 
             $response = [
                 'status'    => true,
@@ -364,39 +372,39 @@ class ParishController extends Controller {
                 $responseCode = 404;  
             }
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-                unset($user);
-                unset($area);
-            }
+            unset($user);
+            unset($area);
+        }
 
         return response()->json($response, $responseCode);
     }
@@ -409,10 +417,12 @@ class ParishController extends Controller {
     */
     
     public function filteParish(Request $request) {
+
         try {
+
             DB::beginTransaction();
            
-           if($request->has('province_id') || $request->has('zone_id') || $request->has('area_id')){
+            if($request->has('province_id') || $request->has('zone_id') || $request->has('area_id')){
 
                 $province_id    =   $request->input('province_id');
                 $zone_id        =   $request->input('zone_id');
@@ -439,7 +449,8 @@ class ParishController extends Controller {
                     }
                 }
              
-            }else{
+            } else {
+
                 if($request->has('user_id')) {
                    
                     $parishes=Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
@@ -490,36 +501,38 @@ class ParishController extends Controller {
                 $responseCode = 200;  
             }
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                    DB::commit();
-                }
+            $responseCode = 500;
+        } finally {
+
+            DB::commit();
+        }
+
         return response()->json($response, $responseCode);
     }
 
@@ -530,8 +543,10 @@ class ParishController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function getParishDetail(Request $request, $parish_id){
+    public function getParishDetail(Request $request, $parish_id) {
+
         try {
+
             DB::beginTransaction();
 
             $parish = Parish::find($parish_id);
@@ -570,23 +585,22 @@ class ParishController extends Controller {
                     ];
                     $responseCode = 200;
                 }
-            }
-            catch (Exception $exception) {
-                DB::rollBack();
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
-            }
-
-            return response()->json($response, $responseCode);
+            $responseCode = 500;
+        } finally {
+            DB::commit();
         }
+
+        return response()->json($response, $responseCode);
+    }
 }

@@ -80,7 +80,7 @@ export class ListPaymentComponent {
 		const user_id       = this.authService.getToken().user_id;
 		
 		const formData      = new FormData();
-		formData.append("file_name", this.files[0]);
+		formData.append("name", this.files[0]);
 		formData.append("upload_month",payment.upload_month);
 		formData.append('upload_year',payment.upload_year);
 		formData.append("payment_description",payment.payment_description);
@@ -118,16 +118,28 @@ export class ListPaymentComponent {
 	
 	/** Download file function */
 	
-	downloadFile(fileName) {
+	downloadFile(payment) {
 		
-		var a = document.createElement("a");
+		/*var a = document.createElement("a");
 		document.body.appendChild(a);
 		let blob = new Blob([fileName], {type: "image/png"});
 		let url = window.URL.createObjectURL(blob);
 		a.href = url;
 		a.download = fileName;
 		a.click();
-		window.URL.revokeObjectURL(url);
+		window.URL.revokeObjectURL(url);*/
+		this.payservice.downloadPaymentFile(payment)
+			.subscribe(
+				(response: Response) => {
+					//this.responseStatus = response.json().status;
+					console.log(response);
+				},(error: Response) => {
+					this.progress           = 0;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
+				}
+			);
 	}
 	
 	/** Change status of Payment **/

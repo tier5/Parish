@@ -26,12 +26,15 @@ class UserController extends Controller {
     /**
      * @var null|string
      */
+
     private $userId = null;
 
     /**
     * @var null|string
     */
-    private $randomPassword = null;   
+
+    private $randomPassword = null; 
+
     /**
      * Get User Detail
      *
@@ -39,9 +42,9 @@ class UserController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-     public function getDetail(Request $request, $userId){
+     public function getDetail(Request $request, $userId) {
 
-         try {
+        try {
             DB::beginTransaction();
 
             $user=User::find($userId);
@@ -52,45 +55,46 @@ class UserController extends Controller {
 
                 $userArray = [];
 
-                    $userArray['id']            = $user->id;
-                    $userArray['parish_id']     = $user->parish_id;
-                    $userArray['first_name']    = $user->first_name;
-                    $userArray['last_name']     = $user->last_name;
-                    $userArray['uniqueKey']     = $user->uniqueKey;
+                $userArray['id']            = $user->id;
+                $userArray['parish_id']     = $user->parish_id;
+                $userArray['first_name']    = $user->first_name;
+                $userArray['last_name']     = $user->last_name;
+                $userArray['uniqueKey']     = $user->uniqueKey;
 
-                    $response = [
-                        'status'        => true,
-                        'message'       => 'get user detail',
-                        'userDetail'    => $userArray
-                    ];
-                    $responseCode = 200;
+                $response = [
+                    'status'        => true,
+                    'message'       => 'get user detail',
+                    'userDetail'    => $userArray
+                ];
+                $responseCode = 200;
 
-                } else {
-                    $response = [
-                        'status'    => false,
-                        'error'     => "No user has been found."
-                    ];
-                    $responseCode = 200;
-                }
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "No user has been found."
+                ];
+                $responseCode = 200;
+            }
 
-                }
-                catch (Exception $exception) {
-                    DB::rollBack();
+        } catch (Exception $exception) {
 
-                    Log::error($exception->getMessage());
+            DB::rollBack();
 
-                    $response = [
-                        'status'        => false,
-                        'error'         => "Internal server error.",
-                        'error_info'    => $exception->getMessage()
-                    ];
+            Log::error($exception->getMessage());
 
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-            return response()->json($response, $responseCode);
+            $responseCode = 500;
+
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
      }
 
     /**
@@ -107,7 +111,7 @@ class UserController extends Controller {
 
             $user = User::find($userId);
 
-            /*
+            /**
              * Validate mandatory fields
              */
 
@@ -123,46 +127,46 @@ class UserController extends Controller {
             else
                 throw new HttpBadRequestException("Last name is required.");
 
-                $user->save();
+            $user->save();
 
-                $response = [
-                    'status'    => true,
-                    'message'   => "User updated successfully."
-                ];
-                $responseCode = 200;
+            $response = [
+                'status'    => true,
+                'message'   => "User updated successfully."
+            ];
+            $responseCode = 200;
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-                unset($user);
-            }
+            unset($user);
+        }
 
         return response()->json($response, $responseCode);
     }
@@ -173,45 +177,43 @@ class UserController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function resetPassword(Request $request, $userId){
+    public function resetPassword(Request $request, $userId) {
 
         try {
             
-                DB::beginTransaction();
+            DB::beginTransaction();
 
-                $user=User::findOrFail($userId);
+            $user=User::findOrFail($userId);
 
-                $this->randomPassword   = Helpers::generateNumber();
+            $this->randomPassword   = Helpers::generateNumber();
 
-                $user->password         =  $this->randomPassword;
-                $user->uniqueKey        =  $this->randomPassword;
-                $user->save();
+            $user->password         =  $this->randomPassword;
+            $user->uniqueKey        =  $this->randomPassword;
+            $user->save();
 
-                $response = [
-                    'status'    => true,
-                    'password'  => $this->randomPassword,
-                    'message'   => "Password reset successfully."
-                            ];
-                $responseCode = 200;
-            }
-            catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'    => true,
+                'password'  => $this->randomPassword,
+                'message'   => "Password reset successfully."
+                        ];
+            $responseCode = 200;
+        }
+        catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
-            }
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
 
         return response()->json($response, $responseCode);
-	}
-
-
+    }
 }

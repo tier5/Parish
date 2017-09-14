@@ -30,86 +30,86 @@ class AuthController extends Controller {
 
     public function signUp(Request $request) {
 
-    	 try {
-                DB::beginTransaction();
+        try {
 
-                $user = new User();
+            DB::beginTransaction();
+
+            $user = new User();
+
+            /**
+             * Validate mandatory fields and register a new user
+             */
+            if ($request->has('first_name'))
+
+                $user->first_name = $request->input('first_name');
+            else
+                throw new HttpBadRequestException("First name is required.");
+
+            if ($request->has('last_name'))
+
+                $user->last_name = $request->input('last_name');
+            else
+                throw new HttpBadRequestException("Last name is required.");
+
+            if ($request->has('email'))
+
+                $user->email = $request->input('email');
+            else
+                throw new HttpBadRequestException("Email is required.");
+
+            if ($request->has('password'))
+
+                $user->password = $request->input('password');
+            else
+                throw new HttpBadRequestException("Password is required");
+
+            if ($request->has('confirm_password'))
+
+                $user->password = $request->input('confirm_password');
+            else
+                throw new HttpBadRequestException("Password is required");
+
+            /**
+             * Check user present or not then update or create only for soft deleted user
+             */
+
+            $registerUser = User::where('email', $request->input('email'))->whereNotNull('deleted_at')->first();
+
+            if(count($registerUser)) {
+
+                $registerUser->first_name   = $request->input('first_name');
+                $registerUser->last_name    = $request->input('last_name');
+                $registerUser->email        = $request->input('email');
+                $registerUser->password     = $request->input('password');
+                $registerUser->uniqueKey    = Crypt::encrypt($request->input('password'));
+                $registerUser->deleted_at   = NULL;
+                $registerUser->save();
+
+            } else {
 
                 /**
-                 * Validate mandatory fields and register a new user
-                 */
-                if ($request->has('first_name'))
-
-                    $user->first_name = $request->input('first_name');
-                else
-                    throw new HttpBadRequestException("First name is required.");
-
-                if ($request->has('last_name'))
-
-                    $user->last_name = $request->input('last_name');
-                else
-                    throw new HttpBadRequestException("Last name is required.");
-
-                if ($request->has('email'))
-
-                    $user->email = $request->input('email');
-                else
-                    throw new HttpBadRequestException("Email is required.");
-
-                if ($request->has('password'))
-
-                    $user->password = $request->input('password');
-                else
-                    throw new HttpBadRequestException("Password is required");
-
-                if ($request->has('confirm_password'))
-
-                    $user->password = $request->input('confirm_password');
-                else
-                    throw new HttpBadRequestException("Password is required");
-
-                /**
-                 * Check user present or not then update or create only for soft deleted user
+                 * Check unique user
                  */
 
-                $registerUser = User::where('email', $request->input('email'))->whereNotNull('deleted_at')->first();
+                $registerUser = User::where('email', $request->input('email'))->first();
 
                 if(count($registerUser)) {
 
-                    $registerUser->first_name   = $request->input('first_name');
-                    $registerUser->last_name    = $request->input('last_name');
-                    $registerUser->email        = $request->input('email');
-                    $registerUser->password     = $request->input('password');
-                    $registerUser->uniqueKey    = Crypt::encrypt($request->input('password'));
-                    $registerUser->deleted_at   = NULL;
-                    $registerUser->save();
+                $response = [
+                    'status'    => false,
+                    'error'     => "User is already signed up.",
+                ];
+                $responseCode = 409;
+
+                return response()->json($response, $responseCode);
+
+                } else {
+
+                $user->uniqueKey = Crypt::encrypt($request->input('password'));
+                $user->save();
+
                 }
-                else
-                {
-
-                    /**
-                     * Check unique user
-                     */
-
-                    $registerUser = User::where('email', $request->input('email'))->first();
-
-                    if(count($registerUser)) {
-
-                    $response = [
-                        'status'    => false,
-                        'error'     => "User is already signed up.",
-                    ];
-                    $responseCode = 409;
-
-                    return response()->json($response, $responseCode);
-
-                    } else {
-
-                    $user->uniqueKey = Crypt::encrypt($request->input('password'));
-                    $user->save();
-
-                    }
-                }
+            }
 
             /**
              * Fire a mail to user with original subject and message
@@ -137,6 +137,7 @@ class AuthController extends Controller {
                 'message'   => "User signed up successfully."
             ];
             $responseCode = 201;
+
         } catch (HttpBadRequestException $httpBadRequestException) {
             $response = [
                 'status' => false,
@@ -144,6 +145,7 @@ class AuthController extends Controller {
             ];
             $responseCode = 400;
         } catch (QueryException $queryException) {
+
             if (!empty($queryException->errorInfo) && $queryException->errorInfo[1] == 1062) {
                 $response = [
                     'status'    => false,
@@ -158,7 +160,9 @@ class AuthController extends Controller {
                 ];
                 $responseCode = 500;
             }
+
         } catch (ClientException $clientException) {
+
             DB::rollBack();
 
             $response = [
@@ -167,7 +171,9 @@ class AuthController extends Controller {
                 'error_info'        => $clientException->getMessage()
             ];
             $responseCode = 500;
+
         } catch (Exception $exception) {
+
             DB::rollBack();
 
             Log::error($exception->getMessage());
@@ -179,7 +185,9 @@ class AuthController extends Controller {
             ];
 
             $responseCode = 500;
+
         } finally {
+
             DB::commit();
 
             unset($user);
@@ -196,15 +204,19 @@ class AuthController extends Controller {
      * @throws HttpBadRequestException
      */
 
-    public function signIn(Request $request)
-    {
+    public function signIn(Request $request) {
+
         try {
+
             /**
              * Validate mandatory fields
              */
             if (!$request->has('username'))
+
                 throw new HttpBadRequestException("Username is required.");
+
             if (!$request->has('password'))
+
                 throw new HttpBadRequestException("Password is required.");
 
             /**
@@ -225,9 +237,9 @@ class AuthController extends Controller {
                     'token'     => $token
                 ];
                 $responseCode = 422;
-                }
-                else
-                {
+
+                } else {
+
                     if ($user->user_status == 0){
                     /** can't login due to status is on hold */
                      $response = [
@@ -260,32 +272,34 @@ class AuthController extends Controller {
                 ];
                 $responseCode = 422;
             }
+
         } catch (HttpBadRequestException $httpBadRequestException) {
 
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
         } /** @noinspection PhpUndefinedClassInspection */ 
         catch (JWTAuthException $JWTAuthException) {
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Failed to create token.",
-                    'error_info'    => $JWTAuthException->getMessage()
-                ];
-                $responseCode = 500;
+            $response = [
+                'status'        => false,
+                'error'         => "Failed to create token.",
+                'error_info'    => $JWTAuthException->getMessage()
+            ];
+            $responseCode = 500;
 
         } catch (Exception $exception) {
+
             Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    "error_info"    => $exception->getMessage()
-                ];
-                $responseCode = 500;
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                "error_info"    => $exception->getMessage()
+            ];
+            $responseCode = 500;
         }
 
         return response()->json($response, $responseCode);
@@ -296,6 +310,7 @@ class AuthController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function signOut()
     {
         try {
@@ -309,6 +324,7 @@ class AuthController extends Controller {
                 'message'       => 'User signed out successfully.'
             ];
             $responseCode = 200;
+
         } catch (JWTException $JWTException) {
             $response = [
                 'status'        => false,
