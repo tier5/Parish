@@ -51,17 +51,17 @@
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed">
                         <thead>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Province / Zone</th>
-                            <th>Username</th>
-                            <th>Password</th>
-                            <th>Actions</th>
-                        </tr>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Province / Zone</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Actions</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let zone of zoneList">
+                            <tr *ngFor="let zone of zoneList">
                             <td>{{ zone.first_name }}</td>
                             <td>{{ zone.last_name }}</td>
                             <td>{{ zone.province_name }}&nbsp;/&nbsp;{{ zone.zone_name }}</td>
@@ -82,9 +82,9 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr *ngIf="!zoneList" colspan="6">
-                            <td>{{ responseNoRecord }}</td>
-                        </tr>
+                            <tr *ngIf="!zoneList" colspan="6">
+                                <td>{{ responseNoRecord }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

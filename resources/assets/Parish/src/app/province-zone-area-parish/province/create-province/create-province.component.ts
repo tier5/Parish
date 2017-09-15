@@ -18,22 +18,23 @@ export class CreateProvinceComponent implements OnInit {
 	
 	editMode: boolean = false; // Initializing edit mode for this component
 	provinceData: ProvinceListModel = {
-		id: 0,
-		user_id: 0,
-		parish_id: 0,
-		first_name: '',
-		last_name: '',
-		province_name: '',
-		password: ''
+		id              : 0,
+		user_id         : 0,
+		parish_id       : 0,
+		first_name      : '',
+		last_name       : '',
+		password        : '',
+		province_name   : ''
 	};
-	showLoader = false;
-	responseStatus = false;
-	responseReceived = false;
-	responseMsg: string = '';
-	title:string = 'Province - Create';
-	heading:string = 'Create New';
+	
 	provinceId: number;
-
+	showLoader          = false;
+	responseStatus      = false;
+	responseReceived    = false;
+	responseMsg: string = '';
+	heading:string      = 'Create New';
+	title:string        = 'Province - Create';
+	
 	/** Injecting services to be used in this component */
 	constructor( private pzapService: ProvinceZoneAreaParishService,
 				 private authService: AuthService,
@@ -82,22 +83,23 @@ export class CreateProvinceComponent implements OnInit {
 			this.pzapService.editProvince( province_id, pastor_id, createProvinceForm.value )
 			.subscribe(
 				( response: Response ) => {
-					this.showLoader = false;
+					this.showLoader         = false;
+					this.responseStatus     = response.json().status;
+					
 					if ( response.json().status ) {
-						this.responseStatus = true;
 						this.responseMsg = response.json().message;
 					} else {
-						this.responseStatus = false;
+						this.responseMsg = '';
 					}
 				},
 				( error: Response ) => {
 					if ( error.status === 401 ) {
 						this.authService.removeToken();
 					}
-					console.log( error );
-					this.showLoader = false;
-					this.responseStatus = false;
-					this.responseReceived = true;
+					
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
 					this.responseMsg = error.json().error;
 					setTimeout( () => {
 						this.responseReceived = false;
@@ -115,23 +117,25 @@ export class CreateProvinceComponent implements OnInit {
 			this.pzapService.createProvince( createProvinceForm.value )
 			.subscribe(
 				( response: Response ) => {
-					this.showLoader = false;
+					this.showLoader     = false;
+					this.responseStatus = response.json().status;
+					
 					if ( response.json().status ) {
-						this.responseStatus = true;
 						this.responseMsg = response.json().message;
 					} else {
-						this.responseStatus = false;
+						this.responseMsg = '';
 					}
 				},
 				( error: Response ) => {
 					if ( error.status === 401 ) {
 						this.authService.removeToken();
 					}
-					//console.log( error );
-					this.showLoader = false;
-					this.responseStatus = false;
-					this.responseReceived = true;
-					this.responseMsg = error.json().error;
+					
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
+					
 					setTimeout( () => {
 						this.responseReceived = false;
 					}, 3000 )
@@ -153,11 +157,11 @@ export class CreateProvinceComponent implements OnInit {
 			this.pzapService.provinceToEdit( this.provinceId )
 			.subscribe(
 				(response: Response) => {
-					this.provinceData = response.json().provinces;
+					this.provinceData   = response.json().provinces;
 					createProvinceForm.form.patchValue( {
-						first_name: this.provinceData.first_name,
-						last_name: this.provinceData.last_name,
-						province_name: this.provinceData.province_name
+						first_name      : this.provinceData.first_name,
+						last_name       : this.provinceData.last_name,
+						province_name   : this.provinceData.province_name
 					} );
 				}
 			);
