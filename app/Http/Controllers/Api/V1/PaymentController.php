@@ -67,7 +67,7 @@ class PaymentController extends Controller {
                 foreach ($payments as $key => $payment) {
                         $paymentArray[$key]['id']                     = $payment->id;
                         $paymentArray[$key]['wem_id']                 = $payment->wem_id;
-                        $paymentArray[$key]['first_name']             = $payment->name;
+                        $paymentArray[$key]['file_name']             = $payment->file_name;
                         $paymentArray[$key]['payment_description']    = $payment->payment_description;
                         $paymentArray[$key]['upload_month']           = $payment->upload_month;
                         $paymentArray[$key]['upload_year']            = $payment->upload_year;
@@ -354,10 +354,11 @@ class PaymentController extends Controller {
 
         if($payment->file_name)
         {
-            // $headers = array(
-            // 'Content-Type: ' . mime_content_type( $payment->file_name )
-            // );
-            return response()->download(public_path('paymentReceipt'), $payment->file_name);
+             $headers = array(
+                'Content-Type: image/jpeg'
+             );
+            //return response()->download(public_path('paymentReceipt/'.$payment->file_name), $payment->file_name,$headers);
+            return response()->download(public_path('paymentReceipt/'.$payment->file_name), $payment->file_name,$headers);
         }
         else
         {

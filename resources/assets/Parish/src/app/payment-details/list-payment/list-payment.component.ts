@@ -154,27 +154,36 @@ export class ListPaymentComponent {
 		a.click();
 		window.URL.revokeObjectURL(url);*/
 		this.payservice.downloadPaymentFile(payment)
+			
 			.subscribe(
 				(response: Response) => {
 					//this.responseStatus = response.json().status;
 					console.log(response);
-					var contentType = 'image/!*';
-					var blob = new Blob([(<any>response).blob()], { type: contentType });
-					var filename = payment.file_name;
-					var url= window.URL.createObjectURL(blob);
-					window.open(url);
-					/*var fileName = payment.file_name;
-					var a = document.createElement("a");
+					console.log(payment);
+					//var contentType = 'image/!*';
+					//var blob = new Blob([(<any>response)._body], { type: contentType });
+					//var filename = payment.file_name;
+					//var url= window.URL.createObjectURL(blob);
+				/*	var a = document.createElement("a");
 					document.body.appendChild(a);
 					var file = new Blob([response], {type: 'image/jpg'});
+					var fileURL = window.URL.createObjectURL(file);
+					a.href = fileURL;
+					a.download = filename;
+					a.click();
+					window.open(fileURL);*/
+					var fileName = payment.file_name;
+					var a = document.createElement("a");
+					document.body.appendChild(a);
+					var file = new Blob([(<any>response)._body], {type: 'image/jpg'});
 					var fileURL = window.URL.createObjectURL(file);
 					a.href = fileURL;
 					a.download = fileName;
 					a.click();
 					
-					 var blob = new Blob([response], {type:'image/!*'});
-					 var url= window.URL.createObjectURL(blob);
-					 window.open(url);*/
+					 /*var blob = new Blob([response], {type:'image/!*'});
+					 var url= window.URL.createObjectURL(blob);*/
+					 window.open(fileURL);
 					/*var contentType = 'image/!*';
 					var blob = new Blob([(<any>response)._body], { type: contentType });
 					var url= window.URL.createObjectURL(blob);
