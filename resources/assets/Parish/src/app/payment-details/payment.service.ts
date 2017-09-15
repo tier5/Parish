@@ -58,6 +58,10 @@ export class PaymentService {
 	/** Function to download docs */
 	downloadPaymentFile( body: any): Observable<any> {
 		const headers = this.headers;
+		headers.append('Content-Type', 'application/json');
+		
+		headers.append('responseType', 'arraybuffer');
+		
 		return this.http.post( environment.API_URL + 'payment/downloadFile' + '/' +body.id, body, { headers: this.headers } );
 	}
 }

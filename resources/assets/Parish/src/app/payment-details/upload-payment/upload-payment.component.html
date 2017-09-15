@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Choose Year & Month</label>
+                                <label >Choose Year & Month (*)</label>
                                 <dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date" datestyle="yyyy/MM"></dp-month-calendar>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="pfile">Upload File</label>
+                                <label for="pfile">Upload File (*)</label>
                                 <input
                                         id="pfile"
                                         class="form-control"
@@ -60,7 +60,7 @@
                                         #uploadFile="ngModel"
                                         type="file"
                                         ng2FileSelect [uploader]="uploader"
-                                        accept=".pdf,.doc,.docx,.jpeg,.jpg"
+                                        accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"
                                         (change)="checkUploadedFileType($event)"
                                 >
                             </div>
@@ -86,7 +86,7 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <button class="btn btn-primary" [disabled]="paymentDate.invalid || !paymentDate.payment_date || showLoader">
+                            <button class="btn btn-primary" [disabled]="uploader?.queue?.length == 0 || paymentDate.invalid || !paymentDate.payment_date || showLoader">
                                 <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                 Submit
                             </button>

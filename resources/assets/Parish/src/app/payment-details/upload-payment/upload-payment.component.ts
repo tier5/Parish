@@ -44,7 +44,6 @@ export class UploadPaymentComponent {
 		const month_data    = month.toString();
 		const formData      = new FormData();
 		
-		console.log(this.files[0]);
 		formData.append("name",this.files[0]);
 		formData.append("upload_month",year_data);
 		formData.append('upload_year', month_data);
@@ -54,6 +53,8 @@ export class UploadPaymentComponent {
 		this.payservice.paymentCreate(formData)
 			.subscribe(
 				(response: Response) => {
+					
+					this.responseReceived   = true;
 					this.responseStatus     = response.json().status;
 					this.showLoader         = false;
 					if(response.json().status){

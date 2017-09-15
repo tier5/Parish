@@ -28,9 +28,10 @@ export class ListPaymentComponent {
 	uploader                        = new FileUploader({});
 	
 	refreshPaymentListSubscription  : Subscription;
-	showUploadButton                : number =  0 ;
-	progress                        : number =  0 ;
+	showUploadButton                : number        =  0 ;
+	progress                        : number        =  0 ;
 	files                           : FileList;
+
 	
 	/** Injecting services to be used in this component */
 	constructor( private payservice: PaymentService,
@@ -46,14 +47,38 @@ export class ListPaymentComponent {
 					this.payservice.listPayment().subscribe(
 						(response: Response) => {
 							this.responseStatus = response.json().status;
-							console.log(response.json());
+							
 							if(response.json().status){
 								const user_type = this.authService.getToken().user_type;
-								
 								if(user_type == 1){
 									this.isAdmin = true;
 								}
 								this.paymentDetails = response.json().paymentDetail;
+								this.paymentDetails.forEach(item => {
+									let pay_status = (item.payment_status == 3)?'On Hold':(item.payment_status == 0)?'Accepted':'Rejected';
+									item.pay_status = pay_status;
+									if ( item.payment_status == 3 ){
+										
+										item.hold   = true;
+										item.accept = false;
+										item.reject = false;
+										item.image  = "<img src='http://localhost:4200/paymentReceipt/"+item.file_name+"'>";
+										
+									} else if ( item.payment_status == 1 ){
+										
+										item.hold   = false;
+										item.accept = false;
+										item.reject = true;
+										
+									} else{
+										
+										item.hold   = false;
+										item.accept = true;
+										item.reject = false;
+									}
+								});
+								
+								console.log(this.paymentDetails);
 							} else {
 								this.paymentDetails = [];
 							}
@@ -133,6 +158,28 @@ export class ListPaymentComponent {
 				(response: Response) => {
 					//this.responseStatus = response.json().status;
 					console.log(response);
+					var contentType = 'image/!*';
+					var blob = new Blob([(<any>response).blob()], { type: contentType });
+					var filename = payment.file_name;
+					var url= window.URL.createObjectURL(blob);
+					window.open(url);
+					/*var fileName = payment.file_name;
+					var a = document.createElement("a");
+					document.body.appendChild(a);
+					var file = new Blob([response], {type: 'image/jpg'});
+					var fileURL = window.URL.createObjectURL(file);
+					a.href = fileURL;
+					a.download = fileName;
+					a.click();
+					
+					 var blob = new Blob([response], {type:'image/!*'});
+					 var url= window.URL.createObjectURL(blob);
+					 window.open(url);*/
+					/*var contentType = 'image/!*';
+					var blob = new Blob([(<any>response)._body], { type: contentType });
+					var url= window.URL.createObjectURL(blob);
+					window.open(url);*/
+					
 				},(error: Response) => {
 					this.progress           = 0;
 					this.responseStatus     = false;

@@ -41,11 +41,11 @@
                             <td>{{ payment.id }}</td>
                             <td>{{ payment.payment_description }}</td>
                             <td>{{ payment.upload_month }} / {{ payment.upload_year }}</td>
-                            <td>{{ payment.first_name }} <img src="paymentReceipt/"></td>
-                            <td>{{ payment.payment_status }}</td>
+                            <td></td>
+                            <td>{{ payment.pay_status }}</td>
                             <td>
                                 <!-- Appear Only in Admin Section -->
-                                <span *ngIf="payment.payment_status == 3">
+                                <span *ngIf="payment.hold">
                                     <button
                                             class="btn btn-warning btn-xs"
                                             type="button" *ngIf="isAdmin" (click)="OnChangeStatus(payment,0)"> Accept
@@ -59,7 +59,7 @@
 
                                 <button
                                         class="btn btn-active btn-xs"
-                                        type="button" *ngIf="!isAdmin && payment.payment_status == 0" (click)="downloadFile(payment)">
+                                        type="button" *ngIf="!isAdmin && payment.accept" (click)="downloadFile(payment)">
                                     <i class="fa fa-download fa-fw"></i>Download
                                 </button>
 
