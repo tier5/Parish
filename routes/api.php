@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
  * Routes group for API Version 1
  */
 Route::group(['prefix' => 'v1'], function() {
-	/**
+    /**
      * Routes for unauthenticated user
      */
     Route::post('sign-up', [
@@ -255,6 +255,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.getPastorPaymentList.get'
             ]);
 
+            Route::get('/rejectedList/{user_id}/{user_type}', [
+                'uses' => 'Api\V1\PaymentController@getPastorRejectdPaymentList',
+                'as' => 'api.v1.getPastorRejectdPaymentList.get'
+            ]);
+
             Route::put('/update-payment-status/{payment_id}', [
                 'uses' => 'Api\V1\PaymentController@updatePaymentStatus',
                 'as' => 'api.v1.updatePaymentStatus.put'
@@ -264,6 +269,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses' => 'Api\V1\PaymentController@updatePaymentStatus',
                 'as' => 'api.v1.updatePaymentStatus.patch'
             ]);
+
+            Route::post('/downloadFile/{payment_id}', [
+                'uses' => 'Api\V1\PaymentController@downloadFile',
+                'as' => 'api.v1.doewnloadFile.post'
+            ]);            
 
         });
 

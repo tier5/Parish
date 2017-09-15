@@ -29,8 +29,13 @@ class PaymentController extends Controller {
     /**
      * @var null|string
      */
+
     private $userId = null;
 
+    /**
+     * @var null|string
+     */
+    
     private $WEMUser = null;
   
     /**
@@ -40,7 +45,7 @@ class PaymentController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-     public function getPastorPaymentList(Request $request, $userId,$user_type){
+    public function getPastorPaymentList(Request $request, $userId, $user_type) {
 
         try {
             DB::beginTransaction();
@@ -54,52 +59,55 @@ class PaymentController extends Controller {
                 $payments=Payment::where('wem_id',$userId)->get();
             }
 
-            if($payments){
+            $noOfPayment = count($payments);
+
+            if($noOfPayment > 0){
 
                 $paymentArray = [];
                 foreach ($payments as $key => $payment) {
                         $paymentArray[$key]['id']                     = $payment->id;
                         $paymentArray[$key]['wem_id']                 = $payment->wem_id;
-                        $paymentArray[$key]['first_name']             = $payment->file_name;
+                        $paymentArray[$key]['first_name']             = $payment->name;
                         $paymentArray[$key]['payment_description']    = $payment->payment_description;
                         $paymentArray[$key]['upload_month']           = $payment->upload_month;
                         $paymentArray[$key]['upload_year']            = $payment->upload_year;
                         $paymentArray[$key]['payment_status']         = $payment->payment_status;
-
-                        $response = [
-                            'status'        => true,
-                            'message'       => 'get payment list',
-                            'paymentDetail' => $paymentArray
-                        ];
-                        $responseCode = 200;
-                    }
-                } else {
-                        $response = [
-                            'status'    => false,
-                            'error'     => "No payment has been found."
-                        ];
-                        $responseCode = 200;
-                    }
-
+                        $paymentArray[$key]['created_at']             = $payment->created_at;
                 }
-                catch (Exception $exception) {
+                
+                $response = [
+                    'status'        => true,
+                    'message'       => 'get payment list',
+                    'paymentDetail' => $paymentArray
+                ];
+                $responseCode = 200;
 
-                    DB::rollBack();
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "No payment has been found."
+                ];
+                $responseCode = 200;
+            }
 
-                    Log::error($exception->getMessage());
+        } catch (Exception $exception) {
 
-                    $response = [
-                        'status'        => false,
-                        'error'         => "Internal server error.",
-                        'error_info'    => $exception->getMessage()
-                    ];
+            DB::rollBack();
 
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
+            Log::error($exception->getMessage());
 
-            return response()->json($response, $responseCode);
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
      }
 
     /**
@@ -118,7 +126,9 @@ class PaymentController extends Controller {
             $payment    = new Payment();
             $getUser    = User::find($request->input('user_id'));
 
-            if($getUser) {
+            $noOfUser = count($getUser);            
+
+            if($noOfUser > 0 ) {
 
                 if($getUser->pastor_type == 1) {
 
@@ -154,15 +164,15 @@ class PaymentController extends Controller {
              * Validate mandatory fields
              */
 
-            if ($request->file('file_name')) {
+            if ($request->file('name')) {
 
-                $getFileExtension=$request->file_name->getClientOriginalExtension();
+                $getFileExtension=$request->name->getClientOriginalExtension();
 
-                $allowedExts = array("jpg","pdf","jpeg","png","doc","docx","xls","xlsx");
+                $allowedExts = array("jpg","pdf","jpeg", "doc","docx");
 
                     if(in_array($getFileExtension, $allowedExts)) {
 
-                        $getFileSize=$request->file_name->getClientSize();
+                        $getFileSize=$request->name->getClientSize();
 
                             if($getFileSize > 2097152) {
 
@@ -170,13 +180,13 @@ class PaymentController extends Controller {
 
                             } else {
 
-                                $payment->file_name=time().'.'.$request->file_name->getClientOriginalExtension();
+                                $payment->file_name=time().'.'.$request->name->getClientOriginalExtension();
 
                             }
 
-                        } else {
+                    } else {
 
-                            throw new HttpBadRequestException("pdf/doc/image files are only allowed!.");
+                        throw new HttpBadRequestException("pdf/doc/image files are only allowed!.");
                     }
 
             } 
@@ -202,9 +212,9 @@ class PaymentController extends Controller {
                 throw new HttpBadRequestException("Please select year.");
             }
 
-            /**
-            * Save Payment Data
-            */
+            /*
+             * Save Payment Data
+             */
 
             $payment->wem_id                = $this->WEMUser;
 
@@ -226,63 +236,61 @@ class PaymentController extends Controller {
             ];
             $responseCode = 201;
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-                $request->file_name->move(storage_path('paymentReceipt'), $payment->file_name);
+            $request->name->move(public_path('paymentReceipt'), $payment->file_name);
 
-                unset($payment);
-            }
+            unset($payment);
+        }
         return response()->json($response, $responseCode);
     }
 
     /**
-    * Update Payment Status
-    *
-    * @param Request $request
-    * @return \Illuminate\Http\JsonResponse
-    */
+     * Update Payment Status
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 
-    public function updatePaymentStatus(Request $request, $payment_id){
+    public function updatePaymentStatus(Request $request, $payment_id) {
 
         try {
 
             DB::beginTransaction();
 
-            $user = User::find($user_id);
-
             $payment = Payment::find($payment_id);
 
             /**
-            * Save Payment Status
-            */
+             * Save Payment Status
+             */
 
             $payment->payment_status = $request->input('payment_status');
 
@@ -294,40 +302,149 @@ class PaymentController extends Controller {
             ];
             $responseCode = 200;
 
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-                unset($payment);
-            }
+            unset($payment);
+        }
         return response()->json($response, $responseCode);
     }
 
+    /**
+     * Download File
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 
+    public function downloadFile(Request $request, $payment_id) {
+
+        $payment = Payment::find($payment_id);
+
+        /**
+         * Download File
+         */
+
+        if($payment->file_name)
+        {
+            // $headers = array(
+            // 'Content-Type: ' . mime_content_type( $payment->file_name )
+            // );
+            return response()->download(public_path('paymentReceipt'), $payment->file_name);
+        }
+        else
+        {
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+
+            return response()->json($response, $responseCode);
+        }
+
+    }
+
+    /**
+     * Get Rejected payment list
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function getPastorRejectdPaymentList(Request $request, $userId, $user_type) {
+
+        try {
+            DB::beginTransaction();
+
+            $currentYear =Date('Y');
+
+            $paymentArray =[];
+
+            for($i = 1 ; $i <= 12 ; $i++) {
+
+                  $allPayments = Payment::where('created_by',$userId)->where('upload_month', $i)->where('upload_year', $currentYear)->get();
+
+                  $noOfAllpayments= count($allPayments);
+
+                  $rejectPayments = Payment::where('created_by',$userId)->where('upload_month', $i)->where('upload_year', $currentYear)->where('payment_status', 1)->get();
+
+                  $noOfRejectpayments = count($rejectPayments);
+
+                  if($noOfAllpayments == $noOfRejectpayments && $noOfAllpayments != 0 && $noOfRejectpayments != 0)
+                  {
+                    
+                        foreach ($allPayments as $key => $payment) {
+
+                            $paymentArray[$i][$key]['id']                     = $payment->id;
+                            $paymentArray[$i][$key]['wem_id']                 = $payment->wem_id;
+                            $paymentArray[$i][$key]['first_name']             = $payment->name;
+                            $paymentArray[$i][$key]['payment_description']    = $payment->payment_description;
+                            $paymentArray[$i][$key]['upload_month']           = $payment->upload_month;
+                            $paymentArray[$i][$key]['upload_year']            = $payment->upload_year;
+                            $paymentArray[$i][$key]['payment_status']         = $payment->payment_status;
+                            $paymentArray[$i][$key]['created_at']             = $payment->created_at;
+                    }
+                }
+
+            }
+
+            $response = [
+                'status'        => true,
+                'message'       => 'get rejected payment list',
+                'paymentDetail' => $paymentArray
+            ];
+
+            $responseCode = 200;
+
+        } catch (Exception $exception) {
+
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+     }
 }

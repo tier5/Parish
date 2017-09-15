@@ -42,10 +42,11 @@ class ZoneController extends Controller {
      */
     private $randomUsername = null;
 
-     /**
+    /**
      * @var null|string
      */
     private $randomPassword = null;
+
     /**
      * Get Zone list with respect to created_by
      *
@@ -78,40 +79,40 @@ class ZoneController extends Controller {
                     $zoneArray[$key]['last_name']       = $zone->users->last_name;
                 }
 
-                    $response = [
-                        'status'    => true,
-                        'message'   => $noOfZones . ($noOfZones > 1 ? " zones have " : " zone has ") . "been found.",
-                        'zones'     => $zoneArray
-                    ];
-                    $responseCode = 200;
+                $response = [
+                    'status'    => true,
+                    'message'   => $noOfZones . ($noOfZones > 1 ? " zones have " : " zone has ") . "been found.",
+                    'zones'     => $zoneArray
+                ];
+                $responseCode = 200;
 
-                } else {
-                    $response = [
-                        'status' => true,
-                        'noData' => "No zone has been found."
-                    ];
-                    $responseCode = 200;
-                }
+            } else {
+                $response = [
+                    'status' => true,
+                    'noData' => "No zone has been found."
+                ];
+                $responseCode = 200;
+            }
 
-                }
-                catch (Exception $exception) {
-                    DB::rollBack();
-
-                    Log::error($exception->getMessage());
-
-                    $response = [
-                        'status'        => false,
-                        'error'         => "Internal server error.",
-                        'error_info'    => $exception->getMessage()
-                    ];
-
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
-
-            return response()->json($response, $responseCode);
         }
+        catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
 
     /**
      * Get Zone list with respect to province
@@ -126,8 +127,8 @@ class ZoneController extends Controller {
             DB::beginTransaction();
 
             $zones=Zone::where('created_by',$created_by)
-            					->where('provience_id',$province_id)
-            					->whereNull('deleted_at')->get();
+                                ->where('provience_id',$province_id)
+                                ->whereNull('deleted_at')->get();
 
             $noOfZones =count($zones);
             if($noOfZones){
@@ -146,43 +147,42 @@ class ZoneController extends Controller {
                     $zoneArray[$key]['last_name']       = $zone->users->last_name;
                 }
 
-                    $response = [
-                        'status'    => true,
-                        'message'   => $noOfZones . ($noOfZones > 1 ? " zones have " : " zone has ") . "been found.",
-                        'zones'     => $zoneArray
-                    ];
-                    $responseCode = 200;
+                $response = [
+                    'status'    => true,
+                    'message'   => $noOfZones . ($noOfZones > 1 ? " zones have " : " zone has ") . "been found.",
+                    'zones'     => $zoneArray
+                ];
+                $responseCode = 200;
 
-                } else {
-                    $response = [
-                        'status'    => false,
-                        'error'     => "No zone has been found."
-                    ];
-                    $responseCode = 202;
-                }
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "No zone has been found."
+                ];
+                $responseCode = 202;
+            }
+        }
+        catch (Exception $exception) {
+            DB::rollBack();
 
-                }
-                catch (Exception $exception) {
-                    DB::rollBack();
+            Log::error($exception->getMessage());
 
-                    Log::error($exception->getMessage());
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                    $response = [
-                        'status'        => false,
-                        'error'         => "Internal server error.",
-                        'error_info'    => $exception->getMessage()
-                    ];
-
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
-
-            return response()->json($response, $responseCode);
+            $responseCode = 500;
+        } finally {
+            DB::commit();
         }
 
+        return response()->json($response, $responseCode);
+    }
 
-   /**
+
+    /**
      * Get Zonal Pastor Detail
      *
      * @param Request $request
@@ -202,50 +202,50 @@ class ZoneController extends Controller {
 
                 $zoneArray = [];
 
-                    $zoneArray['id']            = $zone->id;
-                    $zoneArray['zone_name']     = $zone->name;
-                    $zoneArray['province_id']   = $zone->provience_id;
-                    $zoneArray['province_name'] = $zone->proviences->name;
-                    $zoneArray['user_id']       = $zone->users->id;
-                    $zoneArray['parish_id']     = $zone->users->parish_id;
-                    $zoneArray['password']      = $zone->users->uniqueKey;
-                    $zoneArray['first_name']    = $zone->users->first_name;
-                    $zoneArray['last_name']     = $zone->users->last_name;
+                $zoneArray['id']            = $zone->id;
+                $zoneArray['zone_name']     = $zone->name;
+                $zoneArray['province_id']   = $zone->provience_id;
+                $zoneArray['province_name'] = $zone->proviences->name;
+                $zoneArray['user_id']       = $zone->users->id;
+                $zoneArray['parish_id']     = $zone->users->parish_id;
+                $zoneArray['password']      = $zone->users->uniqueKey;
+                $zoneArray['first_name']    = $zone->users->first_name;
+                $zoneArray['last_name']     = $zone->users->last_name;
 
-                    $response = [
-                        'status'    => true,
-                        'message'   => $noOfZone . ($noOfZone > 1 ? " zones have " : " zone has ") . "been found.",
-                        'zones'     => $zoneArray
-                    ];
-                    $responseCode = 200;
+                $response = [
+                    'status'    => true,
+                    'message'   => $noOfZone . ($noOfZone > 1 ? " zones have " : " zone has ") . "been found.",
+                    'zones'     => $zoneArray
+                ];
+                $responseCode = 200;
 
-                } else {
-                    $response = [
-                        'status'    => false,
-                        'error'     => "No zone detail has been found."
-                    ];
-                    $responseCode = 200;
-                }
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "No zone detail has been found."
+                ];
+                $responseCode = 200;
+            }
 
-                }
-                catch (Exception $exception) {
-                    DB::rollBack();
-
-                    Log::error($exception->getMessage());
-
-                    $response = [
-                        'status'        => false,
-                        'error'         => "Internal server error.",
-                        'error_info'    => $exception->getMessage()
-                    ];
-
-                    $responseCode = 500;
-                } finally {
-                    DB::commit();
-                }
-
-            return response()->json($response, $responseCode);
         }
+        catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
 
     /**
      * Create a new Zone with Poster
@@ -302,18 +302,18 @@ class ZoneController extends Controller {
 
             if(count($checkZone)) {
 
-            $response = [
-                'status'    => false,
-                'error'     => "You have already created a Zonal Pastor for this Zone."
-            ];
-            $responseCode = 422;
+                $response = [
+                    'status'    => false,
+                    'error'     => "You have already created a Zonal Pastor for this Zone."
+                ];
+                $responseCode = 422;
 
-            return response()->json($response, $responseCode);
+                return response()->json($response, $responseCode);
             }
 
-			$this->randomUsername = Helpers::generateNumber();
+            $this->randomUsername = Helpers::generateNumber();
 
-			$this->randomPassword = Helpers::generateNumber();
+            $this->randomPassword = Helpers::generateNumber();
 
             /**
              * Check unique user
@@ -324,7 +324,7 @@ class ZoneController extends Controller {
 
             if(count($registerUser)) {
 
-            	return $this->createZone();
+                return $this->createZone();
             }
 
             $user->parish_id    = $this->randomUsername;
@@ -354,43 +354,42 @@ class ZoneController extends Controller {
                 ];
             $responseCode = 201;
            
-	        } catch (HttpBadRequestException $httpBadRequestException) {
-	            $response = [
-	                'status'   => false,
-	                'error'    => $httpBadRequestException->getMessage()
-	            ];
-	            $responseCode = 400;
-	        } catch (ClientException $clientException) {
-	            DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'   => false,
+                'error'    => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-	            $response = [
-	                'status'       => false,
-	                'error'        => "Internal server error.",
-	                'error_info'   => $clientException->getMessage()
-	            ];
-	            $responseCode = 500;
-	        } catch (Exception $exception) {
-	            DB::rollBack();
+            $response = [
+                'status'       => false,
+                'error'        => "Internal server error.",
+                'error_info'   => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-	            Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-	            $response = [
-	                'status'       => false,
-	                'error'        => "Internal server error.",
-	                'error_info'   => $exception->getMessage()
-	            ];
+            $response = [
+                'status'       => false,
+                'error'        => "Internal server error.",
+                'error_info'   => $exception->getMessage()
+            ];
 
-	            $responseCode = 500;
-	        } finally {
-	            DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-	            unset($user);
-	            unset($zone);
-	        }
+            unset($user);
+            unset($zone);
+        }
 
         return response()->json($response, $responseCode);
-
-	}
+    }
 
     /**
      * Update Zone with Poster
@@ -469,42 +468,41 @@ class ZoneController extends Controller {
             ];
             $responseCode = 200;
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-                unset($user);
-                unset($zone);
-            }
+            unset($user);
+            unset($zone);
+        }
 
         return response()->json($response, $responseCode);
-
     }
     /**
      * Delete an existing Zone
@@ -519,10 +517,24 @@ class ZoneController extends Controller {
         try {
             DB::beginTransaction();
 
+            $areas=Area::where('zone_id',$zone->id)->get();
+
+            if($areas) {
+
+                $areaArray =[];
+
+                foreach($areas as $key=>$area) {
+
+                    $paymentArea = Payment::where('created_by',$area->user_id)->delete();
+
+                }
+
+            }
+
             $zone = Zone::findOrFail($zone_id)->delete();
 
-           if($zone)
-           {
+            if($zone) {
+
                 $payment = Payment::where('created_by',$user_id)->delete();
 
                 $response = [
@@ -533,47 +545,46 @@ class ZoneController extends Controller {
             }
             else
             {
-
-               $response = [
+                $response = [
                     'status'    => true,
                     'error'     => "No zone has been found."
                 ];
                 $responseCode = 200;  
             }
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                DB::commit();
+            $responseCode = 500;
+        } finally {
+            DB::commit();
 
-                unset($user);
-                unset($zone);
-            }
+            unset($user);
+            unset($zone);
+        }
 
         return response()->json($response, $responseCode);
     }
@@ -588,16 +599,18 @@ class ZoneController extends Controller {
     public function filterZone(Request $request)
     {
         try {
+
             DB::beginTransaction();
            
-           if($request->has('province_id')){
+            if($request->has('province_id')){
 
                 $province_id =  $request->input('province_id');
                 
                 $zones = Provience::find($province_id)->zones;
                
-            }else{
-              if($request->has('user_id')) {
+            } else {
+
+                if($request->has('user_id')) {
                    
                     $zones=Zone::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
 
@@ -624,7 +637,7 @@ class ZoneController extends Controller {
                 } 
                 
                 $noOfZones = count($zoneArray);   
-                
+
                 $response = [
                     'status'    => true,
                     'message'   => $noOfZones . ($noOfZones > 1 ? " zones have " : " zone has ") . "been found.",
@@ -641,36 +654,36 @@ class ZoneController extends Controller {
                 $responseCode = 200;  
             }
            
-            } catch (HttpBadRequestException $httpBadRequestException) {
-                $response = [
-                    'status'    => false,
-                    'error'     => $httpBadRequestException->getMessage()
-                ];
-                $responseCode = 400;
-            } catch (ClientException $clientException) {
-                DB::rollBack();
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $clientException->getMessage()
-                ];
-                $responseCode = 500;
-            } catch (Exception $exception) {
-                DB::rollBack();
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
 
-                Log::error($exception->getMessage());
+            Log::error($exception->getMessage());
 
-                $response = [
-                    'status'        => false,
-                    'error'         => "Internal server error.",
-                    'error_info'    => $exception->getMessage()
-                ];
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
 
-                $responseCode = 500;
-            } finally {
-                    DB::commit();
-                }
+            $responseCode = 500;
+        } finally {
+                DB::commit();
+        }
 
         return response()->json($response, $responseCode);
     }
