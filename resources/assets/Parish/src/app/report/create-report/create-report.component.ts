@@ -183,8 +183,8 @@ export class CreateReportComponent implements OnInit {
 		if(event) {
 			const date = new Date(event);
 			const data = {
-				month: date.getMonth(),
-				year: date.getFullYear()
+				report_month: date.getMonth(),
+				report_year: date.getFullYear()
 			};
 			this.reportService.getReportBP( data )
 			.subscribe(

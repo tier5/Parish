@@ -32,10 +32,10 @@ export class ReportService {
 	
 	
 	/** Function to create a new province */
-	getReportBP( body: { month: number, year: number } ): Observable<any> {
+	getReportBP( body: { report_month: number, report_year: number } ): Observable<any> {
 		const obj = {
 			user_id: this.authService.getToken().user_id
 		};
-		return this.http.post( environment.API_URL + 'province/create', Object.assign( body, obj ), { headers: this.headers } );
+		return this.http.post( environment.API_URL + 'report/all-report', Object.assign( body, obj ), { headers: this.headers } );
 	}
 }
