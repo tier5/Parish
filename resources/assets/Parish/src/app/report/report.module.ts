@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { DpDatePickerModule } from 'ng2-date-picker';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -14,6 +15,7 @@ import { ReportRoutingModule } from './report-routing.module';
 	],
 	imports: [
 		CommonModule,
+		DpDatePickerModule,
 		FormsModule,
 		ReportRoutingModule
 	],
