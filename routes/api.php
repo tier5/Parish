@@ -277,5 +277,22 @@ Route::group(['prefix' => 'v1'], function() {
 
         });
 
+    /*
+     * Report Group Operation
+     */
+
+        Route::group(['prefix' => 'report'], function () {
+
+            Route::post('/create', [
+                'uses' => 'Api\V1\ReportController@createReport',
+                'as' => 'api.v1.createReport.post'
+            ]);
+
+            Route::post('/all-report', [
+                'uses' => 'Api\V1\ReportController@getReport',
+                'as' => 'api.v1.getReport.post'
+            ]);
+        });
+
     });
 });
