@@ -186,14 +186,14 @@ class ReportController extends Controller {
                 $monthly_total['attendance'] =$attendance;
                 $monthly_total['monetary'] =$monetary;
 
-                for($i= 1; $i<7; $i++)
+                /*for($i= 1; $i<7; $i++)
                 {
                     $days[$i]['date'] ='';
                     $days[$i]['day'] ='';
                     $days[$i]['programmes'] ='';
                     $days[$i]['attendance'] =$attendance;
                     $days[$i]['monetary'] =$monetary;
-                }
+                }*/
                 
 
                 $report["account_name"] =$parish->name;
