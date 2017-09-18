@@ -4,7 +4,7 @@ import { Component } from "@angular/core";
 import { NgForm } from '@angular/forms';
 import {Response} from "@angular/http";
 
-import{ AuthService } from "../../auth/auth.service";
+import { AuthService } from "../../auth/auth.service";
 import { ProfileService } from "../profile.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 
@@ -14,28 +14,31 @@ import {ActivatedRoute, Params, Router} from "@angular/router";
 	templateUrl: './profile.component.html',
 	styleUrls: ['./profile.component.css']
 })
+
 export class ProfileComponent{
 	
 	profileData = {
-		id: 0,
-		user_id: 0,
-		first_name: '',
-		last_name: '',
-		uniqueKey: ''
+		
+		id          : 0,
+		user_id     : 0,
+		last_name   : '',
+		uniqueKey   : '',
+		first_name  : ''
 	};
 	
-	responseReceived: boolean = false;
-	responseMsg: string = '';
-	responseStatus: boolean = false;
-	showLoader: boolean = false;
-	isAdmin: boolean = false;
+	responseReceived    : boolean = false;
+	responseStatus      : boolean = false;
+	responseMsg         : string  = '';
+	
+	showLoader          : boolean = false;
+	isAdmin             : boolean = false;
 	
 	/** Injecting services to be used in this component */
 	constructor( private profileService: ProfileService,
+	             private activatedRoute: ActivatedRoute,
 	             private authService: AuthService,
-	             private router: Router,
-	             private activatedRoute: ActivatedRoute
-	            ) { }
+	             private router: Router
+	) { }
 	
 	ngOnInit() {
 		/** checking for admin */
@@ -54,19 +57,11 @@ export class ProfileComponent{
 					);
 			},
 			(error: Response) => {
-				console.log(error);
+				this.responseStatus = false;
+				this.responseMsg = error.json().error;
 			},
 			() => { }
 		);
-		
-		/*this.profileService.profileToEdit()
-			.subscribe(
-				(response: Response) => {
-					if ( response.json().status ) {
-						this.profileData = response.json().userDetail;
-					}
-				}
-			);*/
 	}
 	
 	/** Function call when form is submitted */
@@ -75,21 +70,21 @@ export class ProfileComponent{
 		this.profileService.editProfile(updateProfileForm.value )
 			.subscribe(
 				( response: Response ) => {
-					this.showLoader = false;
+					this.showLoader     = false;
+					this.responseStatus = response.json().status;
+					
 					if ( response.json().status ) {
 						this.responseStatus = true;
 						this.responseMsg = response.json().message;
 					} else {
-						this.responseStatus = false;
-						console.log( response );
-						console.log( response.status );
+						this.responseMsg = '';
 					}
 				},
 				( error: Response ) => {
 					if ( error.status === 401 ) {
 						this.authService.removeToken();
 					}
-					console.log( error );
+					
 					this.showLoader = false;
 					this.responseStatus = false;
 					this.responseReceived = true;
@@ -126,18 +121,17 @@ export class ProfileComponent{
 		this.profileService.resetPassword()
 			.subscribe(
 				(response: Response) => {
+					this.responseStatus = response.json().status;
 					if ( response.json().status ) {
-						this.responseStatus = true;
 						this.responseMsg = response.json().message;
 						this.profileData.uniqueKey = response.json().password;
 					} else {
-						this.responseStatus = false;
-						console.log( response );
-						console.log( response.status );
+						this.responseMsg = '';
 					}
 				},
 				(error: Response) => {
-					console.log(error);
+					this.responseStatus = false;
+					this.responseMsg = error.json().error;
 				}
 			);
 	}

@@ -17,26 +17,29 @@ import { ZoneListModel } from '../zone-list.model';
 export class CreateZoneComponent implements OnInit {
 
 	editMode: boolean = false;
+	
 	zoneData: ZoneListModel = {
-		id: 0,
-		user_id: 0,
-		parish_id: 0,
-		first_name: '',
-		last_name: '',
-		password: '',
-		province_id: 0,
-		province_name: '',
-		zone_name: ''
+		id              : 0,
+		user_id         : 0,
+		password        : '',
+		zone_name       : '',
+		parish_id       : 0,
+		last_name       : '',
+		first_name      : '',
+		province_id     : 0,
+		province_name   : ''
+		
 	};
+	
 	provinceList: { id: number, province_name: string }[] = [];
-	provinceSelected: boolean;
-	responseReceived: boolean = false;
-	responseMsg: string = '';
-	title: string = 'Zone - Create';
-	heading: string = 'Create New';
-	responseStatus: boolean = false;
-	showLoader: boolean = false;
-	zoneId: number;
+	zoneId              : number;
+	responseMsg         : string = '';
+	title               : string = 'Zone - Create';
+	heading             : string = 'Create New';
+	provinceSelected    : boolean;
+	showLoader          : boolean = false;
+	responseReceived    : boolean = false;
+	responseStatus      : boolean = false;
 	
 	/** Injecting services to be used in this component */
 	constructor( private pzapService: ProvinceZoneAreaParishService,
@@ -48,8 +51,8 @@ export class CreateZoneComponent implements OnInit {
 		/** Service call to get list of all available province */
 		this.pzapService.listProvince().subscribe(
 			(response: Response) => {
+					this.responseStatus = response.json().status;
 				if( response.json().status ) {
-					this.responseStatus = true;
 					this.provinceList = response.json().provinces;
 				} else {
 					this.responseStatus = false;
@@ -58,23 +61,23 @@ export class CreateZoneComponent implements OnInit {
 				}
 			},
 			(error: Response) => {
-				this.responseStatus = false;
-				this.responseReceived = true;
-				this.provinceList = [];
-				this.responseMsg = error.json().error;
+					this.responseReceived   = true;
+					this.responseStatus     = false;
+					this.provinceList       = [];
+					this.responseMsg        = error.json().error;
 			}
 		);
 		
 		/** Checking route params to get present mode */
 		this.activatedRoute.data.subscribe(
 			(data: Data) => {
-				this.editMode = data['editMode'];
+					this.editMode = data['editMode'];
 				
 				/** Perform operation is present mode is edit mode */
 				if( this.editMode ){
-					this.provinceSelected = true;
-					this.title = 'Zone - Update';
-					this.heading = 'Update';
+					this.heading            = 'Update';
+					this.title              = 'Zone - Update';
+					this.provinceSelected   = true;
 					
 					/** Checking route params to get id of area to edit */
 					this.activatedRoute.params.subscribe(
@@ -118,32 +121,31 @@ export class CreateZoneComponent implements OnInit {
 			this.pzapService.editZone( zone_id, pastor_id, createZoneForm.value )
 			.subscribe(
 				( response: Response ) => {
-					this.showLoader = false;
+						this.showLoader     = false;
+						this.responseStatus = response.json().status;
 					if ( response.json().status ) {
-						this.responseStatus = true;
-						this.responseMsg = response.json().message;
+						this.responseMsg    = response.json().message;
 					} else {
-						this.responseStatus = false;
+						this.responseMsg    = '';
 					}
 				},
 				( error: Response ) => {
 					if ( error.status === 401 ) {
 						this.authService.removeToken();
 					}
-					console.log( error );
-					this.showLoader = false;
-					this.responseStatus = false;
-					this.responseReceived = true;
-					this.responseMsg = error.json().error;
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
+					
 					setTimeout( () => {
-						this.responseReceived = false;
+						this.responseReceived   = false;
 					}, 3000 )
 				},
 				() => {
-					//createZoneForm.reset();
-					this.responseReceived = true;
+						this.responseReceived   = true;
 					setTimeout( () => {
-						this.responseReceived = false;
+						this.responseReceived   = false;
 					}, 3000 )
 				}
 			);
@@ -152,11 +154,11 @@ export class CreateZoneComponent implements OnInit {
 			.subscribe(
 				( response: Response ) => {
 					this.showLoader = false;
+					this.responseStatus = response.json().status;
 					if(response.json().status){
-						this.responseStatus = true;
 						this.responseMsg = response.json().message;
 					} else {
-						this.responseStatus = false;
+						this.responseMsg ='';
 					}
 				},
 				( error: Response ) => {
@@ -164,10 +166,10 @@ export class CreateZoneComponent implements OnInit {
 					if( error.status === 401) {
 						this.authService.removeToken();
 					}
-					this.showLoader = false;
-					this.responseStatus = false;
-					this.responseReceived = true;
-					this.responseMsg = error.json().error;
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
 					setTimeout( () => {
 						this.responseReceived = false;
 					}, 3000)
@@ -193,15 +195,15 @@ export class CreateZoneComponent implements OnInit {
 					this.zoneData = response.json().zones;
 					this.onSelectProvince( this.zoneData.id );
 					createZoneForm.form.patchValue({
-						id: this.zoneData.id,
-						user_id: this.zoneData.user_id,
-						parish_id: this.zoneData.parish_id,
-						first_name: this.zoneData.first_name,
-						last_name: this.zoneData.last_name,
-						password: this.zoneData.password,
-						province_id: this.zoneData.province_id,
-						province_name: this.zoneData.province_name,
-						zone_name: this.zoneData.zone_name
+						id              : this.zoneData.id,
+						user_id         : this.zoneData.user_id,
+						parish_id       : this.zoneData.parish_id,
+						first_name      : this.zoneData.first_name,
+						last_name       : this.zoneData.last_name,
+						password        : this.zoneData.password,
+						zone_name       : this.zoneData.zone_name,
+						province_id     : this.zoneData.province_id,
+						province_name   : this.zoneData.province_name
 					} );
 				}
 			);

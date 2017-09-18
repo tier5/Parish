@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Payment</h3>
+    </div>
+</div><!--/.row-->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Upload Payment</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                </div>
+                <form #uploadPaymentForm="ngForm" (submit)="onSubmit(uploadPaymentForm)" enctype="multipart/form-data">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label >Choose Year & Month (*)</label>
+                                <dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date" datestyle="yyyy/MM"></dp-month-calendar>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="alert alert-danger" *ngIf="paymentDate.invalid && paymentDate.touched">
+                                Payment Date is Required!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pdescription">Payment Description</label>
+                                <textarea class="form-control" rows="3" id="pdescription" [(ngModel)]="paymentDate.payment_description"  name="payment_description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pfile">Upload File (*)</label>
+                                <input
+                                        id="pfile"
+                                        class="form-control"
+                                        name="uploadfile"
+                                        required
+                                        [ngModel]="paymentDate.uploadfile"
+                                        #uploadFile="ngModel"
+                                        type="file"
+                                        ng2FileSelect [uploader]="uploader"
+                                        accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"
+                                        (change)="checkUploadedFileType($event)"
+                                >
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group" *ngIf="uploader?.queue?.length">
+                                <label></label>
+                                <div class="progress">
+                                    <div data-percentage="0%" [ngStyle]="{ 'width': progress  + '%' }" class="progress-bar progress-bar-blue" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-danger" *ngIf="uploader?.queue?.length == 0 && uploadFile.touched">
+                                File is Required!
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary" [disabled]="uploader?.queue?.length == 0 || paymentDate.invalid || !paymentDate.payment_date || showLoader">
+                                <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                                Submit
+                            </button>
+
+                           <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    [disabled]="showLoader"
+                                    (click)="onReset(uploadPaymentForm)">Reset
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

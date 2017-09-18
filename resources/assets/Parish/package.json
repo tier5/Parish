@@ -42,6 +42,8 @@
     "enhanced-resolve": "^3.3.0",
     "ng2-auto-breadcrumb": "^0.1.5",
     "ng2-charts": "^1.6.0",
+    "ng2-date-picker": "^2.3.2",
+    "ng2-file-upload": "^1.2.1",
     "ng2-listview-crud": "^0.1.9",
     "ng2-smart-table": "^1.2.1",
     "ng2-timeline": "^0.1.1",

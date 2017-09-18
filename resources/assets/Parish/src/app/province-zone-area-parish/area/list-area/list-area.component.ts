@@ -17,27 +17,29 @@ import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.s
 })
 export class ListAreaComponent implements OnInit, OnDestroy{
 	
+	zoneList:     ZoneListModel[];
+	areaList:     AreaListModel[];
 	provinceList: ProvinceListModel[];
-	zoneList: ZoneListModel[];
-	areaList: AreaListModel[];
-	responseMsg: string = '';
-	responseNoRecord: string = '';
-	responseStatus: boolean = false;
-	responseReceived: boolean = false;
-	showDeletePrompt: boolean = false;
 	toDeleteArea: AreaListModel;
-	provinceSelected: boolean = false;
-	zoneSelected: boolean = false;
 	
-	refreshAreaListSubscription: Subscription;
-	refreshZoneListSubscription: Subscription;
+	responseMsg     : string    = '';
+	zoneSelected    : boolean   = false;
+	responseStatus  : boolean   = false;
+	responseNoRecord: string    = '';
+	responseReceived: boolean   = false;
+	showDeletePrompt: boolean   = false;
+	provinceSelected: boolean   = false;
+	
+	
+	refreshAreaListSubscription : Subscription;
+	refreshZoneListSubscription : Subscription;
 	closePromptEventSubscription: Subscription;
-	deleteAreaEventSubscription: Subscription;
+	deleteAreaEventSubscription : Subscription;
 	
-	provID: number = 0;
-	zoneID: number = 0;
-	selectionProvince = 0;
-	selectionZone = 0;
+	provID:         number  = 0;
+	zoneID:         number  = 0;
+	selectionProvince       = 0;
+	selectionZone           = 0;
 	
 	/** Injecting services to be used in this component */
 	constructor( private router: Router,
@@ -51,22 +53,22 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 			( body ) => {
 				this.pzapService.filterArea( body ).subscribe(
 					(response: Response) => {
+						this.responseStatus         = response.json().status;
+						
 						if( response.json().status ) {
-							this.responseStatus = true;
-							this.areaList = response.json().areas;
-							this.responseNoRecord = response.json().noData;
+							this.areaList           = response.json().areas;
+							this.responseNoRecord   = response.json().noData;
 						} else {
-							this.responseStatus = false;
-							this.areaList = [];
-							this.responseMsg = response.json().message;
-							this.responseNoRecord = response.json().noData;
+							this.areaList           = [];
+							this.responseMsg        = response.json().message;
+							this.responseNoRecord   = response.json().noData;
 						}
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.areaList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.areaList           = [];
+						this.responseMsg        = error.json().error;
 					}
 				);
 			}
@@ -78,25 +80,27 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 			( body ) => {
 				this.pzapService.filterZone( body ).subscribe(
 					(response: Response) => {
+						this.responseStatus = response.json().status;
+						
 						if( response.json().status ) {
-							this.responseStatus = true;
 							this.zoneList = response.json().zones;
+							
 							if (this.selectionProvince == 0 && this.zoneSelected ){
 								this.selectionProvince = this.zoneList[0].province_id;
 							}
-							this.responseNoRecord = response.json().noData;
+							
+							this.responseNoRecord   = response.json().noData;
 						} else {
-							this.responseStatus = false;
-							this.zoneList = [];
-							this.responseMsg = response.json().message;
-							this.responseNoRecord = response.json().noData;
+							this.zoneList           = [];
+							this.responseMsg        = response.json().message;
+							this.responseNoRecord   = response.json().noData;
 						}
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.zoneList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.zoneList           = [];
+						this.responseMsg        = error.json().error;
 					}
 				);
 			}
@@ -121,24 +125,24 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 				this.pzapService.deleteArea( id ).subscribe(
 					(response: Response) => {
 						this.responseReceived = true;
+						this.responseStatus = response.json().status;
+						
 						if( response.json().status ) {
-							this.responseStatus = true;
 							this.responseMsg = response.json().message;
 							this.pzapService.refreshList.next( {} );
 						} else {
-							this.responseStatus = false;
-							this.areaList = [];
-							this.responseMsg = response.json().message;
+							this.areaList       = [];
+							this.responseMsg    = response.json().message;
 						}
 						setTimeout( () => {
 							this.responseReceived = false;
 						}, 3000 )
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.areaList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.areaList           = [];
+						this.responseMsg        = error.json().error;
 						setTimeout( () => {
 							this.responseReceived = false;
 						}, 3000 )
@@ -151,28 +155,27 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 		this.pzapService.listProvince()
 		.subscribe(
 			(response: Response) => {
+					this.responseStatus = response.json().status;
 				if( response.json().status ) {
-					this.responseStatus = true;
-					this.provinceList = response.json().provinces;
+					this.provinceList   = response.json().provinces;
 				} else {
-					this.responseStatus = false;
-					this.provinceList = [];
-					this.responseMsg = response.json().message;
+					this.provinceList   = [];
+					this.responseMsg    = response.json().message;
 				}
 			},
 			(error: Response) => {
-				this.responseStatus = false;
-				this.responseReceived = true;
-				this.provinceList = [];
-				this.responseMsg = error.json().error;
+				this.responseStatus     = false;
+				this.responseReceived   = true;
+				this.provinceList       = [];
+				this.responseMsg        = error.json().error;
 			}
 		);
 	}
 
 	/** Function to reset all filter value and reset list */
 	onResetList(){
-		this.selectionProvince = 0;
-		this.selectionZone = 0;
+		this.selectionProvince  = 0;
+		this.selectionZone      = 0;
 		this.pzapService.refreshList.next( {} );
 	}
 	
@@ -197,8 +200,9 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 			this.pzapService.filterZone( { province_id: id } )
 			.subscribe(
 				(response: Response) => {
+					this.responseStatus = response.json().status;
 					if( response.json().status ) {
-						this.responseStatus = true;
+						
 						if(response.json().zones!=undefined && response.json().zones.length ==1 ){
 							this.selectionZone = response.json().zones[0]['id'];
 						}else {
@@ -209,18 +213,18 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 					}
 				},
 				(error: Response) => {
-					this.responseStatus = false;
-					this.responseReceived = true;
-					this.selectionZone = null;
-					this.zoneList = [];
-					this.responseMsg = error.json().error;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.selectionZone      = null;
+					this.zoneList           = [];
+					this.responseMsg        = error.json().error;
 				}
 			);
 			this.pzapService.refreshList.next( { province_id: id } );
 		} else {
-			this.provinceSelected = false;
-			this.zoneSelected = false;
-			this.provID = id;
+			this.provinceSelected   = false;
+			this.zoneSelected       = false;
+			this.provID             = id;
 			if (this.zoneID > 0) {
 				this.pzapService.refreshList.next( { zone_id: this.zoneID } );
 			} else {
@@ -237,20 +241,19 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 			this.pzapService.filterArea( { zone_id: id } )
 			.subscribe(
 				(response: Response) => {
+					this.responseStatus = response.json().status;
 					if( response.json().status ) {
-						this.responseStatus = true;
-						if(response.json().areas!=undefined){
+						if( response.json().areas != undefined ){
 							this.selectionProvince = response.json().areas[0]['province_id'];
 						}
 					} else {
-						this.responseStatus = false;
 						this.responseMsg = response.json().message;
 					}
 				},
 				(error: Response) => {
-					this.responseStatus = false;
-					this.responseReceived = true;
-					this.responseMsg = error.json().error;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
 				}
 			);
 		} else {

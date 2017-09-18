@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
 
 import { AuthGuard } from './auth/auth.guard';
 import { FullLayoutComponent } from './layout/full-layout.component';
@@ -24,12 +24,12 @@ const appRoutes: Routes = [
 		{ path: 'area', loadChildren: './province-zone-area-parish/area/area.module#AreaModule' },
 		{ path: 'parish', loadChildren: './province-zone-area-parish/parish/parish.module#ParishModule' },
 		{ path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' },
-		{ path: 'report', loadChildren: './report/report.module#ReportModule' }
-		
+		{ path: 'report', loadChildren: './report/report.module#ReportModule' },
+		{ path: 'payment', loadChildren: './payment-details/payment.module#PaymentModule'}
 	] }
 ];
 @NgModule( {
-	imports: [ RouterModule.forRoot( appRoutes ) ],
+	imports: [ RouterModule.forRoot( appRoutes, { preloadingStrategy: PreloadAllModules } ) ],
 	exports: [ RouterModule ]
 } )
 export class AppRoutingModule { }

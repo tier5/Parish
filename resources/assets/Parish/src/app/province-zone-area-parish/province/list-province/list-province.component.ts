@@ -16,16 +16,16 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ListProvinceComponent implements OnInit, OnDestroy {
 	
-	provinceList: ProvinceListModel[];
-	responseMsg: string = '';
-	responseNoRecord: string = '';
-	responseStatus: boolean = false;
-	responseReceived: boolean = false;
-	showDeletePrompt: boolean = false;
-	toDeleteProvince: ProvinceListModel;
-	refreshProvinceListSubscription: Subscription;
-	closePromptEventSubscription: Subscription;
-	deleteProvinceEventSubscription: Subscription;
+	provinceList                    : ProvinceListModel[];
+	responseMsg                     : string    = '';
+	responseStatus                  : boolean   = false;
+	responseNoRecord                : string    = '';
+	responseReceived                : boolean   = false;
+	showDeletePrompt                : boolean   = false;
+	toDeleteProvince                : ProvinceListModel;
+	closePromptEventSubscription    : Subscription;
+	refreshProvinceListSubscription : Subscription;
+	deleteProvinceEventSubscription : Subscription;
 	
 	/** Injecting services to be used in this component */
 	constructor( private pzapService: ProvinceZoneAreaParishService,
@@ -39,16 +39,15 @@ export class ListProvinceComponent implements OnInit, OnDestroy {
 			() => {
 				this.pzapService.listProvince().subscribe(
 					(response: Response) => {
-
+						this.responseStatus = response.json().status;
+						
 						if( response.json().status ) {
-							this.responseStatus = true;
-							this.provinceList = response.json().provinces;
-							this.responseNoRecord = response.json().noData;
+							this.provinceList       = response.json().provinces;
+							this.responseNoRecord   = response.json().noData;
 						} else {
-							this.responseStatus = false;
-							this.provinceList = [];
-							this.responseMsg = response.json().message;
-							this.responseNoRecord = response.json().noData;
+							this.provinceList       = [];
+							this.responseMsg        = response.json().message;
+							this.responseNoRecord   = response.json().noData;
 						}
 					},
 					(error: Response) => {
@@ -79,26 +78,24 @@ export class ListProvinceComponent implements OnInit, OnDestroy {
 				this.showDeletePrompt = false;
 				this.pzapService.deleteProvince( id ).subscribe(
 					(response: Response) => {
-						this.responseReceived = true;
+						this.responseReceived   = true;
+						this.responseStatus     = response.json().status;
 						if( response.json().status ) {
-							this.responseStatus = true;
 							this.responseMsg = response.json().message;
 							this.pzapService.refreshList.next();
 						} else {
-							this.responseStatus = false;
-							this.provinceList = [];
-							this.responseMsg = response.json().message;
-
+							this.provinceList   = [];
+							this.responseMsg    = response.json().message;
 						}
 						setTimeout( () => {
 							this.responseReceived = false;
 						}, 3000 )
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.provinceList = [];
-						this.responseMsg = error.json().error;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.provinceList       = [];
+						this.responseMsg        = error.json().error;
 						setTimeout( () => {
 							this.responseReceived = false;
 						}, 3000 )

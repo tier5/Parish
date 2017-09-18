@@ -21,18 +21,16 @@ class Provience extends Model
      */
     protected $fillable = [
 
-        'name', 'user_id'
+        'name', 'user_id', 'created_by'
     ];
 
-
-   /**
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
      */
 
     protected $dates = ['deleted_at'];
-
 
     protected $softDelete = true;
 
@@ -43,23 +41,37 @@ class Provience extends Model
      */ 
 
     public function zoneDel() {
-        return $this->hasMany('App\Models\Zone','provience_id');
-	}
 
-    public function zones() {
-        return $this->hasMany('App\Models\Zone');
+        return $this->hasMany('App\Models\Zone','provience_id');
+
     }
 
-	public function users() {
-        return $this->belongsTo('App\Models\User','user_id');
-	}
+    public function zones() {
+
+    return $this->hasMany('App\Models\Zone');
+
+    }
+
+    public function users() {
+
+    return $this->belongsTo('App\Models\User','user_id');
+
+    }
+
+    public function payments() {
+
+    return $this->hasMany('App\Models\Payment','created_by', 'user_id');
+
+    }    
 
     /**
      * Get all of the area for the Province.
      */
     
     public function areas() {
-        return $this->hasManyThrough('App\Models\Area', 'App\Models\Zone');
+
+    return $this->hasManyThrough('App\Models\Area', 'App\Models\Zone');
+
     }
 
     /**
@@ -67,10 +79,14 @@ class Provience extends Model
      */
     
     public function parishes() {
+
         $parishes = collect();
+
         foreach ($this->areas as $area) {
+
             $parishes = $area->parishes;
         }
+
         return $parishes;
     }
 
@@ -79,8 +95,11 @@ class Provience extends Model
      */
 
     protected static function boot() {
+
        parent::boot();
+
         static::deleting(function($province) {
+
             foreach(['zoneDel'] as $relation)
             {
                 foreach($province->{$relation} as $item)
@@ -88,6 +107,16 @@ class Provience extends Model
                     $item->delete();
                 }
             }
+
+            $province->payments()->delete();
+
+            // foreach(['payments'] as $payrelation)
+            // {
+            //     foreach($province->{$payrelation} as $paymentitem)
+            //     {
+            //         $paymentitem->delete();
+            //     }
+            // }
             $province->users()->delete();
         });
     }    

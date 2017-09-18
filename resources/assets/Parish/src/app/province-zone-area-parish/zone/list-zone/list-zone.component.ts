@@ -16,18 +16,20 @@ import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.s
 })
 export class ListZoneComponent implements OnInit, OnDestroy {
 	
-	provinceList: ProvinceListModel[];
-	zoneList: ZoneListModel[];
-	responseMsg: string = '';
-	responseNoRecord: string = '';
-	responseStatus: boolean = false;
-	responseReceived: boolean = false;
-	showDeletePrompt: boolean = false;
-	toDeleteZone: ZoneListModel;
-	refreshZoneListSubscription: Subscription;
+	provinceList                : ProvinceListModel[];
+	zoneList                    : ZoneListModel[];
+	responseStatus              : boolean = false;
+	responseReceived            : boolean = false;
+	showDeletePrompt            : boolean = false;
+	responseNoRecord            : string = '';
+	responseMsg                 : string = '';
+	selectedProvince            : number =  0;
+	toDeleteZone                : ZoneListModel;
+	refreshZoneListSubscription : Subscription;
 	closePromptEventSubscription: Subscription;
-	deleteZoneEventSubscription: Subscription;
-	selectedProvince: number =  0;
+	deleteZoneEventSubscription : Subscription;
+	
+	
 	
 	/** Injecting services to be used in this component */
 	constructor( private router: Router,
@@ -41,22 +43,22 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 			( body ) => {
 				this.pzapService.filterZone( body ).subscribe(
 					(response: Response) => {
+							this.responseStatus = response.json().status;
+						
 						if( response.json().status ) {
-							this.responseStatus = true;
 							this.zoneList = response.json().zones;
 							this.responseNoRecord = response.json().noData;
 						} else {
-							this.responseStatus = false;
 							this.zoneList = [];
 							this.responseMsg = response.json().message;
 							this.responseNoRecord = response.json().noData;
 						}
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.zoneList = [];
-						this.responseMsg = error.json().error;
+							this.responseStatus = false;
+							this.responseReceived = true;
+							this.zoneList = [];
+							this.responseMsg = error.json().error;
 					}
 				);
 			}
@@ -80,13 +82,12 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 				this.showDeletePrompt = false;
 				this.pzapService.deleteZone( id ).subscribe(
 					(response: Response) => {
-						this.responseReceived = true;
+							this.responseReceived   = true;
+							this.responseStatus     = response.json().status;
 						if( response.json().status ) {
-							this.responseStatus = true;
 							this.responseMsg = response.json().message;
 							this.pzapService.refreshList.next( {} );
 						} else {
-							this.responseStatus = false;
 							this.zoneList = [];
 							this.responseMsg = response.json().message;
 						}
@@ -95,10 +96,10 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 						}, 3000 )
 					},
 					(error: Response) => {
-						this.responseStatus = false;
-						this.responseReceived = true;
-						this.zoneList = [];
-						this.responseMsg = error.json().error;
+							this.responseStatus = false;
+							this.responseReceived = true;
+							this.zoneList = [];
+							this.responseMsg = error.json().error;
 						setTimeout( () => {
 							this.responseReceived = false;
 						}, 3000 )
@@ -110,20 +111,19 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 		/** Service call to get list of all available province */
 		this.pzapService.listProvince().subscribe(
 			(response: Response) => {
+					this.responseStatus = response.json().status;
 				if( response.json().status ) {
-					this.responseStatus = true;
 					this.provinceList = response.json().provinces;
 				} else {
-					this.responseStatus = false;
 					this.provinceList = [];
 					this.responseMsg = response.json().message;
 				}
 			},
 			(error: Response) => {
-				this.responseStatus = false;
-				this.responseReceived = true;
-				this.provinceList = [];
-				this.responseMsg = error.json().error;
+					this.responseStatus = false;
+					this.responseReceived = true;
+					this.provinceList = [];
+					this.responseMsg = error.json().error;
 			}
 		);
 		
@@ -137,19 +137,21 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 
 	/** Function call on update button click */
 	onEdit(obj: ZoneListModel) {
+		
 		const zone_id = obj.id;
 		this.router.navigate( [ 'zone/edit/', zone_id ] );
 	}
 	
 	/** Function call to show delete prompt */
 	showPrompt(obj: ZoneListModel) {
+		
 		this.showDeletePrompt = true;
 		this.toDeleteZone = obj;
 	}
 	
 	/** Function call on selection of province from filters */
 	onSelectProvince(id: number) {
-		if( id > 0 ){
+		if( id > 0 ) {
 			this.pzapService.refreshList.next( { province_id: id } );
 		} else {
 			this.pzapService.refreshList.next( {} );
@@ -158,6 +160,7 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 	
 	/** Un-subscribing from all custom made events when component is destroyed */
 	ngOnDestroy() {
+		
 		this.refreshZoneListSubscription.unsubscribe();
 		this.closePromptEventSubscription.unsubscribe();
 		this.deleteZoneEventSubscription.unsubscribe();

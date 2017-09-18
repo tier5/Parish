@@ -120,6 +120,25 @@
 
         <li role="presentation" class="divider" *ngIf="showSidebar"></li>
 
+        <!-- Payment Section -->
+        <li class="parent">
+            <a data-toggle="collapse" href="#payment-section">
+                <i class="fa fa-fw fa-chevron-circle-down"></i> Payment
+            </a>
+            <ul class="children collapse" id="payment-section">
+                <li *ngIf="paymentOption">
+                    <a routerLinkActive="active" [routerLink]="['/payment/upload']">
+                        <i class="fa fa-fw fa-plus-square"></i> Upload
+                    </a>
+                </li>
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/payment/list']">
+                        <i class="fa fa-fw fa-th-list"></i> List
+                    </a>
+                </li>
+            </ul>
+        </li>
+
         <!-- Report Section -->
         <li class="parent" *ngIf="showSidebar">
             <a data-toggle="collapse" href="#report-section">
@@ -141,7 +160,8 @@
 
         <li role="presentation" class="divider" *ngIf="showSidebar"></li>
 
-<!--         <li><a routerLinkActive="active" [routerLink]="['/form']"><i class="fa fa-list fa-fw"></i> Form</a></li>
+
+        <!--<li><a routerLinkActive="active" [routerLink]="['/form']"><i class="fa fa-list fa-fw"></i> Form</a></li>
 
         <li class="parent ">
             <a data-toggle="collapse" href="#sub-item-4">
@@ -165,7 +185,7 @@
                 </li>
             </ul>
         </li>
-        <li role="presentation" class="divider"></li> -->
+        <li role="presentation" class="divider"></li>-->
 
     </ul>
 </div><!--/.sidebar-->
