@@ -8,6 +8,7 @@ import { Subscription } from "rxjs/Subscription";
 import { Response } from '@angular/http';
 import { AuthService } from "../../auth/auth.service";
 import { FileUploader } from 'ng2-file-upload';
+import {environment } from "../../../environments/environment.prod";
 
 
 @Component({
@@ -31,7 +32,7 @@ export class ListPaymentComponent {
 	showUploadButton                : number        =  0 ;
 	progress                        : number        =  0 ;
 	files                           : FileList;
-
+	base_url                        : string        = environment.base_url;
 	
 	/** Injecting services to be used in this component */
 	constructor( private payservice: PaymentService,
@@ -39,6 +40,7 @@ export class ListPaymentComponent {
 	             private authService: AuthService ) { }
 	
 	ngOnInit() {
+		
 		
 		/** Subscribe to event to refresh province list */
 		this.refreshPaymentListSubscription = this.payservice.refreshList
@@ -77,8 +79,6 @@ export class ListPaymentComponent {
 										item.reject = false;
 									}
 								});
-								
-								console.log(this.paymentDetails);
 							} else {
 								this.paymentDetails = [];
 							}
@@ -141,63 +141,7 @@ export class ListPaymentComponent {
 		this.progress           = 10;
 	}
 	
-	/** Download file function */
-	
-	downloadFile(payment) {
-		
-		/*var a = document.createElement("a");
-		document.body.appendChild(a);
-		let blob = new Blob([fileName], {type: "image/png"});
-		let url = window.URL.createObjectURL(blob);
-		a.href = url;
-		a.download = fileName;
-		a.click();
-		window.URL.revokeObjectURL(url);*/
-		this.payservice.downloadPaymentFile(payment)
-			
-			.subscribe(
-				(response: Response) => {
-					//this.responseStatus = response.json().status;
-					console.log(response);
-					console.log(payment);
-					//var contentType = 'image/!*';
-					//var blob = new Blob([(<any>response)._body], { type: contentType });
-					//var filename = payment.file_name;
-					//var url= window.URL.createObjectURL(blob);
-				/*	var a = document.createElement("a");
-					document.body.appendChild(a);
-					var file = new Blob([response], {type: 'image/jpg'});
-					var fileURL = window.URL.createObjectURL(file);
-					a.href = fileURL;
-					a.download = filename;
-					a.click();
-					window.open(fileURL);*/
-					var fileName = payment.file_name;
-					var a = document.createElement("a");
-					document.body.appendChild(a);
-					var file = new Blob([(<any>response)._body], {type: 'image/jpg'});
-					var fileURL = window.URL.createObjectURL(file);
-					a.href = fileURL;
-					a.download = fileName;
-					a.click();
-					
-					 /*var blob = new Blob([response], {type:'image/!*'});
-					 var url= window.URL.createObjectURL(blob);*/
-					 window.open(fileURL);
-					/*var contentType = 'image/!*';
-					var blob = new Blob([(<any>response)._body], { type: contentType });
-					var url= window.URL.createObjectURL(blob);
-					window.open(url);*/
-					
-				},(error: Response) => {
-					this.progress           = 0;
-					this.responseStatus     = false;
-					this.responseReceived   = true;
-					this.responseMsg        = error.json().error;
-				}
-			);
-	}
-	
+
 	/** Change status of Payment **/
 	
 	OnChangeStatus(payment,status){

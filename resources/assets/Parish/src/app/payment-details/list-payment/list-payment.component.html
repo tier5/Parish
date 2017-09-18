@@ -62,8 +62,8 @@
                                 <button
                                         class="btn btn-active btn-xs"
                                         type="button" *ngIf="!isAdmin && payment.accept">
-                                    <i class="fa fa-download fa-fw"></i>Download
-                                    <a [href]="'//parish.local/paymentReceipt/'+payment.file_name" [download]="payment.file_name">Download</a>
+                                    <i class="fa fa-download fa-fw"></i><a [href]="base_url+'/paymentReceipt/'+payment.file_name" [download]="payment.file_name">Download</a>
+
                                 </button>
 
                                 <input type="file" ng2FileSelect [uploader]="uploader" class="upload_file" *ngIf="!isAdmin && payment.payment_status == 1 " (change)="showUploader(payment,$event)" accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"/>
