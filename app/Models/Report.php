@@ -1,7 +1,7 @@
 <?php
 
 /**
-* Payment Model to calculate pastor payment detail
+* Report Model to calculate pastor payment detail
 * @param Request $request
 */
 
