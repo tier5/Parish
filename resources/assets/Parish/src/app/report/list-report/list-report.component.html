@@ -1,1 +1,577 @@
 <h1>list component works</h1>
+
+<form #prForm="ngForm">
+    <div class="col-md-12">
+        <div class="row row-eq-height">
+            <div class="col-md-12 border-black">
+                <div class="row">
+                    <h4 class="text-center">monthly progress report dashboard</h4>
+                    <p class="acc-name">
+                        Account Name :
+                        <span>
+                            {{ progress_report.account_name }}
+                        </span>
+                    </p>
+                    <p class="acc-id">Parish Id :
+                        <select>
+                            <option>1002</option>
+                            <option>1002</option>
+                            <option>1002</option>
+                        </select>
+                    </p>
+                    <div class="acc-details">
+                        <div class="col-sm-6 text-right">
+                            <div class="block">
+                                <label>Month: </label>
+                                <span>{{ progress_report.month }}</span>
+                            </div>
+                            <div class="block">
+                                <label>Parish Pastor: </label>
+                                <span>{{ progress_report.parish_pastor }}</span>
+                            </div>
+                            <div class="block">
+                                <label>Zonal Pastor: </label>
+                                <span>{{ progress_report.zonal_pastor }}</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="block">
+                                <label>Year: </label>
+                                <span>{{ progress_report.year }}</span>
+                            </div>
+                            <div class="block">
+                                <label>Area Pastor: </label>
+                                <span>{{ progress_report.area_pastor }}</span>
+                            </div>
+                            <div class="block">
+                                <label>Provincial Pastor: </label>
+                                <span>{{ progress_report.province_pastor }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="spacer"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <span class="highlight">Crucial Date</span></th>
+                                    <th colspan="2">
+                                                <span class="sea-green">
+
+                                                    <dp-date-picker id="daytimePicker"
+                                                                    name="daytimePicker"
+                                                                    #datePicker
+                                                                    #daytimePicker="ngModel"
+                                                                    [(ngModel)]="progress_report.crucial_date"
+                                                                    (ngModelChange)="log($event)"
+                                                                    [mode]="'month'"
+                                                                    [placeholder]="'Pick Month & Year'"
+                                                                    [config]="config"
+                                                                    [theme]="'dp-material'">
+                                                    </dp-date-picker>
+
+                                                </span>
+                                    </th>
+                                    <th colspan="3"><span>Attendance</span></th>
+                                    <th class="blank"><span></span></th>
+                                    <th colspan="6"><span>Monetary</span></th>
+                                </tr>
+                                <tr>
+                                    <th><span>Date</span></th>
+                                    <th><span>Day</span></th>
+                                    <th><span>Programmes</span></th>
+                                    <th><span>Men</span></th>
+                                    <th><span>Women</span></th>
+                                    <th><span>Children</span></th>
+                                    <th><span>Total</span></th>
+                                    <th class="blank"><span></span></th>
+                                    <th><span>Offering</span></th>
+                                    <th colspan="2"><span>Tithe</span></th>
+                                    <th><span>F/Fruit</span></th>
+                                    <th><span>T/Giving</span></th>
+                                    <th><span>Total</span></th>
+                                </tr>
+                                <tr>
+                                <th colspan="7"><span></span></th>
+                                <th class="blank"><span></span></th>
+                                <th><span></span></th>
+                                <th><span>Pastor</span></th>
+                                <th><span>General</span></th>
+                                <th><span></span></th>
+                                <th><span></span></th>
+                                <th><span></span></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- First section start -->
+
+                            <tr *ngFor="let weekly of progress_report.report.weekly; let i = index">
+                                <td colspan="14">
+                                    <table class="table table-bordered"
+                                           style="margin-bottom:0;"
+                                           *ngFor="let week of weekly.days; let j = index"
+                                    >
+                                        <tbody>
+                                            <tr *ngIf="week.date === 'Sunday'">
+                                                <td>
+                                                    <input type="text"
+                                                           [name]="'week' + i + 'date' + j"
+                                                           [(ngModel)]="week.date"
+                                                           class="form-control bg-pink"
+                                                           disabled
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="text"
+                                                           [name]="'week' + i + 'day' + j"
+                                                           [(ngModel)]="week.day"
+                                                           class="form-control"
+                                                           disabled
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="text"
+                                                           [name]="'week' + i + 'programmes' + j"
+                                                           [(ngModel)]="week.programmes"
+                                                           class="form-control bg-pink"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'men' + j"
+                                                           [(ngModel)]="week.attendance.men"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'women' + j"
+                                                           [(ngModel)]="week.attendance.women"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'children' + j"
+                                                           [(ngModel)]="week.attendance.children"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'a_total' + j"
+                                                           [(ngModel)]="week.attendance.total"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control"
+                                                           disabled
+                                                    >
+                                                </td>
+                                                <td class="blank">&nbsp;</td>
+                                                <td colspan="6">&nbsp;</td>
+                                            </tr>
+                                            <tr *ngIf="week.date !== 'Sunday'">
+                                                <td>
+                                                    <input type="text"
+                                                           [name]="'week' + i + 'date' + j"
+                                                           [(ngModel)]="week.date"
+                                                           class="form-control bg-pink"
+                                                           disabled
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="text"
+                                                           [name]="'week' + i + 'day' + j"
+                                                           [(ngModel)]="week.day"
+                                                           class="form-control"
+                                                           disabled
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="text"
+                                                           [name]="'week' + i + 'programmes' + j"
+                                                           [(ngModel)]="week.programmes"
+                                                           class="form-control bg-pink"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'men' + j"
+                                                           [(ngModel)]="week.attendance.men"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'women' + j"
+                                                           [(ngModel)]="week.attendance.women"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'children' + j"
+                                                           [(ngModel)]="week.attendance.children"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'a_total' + j"
+                                                           [(ngModel)]="week.attendance.total"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control"
+                                                           disabled
+                                                    >
+                                                </td>
+                                                <td class="blank">&nbsp;</td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'offering' + j"
+                                                           [(ngModel)]="week.monetary.offering"
+                                                           min="0"
+                                                           step="0.01"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'pastor' + j"
+                                                           [(ngModel)]="week.monetary.tithe.pastor"
+                                                           min="0"
+                                                           step="0.01"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'general' + j"
+                                                           [(ngModel)]="week.monetary.tithe.general"
+                                                           min="0"
+                                                           step="0.01"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'f_fruit' + j"
+                                                           [(ngModel)]="week.monetary.f_fruit"
+                                                           min="0"
+                                                           step="0.01"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 't_giving' + j"
+                                                           [(ngModel)]="week.monetary.t_giving"
+                                                           min="0"
+                                                           step="0.01"
+                                                           class="form-control sea-green"
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'week' + i + 'm_total' + j"
+                                                           [(ngModel)]="week.monetary.total"
+                                                           min="0"
+                                                           step="0.01"
+                                                           class="form-control"
+                                                           disabled
+                                                    >
+                                                </td>
+                                            </tr>
+                                            <tr >
+                                                <td class="blank" colspan="6">&nbsp;</td>
+                                                <td colspan="2"><strong>Weekly Total</strong></td>
+                                                <td>
+                                                    <b>
+                                                        <input type="number"
+                                                               [name]="'weekly_total' + i + 'men'"
+                                                               [(ngModel)]="weekly.week_total.monetary.offering"
+                                                               min="0"
+                                                               step="1"
+                                                               class="form-control"
+                                                               disabled
+                                                        >
+                                                    </b>
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'weekly_total' + i + 'pastor'"
+                                                           [(ngModel)]="weekly.week_total.monetary.tithe.pastor"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control"
+                                                           disabled
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <b>
+                                                        <input type="number"
+                                                               [name]="'weekly_total' + i + 'general'"
+                                                               [(ngModel)]="weekly.week_total.monetary.tithe.general"
+                                                               min="0"
+                                                               step="1"
+                                                               class="form-control"
+                                                               disabled
+                                                        >
+                                                    </b>
+                                                </td>
+                                                <td>
+                                                    <input type="number"
+                                                           [name]="'weekly_total' + i + 'f_fruit'"
+                                                           [(ngModel)]="weekly.week_total.monetary.f_fruit"
+                                                           min="0"
+                                                           step="1"
+                                                           class="form-control"
+                                                           disabled
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <b>
+                                                        <input type="number"
+                                                               [name]="'weekly_total' + i + 't_giving'"
+                                                               [(ngModel)]="weekly.week_total.monetary.t_giving"
+                                                               min="0"
+                                                               step="1"
+                                                               class="form-control"
+                                                               disabled
+                                                        >
+                                                    </b>
+                                                </td>
+                                                <td>
+                                                    <b>
+                                                        <input type="number"
+                                                               [name]="'weekly_total' + i + 'total'"
+                                                               [(ngModel)]="weekly.week_total.monetary.offering"
+                                                               min="0"
+                                                               step="1"
+                                                               class="form-control"
+                                                               disabled
+                                                        >
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+
+                            </tr>
+
+                            <!-- First section end -->
+
+                            <!-- Last section start -->
+                            <tr>
+                                <td colspan="6">
+                                    <p>Monthly Average Attendance(MAA)</p>
+                                </td>
+                                <td colspan="2">
+                                    <strong>Monthly Total</strong>
+                                </td>
+                                <td>
+                                    <b>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="220.04"
+                                               disabled
+                                        >
+                                    </b>
+                                </td>
+                                <td>
+                                    <b>
+                                        <input type="text"
+                                               class="form-control"
+                                               value=""
+                                               disabled
+                                        >
+                                    </b>
+                                </td>
+                                <td>
+                                    <b>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="550.00"
+                                               disabled
+                                        >
+                                    </b>
+                                </td>
+                                <td>
+                                    <input type="text"
+                                           class="form-control"
+                                           value=""
+                                           disabled
+                                    >
+                                </td>
+                                <td>
+                                    <b>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="40.00"
+                                               disabled
+                                        >
+                                    </b>
+                                </td>
+                                <td>
+                                    <b>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="700.00"
+                                               disabled
+                                        >
+                                    </b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><span>Services</span></td>
+                                <td><span>Children</span></td>
+                                <td><span>Women</span></td>
+                                <td><span>Men</span></td>
+                                <td><span>Total</span></td>
+                                <td colspan="4">
+                                    <strong>Parish Start Date: <span class="date">23/11/2003</span></strong>
+                                </td>
+                                <td><span>Area Contrib.</span></td>
+                                <td>
+                                    <b><input type="text" class="form-control highlight" value="93.79"></b>
+                                </td>
+                                <td><span>WEM</span></td>
+                                <td>
+                                    <b><input type="text" class="form-control highlight" value="493.79"></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><span>Sunday School</span></td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="47">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="37">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="11">
+                                </td>
+                                <td>
+                                    <b><input type="text" class="form-control highlight-light" value="95"></b>
+                                </td>
+                                <td colspan="2">
+                                    <strong>Adults only: </strong>
+                                </td>
+                                <td colspan="2">
+                                    <strong><span class="highlight maa">MAA(Adults Only)</span></strong>
+                                </td>
+                                <td colspan="4"><span>Projected Parish Numerical Strength</span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><span>Sunday</span></td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="116">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="67">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="39">
+                                </td>
+                                <td>
+                                    <b><input type="text" class="form-control highlight-light" value="222"></b>
+                                </td>
+                                <td>
+                                    <span>Sunday</span>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="106">
+                                </td>
+                                <td colspan="2" style="border-bottom: 0;">
+                                    <input type="text" class="form-control" value="">
+                                </td>
+                                <td colspan="4" style="border-bottom: 0;">
+                                    <input type="text" class="form-control" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><span>Mid Week</span></td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="16">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="10">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="4">
+                                </td>
+                                <td>
+                                    <b><input type="text" class="form-control highlight-light" value="31"></b>
+                                </td>
+                                <td>
+                                    <span>Mid Week</span>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control highlight-light" value="14">
+                                </td>
+                                <td colspan="2" style="border-top: 0;">
+                                    <b><input type="text" class="form-control highlight" value="120"></b>
+                                </td>
+                                <td colspan="4" style="border-top: 0;">
+                                    <b><input type="text" class="form-control" value="144"></b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="monthly-growth"><span>Monthly Growth</span></td>
+                                <td><span>Number of Births</span></td>
+                                <td>
+                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
+                                </td>
+                                <td><span>Number of Deaths</span></td>
+                                <td>
+                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
+                                </td>
+                                <td colspan="2"><span>Number of Marriages</span></td>
+                                <td>
+                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
+                                </td>
+                                <td><span>Number of Souls Saved</span></td>
+                                <td>
+                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="2"></b>
+                                </td>
+                                <td colspan="2"><span>Number of New Workers</span></td>
+                                <td>
+                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="3"></b>
+                                </td>
+                            </tr>
+                            <!-- Last section end -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary form-control">Submit</button>
+</form>
