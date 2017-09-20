@@ -228,7 +228,7 @@ class ReportController extends Controller {
                         
                     }
                     $report_set['wem_percentage']   = 10;
-                    $report_set["parish_id"]        = $parish_id;
+                    $report_set["parish_id"]        = $parish->id;
                     $report_set["parish_pastor"]    = $parish->users->first_name." ".$parish->users->last_name;
                     $report_set["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
                     $report_set["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
@@ -286,7 +286,7 @@ class ReportController extends Controller {
                         
                     }
                     $report_set['wem_percentage']   = 10;
-                    $report_set["parish_id"]        = $parish_id;
+                    $report_set["parish_id"]        = $parish->id;
                     $report_set["parish_pastor"]    = $parish->users->first_name." ".$parish->users->last_name;
                     $report_set["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
                     $report_set["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
