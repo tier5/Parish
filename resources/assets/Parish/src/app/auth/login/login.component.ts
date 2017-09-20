@@ -8,6 +8,7 @@ import {AuthService} from "../auth.service";
 import { ProvinceZoneAreaParishService } from "../../province-zone-area-parish/province-zone-area-parish.service";
 import { ProfileService } from "../../profile-details/profile.service";
 import { PaymentService } from "../../payment-details/payment.service";
+import { ReportService } from '../../report/report.service';
 
 @Component( {
 	selector: 'login',
@@ -27,7 +28,8 @@ export class LoginComponent {
 				 private loginService: LoginService,
 	             private router: Router,
 	             private profileService: ProfileService,
-	             private paymentService: PaymentService) { }
+	             private paymentService: PaymentService,
+	             private reportService: ReportService ) { }
 	
 	/** Function call on submit */
 	onSubmit( formSignIn: NgForm ) {
@@ -49,6 +51,7 @@ export class LoginComponent {
 					this.profileService.refreshHeader();
 					this.profileService.refreshHeader();
 					this.paymentService.refreshHeader();
+					this.reportService.refreshHeader();
 				} else {
 					this.loginRequestStatus = false;
 					this.loginRequestResponseMsg = response.json().error;

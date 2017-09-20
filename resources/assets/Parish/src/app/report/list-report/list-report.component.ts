@@ -46,6 +46,7 @@ export class ListReportComponent {
 		locale: 'en',
 	};
 	progress_report: ProgressReportModel = {
+		"wem_percentage": 10,
 		"account_name": "Account Name",
 		"parish_id": 1001,
 		"parish_pastor": "Parish Pastor",
@@ -921,13 +922,3 @@ export class ListReportComponent {
 	}
 	
 }
-
-/*
-* <input
-    type="number"
-    [name]="'numTwo'+ i"
-    [(ngModel)]="response.datas[i].numTwo"
-    min="0.01"
-    step="0.01"
->
-* **/
