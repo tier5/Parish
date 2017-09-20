@@ -23,7 +23,7 @@ export class FullLayoutComponent {
 		const user_type = this.authService.getToken().user_type;
 		if(user_type != 1){
 			this.showSidebar = false;
-			if(user_type == 2){
+			if(user_type == 3){
 				this.paymentOption = true;
 			}
 		}

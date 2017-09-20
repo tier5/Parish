@@ -41,7 +41,7 @@
                             <td>{{ payment.id }}</td>
                             <td>{{ payment.payment_description }}</td>
                             <td>{{ payment.upload_month }} / {{ payment.upload_year }}</td>
-                            <td></td>
+                            <td>{{ payment.file_name }}</td>
                             <td>{{ payment.pay_status }}
 
                             </td>
@@ -61,12 +61,12 @@
 
                                 <button
                                         class="btn btn-active btn-xs"
-                                        type="button" *ngIf="!isAdmin && payment.accept">
+                                        type="button" *ngIf="payment.accept">
                                     <i class="fa fa-download fa-fw"></i><a [href]="base_url+'/paymentReceipt/'+payment.file_name" [download]="payment.file_name">Download</a>
 
                                 </button>
 
-                                <input type="file" ng2FileSelect [uploader]="uploader" class="upload_file" *ngIf="!isAdmin && payment.payment_status == 1 " (change)="showUploader(payment,$event)" accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"/>
+                                <input type="file" ng2FileSelect [uploader]="uploader" class="upload_file" *ngIf="isParish && payment.payment_status == 1 " (change)="showUploader(payment,$event)" accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"/>
 
                                 <button type="button" class="btn btn-success btn-xs"
                                         (click)="upload(payment)" *ngIf="showUploadButton == payment.id">

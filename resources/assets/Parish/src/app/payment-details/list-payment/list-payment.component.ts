@@ -24,6 +24,7 @@ export class ListPaymentComponent {
 	responseReceived                = false;
 	responseMsg     : string        = '';
 	public isAdmin  : boolean       = false;
+	public isParish  : boolean       = false;
 	
 	paymentDetails                  = [];
 	uploader                        = new FileUploader({});
@@ -54,6 +55,8 @@ export class ListPaymentComponent {
 								const user_type = this.authService.getToken().user_type;
 								if(user_type == 1){
 									this.isAdmin = true;
+								}else if(user_type == 3){
+									this.isParish = true;
 								}
 								this.paymentDetails = response.json().paymentDetail;
 								this.paymentDetails.forEach(item => {

@@ -13,6 +13,7 @@ use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
 use App\Models\Payment;
+use App\Models\Parish;
 use App\Helpers;
 use Crypt;
 use DB;
@@ -23,6 +24,7 @@ use Illuminate\Http\Request;
 use JWTAuth;
 use JWTAuthException;
 use Log;
+
 
 class PaymentController extends Controller {
 
@@ -50,13 +52,58 @@ class PaymentController extends Controller {
         try {
             DB::beginTransaction();
 
-            if($user_type == 2) {
+            if($user_type == 3) {
 
                 $payments=Payment::where('created_by',$userId)->get();
             }
             else if($user_type == 1) {
 
                 $payments=Payment::where('wem_id',$userId)->get();
+            }else{
+                $userDetails =User::find($userId);
+                if($userDetails->pastor_type == 1) {
+                    $provinceInfo = Provience::where('user_id',$userDetails->id)->first();
+                    $zoneInfo = zone::where('provience_id',$provinceInfo->id)->get();
+                    $zoneArray = array();
+                    foreach($zoneInfo as $zone){
+                        array_push($zoneArray,$zone->id);
+                    }
+                    $areaList = Area::whereIn('zone_id',$zoneArray)->get();
+                    $areaArray = array();
+                    foreach($areaList as $area){
+                        array_push($areaArray,$area->id);
+                    }
+                    $parishList = Parish::whereIn('area_id',$areaArray)->get();
+                    $parishArray = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->user_id);
+                    }
+                    $payments=Payment::whereIn('created_by',$parishArray)->get();
+
+                } else if($userDetails->pastor_type == 2) {
+                    $zoneInfo = zone::where('user_id',$userDetails->id)->first();
+                    $areaList = Area::where('zone_id',$zoneInfo->id)->get();
+                    $areaArray = array();
+                    foreach($areaList as $area){
+                        array_push($areaArray,$area->id);
+                    }
+                    $parishList = Parish::whereIn('area_id',$areaArray)->get();
+                    $parishArray = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->user_id);
+                    }
+                    $payments=Payment::whereIn('created_by',$parishArray)->get();
+                    
+                } else {
+                    $areaInfo = Area::where('user_id',$userDetails->id)->first();
+                    $parishList = Parish::where('area_id',$areaInfo->id)->get();
+                    $parishArray = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->user_id);
+                    }
+                    $payments=Payment::whereIn('created_by',$parishArray)->get();
+
+                }
             }
 
             $noOfPayment = count($payments);
@@ -85,7 +132,8 @@ class PaymentController extends Controller {
             } else {
                 $response = [
                     'status'    => false,
-                    'error'     => "No payment has been found."
+                    'message'     => "No payment has been found.",
+                    'paymentDetail' => []
                 ];
                 $responseCode = 200;
             }
