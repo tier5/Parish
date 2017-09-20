@@ -44,6 +44,9 @@ export class CreateReportComponent implements OnInit {
 		report_month: number,
 		report_year: number
 	};
+	responseStatus: boolean = false;
+	responseMsg: string = '';
+	responseReceived: boolean = false;
 	config: IDatePickerConfig = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
@@ -56,7 +59,7 @@ export class CreateReportComponent implements OnInit {
 		appendTo: document.body,
 		drops: 'down',
 		opens: 'right',
-		showNearMonthDays: true,
+		showNearMonthDays: false,
 		showWeekNumbers: false,
 		enableMonthSelector: true,
 		yearFormat: 'YYYY',
@@ -77,18 +80,18 @@ export class CreateReportComponent implements OnInit {
 		showMultipleYearsNavigation: false,
 		locale: 'en',
 	};
-	progress_report: ProgressReportModel = {
-		"wem_percentage": 10,
+	temp_report: ProgressReportModel = {
+		"wem_percentage": 0,
 		"wem_share": 0,
-		"account_name": "Account Name",
-		"parish_id": 1001,
-		"parish_pastor": "Parish Pastor",
-		"area_pastor": "Area Pastor",
-		"zonal_pastor": "Zonal Pastor",
-		"province_pastor": "Province Pastor",
+		"account_name": "",
+		"parish_id": 0,
+		"parish_pastor": "",
+		"area_pastor": "",
+		"zonal_pastor": "",
+		"province_pastor": "",
 		"crucial_date": "",
-		"month": "September",
-		"year": "2017",
+		"month": "",
+		"year": "",
 		"report": {
 			"monthly_total": {
 				"attendance": {
@@ -102,7 +105,7 @@ export class CreateReportComponent implements OnInit {
 					"tithe": {
 						"pastor": null,
 						"general": null,
-						
+
 					},
 					"f_fruit": null,
 					"t_giving": null,
@@ -123,7 +126,7 @@ export class CreateReportComponent implements OnInit {
 							"tithe": {
 								"pastor": null,
 								"general": null,
-								
+
 							},
 							"f_fruit": null,
 							"t_giving": null,
@@ -146,7 +149,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -168,7 +171,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -190,7 +193,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -212,7 +215,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -234,7 +237,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -256,7 +259,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -278,7 +281,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -300,7 +303,7 @@ export class CreateReportComponent implements OnInit {
 							"tithe": {
 								"pastor": null,
 								"general": null,
-								
+
 							},
 							"f_fruit": null,
 							"t_giving": null,
@@ -323,7 +326,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -345,7 +348,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -367,7 +370,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -389,7 +392,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -411,7 +414,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -433,7 +436,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -455,7 +458,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -477,7 +480,7 @@ export class CreateReportComponent implements OnInit {
 							"tithe": {
 								"pastor": null,
 								"general": null,
-								
+
 							},
 							"f_fruit": null,
 							"t_giving": null,
@@ -500,7 +503,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -522,7 +525,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -544,7 +547,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -566,7 +569,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -588,7 +591,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -610,7 +613,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -632,7 +635,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -654,7 +657,7 @@ export class CreateReportComponent implements OnInit {
 							"tithe": {
 								"pastor": null,
 								"general": null,
-								
+
 							},
 							"f_fruit": null,
 							"t_giving": null,
@@ -677,7 +680,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -699,7 +702,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -721,7 +724,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -743,7 +746,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -765,7 +768,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -787,7 +790,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -809,7 +812,7 @@ export class CreateReportComponent implements OnInit {
 								"tithe": {
 									"pastor": null,
 									"general": null,
-									
+
 								},
 								"f_fruit": null,
 								"t_giving": null,
@@ -821,12 +824,11 @@ export class CreateReportComponent implements OnInit {
 			]
 		}
 	};
-	
+	progress_report: ProgressReportModel = this.temp_report;
 	
 	constructor( private reportService: ReportService ) { }
 	
 	ngOnInit() {
-		
 		this.tdForm.valueChanges
 		.subscribe(
 			(response) => {
@@ -975,6 +977,7 @@ export class CreateReportComponent implements OnInit {
 	log(event) {
 		
 		if(event) {
+			
 			const date = new Date(event);
 			this.timeInfo = {
 				report_month: date.getMonth() + 1,
@@ -985,28 +988,47 @@ export class CreateReportComponent implements OnInit {
 				(response: Response) => {
 					console.log(response.json());
 					const crucial_date = this.progress_report.crucial_date;
-					this.progress_report = response.json().progress_report;
+					this.progress_report = response.json().progress_report[0];
+					console.log(this.progress_report);
 					this.progress_report.crucial_date = crucial_date;
 					
 				}
 			);
+			
 		}
 	}
 	
 	onSubmit() {
-		alert('here');
+		
 		const obj = {
 			report_month: this.timeInfo.report_month,
 			report_year: this.timeInfo.report_year,
 			progress_report: this.progress_report
 		};
-		console.log(obj);
 		this.reportService.sendReport( obj )
 		.subscribe(
+			
 			( response: Response ) => {
-				console.log(response.json());
+				this.responseStatus = response.json().status;
+				this.responseMsg = response.json().message;
+				this.responseReceived = true;
+			},
+			( error: Response ) => {
+				this.responseStatus = false;
+				this.responseReceived = true;
+				this.responseMsg = error.json().error;
+				setTimeout( () => {
+					this.responseReceived = false;
+				}, 5000);
+			},
+			() => {
+				setTimeout( () => {
+					this.responseReceived = false;
+				}, 5000);
 			}
+			
 		);
+		
 	}
 	
 }

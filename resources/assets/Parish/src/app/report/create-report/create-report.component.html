@@ -64,6 +64,19 @@
 
 <h3 class="page-header">Create Report</h3>
 
+{{responseStatus}}  {{responseReceived}}
+<div class="row">
+    <div class="col-lg-12">
+        <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
+            <strong>{{ responseMsg }}</strong>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
+            <strong>{{ responseMsg }}</strong>
+        </div>
+    </div>
+</div>
 
 <form #prForm="ngForm" (submit)="onSubmit()">
     <div class="col-md-12">
@@ -182,7 +195,7 @@
                                 <th><span></span></th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody *ngIf="progress_report.crucial_date != undefined">
                             <!-- First section start -->
 
                                 <tr *ngFor="let weekly of progress_report.report.weekly; let i = index">
@@ -682,5 +695,10 @@
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary form-control">Submit</button>
+    <button type="submit"
+            class="btn btn-primary form-control"
+            *ngIf="progress_report.crucial_date != undefined"
+    >
+        Submit
+    </button>
 </form>
