@@ -2,12 +2,16 @@ import { AuthService } from '../auth/auth.service';
 import { Headers, Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 import { environment } from '../../environments/environment.prod';
-import { ReportModel } from './report-models/report.model';
 
 @Injectable()
 export class ReportService {
+	
+	/** Initializing custom Observables */
+	generateReport = new Subject();
+	
 	
 	/** Injecting services to be used in this component */
 	constructor( private http: Http,
@@ -16,9 +20,6 @@ export class ReportService {
 			this.refreshHeader();
 		}
 	}
-	
-	
-	/** Initializing custom Observables */
 	
 	
 	/** Initializing the different headers to be passed with each api call */

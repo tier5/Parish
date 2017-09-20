@@ -5,7 +5,7 @@ import { CreateReportComponent } from './create-report/create-report.component';
 import { ListReportComponent } from './list-report/list-report.component';
 
 const reportRoutes: Routes = [
-	{ path: 'create', component: CreateReportComponent },
+	{ path: 'create', component: CreateReportComponent,  data: { editMode: false } },
 	{ path: 'list', component: ListReportComponent }
 ];
 

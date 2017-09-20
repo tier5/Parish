@@ -1,7 +1,9 @@
+import { ActivatedRoute, Data } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IDatePickerConfig } from 'ng2-date-picker';
 import { NgForm } from '@angular/forms';
 import { Response } from '@angular/http';
+import { Subscription } from 'rxjs/Subscription';
 
 import { ProgressReportModel } from '../report-models/progress-report.model';
 import { ReportService } from '../report.service';
@@ -14,12 +16,10 @@ import { ReportService } from '../report.service';
 export class CreateReportComponent implements OnInit {
 	
 	@ViewChild( 'prForm' ) prForm: NgForm;
-	timeInfo: {
-		report_month: number,
-		report_year: number
-	};
-	responseStatus: boolean = false;
+	generateReportSubscription: Subscription;
+	editMode: boolean = false; // Initializing edit mode for this component
 	responseMsg: string = '';
+	responseStatus: boolean = false;
 	responseReceived: boolean = false;
 	config: IDatePickerConfig = {
 		firstDayOfWeek: 'su',
@@ -52,745 +52,746 @@ export class CreateReportComponent implements OnInit {
 		timeSeparator: ':',
 		multipleYearsNavigateBy: 10,
 		showMultipleYearsNavigation: false,
-		locale: 'en',
+		locale: 'en'
 	};
+	timeInfo: { report_month: number, report_year: number };
 	temp_report: ProgressReportModel = {
-		"wem_percentage": 0,
-		"wem_share": 0,
-		"account_name": "",
-		"parish_id": 0,
-		"parish_pastor": "",
-		"area_pastor": "",
-		"zonal_pastor": "",
-		"province_pastor": "",
-		"crucial_date": "",
-		"month": "",
-		"year": "",
-		"report": {
-			"monthly_total": {
-				"attendance": {
-					"men": null,
-					"women": null,
-					"children": null,
-					"total": null
+		'wem_percentage': 0,
+		'wem_share': 0,
+		'account_name': '',
+		'parish_id': 0,
+		'parish_pastor': '',
+		'area_pastor': '',
+		'zonal_pastor': '',
+		'province_pastor': '',
+		'crucial_date': '',
+		'month': '',
+		'year': '',
+		'report': {
+			'monthly_total': {
+				'attendance': {
+					'men': null,
+					'women': null,
+					'children': null,
+					'total': null
 				},
-				"monetary": {
-					"offering": null,
-					"tithe": {
-						"pastor": null,
-						"general": null,
+				'monetary': {
+					'offering': null,
+					'tithe': {
+						'pastor': null,
+						'general': null
 
 					},
-					"f_fruit": null,
-					"t_giving": null,
-					"total": null
+					'f_fruit': null,
+					't_giving': null,
+					'total': null
 				}
 			},
-			"weekly": [
+			'weekly': [
 				{
-					"weekly_total": {
-						"attendance": {
-							"men": null,
-							"women": null,
-							"children": null,
-							"total": null
+					'weekly_total': {
+						'attendance': {
+							'men': null,
+							'women': null,
+							'children': null,
+							'total': null
 						},
-						"monetary": {
-							"offering": null,
-							"tithe": {
-								"pastor": null,
-								"general": null,
+						'monetary': {
+							'offering': null,
+							'tithe': {
+								'pastor': null,
+								'general': null
 
 							},
-							"f_fruit": null,
-							"t_giving": null,
-							"total": null
+							'f_fruit': null,
+							't_giving': null,
+							'total': null
 						}
 					},
-					"days": [
+					'days': [
 						{
-							"date": "Sunday",
-							"day": "1",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Sunday',
+							'day': '1',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Monday",
-							"day": "2",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Monday',
+							'day': '2',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Tuesday",
-							"day": "3",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Tuesday',
+							'day': '3',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Wednesday",
-							"day": "4",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Wednesday',
+							'day': '4',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Thursday",
-							"day": "5",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Thursday',
+							'day': '5',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Friday",
-							"day": "6",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Friday',
+							'day': '6',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Saturday",
-							"day": "7",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Saturday',
+							'day': '7',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						}
 					]
 				},
 				{
-					"weekly_total": {
-						"attendance": {
-							"men": null,
-							"women": null,
-							"children": null,
-							"total": null
+					'weekly_total': {
+						'attendance': {
+							'men': null,
+							'women': null,
+							'children': null,
+							'total': null
 						},
-						"monetary": {
-							"offering": null,
-							"tithe": {
-								"pastor": null,
-								"general": null,
+						'monetary': {
+							'offering': null,
+							'tithe': {
+								'pastor': null,
+								'general': null
 
 							},
-							"f_fruit": null,
-							"t_giving": null,
-							"total": null
+							'f_fruit': null,
+							't_giving': null,
+							'total': null
 						}
 					},
-					"days": [
+					'days': [
 						{
-							"date": "Sunday",
-							"day": "8",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Sunday',
+							'day': '8',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Monday",
-							"day": "9",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Monday',
+							'day': '9',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Tuesday",
-							"day": "10",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Tuesday',
+							'day': '10',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Wednesday",
-							"day": "11",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Wednesday',
+							'day': '11',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Thursday",
-							"day": "12",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Thursday',
+							'day': '12',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Friday",
-							"day": "13",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Friday',
+							'day': '13',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Saturday",
-							"day": "14",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Saturday',
+							'day': '14',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						}
 					]
 				},
 				{
-					"weekly_total": {
-						"attendance": {
-							"men": null,
-							"women": null,
-							"children": null,
-							"total": null
+					'weekly_total': {
+						'attendance': {
+							'men': null,
+							'women': null,
+							'children': null,
+							'total': null
 						},
-						"monetary": {
-							"offering": null,
-							"tithe": {
-								"pastor": null,
-								"general": null,
+						'monetary': {
+							'offering': null,
+							'tithe': {
+								'pastor': null,
+								'general': null
 
 							},
-							"f_fruit": null,
-							"t_giving": null,
-							"total": null
+							'f_fruit': null,
+							't_giving': null,
+							'total': null
 						}
 					},
-					"days": [
+					'days': [
 						{
-							"date": "Sunday",
-							"day": "15",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Sunday',
+							'day': '15',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Monday",
-							"day": "16",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Monday',
+							'day': '16',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Tuesday",
-							"day": "17",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Tuesday',
+							'day': '17',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Wednesday",
-							"day": "18",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Wednesday',
+							'day': '18',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Thursday",
-							"day": "19",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Thursday',
+							'day': '19',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Friday",
-							"day": "20",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Friday',
+							'day': '20',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Saturday",
-							"day": "21",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Saturday',
+							'day': '21',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						}
 					]
 				},
 				{
-					"weekly_total": {
-						"attendance": {
-							"men": null,
-							"women": null,
-							"children": null,
-							"total": null
+					'weekly_total': {
+						'attendance': {
+							'men': null,
+							'women': null,
+							'children': null,
+							'total': null
 						},
-						"monetary": {
-							"offering": null,
-							"tithe": {
-								"pastor": null,
-								"general": null,
+						'monetary': {
+							'offering': null,
+							'tithe': {
+								'pastor': null,
+								'general': null
 
 							},
-							"f_fruit": null,
-							"t_giving": null,
-							"total": null
+							'f_fruit': null,
+							't_giving': null,
+							'total': null
 						}
 					},
-					"days": [
+					'days': [
 						{
-							"date": "Sunday",
-							"day": "22",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Sunday',
+							'day': '22',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Monday",
-							"day": "23",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Monday',
+							'day': '23',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Tuesday",
-							"day": "24",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Tuesday',
+							'day': '24',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Wednesday",
-							"day": "25",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Wednesday',
+							'day': '25',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Thursday",
-							"day": "26",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Thursday',
+							'day': '26',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Friday",
-							"day": "27",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Friday',
+							'day': '27',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						},
 						{
-							"date": "Saturday",
-							"day": "28",
-							"programmes": "",
-							"attendance": {
-								"men": null,
-								"women": null,
-								"children": null,
-								"total": null
+							'date': 'Saturday',
+							'day': '28',
+							'programmes': '',
+							'attendance': {
+								'men': null,
+								'women': null,
+								'children': null,
+								'total': null
 							},
-							"monetary": {
-								"offering": null,
-								"tithe": {
-									"pastor": null,
-									"general": null,
+							'monetary': {
+								'offering': null,
+								'tithe': {
+									'pastor': null,
+									'general': null
 
 								},
-								"f_fruit": null,
-								"t_giving": null,
-								"total": null
+								'f_fruit': null,
+								't_giving': null,
+								'total': null
 							}
 						}
 					]
@@ -800,7 +801,8 @@ export class CreateReportComponent implements OnInit {
 	};
 	progress_report: ProgressReportModel = this.temp_report;
 	
-	constructor( private reportService: ReportService ) { }
+	constructor( private reportService: ReportService,
+	             private activatedRoute: ActivatedRoute ) { }
 	
 	ngOnInit() {
 		
@@ -809,44 +811,44 @@ export class CreateReportComponent implements OnInit {
 			(response) => {
 				
 				let monthTemp = {
-					"attendance": {
-						"men": 0,
-						"women": 0,
-						"children": 0,
-						"total": 0
+					'attendance': {
+						'men': 0,
+						'women': 0,
+						'children': 0,
+						'total': 0
 					},
-					"monetary": {
-						"offering": 0,
-						"tithe": {
-							"pastor": 0,
-							"general": 0,
+					'monetary': {
+						'offering': 0,
+						'tithe': {
+							'pastor': 0,
+							'general': 0
 							
 						},
-						"f_fruit": 0,
-						"t_giving": 0,
-						"total": 0
+						'f_fruit': 0,
+						't_giving': 0,
+						'total': 0
 					}
 				};
 				
 				for( let i = 0; i < this.progress_report.report.weekly.length; i++ ) {
 					
 					let weeklyTemp = {
-						"attendance": {
-							"men": 0,
-							"women": 0,
-							"children": 0,
-							"total": 0
+						'attendance': {
+							'men': 0,
+							'women': 0,
+							'children': 0,
+							'total': 0
 						},
-						"monetary": {
-							"offering": 0,
-							"tithe": {
-								"pastor": 0,
-								"general": 0,
+						'monetary': {
+							'offering': 0,
+							'tithe': {
+								'pastor': 0,
+								'general': 0
 								
 							},
-							"f_fruit": 0,
-							"t_giving": 0,
-							"total": 0
+							'f_fruit': 0,
+							't_giving': 0,
+							'total': 0
 						}
 					};
 					
@@ -923,6 +925,32 @@ export class CreateReportComponent implements OnInit {
 			}
 		);
 		
+		this.generateReportSubscription = this.reportService.generateReport
+		.subscribe(
+			( body:{ report_month: number, report_year: number } ) => {
+				console.log(body);
+				this.reportService.getReportBP( body )
+				.subscribe(
+					(response: Response) => {
+						const crucial_date = this.progress_report.crucial_date;
+						this.progress_report = response.json().progress_report[ (response.json().progress_report).length - 1 ].progress_report;
+						this.progress_report.crucial_date = crucial_date;
+
+					}
+				);
+			}
+		);
+		
+		
+		/** Checking route params to get present mode */
+		this.activatedRoute.data.subscribe(
+			(data: Data) => {
+				this.editMode = data['editMode'];
+				
+				
+			}
+		);
+		
 	}
 	
 	log(event) {
@@ -930,58 +958,55 @@ export class CreateReportComponent implements OnInit {
 		if(event) {
 			
 			const date = new Date(event);
-			this.timeInfo = {
-				report_month: date.getMonth() + 1,
-				report_year: date.getFullYear()
-			};
-			this.reportService.getReportBP( this.timeInfo )
-			.subscribe(
-				(response: Response) => {
-					console.log(response.json());
-					console.log(response.json().progress_report);
-					console.log(response.json().progress_report.length);
-					console.log( response.json().progress_report[ (response.json().progress_report).length - 1 ] );
-					const crucial_date = this.progress_report.crucial_date;
-					this.progress_report = response.json().progress_report[ (response.json().progress_report).length - 1 ].progress_report;
-					console.log(this.progress_report);
-					this.progress_report.crucial_date = crucial_date;
-					
-				}
-			);
+			if( this.editMode ) {
+			
+			} else {
+				this.timeInfo = {
+					report_month: date.getMonth() + 1,
+					report_year: date.getFullYear()
+				};
+			}
+			
+			this.reportService.generateReport.next( this.timeInfo );
 			
 		}
+		
 	}
 	
 	onSubmit() {
 		
-		const obj = {
-			report_month: this.timeInfo.report_month,
-			report_year: this.timeInfo.report_year,
-			progress_report: this.progress_report
-		};
-		this.reportService.sendReport( obj )
-		.subscribe(
+		if( this.editMode ) {
+		
+		} else {
+			const obj = {
+				report_month: this.timeInfo.report_month,
+				report_year: this.timeInfo.report_year,
+				progress_report: this.progress_report
+			};
+			this.reportService.sendReport( obj )
+			.subscribe(
+				
+				( response: Response ) => {
+					this.responseStatus = response.json().status;
+					this.responseMsg = response.json().message;
+					this.responseReceived = true;
+				},
+				( error: Response ) => {
+					this.responseStatus = false;
+					this.responseReceived = true;
+					this.responseMsg = error.json().error;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 5000);
+				},
+				() => {
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 5000);
+				}
 			
-			( response: Response ) => {
-				this.responseStatus = response.json().status;
-				this.responseMsg = response.json().message;
-				this.responseReceived = true;
-			},
-			( error: Response ) => {
-				this.responseStatus = false;
-				this.responseReceived = true;
-				this.responseMsg = error.json().error;
-				setTimeout( () => {
-					this.responseReceived = false;
-				}, 5000);
-			},
-			() => {
-				setTimeout( () => {
-					this.responseReceived = false;
-				}, 5000);
-			}
-			
-		);
+			);
+		}
 		
 	}
 	
