@@ -1,63 +1,81 @@
 webpackJsonp([9],{
 
-/***/ "../../../../../src/app/form/form-routing.ts":
+/***/ "../../../../../src/app/auth/register/register-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_component__ = __webpack_require__("../../../../../src/app/form/form.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__register_component__ = __webpack_require__("../../../../../src/app/auth/register/register.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
 
 
 var routes = [
     {
         path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__form_component__["a" /* FormComponent */],
+        component: __WEBPACK_IMPORTED_MODULE_2__register_component__["a" /* RegisterComponent */],
         data: {
-            title: 'Form'
+            title: 'Register'
         }
     }
 ];
-var FormRoutingModule = (function () {
-    function FormRoutingModule() {
+var RegisterRoutingModule = (function () {
+    function RegisterRoutingModule() {
     }
-    return FormRoutingModule;
+    return RegisterRoutingModule;
 }());
-FormRoutingModule = __decorate([
+RegisterRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], FormRoutingModule);
+], RegisterRoutingModule);
 
-//# sourceMappingURL=form-routing.js.map
+//# sourceMappingURL=register-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.component.html":
+/***/ "../../../../../src/app/auth/register/register.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "input.ng-invalid.ng-touched {\n    border: 2px solid #a94442;\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/auth/register/register.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <h1 class=\"page-header\">Form</h1>\n  </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">Form Elements</div>\n      <div class=\"panel-body\">\n        <form role=\"form\">\n          <div class=\"col-md-6\">\n\n\n            <div class=\"form-group\">\n              <label>Text Input</label>\n              <input class=\"form-control\" placeholder=\"Placeholder\">\n            </div>\n\n            <div class=\"form-group\">\n              <label>Password</label>\n              <input type=\"password\" class=\"form-control\">\n            </div>\n\n            <div class=\"form-group checkbox\">\n              <label>\n                <input type=\"checkbox\">Remember me</label>\n            </div>\n\n            <div class=\"form-group\">\n              <label>File input</label>\n              <input type=\"file\">\n              <p class=\"help-block\">Example block-level help text here.</p>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Text area</label>\n              <textarea class=\"form-control\" rows=\"3\"></textarea>\n            </div>\n\n            <label>Validation</label>\n            <div class=\"form-group has-success\">\n              <input class=\"form-control\" placeholder=\"Success\">\n            </div>\n            <div class=\"form-group has-warning\">\n              <input class=\"form-control\" placeholder=\"Warning\">\n            </div>\n            <div class=\"form-group has-error\">\n              <input class=\"form-control\" placeholder=\"Error\">\n            </div>\n          </div>\n\n          <div class=\"col-md-6\">\n\n            <div class=\"form-group\">\n              <label>Checkboxes</label>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 1\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 2\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 3\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 4\n                </label>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Radio Buttons</label>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios1\" value=\"option1\" checked>Radio Button 1\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios2\" value=\"option2\">Radio Button 2\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios3\" value=\"option3\">Radio Button 3\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios4\" value=\"option4\">Radio Button 4\n                </label>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Selects</label>\n              <select class=\"form-control\">\n                <option>Option 1</option>\n                <option>Option 2</option>\n                <option>Option 3</option>\n                <option>Option 4</option>\n              </select>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Multiple Selects</label>\n              <select multiple class=\"form-control\">\n                <option>Option 1</option>\n                <option>Option 2</option>\n                <option>Option 3</option>\n                <option>Option 4</option>\n              </select>\n            </div>\n\n            <button type=\"submit\" class=\"btn btn-primary\">Submit Button</button>\n            <button type=\"reset\" class=\"btn btn-default\">Reset Button</button>\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-lg-8\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\"><svg class=\"glyph stroked email\"><use xlink:href=\"#stroked-email\"></use></svg> Contact Form</div>\n      <div class=\"panel-body\">\n        <form class=\"form-horizontal\" action=\"\" method=\"post\">\n          <fieldset>\n            <!-- Name input-->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"name\">Name</label>\n              <div class=\"col-md-9\">\n                <input id=\"name\" name=\"name\" type=\"text\" placeholder=\"Your name\" class=\"form-control\">\n              </div>\n            </div>\n\n            <!-- Email input-->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"email\">Your E-mail</label>\n              <div class=\"col-md-9\">\n                <input id=\"email\" name=\"email\" type=\"text\" placeholder=\"Your email\" class=\"form-control\">\n              </div>\n            </div>\n\n            <!-- Message body -->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"message\">Your message</label>\n              <div class=\"col-md-9\">\n                <textarea class=\"form-control\" id=\"message\" name=\"message\" placeholder=\"Please enter your message here...\" rows=\"5\"></textarea>\n              </div>\n            </div>\n\n            <!-- Form actions -->\n            <div class=\"form-group\">\n              <div class=\"col-md-12 widget-right\">\n                <button type=\"submit\" class=\"btn btn-default btn-md pull-right\">Submit</button>\n              </div>\n            </div>\n          </fieldset>\n        </form>\n      </div>\n    </div>\n\n  </div>\n</div>\n"
+module.exports = "<div class=\"row\">\n    <div class=\"col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4\">\n        <div class=\"login-panel panel panel-default\">\n            <div class=\"panel-heading\"><strong>Register</strong></div>\n            <div class=\"panel-body\">\n                <form [formGroup]=\"formRegister\" (ngSubmit)=\"onSubmit()\">\n                    <div *ngIf=\"!userRegisterStatus && responseReceived\" class=\"alert alert-danger\">\n                        <strong>{{ userRegisteredMsg }}</strong>\n                    </div>\n                    <div *ngIf=\"userRegisterStatus && responseReceived\" class=\"alert alert-success\">\n                        <strong>{{ userRegisteredMsg }}</strong>\n                    </div>\n                    <fieldset>\n                        <!-- First Name -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"first_name\"\n                                placeholder=\"First Name\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('first_name').invalid && formRegister.get('first_name').touched\">\n                            <div class=\"alert alert-danger\" *ngIf=\"formRegister.get('first_name').hasError('required')\">\n                                Your First Name is Required!\n                            </div>\n                        </div>\n\n                        <!-- Last Name -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"last_name\"\n                                placeholder=\"Last Name\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('last_name').invalid && formRegister.get('last_name').touched\">\n                            <div class=\"alert alert-danger\" *ngIf=\"formRegister.get('last_name').hasError('required')\">\n                                Your Last Name is Required!\n                            </div>\n                        </div>\n\n                        <!-- Email -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"email\"\n                                placeholder=\"Email Address\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('email').invalid && formRegister.get('email').touched\">\n                            <div class=\"alert alert-danger\">\n                                <div *ngIf=\"formRegister.get('email').hasError('required')\">\n                                   Your Email is Required!\n                                </div>\n                                <div *ngIf=\"formRegister.get('email').hasError('email')\">\n                                    Enter a Proper Email!\n                                </div>\n                            </div>\n                        </div>\n\n                        <!-- Password -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"password\"\n                                type=\"password\"\n                                placeholder=\"Password\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('password').invalid && formRegister.get('password').touched\">\n                            <div class=\"alert alert-danger\" *ngIf=\"formRegister.get('password').hasError('required')\">\n                                Your Password is Required!\n                            </div>\n                        </div>\n\n                        <!-- Confirm Password -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"confirm_password\"\n                                type=\"password\"\n                                placeholder=\"Confirm Password\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('confirm_password').invalid && formRegister.get('confirm_password').touched\">\n                            <div class=\"alert alert-danger\" >\n                                <div *ngIf=\"formRegister.get('confirm_password').hasError('required')\">\n                                    Confirm password is Required!\n                                </div>\n                                <div *ngIf=\"formRegister.get('confirm_password').hasError('confirmPassword')\">\n                                    Confirm Password didnot Match!\n                                </div>\n                            </div>\n                        </div>\n\n                        <button class=\"btn btn-primary\" [disabled]=\"formRegister.invalid || userRegisterRequested\">\n                            <i *ngIf=\"userRegisterRequested\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                            Register\n                        </button>\n                        <button type=\"reset\" class=\"btn btn-default\" (click)=\"onReset()\">Reset</button>\n                        <button type=\"button\" class=\"btn btn-primary pull-right\" (click)=\"onNavigate()\">Login</button>\n                    </fieldset>\n                </form>\n            </div>\n        </div>\n    </div><!-- /.col-->\n</div><!-- /.row -->\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.component.ts":
+/***/ "../../../../../src/app/auth/register/register.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__register_service__ = __webpack_require__("../../../../../src/app/auth/register/register.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67,82 +85,160 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
-var FormComponent = (function () {
-    function FormComponent() {
+
+
+
+var RegisterComponent = (function () {
+    /** Service injection */
+    function RegisterComponent(registerService, router, formBuilder) {
+        this.registerService = registerService;
+        this.router = router;
+        this.formBuilder = formBuilder;
+        this.responseReceived = false;
+        this.userRegisterStatus = false;
+        this.userRegisterRequested = false;
+        /** Custom confirm password validator */
+        this.confirmPassword = function (control) {
+            var pass = control.get('password');
+            var cnfPass = control.get('confirm_password');
+            if (!pass || !cnfPass) {
+                return null;
+            }
+            if (pass.value === cnfPass.value) {
+                return null;
+            }
+            else {
+                control.get('confirm_password').setErrors({ confirmPassword: true });
+                return { confirmPassword: true };
+            }
+        };
     }
-    return FormComponent;
+    /** Function to be executed when component initializes */
+    RegisterComponent.prototype.ngOnInit = function () {
+        this.formRegister = this.formBuilder.group({
+            'first_name': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["f" /* Validators */].required),
+            'last_name': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["f" /* Validators */].required),
+            'email': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */](null, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["f" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["f" /* Validators */].email]),
+            'password': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["f" /* Validators */].required),
+            'confirm_password': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["f" /* Validators */].required)
+        }, { validator: this.confirmPassword });
+    };
+    /** Function call on submit */
+    RegisterComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.userRegisterRequested = true;
+        var body = this.formRegister.value;
+        this.registerService.register(body)
+            .subscribe(function (response) {
+            if (response.json().status) {
+                _this.userRegisterStatus = true;
+                _this.userRegisteredMsg = response.json().message;
+                _this.userRegisterRequested = false;
+            }
+            else {
+                _this.userRegisterStatus = false;
+                _this.userRegisteredMsg = response.json().error;
+                _this.userRegisterRequested = false;
+            }
+        }, function (error) {
+            _this.userRegisterStatus = false;
+            _this.userRegisteredMsg = error.json().error;
+            _this.responseReceived = true;
+            _this.userRegisterRequested = false;
+            setTimeout(function () {
+                _this.responseReceived = false;
+            }, 5000);
+        }, function () {
+            _this.formRegister.reset();
+            _this.responseReceived = true;
+            _this.userRegisterRequested = false;
+            setTimeout(function () {
+                _this.responseReceived = false;
+            }, 5000);
+        });
+    };
+    /** Function call to reset form */
+    RegisterComponent.prototype.onReset = function () {
+        this.formRegister.reset();
+    };
+    /** Function call to navigate to login page */
+    RegisterComponent.prototype.onNavigate = function () {
+        this.router.navigate(['/login']);
+    };
+    return RegisterComponent;
 }());
-FormComponent = __decorate([
+RegisterComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/form/form.component.html"),
-        selector: 'formPage'
+        selector: 'register',
+        template: __webpack_require__("../../../../../src/app/auth/register/register.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/auth/register/register.component.css")]
     }),
-    __metadata("design:paramtypes", [])
-], FormComponent);
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__register_service__["a" /* RegisterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__register_service__["a" /* RegisterService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["g" /* FormBuilder */]) === "function" && _c || Object])
+], RegisterComponent);
 
-//# sourceMappingURL=form.component.js.map
+var _a, _b, _c;
+//# sourceMappingURL=register.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.module.ts":
+/***/ "../../../../../src/app/auth/register/register.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_component__ = __webpack_require__("../../../../../src/app/form/form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_service__ = __webpack_require__("../../../../../src/app/form/form.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__form_routing__ = __webpack_require__("../../../../../src/app/form/form-routing.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormModule", function() { return FormModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__register_component__ = __webpack_require__("../../../../../src/app/auth/register/register.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__register_routing_module__ = __webpack_require__("../../../../../src/app/auth/register/register-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__register_service__ = __webpack_require__("../../../../../src/app/auth/register/register.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterModule", function() { return RegisterModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
 
 
 
 
 
-var FormModule = (function () {
-    function FormModule() {
+
+var RegisterModule = (function () {
+    function RegisterModule() {
     }
-    return FormModule;
+    return RegisterModule;
 }());
-FormModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+RegisterModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_5__form_routing__["a" /* FormRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
+            __WEBPACK_IMPORTED_MODULE_5__register_routing_module__["a" /* RegisterRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* ReactiveFormsModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__form_component__["a" /* FormComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_4__form_service__["a" /* FormService */]]
+        declarations: [__WEBPACK_IMPORTED_MODULE_4__register_component__["a" /* RegisterComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_6__register_service__["a" /* RegisterService */]]
     })
-], FormModule);
+], RegisterModule);
 
-//# sourceMappingURL=form.module.js.map
+//# sourceMappingURL=register.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.service.ts":
+/***/ "../../../../../src/app/auth/register/register.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -152,21 +248,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
-var FormService = (function () {
-    function FormService() {
+
+
+var RegisterService = (function () {
+    /** Service injection */
+    function RegisterService(http) {
+        this.http = http;
     }
-    return FormService;
+    /** Function call for registration */
+    RegisterService.prototype.register = function (body) {
+        var header = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({ 'X-Requested-With': 'XMLHttpRequest' });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__["a" /* environment */].API_URL + 'sign-up', body, { headers: header });
+    };
+    return RegisterService;
 }());
-FormService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [])
-], FormService);
+RegisterService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object])
+], RegisterService);
 
-//# sourceMappingURL=form.service.js.map
+var _a;
+//# sourceMappingURL=register.service.js.map
 
 /***/ })
 

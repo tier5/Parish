@@ -1,0 +1,184 @@
+h4{
+    background: #30a5ff;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 10px;
+    margin: 0;
+    border-bottom: 1px solid #000;
+}
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+}
+.acc-name, .acc-id{
+    text-align: center;
+    color: #000;
+    font-size: 16px;
+}
+.acc-name span, .acc-id select{
+    color: #0600ff;
+    text-decoration: underline;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+.acc-id select{
+    text-decoration: none;
+    font-size: 16px;
+    background: #fff;
+    width: 90px;
+    padding: 5px;
+}
+.border-black{
+    border: 2px solid #000;
+    background: #fff;
+}
+.no-right-border{
+    border-right: 0;
+}
+.no-left-border{
+    border-left: 0;
+}
+label{
+    font-weight: normal;
+}
+.acc-details span{
+    color: #000;
+    font-weight: bold;
+}
+table th{
+    text-align: center;
+}
+.table-bordered, .table>thead>tr>th, .table>thead>tr>td {
+    border: 1px solid #000;
+    color: #000;
+    background: #cde9ff;
+}
+.table>thead>tr>th{
+    font-size: 14px !important;
+    padding: 0;
+    height: auto;
+}
+.table>thead>tr>th.blank, .table>tbody>tr>td.blank{
+    border: none;
+    background: #fff;
+    padding: 5px;
+}
+.spacer{
+    background: #000;
+    height: 5px;
+    padding: 0;
+    border: 1px solid #000;
+    border-top: 0;
+    border-bottom: 0;
+}
+.highlight{
+    color: #0600ff !important;
+    text-transform: uppercase;
+}
+.bg-pink{
+    background: #ffcece;
+    color: #fff;
+}
+.sea-green{
+    background: #98faee;
+}
+table tr th span{
+    display: block;
+    padding: 5px;
+}
+.table>tbody>tr>td{
+    font-size: 14px !important;
+    padding: 0;
+    height: auto;
+    border: 1px solid #000;
+    position: relative;
+}
+table tr td input{
+    display: block;
+    width: 100%;
+    padding: 5px 1px;
+    border: none;
+    color: #000;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 0;
+}
+td strong{
+    font-size: 13px;
+    line-height: 35px;
+    padding-right: 3px;
+    background: #f6f4de;
+    display: block;
+    text-align: right;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+table tr td b input{
+    font-size: 14px;
+}
+table tr p{
+    text-align: center;
+    color: #000;
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+table tr td span{
+    text-align: center;
+    display: inline-block;
+    width: 100%;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 30px;
+}
+table tr td span.date{
+    width: auto;
+}
+table tr td span.maa{
+    display: inline-block;
+    width: auto;
+}
+table tr td b{
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #fff;
+}
+table tr td b.sea-green{
+    background: #98faee;
+}
+table tr td input.highlight-light{
+    background: #e8f5ff;
+}
+
+.monthly-growth{
+    background: #000;
+    color: #fff;
+}
+
+.monthly-growth span{
+    font-size: 20px !important;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 991px){
+    .row-eq-height{
+        display: block;
+    }
+}
+@media screen and (max-width: 767px){
+    .acc-details div{
+        text-align: center;
+    }
+}

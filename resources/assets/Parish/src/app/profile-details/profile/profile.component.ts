@@ -57,6 +57,10 @@ export class ProfileComponent{
 					);
 			},
 			(error: Response) => {
+				if( error.status === 401) {
+					this.authService.removeToken();
+					this.router.navigate( ['/login'] );
+				}
 				this.responseStatus = false;
 				this.responseMsg = error.json().error;
 			},
@@ -81,8 +85,9 @@ export class ProfileComponent{
 					}
 				},
 				( error: Response ) => {
-					if ( error.status === 401 ) {
+					if( error.status === 401) {
 						this.authService.removeToken();
+						this.router.navigate( ['/login'] );
 					}
 					
 					this.showLoader = false;

@@ -10,7 +10,7 @@ const appRoutes: Routes = [
 	{ path: '', redirectTo: 'login', pathMatch: 'full' },
 	{ path: 'login', canActivate: [ NotAuthGuard ], loadChildren: './auth/login/login.module#LoginModule' },
 	{ path: 'register', canActivate: [ NotAuthGuard ], loadChildren: './auth/register/register.module#RegisterModule' },
-	{ path: '', canActivate: [ AuthGuard ], component: FullLayoutComponent, data: { title: 'Home' }, children: [
+	{ path: '', canActivate: [ AuthGuard ], canActivateChild: [ AuthGuard ], component: FullLayoutComponent, data: { title: 'Home' }, children: [
 		{ path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { title2: 'Dashboard' } },
 		{ path: 'form', loadChildren: './form/form.module#FormModule' },
 		{ path: 'widget', children: [
@@ -24,9 +24,8 @@ const appRoutes: Routes = [
 		{ path: 'area', loadChildren: './province-zone-area-parish/area/area.module#AreaModule' },
 		{ path: 'parish', loadChildren: './province-zone-area-parish/parish/parish.module#ParishModule' },
 		{ path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' },
+		{ path: 'report', loadChildren: './report/report.module#ReportModule' },
 		{ path: 'payment', loadChildren: './payment-details/payment.module#PaymentModule'}
-		
-		
 	] }
 ];
 @NgModule( {

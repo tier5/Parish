@@ -277,5 +277,43 @@ Route::group(['prefix' => 'v1'], function() {
 
         });
 
+    /*
+     * Report Group Operation
+     */
+
+        Route::group(['prefix' => 'report'], function () {
+
+            Route::post('/create', [
+                'uses'  => 'Api\V1\ReportController@createReport',
+                'as'    => 'api.v1.createReport.post'
+            ]);
+
+            Route::post('/all-report', [
+                'uses'  => 'Api\V1\ReportController@getReport',
+                'as'    => 'api.v1.getReport.post'
+            ]);
+
+            Route::delete('/delete/{report_id}', [
+                'uses'  => 'Api\V1\ReportController@deleteReport',
+                'as'    => 'api.v1.deleteReport.delete'
+            ]);
+
+            /*Route::post('/filter-report', [
+                'uses' => 'Api\V1\ReportController@filteReport',
+                'as' => 'api.v1.filteReport.post'
+            ]);*/
+
+            Route::put('/update-report/{report_id}', [
+                'uses' => 'Api\V1\ReportController@updateReport',
+                'as' => 'api.v1.updateReport.put'
+            ]);
+
+            Route::patch('/update-report/{report_id}', [
+                'uses' => 'Api\V1\ReportController@updateReport',
+                'as' => 'api.v1.updateReport.patch'
+            ]);
+
+        });
+
     });
 });

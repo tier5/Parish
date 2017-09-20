@@ -27,7 +27,19 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Choose Year & Month (*)</label>
-                                <dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date" datestyle="yyyy/MM"></dp-month-calendar>
+                                <!--<dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date" datestyle="yyyy/MM"></dp-month-calendar>-->
+                                <dp-date-picker id="paymentDate"
+                                                name="payment_date"
+                                                #datePicker
+                                                #paymentDate="ngModel"
+                                                [(ngModel)]="paymentDate.payment_date"
+
+                                                [mode]="'month'"
+                                                [placeholder]="'Pick Month & Year'"
+                                                [config]="config"
+                                                [theme]="'dp-material'">
+                                </dp-date-picker>
+
                             </div>
                         </div>
 
@@ -82,11 +94,9 @@
 
                     </div>
 
-
-
                     <div class="row">
                         <div class="col-md-6">
-                            <button class="btn btn-primary" [disabled]="uploader?.queue?.length == 0 || paymentDate.invalid || !paymentDate.payment_date || showLoader">
+                            <button class="btn btn-primary" [disabled]="uploader?.queue?.length == 0 || !length || paymentDate.invalid || !paymentDate.payment_date || showLoader">
                                 <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                 Submit
                             </button>

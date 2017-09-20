@@ -13,6 +13,7 @@ use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
 use App\Models\Payment;
+use App\Models\Parish;
 use App\Helpers;
 use Crypt;
 use DB;
@@ -23,6 +24,7 @@ use Illuminate\Http\Request;
 use JWTAuth;
 use JWTAuthException;
 use Log;
+
 
 class PaymentController extends Controller {
 
@@ -50,13 +52,58 @@ class PaymentController extends Controller {
         try {
             DB::beginTransaction();
 
-            if($user_type == 2) {
+            if($user_type == 3) {
 
                 $payments=Payment::where('created_by',$userId)->get();
             }
             else if($user_type == 1) {
 
                 $payments=Payment::where('wem_id',$userId)->get();
+            }else{
+                $userDetails =User::find($userId);
+                if($userDetails->pastor_type == 1) {
+                    $provinceInfo = Provience::where('user_id',$userDetails->id)->first();
+                    $zoneInfo = zone::where('provience_id',$provinceInfo->id)->get();
+                    $zoneArray = array();
+                    foreach($zoneInfo as $zone){
+                        array_push($zoneArray,$zone->id);
+                    }
+                    $areaList = Area::whereIn('zone_id',$zoneArray)->get();
+                    $areaArray = array();
+                    foreach($areaList as $area){
+                        array_push($areaArray,$area->id);
+                    }
+                    $parishList = Parish::whereIn('area_id',$areaArray)->get();
+                    $parishArray = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->user_id);
+                    }
+                    $payments=Payment::whereIn('created_by',$parishArray)->get();
+
+                } else if($userDetails->pastor_type == 2) {
+                    $zoneInfo = zone::where('user_id',$userDetails->id)->first();
+                    $areaList = Area::where('zone_id',$zoneInfo->id)->get();
+                    $areaArray = array();
+                    foreach($areaList as $area){
+                        array_push($areaArray,$area->id);
+                    }
+                    $parishList = Parish::whereIn('area_id',$areaArray)->get();
+                    $parishArray = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->user_id);
+                    }
+                    $payments=Payment::whereIn('created_by',$parishArray)->get();
+                    
+                } else {
+                    $areaInfo = Area::where('user_id',$userDetails->id)->first();
+                    $parishList = Parish::where('area_id',$areaInfo->id)->get();
+                    $parishArray = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->user_id);
+                    }
+                    $payments=Payment::whereIn('created_by',$parishArray)->get();
+
+                }
             }
 
             $noOfPayment = count($payments);
@@ -67,7 +114,7 @@ class PaymentController extends Controller {
                 foreach ($payments as $key => $payment) {
                         $paymentArray[$key]['id']                     = $payment->id;
                         $paymentArray[$key]['wem_id']                 = $payment->wem_id;
-                        $paymentArray[$key]['file_name']             = $payment->file_name;
+                        $paymentArray[$key]['file_name']              = $payment->file_name;
                         $paymentArray[$key]['payment_description']    = $payment->payment_description;
                         $paymentArray[$key]['upload_month']           = $payment->upload_month;
                         $paymentArray[$key]['upload_year']            = $payment->upload_year;
@@ -85,7 +132,8 @@ class PaymentController extends Controller {
             } else {
                 $response = [
                     'status'    => false,
-                    'error'     => "No payment has been found."
+                    'message'     => "No payment has been found.",
+                    'paymentDetail' => []
                 ];
                 $responseCode = 200;
             }
@@ -126,29 +174,29 @@ class PaymentController extends Controller {
             $payment    = new Payment();
             $getUser    = User::find($request->input('user_id'));
 
-            $noOfUser = count($getUser);            
-
+            $noOfUser = count($getUser);
+                    
             if($noOfUser > 0 ) {
 
                 if($getUser->pastor_type == 1) {
 
                     $getWEMuser=Provience::where('user_id', $request->input('user_id'))->first();
-
                 }
                 else if($getUser->pastor_type == 2) {
 
                     $getWEMuser=Zone::where('user_id', $request->input('user_id'))->first(); 
                 }
-                else
+                else if($getUser->pastor_type == 3)
                 {
                     $getWEMuser=Area::where('user_id', $request->input('user_id'))->first(); 
+                } else{
+
+                    $getWEMuser=Parish::where('user_id', $request->input('user_id'))->first(); 
                 }
 
                 $this->WEMUser= $getWEMuser->created_by;
 
-            }
-            else
-            {
+            } else {
                 $response = [
                     'status'        => false,
                     'error'         => "pastor not found.",
@@ -165,7 +213,7 @@ class PaymentController extends Controller {
              */
 
             if ($request->file('name')) {
-
+                
                 $getFileExtension=$request->name->getClientOriginalExtension();
 
                 $allowedExts = array("jpg","pdf","jpeg", "doc","docx");
@@ -181,7 +229,6 @@ class PaymentController extends Controller {
                             } else {
 
                                 $payment->file_name=time().'.'.$request->name->getClientOriginalExtension();
-
                             }
 
                     } else {

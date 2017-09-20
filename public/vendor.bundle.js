@@ -1,4 +1,4 @@
-webpackJsonp([15],{
+webpackJsonp([18],{
 
 /***/ "../../../../css-loader/lib/css-base.js":
 /***/ (function(module, exports) {
@@ -154,7 +154,7 @@ Ng2AutoBreadCrumbComponent.decorators = [
  * @nocollapse
  */
 Ng2AutoBreadCrumbComponent.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */], },
+    { type: __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */], },
 ]; };
 
 var Ng2AutoBreadCrumb = (function () {
@@ -58624,11 +58624,11 @@ var VERSION = new __WEBPACK_IMPORTED_MODULE_2__angular_core__["Version"]('4.3.6'
 /* unused harmony export RouteConfigLoadStart */
 /* unused harmony export RoutesRecognized */
 /* unused harmony export RouteReuseStrategy */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Router; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Router; });
 /* unused harmony export ROUTES */
 /* unused harmony export ROUTER_CONFIGURATION */
 /* unused harmony export ROUTER_INITIALIZER */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return RouterModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RouterModule; });
 /* unused harmony export provideRoutes */
 /* unused harmony export ChildrenOutletContexts */
 /* unused harmony export OutletContext */
