@@ -70,7 +70,8 @@ class ReportController extends Controller {
 
             if ($request->has('progress_report'))
 
-                $report->progress_report = $request->input('progress_report');
+                //$report->progress_report = $request->input('progress_report');
+                $report->progress_report = json_encode($request->input('progress_report'));
             else
                 throw new HttpBadRequestException("Progress report is required.");
 
@@ -89,17 +90,19 @@ class ReportController extends Controller {
             $parish                 = Parish::where('user_id',$parish_id)->whereNull('deleted_at')->first();
 
             if($parish) {
-                $checkIfexists      = Report:: where('parish_id',$parish->id)
+                /*$checkIfexists      = Report:: where('parish_id',$parish->id)
                                             -> where('report_month', $request->input('report_month'))
                                             -> where('report_year', $request->input('report_year'))
-                                            -> count();
-                if($checkIfexists > 0) {
+                                            -> count();*/
+                /*if($checkIfexists > 0) {
                     throw new HttpBadRequestException("Report already exists.");
                 } else {
                     $report->parish_id  = $parish->id;
                     $report->save(); 
-                }                       
+                }        */               
                 
+                $report->parish_id  = $parish->id;
+                $report->save(); 
             } else {
                 throw new HttpBadRequestException("Parish not found.");
             }
@@ -156,38 +159,42 @@ class ReportController extends Controller {
             /*
              * Validate mandatory fields
              */
-
+            
             if ($request->has('user_id'))
-
-                $parish_id      = $request->input('user_id');
+                $parish_id = $request->input('user_id');
             else
                 throw new HttpBadRequestException("User Id is required.");
 
             if ($request->has('report_month'))
-
-                $report_month   = $request->input('report_month');
+                $report_month = $request->input('report_month');
             else
                 throw new HttpBadRequestException("Month is required.");
 
             if ($request->has('report_year'))
-
-                $report_year    = $request->input('report_year');
+                $report_year = $request->input('report_year');
             else
                 throw new HttpBadRequestException("Year is required.");
             
-            $parish             = Parish::where('user_id',$parish_id)->whereNull('deleted_at')->first();
+            $parish = Parish::where('user_id',$parish_id)->whereNull('deleted_at')->first();
 
             if($parish) {
-                $fetchAllreport     = Report::where('parish_id', $parish->id)
-                                    ->where('report_month', $report_month)
-                                    ->where('report_year', $report_year)
-                                    ->whereNull('deleted_at')
-                                    ->get();
+                $fetchAllreport = Report::where('parish_id', $parish->id)
+                    ->where('report_month', $report_month)
+                    ->where('report_year', $report_year)
+                    ->whereNull('deleted_at')
+                    ->get();
 
                 if(count($fetchAllreport) > 0) {
-                    $report         = $fetchAllreport->progress_report;
+                    $report = [];
+                    foreach($fetchAllreport as $key=>$reports){
+                        $progress_report['id']              = $reports->id;
+                        $progress_report['parish_id']       = $reports->parish_id;
+                        $progress_report['report_month']    = $reports->report_month;
+                        $progress_report['report_year']     = $reports->report_year;
+                        $progress_report['progress_report'] =json_decode($reports->progress_report);
+                        array_push($report,$progress_report);
+                    }
                 } else {
-                    
                     $attendance['men']              = null;
                     $attendance['women']            = null;
                     $attendance['children']         = null;
@@ -211,12 +218,12 @@ class ReportController extends Controller {
 
                     for($date = $start_date; $date < $end_date1; $date = date('Y-m-d', strtotime($date. ' + 7 days'))) {
                         
-                        $days                       =   $this->getWeekDates($date, $start_date, $end_date,$attendance,$monetary);
-                        $week_total['attendance']   =   $attendance;
-                        $week_total['monetary']     =   $monetary;
-                        $set_week['days']           =   $days;
-                        $set_week['weekly_total']   =   $week_total;
-                        if($days){
+                        $days                           =   $this->getWeekDates($date, $start_date, $end_date,$attendance,$monetary);
+                        $week_total ['attendance']      =   $attendance;
+                        $week_total ['monetary']        =   $monetary;
+                        $set_week   ['days']            =   $days;
+                        $set_week   ['weekly_total']    =   $week_total;
+                        if($days) {
                             array_push($week,$set_week);
                         }
                         
