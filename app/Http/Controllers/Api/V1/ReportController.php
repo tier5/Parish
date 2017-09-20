@@ -233,9 +233,9 @@ class ReportController extends Controller {
                     $report_set["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
                     $report_set["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
                     $report_set["province_pastor"]  = $parish->areas->zones->proviences->users->first_name." ".$parish->areas->zones->proviences->users->last_name;
-                    $report_set["month"]            = $report_month;
+                    $report_set["month"]            =date('F', strtotime($report_year.'-'.$report_month.'-01'));
                     $report_set["year"]             = $report_year;
-                    $report_set["crucial_date"]     = null;
+                    $report_set["crucial_date"]     = "";
                     $report_set['report']           = ['monthly_total'=>$monthly_total,'weekly'=>$week];
                     
                     $progress_report['id']              = null;
@@ -291,12 +291,18 @@ class ReportController extends Controller {
                     $report_set["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
                     $report_set["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
                     $report_set["province_pastor"]  = $parish->areas->zones->proviences->users->first_name." ".$parish->areas->zones->proviences->users->last_name;
-                    $report_set["month"]            = $report_month;
+                    $report_set["month"]            = date('F', strtotime($report_year.'-'.$report_month.'-01'));
                     $report_set["year"]             = $report_year;
-                    $report_set["crucial_date"]     = null;
+                    $report_set["crucial_date"]     = "";
                     $report_set['report']           = ['monthly_total'=>$monthly_total,'weekly'=>$week];
                     
-                    array_push($report,$report_set);
+                    $progress_report['id']              = null;
+                    $progress_report['parish_id']       = $parish_id;
+                    $progress_report['report_month']    = $report_month;
+                    $progress_report['report_year']     = $report_year;
+                    $progress_report['progress_report'] = $report_set;
+
+                    array_push($report,$progress_report);
                     $response = [
                         'status'            => true,
                         'progress_report'   => $report,

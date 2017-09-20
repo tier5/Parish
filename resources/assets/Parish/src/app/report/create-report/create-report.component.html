@@ -1,70 +1,5 @@
-<form #tdForm="ngForm">
-    <div *ngFor="let data of response.datas; let i = index">
-        <input
-                type="number"
-                [name]="'numOne'+ i"
-                [(ngModel)]="response.datas[i].numOne"
-                min="0"
-                step="1"
-        >
-        <input
-                type="number"
-                [name]="'numTwo'+ i"
-                [(ngModel)]="response.datas[i].numTwo"
-                min="0.01"
-                step="0.01"
-        >
-        <input
-                type="number"
-                [name]="'numFinal'+ i"
-                disabled
-                [(ngModel)]="response.datas[i].numFinal"
-                min="0.01"
-                step="0.01"
-        >
-    </div>
-    <div>
-        <input
-                type="number"
-                name="resNumOne"
-                disabled
-                [(ngModel)]="response.result.resNumOne"
-                min="0"
-                step="1"
-        >
-        <input
-                type="number"
-                name="resNumTwo"
-                disabled
-                [(ngModel)]="response.result.resNumTwo"
-                min="0.01"
-                step="0.01"
-        >
-        <input
-                type="number"
-                name="resNumFinal"
-                disabled
-                [(ngModel)]="response.result.resNumFinal"
-                min="0.01"
-                step="0.01"
-        >
-    </div>
-</form>
-<dp-date-picker id="daytimePicker1"
-                name="daytimePicker"
-                #datePicker
-                #daytimePicker="ngModel"
-                [(ngModel)]="date"
-                (ngModelChange)="log($event)"
-                [mode]="'month'"
-                [placeholder]="'Pick Month & Year'"
-                [config]="config"
-                [theme]="'dp-material'">
-</dp-date-picker>
-
 <h3 class="page-header">Create Report</h3>
 
-{{responseStatus}}  {{responseReceived}}
 <div class="row">
     <div class="col-lg-12">
         <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
@@ -148,128 +83,142 @@
                                 <tr>
                                     <th colspan="2">
                                         <span class="highlight">Crucial Date</span></th>
-                                    <th colspan="2">
-                                                    <span class="sea-green">
+                                    <th >
+                                        <span class="sea-green">
 
-                                                        <dp-date-picker id="daytimePicker"
-                                                                        name="daytimePicker"
-                                                                        #datePicker
-                                                                        #daytimePicker="ngModel"
-                                                                        [(ngModel)]="progress_report.crucial_date"
-                                                                        (ngModelChange)="log($event)"
-                                                                        [mode]="'month'"
-                                                                        [placeholder]="'Pick Month & Year'"
-                                                                        [config]="config"
-                                                                        [theme]="'dp-material'">
-                                                        </dp-date-picker>
+                                                    <dp-date-picker id="daytimePicker"
+                                                                    name="daytimePicker"
+                                                                    #datePicker
+                                                                    #daytimePicker="ngModel"
+                                                                    [(ngModel)]="progress_report.crucial_date"
+                                                                    (ngModelChange)="log($event)"
+                                                                    [mode]="'month'"
+                                                                    [placeholder]="'Pick Month & Year'"
+                                                                    [config]="config"
+                                                                    [theme]="'dp-material'">
+                                                    </dp-date-picker>
 
-                                                    </span>
+                                                    <select>
+                                                        <option>select</option>
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                    </select>
+
+                                                </span>
                                     </th>
                                     <th colspan="3"><span>Attendance</span></th>
-                                    <th class="blank"><span></span></th>
-                                    <th colspan="6"><span>Monetary</span></th>
+                                    <th class="blank" style="width: 8px; padding: 0;"><span></span></th>
+                                    <th colspan="10"><span>Monetary</span></th>
                                 </tr>
-                                <tr>
-                                    <th><span>Date</span></th>
-                                    <th><span>Day</span></th>
-                                    <th><span>Programmes</span></th>
-                                    <th><span>Men</span></th>
-                                    <th><span>Women</span></th>
-                                    <th><span>Children</span></th>
-                                    <th><span>Total</span></th>
-                                    <th class="blank"><span></span></th>
-                                    <th><span>Offering</span></th>
-                                    <th colspan="2"><span>Tithe</span></th>
-                                    <th><span>F/Fruit</span></th>
-                                    <th><span>T/Giving</span></th>
-                                    <th><span>Total</span></th>
-                                </tr>
-                                <tr>
-                                <th colspan="7"><span></span></th>
-                                <th class="blank"><span></span></th>
-                                <th><span></span></th>
-                                <th><span>Pastor</span></th>
-                                <th><span>General</span></th>
-                                <th><span></span></th>
-                                <th><span></span></th>
-                                <th><span></span></th>
-                            </tr>
                             </thead>
                             <tbody *ngIf="progress_report.crucial_date != undefined">
-                            <!-- First section start -->
-
-                                <tr *ngFor="let weekly of progress_report.report.weekly; let i = index">
+                                <!-- First section start -->
+                                <tr>
                                     <td colspan="14">
-                                        <table class="table table-bordered"
-                                               style="margin-bottom:0;"
-                                               *ngFor="let week of weekly.days; let j = index"
-                                        >
+
+                                        <!-- Header Section Start -->
+                                        <table class="table no-margin">
                                             <tbody>
-                                            <tr *ngIf="week.date === 'Sunday'">
-                                                <td>
-                                                    <input type="text"
-                                                           [name]="'week' + i + 'date' + j"
-                                                           [(ngModel)]="week.date"
-                                                           class="form-control bg-pink"
-                                                           disabled
-                                                    >
-                                                </td>
-                                                <td>
-                                                    <input type="text"
-                                                           [name]="'week' + i + 'day' + j"
-                                                           [(ngModel)]="week.day"
-                                                           class="form-control"
-                                                           disabled
-                                                    >
-                                                </td>
-                                                <td>
-                                                    <input type="text"
-                                                           [name]="'week' + i + 'programmes' + j"
-                                                           [(ngModel)]="week.programmes"
-                                                           class="form-control bg-pink"
-                                                    >
-                                                </td>
-                                                <td>
-                                                    <input type="number"
-                                                           [name]="'week' + i + 'men' + j"
-                                                           [(ngModel)]="week.attendance.men"
-                                                           min="0"
-                                                           step="1"
-                                                           class="form-control sea-green"
-                                                    >
-                                                </td>
-                                                <td>
-                                                    <input type="number"
-                                                           [name]="'week' + i + 'women' + j"
-                                                           [(ngModel)]="week.attendance.women"
-                                                           min="0"
-                                                           step="1"
-                                                           class="form-control sea-green"
-                                                    >
-                                                </td>
-                                                <td>
-                                                    <input type="number"
-                                                           [name]="'week' + i + 'children' + j"
-                                                           [(ngModel)]="week.attendance.children"
-                                                           min="0"
-                                                           step="1"
-                                                           class="form-control sea-green"
-                                                    >
-                                                </td>
-                                                <td>
-                                                    <input type="number"
-                                                           [name]="'week' + i + 'a_total' + j"
-                                                           [(ngModel)]="week.attendance.total"
-                                                           min="0"
-                                                           step="1"
-                                                           class="form-control"
-                                                           disabled
-                                                    >
-                                                </td>
-                                                <td class="blank">&nbsp;</td>
-                                                <td colspan="6">&nbsp;</td>
-                                            </tr>
-                                            <tr *ngIf="week.date !== 'Sunday'">
+                                                <tr class="sky-blue">
+                                                    <td><span>Date</span></td>
+                                                    <td><span>Day</span></td>
+                                                    <td><span>Programmes</span></td>
+                                                    <td><span>Men</span></td>
+                                                    <td><span>Women</span></td>
+                                                    <td><span>Children</span></td>
+                                                    <td><span>Total</span></td>
+                                                    <td><span></span></td>
+                                                    <td><span>Offering</span></td>
+                                                    <td colspan="2">
+                                                        <table class="table no-margin sky-blue">
+                                                            <tr>
+                                                                <td colspan="2"><span>Tithe</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><span>Pastor</span></td>
+                                                                <td><span>General</span></td>
+                                                            </tr>
+                                                        </table>
+
+                                                    </td>
+                                                    <td><span>F/Fruit</span></td>
+                                                    <td><span>T/Giving</span></td>
+                                                    <td><span>Total</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- Header Section End -->
+
+                                        <!-- Week Generating Section Start -->
+                                        <table class="table no-margin"
+                                               *ngFor="let weekly of progress_report.report.weekly; let i = index">
+                                            <tbody *ngFor="let week of weekly.days; let j = index">
+                                                <tr *ngIf="week.day === 'Sunday'">
+                                                    <td>
+                                                        <input type="text"
+                                                               [name]="'week' + i + 'date' + j"
+                                                               [(ngModel)]="week.date"
+                                                               class="form-control bg-pink"
+                                                               disabled
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"
+                                                               [name]="'week' + i + 'day' + j"
+                                                               [(ngModel)]="week.day"
+                                                               class="form-control"
+                                                               disabled
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <input type="text"
+                                                               [name]="'week' + i + 'programmes' + j"
+                                                               [(ngModel)]="week.programmes"
+                                                               class="form-control bg-pink"
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <input type="number"
+                                                               [name]="'week' + i + 'men' + j"
+                                                               [(ngModel)]="week.attendance.men"
+                                                               min="0"
+                                                               step="1"
+                                                               class="form-control sea-green"
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <input type="number"
+                                                               [name]="'week' + i + 'women' + j"
+                                                               [(ngModel)]="week.attendance.women"
+                                                               min="0"
+                                                               step="1"
+                                                               class="form-control sea-green"
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <input type="number"
+                                                               [name]="'week' + i + 'children' + j"
+                                                               [(ngModel)]="week.attendance.children"
+                                                               min="0"
+                                                               step="1"
+                                                               class="form-control sea-green"
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <input type="number"
+                                                               [name]="'week' + i + 'a_total' + j"
+                                                               [(ngModel)]="week.attendance.total"
+                                                               min="0"
+                                                               step="1"
+                                                               class="form-control"
+                                                               disabled
+                                                        >
+                                                    </td>
+                                                    <td class="blank">&nbsp;</td>
+                                                    <td colspan="6">&nbsp;</td>
+                                                </tr>
+                                                <tr *ngIf="week.day !== 'Sunday'">
                                                 <td>
                                                     <input type="text"
                                                            [name]="'week' + i + 'date' + j"
@@ -388,8 +337,6 @@
                                                 </td>
                                             </tr>
                                             </tbody>
-                                        </table>
-                                        <table>
                                             <tbody>
                                                 <tr >
                                                 <td class="blank" colspan="6">&nbsp;</td>
@@ -467,9 +414,10 @@
                                             </tr>
                                             </tbody>
                                         </table>
+                                        <!-- Week Generating Section End -->
+
                                     </td>
                                 </tr>
-
                                 <!-- First section end -->
 
                                 <!-- Last section start -->
@@ -558,34 +506,15 @@
                                     <td><span>Men</span></td>
                                     <td><span>Total</span></td>
                                     <td colspan="4">
-                                        <strong>
-                                            Parish Start Date:
-                                            <span class="date">
-                                                    23/11/2003
-                                                </span>
-                                        </strong>
+                                        <strong>Parish Start Date: <span class="date">23/11/2003</span></strong>
                                     </td>
+                                    <td><span>Area Contrib.</span></td>
                                     <td>
-                                        <span>Area Contrib.</span>
-                                    </td>
-                                    <td>
-                                        <b>
-                                            <input type="text" class="form-control highlight" value="93.79">
-                                        </b>
+                                        <b><input type="text" class="form-control highlight" value="93.79"></b>
                                     </td>
                                     <td><span>WEM</span></td>
                                     <td>
-                                        <b>
-                                            <input
-                                                    type="number"
-                                                    [name]="'wem_share'"
-                                                    [(ngModel)]="progress_report.wem_share"
-                                                    min="0"
-                                                    step="1"
-                                                    disabled
-                                                    class="form-control highlight"
-                                            >
-                                        </b>
+                                        <b><input type="text" class="form-control highlight" value="493.79"></b>
                                     </td>
                                 </tr>
                                 <tr>
@@ -665,29 +594,29 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                <td colspan="2" class="monthly-growth"><span>Monthly Growth</span></td>
-                                <td><span>Number of Births</span></td>
-                                <td>
-                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
-                                </td>
-                                <td><span>Number of Deaths</span></td>
-                                <td>
-                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
-                                </td>
-                                <td colspan="2"><span>Number of Marriages</span></td>
-                                <td>
-                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
-                                </td>
-                                <td><span>Number of Souls Saved</span></td>
-                                <td>
-                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="2"></b>
-                                </td>
-                                <td colspan="2"><span>Number of New Workers</span></td>
-                                <td>
-                                    <b class="sea-green"><input type="text" class="form-control sea-green" value="3"></b>
-                                </td>
-                            </tr>
-                            <!-- Last section end -->
+                                    <td colspan="2" class="monthly-growth"><span>Monthly Growth</span></td>
+                                    <td><span>Number of Births</span></td>
+                                    <td>
+                                        <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
+                                    </td>
+                                    <td><span>Number of Deaths</span></td>
+                                    <td>
+                                        <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
+                                    </td>
+                                    <td colspan="2"><span>Number of Marriages</span></td>
+                                    <td>
+                                        <b class="sea-green"><input type="text" class="form-control sea-green" value="0"></b>
+                                    </td>
+                                    <td><span>Number of Souls Saved</span></td>
+                                    <td>
+                                        <b class="sea-green"><input type="text" class="form-control sea-green" value="2"></b>
+                                    </td>
+                                    <td colspan="2"><span>Number of New Workers</span></td>
+                                    <td>
+                                        <b class="sea-green"><input type="text" class="form-control sea-green" value="3"></b>
+                                    </td>
+                                </tr>
+                                <!-- Last section end -->
                             </tbody>
                         </table>
                     </div>
@@ -695,8 +624,7 @@
             </div>
         </div>
     </div>
-    <button type="submit"
-            class="btn btn-primary form-control"
+    <button class="btn btn-primary form-control"
             *ngIf="progress_report.crucial_date != undefined"
     >
         Submit

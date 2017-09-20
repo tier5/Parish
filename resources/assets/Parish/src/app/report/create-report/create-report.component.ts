@@ -13,33 +13,7 @@ import { ReportService } from '../report.service';
 })
 export class CreateReportComponent implements OnInit {
 	
-	@ViewChild('tdForm') tdForm: NgForm;
 	@ViewChild( 'prForm' ) prForm: NgForm;
-	response = {
-		datas: [
-			{
-				numOne: null,
-				numTwo: null,
-				numFinal: null
-			},
-			{
-				numOne: null,
-				numTwo: null,
-				numFinal: null
-			},
-			{
-				numOne: null,
-				numTwo: null,
-				numFinal: null
-			}
-		],
-		result: {
-			resNumOne: null,
-			resNumTwo: null,
-			resNumFinal: null,
-		}
-	};
-	date = '';
 	timeInfo: {
 		report_month: number,
 		report_year: number
@@ -829,29 +803,6 @@ export class CreateReportComponent implements OnInit {
 	constructor( private reportService: ReportService ) { }
 	
 	ngOnInit() {
-		this.tdForm.valueChanges
-		.subscribe(
-			(response) => {
-				let resNumOne = 0;
-				let resNumTwo = 0;
-				let resNumFinal = 0;
-
-				for(let i = 0; i < this.response.datas.length; i++ ) {
-
-					this.response.datas[i].numFinal = this.response.datas[i].numOne + this.response.datas[i].numTwo;
-
-					resNumOne = resNumOne + this.response.datas[i].numOne;
-					resNumTwo = resNumTwo + this.response.datas[i].numTwo;
-					resNumFinal = resNumFinal + this.response.datas[i].numFinal;
-
-				}
-
-				this.response.result.resNumOne = resNumOne;
-				this.response.result.resNumTwo = resNumTwo;
-				this.response.result.resNumFinal = resNumFinal;
-			}
-		);
-		
 		
 		this.prForm.valueChanges
 		.subscribe(
