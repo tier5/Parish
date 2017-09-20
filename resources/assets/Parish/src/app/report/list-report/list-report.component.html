@@ -1,3 +1,15 @@
+<style type="text/css">
+    .no-margin{margin: 0;}
+/*    .width48{width: 48%;}
+.width4{width: 4%;}*/
+
+select{width: 100%; background: #fff; border: 1px solid #ccc; padding: 3px;}
+.table-responsive{width: 100%; overflow-y: auto;}
+.sky-blue{background: #cde9ff;}
+
+.dp-date-picker.dp-material .dp-picker-input{width: 105px !important;}
+</style>
+
 <h1>list component works</h1>
 
 <form #prForm="ngForm">
@@ -63,7 +75,7 @@
                             <tr>
                                 <th colspan="2">
                                     <span class="highlight">Crucial Date</span></th>
-                                <th colspan="2">
+                                <th >
                                             <span class="sea-green">
 
                                                 <dp-date-picker id="daytimePicker"
@@ -78,17 +90,27 @@
                                                                 [theme]="'dp-material'">
                                                 </dp-date-picker>
 
+                                                <select>
+                                                    <option>select</option>
+                                                    <option>1</option>
+                                                    <option>2</option>
+                                                    <option>3</option>
+                                                </select>
+
                                             </span>
                                 </th>
                                 <th colspan="3"><span>Attendance</span></th>
-                                <th class="blank"><span></span></th>
-                                <th colspan="6"><span>Monetary</span></th>
+                                <th class="blank" style="width: 8px; padding: 0;"><span></span></th>
+                                <th colspan="10"><span>Monetary</span></th>
+                                
+                               
+                                
                             </tr>
-                            <tr>
-                                <th><span>Date</span></th>
-                                <th><span>Day</span></th>
-                                <th><span>Programmes</span></th>
-                                <th><span>Men</span></th>
+                            <!-- <tr>
+                                <th style="width: 80px;"><span>Date</span></th>
+                                <th style="width: 80px;"><span>Day</span></th>
+                                <th style="width: 38px;"><span>Programmes</span></th>
+                                <th style="width: 80px;"><span>Men</span></th>
                                 <th><span>Women</span></th>
                                 <th><span>Children</span></th>
                                 <th><span>Total</span></th>
@@ -98,8 +120,8 @@
                                 <th><span>F/Fruit</span></th>
                                 <th><span>T/Giving</span></th>
                                 <th><span>Total</span></th>
-                            </tr>
-                            <tr>
+                            </tr> -->
+                            <!-- <tr>
                                 <th colspan="7"><span></span></th>
                                 <th class="blank"><span></span></th>
                                 <th><span></span></th>
@@ -108,13 +130,207 @@
                                 <th><span></span></th>
                                 <th><span></span></th>
                                 <th><span></span></th>
-                            </tr>
+                            </tr> -->
                             </thead>
                             <tbody>
                             <!-- First section start -->
                             <tr >
                                 <td colspan="14">
-                                    <table class="table">
+                                    <table class="table no-margin">
+                                        <tbody>
+                                        <tr class="sky-blue">
+                                <td><span>Date</span></td>
+                                <td><span>Day</span></td>
+                                <td><span>Programmes</span></td>
+                                <td><span>Men</span></td>
+                                <td><span>Women</span></td>
+                                <td><span>Children</span></td>
+                                <td><span>Total</span></td>
+                                <td><span></span></td>
+                                <td><span>Offering</span></td>
+                                <td colspan="2">
+                                    <table class="table no-margin sky-blue">
+                                        <tr>
+                                            <td colspan="2"><span>Tithe</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span>Pastor</span></td>
+                                            <td><span>General</span></td>
+                                        </tr>
+                                    </table>
+
+                                </td>
+                                <td><span>F/Fruit</span></td>
+                                <td><span>T/Giving</span></td>
+                                <td><span>Total</span></td>
+                            </tr>    
+
+                                        <tr>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control bg-pink"
+                                                       value="02-Feb-2014"
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       value="Sunday"
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control bg-pink"
+                                                       value="Sunday School"
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control sea-green"
+                                                       value=""
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="">
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       value=""
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td class="blank"></td>
+                                            <td colspan="6"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control bg-pink"
+                                                       value=""
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       value="Sunday"
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control bg-pink" value="Sunday Service">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="">
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       value=""
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td class="blank"></td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="80.02">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="550.00">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control sea-green" value="40.00">
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       value="670.02"
+                                                       disabled
+                                                >
+                                            </td>
+                                        </tr>
+                                        </tbody>
+
+
+
+
+
+                                        <tbody>
+                                        <tr>
+                                            <td class="blank" colspan="6"></td>
+                                            <td colspan="2"><strong>Weekly Total</strong></td>
+                                            <td>
+                                                <b>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           value="110.02"
+                                                           disabled
+                                                    >
+                                                </b>
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       value=""
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <b>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           value="550.00"
+                                                           disabled
+                                                    >
+                                                </b>
+                                            </td>
+                                            <td>
+                                                <input type="text"
+                                                       class="form-control"
+                                                       value=""
+                                                       disabled
+                                                >
+                                            </td>
+                                            <td>
+                                                <b>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           value="40.00"
+                                                           disabled
+                                                    >
+                                                </b>
+                                            </td>
+                                            <td>
+                                                <b>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           value="700.02"
+                                                           disabled
+                                                    >
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        
+                                    </table>
+                                    <table class="table no-margin">
                                         <tbody>
                                         <tr>
                                             <td>
@@ -217,7 +433,13 @@
                                                 >
                                             </td>
                                         </tr>
+                                        </tbody>
 
+
+
+
+
+                                        <tbody>
                                         <tr>
                                             <td class="blank" colspan="6"></td>
                                             <td colspan="2"><strong>Weekly Total</strong></td>
@@ -272,11 +494,23 @@
                                                 </b>
                                             </td>
                                         </tr>
-
                                         </tbody>
+                                        
                                     </table>
+
+
                                 </td>
                             </tr>
+
+
+
+
+
+
+                             
+
+
+
                             <!-- First section end -->
 
                             <!-- Last section start -->
@@ -467,3 +701,4 @@
     </div>
     <button class="btn btn-primary form-control">Submit</button>
 </form>
+
