@@ -183,9 +183,8 @@ class ReportController extends Controller {
                     ->where('report_year', $report_year)
                     ->whereNull('deleted_at')
                     ->get();
-
+                $report = [];
                 if(count($fetchAllreport) > 0) {
-                    $report = [];
                     foreach($fetchAllreport as $key=>$reports){
                         $progress_report['id']              = $reports->id;
                         $progress_report['parish_id']       = $reports->parish_id;
@@ -194,6 +193,64 @@ class ReportController extends Controller {
                         $progress_report['progress_report'] =json_decode($reports->progress_report);
                         array_push($report,$progress_report);
                     }
+                    
+                    $attendance['men']              = null;
+                    $attendance['women']            = null;
+                    $attendance['children']         = null;
+                    $attendance['total']            = null;
+
+                    $monetary['offering']           = null;
+                    $monetary['tithe']              = ['pastor'=>null,"general"=> null];
+                    $monetary['f_fruit']            = null;
+                    $monetary['t_giving']           = null;
+                    $monetary['total']              = null;
+
+                    $monthly_total['attendance']    = $attendance;
+                    $monthly_total['monetary']      = $monetary;
+                    
+                    $start_date     = date('Y-m-d', strtotime($report_year.'-'.$report_month.'-01'));
+                    $lastday        = date('t',strtotime($start_date));
+                    $end_date       = date('Y-m-d', strtotime($report_year.'-'.$report_month.'-'.$lastday));
+                    $end_date1      = date('Y-m-d', strtotime($report_year.'-'.$report_month.'-'.$lastday.' + 6 days'));
+                    
+                    $week = [];
+
+                    for($date = $start_date; $date < $end_date1; $date = date('Y-m-d', strtotime($date. ' + 7 days'))) {
+                        
+                        $days                           =   $this->getWeekDates($date, $start_date, $end_date,$attendance,$monetary);
+                        $week_total ['attendance']      =   $attendance;
+                        $week_total ['monetary']        =   $monetary;
+                        $set_week   ['days']            =   $days;
+                        $set_week   ['weekly_total']    =   $week_total;
+                        if($days) {
+                            array_push($week,$set_week);
+                        }
+                        
+                    }
+                    $report_set['wem_percentage']   = 10;
+                    $report_set["parish_id"]        = $parish_id;
+                    $report_set["parish_pastor"]    = $parish->users->first_name." ".$parish->users->last_name;
+                    $report_set["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
+                    $report_set["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
+                    $report_set["province_pastor"]  = $parish->areas->zones->proviences->users->first_name." ".$parish->areas->zones->proviences->users->last_name;
+                    $report_set["month"]            = $report_month;
+                    $report_set["year"]             = $report_year;
+                    $report_set["crucial_date"]     = null;
+                    $report_set['report']           = ['monthly_total'=>$monthly_total,'weekly'=>$week];
+                    
+                    $progress_report['id']              = null;
+                    $progress_report['parish_id']       = $parish_id;
+                    $progress_report['report_month']    = $report_month;
+                    $progress_report['report_year']     = $report_year;
+                    $progress_report['progress_report'] = $report_set;
+
+                    array_push($report,$progress_report);
+                    $response = [
+                        'status'            => true,
+                        'progress_report'   => $report,
+                        'message'           => "Report fetched successfully."
+                    ];
+                    $responseCode = 201;
                 } else {
                     $attendance['men']              = null;
                     $attendance['women']            = null;
@@ -228,24 +285,25 @@ class ReportController extends Controller {
                         }
                         
                     }
-                    $report['wem_percentage']   = 10;
-                    $report["parish_id"]        = $parish_id;
-                    $report["parish_pastor"]    = $parish->users->first_name." ".$parish->users->last_name;
-                    $report["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
-                    $report["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
-                    $report["province_pastor"]  = $parish->areas->zones->proviences->users->first_name." ".$parish->areas->zones->proviences->users->last_name;
-                    $report["month"]            = $report_month;
-                    $report["year"]             = $report_year;
-                    $report["crucial_date"]     = null;
-                    $report['report']           = ['monthly_total'=>$monthly_total,'weekly'=>$week];
+                    $report_set['wem_percentage']   = 10;
+                    $report_set["parish_id"]        = $parish_id;
+                    $report_set["parish_pastor"]    = $parish->users->first_name." ".$parish->users->last_name;
+                    $report_set["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
+                    $report_set["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
+                    $report_set["province_pastor"]  = $parish->areas->zones->proviences->users->first_name." ".$parish->areas->zones->proviences->users->last_name;
+                    $report_set["month"]            = $report_month;
+                    $report_set["year"]             = $report_year;
+                    $report_set["crucial_date"]     = null;
+                    $report_set['report']           = ['monthly_total'=>$monthly_total,'weekly'=>$week];
+                    
+                    array_push($report,$report_set);
+                    $response = [
+                        'status'            => true,
+                        'progress_report'   => $report,
+                        'message'           => "Report fetched successfully."
+                    ];
+                    $responseCode = 201;
                 }
-
-                $response = [
-                    'status'            => true,
-                    'progress_report'   => $report,
-                    'message'           => "Report fetched successfully."
-                ];
-                $responseCode = 201;
             } else {
                throw new HttpBadRequestException("Parish not found.");
             }
