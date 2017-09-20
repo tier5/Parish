@@ -216,8 +216,10 @@ class ReportController extends Controller {
                         $week_total['monetary']     =   $monetary;
                         $set_week['days']           =   $days;
                         $set_week['weekly_total']   =   $week_total;
+                        if($days){
+                            array_push($week,$set_week);
+                        }
                         
-                        array_push($week,$set_week);
                     }
                     $report['wem_percentage']   = 10;
                     $report["parish_id"]        = $parish_id;
