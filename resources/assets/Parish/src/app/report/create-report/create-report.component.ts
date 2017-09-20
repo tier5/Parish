@@ -987,8 +987,11 @@ export class CreateReportComponent implements OnInit {
 			.subscribe(
 				(response: Response) => {
 					console.log(response.json());
+					console.log(response.json().progress_report);
+					console.log(response.json().progress_report.length);
+					console.log( response.json().progress_report[ (response.json().progress_report).length - 1 ] );
 					const crucial_date = this.progress_report.crucial_date;
-					this.progress_report = response.json().progress_report[0];
+					this.progress_report = response.json().progress_report[ (response.json().progress_report).length - 1 ].progress_report;
 					console.log(this.progress_report);
 					this.progress_report.crucial_date = crucial_date;
 					
