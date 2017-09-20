@@ -47,6 +47,7 @@ export class ListReportComponent {
 	};
 	progress_report: ProgressReportModel = {
 		"wem_percentage": 10,
+		"wem_share": 0,
 		"account_name": "Account Name",
 		"parish_id": 1001,
 		"parish_pastor": "Parish Pastor",
@@ -903,6 +904,8 @@ export class ListReportComponent {
 				this.progress_report.report.monthly_total.monetary.f_fruit = monthTemp.monetary.f_fruit;
 				this.progress_report.report.monthly_total.monetary.t_giving = monthTemp.monetary.t_giving;
 				this.progress_report.report.monthly_total.monetary.total = monthTemp.monetary.total;
+				/** Calculating wem's share */
+				this.progress_report.wem_share =  this.progress_report.report.monthly_total.monetary.total * ( this.progress_report.wem_percentage/100 );
 				
 			}
 		);
