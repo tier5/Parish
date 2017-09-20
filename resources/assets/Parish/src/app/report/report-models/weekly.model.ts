@@ -4,7 +4,7 @@ import { DayModel } from './day.model';
 
 export class WeeklyModel {
 	
-	constructor( public week_total: {
+	constructor( public weekly_total: {
 					 attendance: AttendanceModel,
 					 monetary: MonetaryModel
 				 },

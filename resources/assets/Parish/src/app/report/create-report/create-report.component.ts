@@ -40,6 +40,10 @@ export class CreateReportComponent implements OnInit {
 		}
 	};
 	date = '';
+	timeInfo: {
+		report_month: number,
+		report_year: number
+	};
 	config: IDatePickerConfig = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
@@ -107,7 +111,7 @@ export class CreateReportComponent implements OnInit {
 			},
 			"weekly": [
 				{
-					"week_total": {
+					"weekly_total": {
 						"attendance": {
 							"men": null,
 							"women": null,
@@ -284,7 +288,7 @@ export class CreateReportComponent implements OnInit {
 					]
 				},
 				{
-					"week_total": {
+					"weekly_total": {
 						"attendance": {
 							"men": null,
 							"women": null,
@@ -461,7 +465,7 @@ export class CreateReportComponent implements OnInit {
 					]
 				},
 				{
-					"week_total": {
+					"weekly_total": {
 						"attendance": {
 							"men": null,
 							"women": null,
@@ -638,7 +642,7 @@ export class CreateReportComponent implements OnInit {
 					]
 				},
 				{
-					"week_total": {
+					"weekly_total": {
 						"attendance": {
 							"men": null,
 							"women": null,
@@ -826,7 +830,6 @@ export class CreateReportComponent implements OnInit {
 		this.tdForm.valueChanges
 		.subscribe(
 			(response) => {
-				console.log(this.response.datas);
 				let resNumOne = 0;
 				let resNumTwo = 0;
 				let resNumFinal = 0;
@@ -918,32 +921,32 @@ export class CreateReportComponent implements OnInit {
 					}
 					
 					/** Saving weekly attendance */
-					this.progress_report.report.weekly[i].week_total.attendance.men = weeklyTemp.attendance.men ;
-					this.progress_report.report.weekly[i].week_total.attendance.women = weeklyTemp.attendance.women;
-					this.progress_report.report.weekly[i].week_total.attendance.children = weeklyTemp.attendance.children;
-					this.progress_report.report.weekly[i].week_total.attendance.total = weeklyTemp.attendance.total;
+					this.progress_report.report.weekly[i].weekly_total.attendance.men = weeklyTemp.attendance.men ;
+					this.progress_report.report.weekly[i].weekly_total.attendance.women = weeklyTemp.attendance.women;
+					this.progress_report.report.weekly[i].weekly_total.attendance.children = weeklyTemp.attendance.children;
+					this.progress_report.report.weekly[i].weekly_total.attendance.total = weeklyTemp.attendance.total;
 					
 					/** Saving weekly monetary */
-					this.progress_report.report.weekly[i].week_total.monetary.offering = weeklyTemp.monetary.offering;
-					this.progress_report.report.weekly[i].week_total.monetary.tithe.pastor = weeklyTemp.monetary.tithe.pastor;
-					this.progress_report.report.weekly[i].week_total.monetary.tithe.general = weeklyTemp.monetary.tithe.general;
-					this.progress_report.report.weekly[i].week_total.monetary.f_fruit = weeklyTemp.monetary.f_fruit;
-					this.progress_report.report.weekly[i].week_total.monetary.t_giving = weeklyTemp.monetary.t_giving;
-					this.progress_report.report.weekly[i].week_total.monetary.total = weeklyTemp.monetary.total;
+					this.progress_report.report.weekly[i].weekly_total.monetary.offering = weeklyTemp.monetary.offering;
+					this.progress_report.report.weekly[i].weekly_total.monetary.tithe.pastor = weeklyTemp.monetary.tithe.pastor;
+					this.progress_report.report.weekly[i].weekly_total.monetary.tithe.general = weeklyTemp.monetary.tithe.general;
+					this.progress_report.report.weekly[i].weekly_total.monetary.f_fruit = weeklyTemp.monetary.f_fruit;
+					this.progress_report.report.weekly[i].weekly_total.monetary.t_giving = weeklyTemp.monetary.t_giving;
+					this.progress_report.report.weekly[i].weekly_total.monetary.total = weeklyTemp.monetary.total;
 					
 					/** Calculating monthly attendance */
-					monthTemp.attendance.men += this.progress_report.report.weekly[i].week_total.attendance.men;
-					monthTemp.attendance.women += this.progress_report.report.weekly[i].week_total.attendance.women;
-					monthTemp.attendance.children += this.progress_report.report.weekly[i].week_total.attendance.children;
-					monthTemp.attendance.total += this.progress_report.report.weekly[i].week_total.attendance.total;
+					monthTemp.attendance.men += this.progress_report.report.weekly[i].weekly_total.attendance.men;
+					monthTemp.attendance.women += this.progress_report.report.weekly[i].weekly_total.attendance.women;
+					monthTemp.attendance.children += this.progress_report.report.weekly[i].weekly_total.attendance.children;
+					monthTemp.attendance.total += this.progress_report.report.weekly[i].weekly_total.attendance.total;
 					
 					/** Calculating monthly monetary */
-					monthTemp.monetary.offering += this.progress_report.report.weekly[i].week_total.monetary.offering;
-					monthTemp.monetary.tithe.pastor += this.progress_report.report.weekly[i].week_total.monetary.tithe.pastor;
-					monthTemp.monetary.tithe.general += this.progress_report.report.weekly[i].week_total.monetary.tithe.general;
-					monthTemp.monetary.f_fruit += this.progress_report.report.weekly[i].week_total.monetary.f_fruit;
-					monthTemp.monetary.t_giving += this.progress_report.report.weekly[i].week_total.monetary.t_giving;
-					monthTemp.monetary.total += this.progress_report.report.weekly[i].week_total.monetary.total;
+					monthTemp.monetary.offering += this.progress_report.report.weekly[i].weekly_total.monetary.offering;
+					monthTemp.monetary.tithe.pastor += this.progress_report.report.weekly[i].weekly_total.monetary.tithe.pastor;
+					monthTemp.monetary.tithe.general += this.progress_report.report.weekly[i].weekly_total.monetary.tithe.general;
+					monthTemp.monetary.f_fruit += this.progress_report.report.weekly[i].weekly_total.monetary.f_fruit;
+					monthTemp.monetary.t_giving += this.progress_report.report.weekly[i].weekly_total.monetary.t_giving;
+					monthTemp.monetary.total += this.progress_report.report.weekly[i].weekly_total.monetary.total;
 					
 				}
 				
@@ -973,17 +976,37 @@ export class CreateReportComponent implements OnInit {
 		
 		if(event) {
 			const date = new Date(event);
-			const data = {
+			this.timeInfo = {
 				report_month: date.getMonth() + 1,
 				report_year: date.getFullYear()
 			};
-			this.reportService.getReportBP( data )
+			this.reportService.getReportBP( this.timeInfo )
 			.subscribe(
 				(response: Response) => {
 					console.log(response.json());
+					const crucial_date = this.progress_report.crucial_date;
+					this.progress_report = response.json().progress_report;
+					this.progress_report.crucial_date = crucial_date;
+					
 				}
 			);
 		}
+	}
+	
+	onSubmit() {
+		alert('here');
+		const obj = {
+			report_month: this.timeInfo.report_month,
+			report_year: this.timeInfo.report_year,
+			progress_report: this.progress_report
+		};
+		console.log(obj);
+		this.reportService.sendReport( obj )
+		.subscribe(
+			( response: Response ) => {
+				console.log(response.json());
+			}
+		);
 	}
 	
 }

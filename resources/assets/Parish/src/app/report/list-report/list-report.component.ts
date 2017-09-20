@@ -79,7 +79,7 @@ export class ListReportComponent {
 			},
 			"weekly": [
 				{
-					"week_total": {
+					"weekly_total": {
 						"attendance": {
 							"men": null,
 							"women": null,
@@ -255,7 +255,7 @@ export class ListReportComponent {
 					]
 				},
 				{
-					"week_total": {
+					"weekly_total": {
 						"attendance": {
 							"men": null,
 							"women": null,
@@ -432,7 +432,7 @@ export class ListReportComponent {
 					]
 				},
 				{
-					"week_total": {
+					"weekly_total": {
 						"attendance": {
 							"men": null,
 							"women": null,
@@ -609,7 +609,7 @@ export class ListReportComponent {
 					]
 				},
 				{
-					"week_total": {
+					"weekly_total": {
 						"attendance": {
 							"men": null,
 							"women": null,
@@ -818,7 +818,7 @@ export class ListReportComponent {
 				
 				for( let i = 0; i < this.progress_report.report.weekly.length; i++ ) {
 					
-					let temp = {
+					let weeklyTemp = {
 						"attendance": {
 							"men": 0,
 							"women": 0,
@@ -837,7 +837,7 @@ export class ListReportComponent {
 							"total": 0
 						}
 					};
-
+					
 					for( let j = 0; j < this.progress_report.report.weekly[i].days.length; j++ ) {
 						/** Calculating and saving daily attendance */
 						this.progress_report.report.weekly[i].days[j].attendance.total = this.progress_report.report.weekly[i].days[j].attendance.men + this.progress_report.report.weekly[i].days[j].attendance.women + this.progress_report.report.weekly[i].days[j].attendance.children;
@@ -846,49 +846,49 @@ export class ListReportComponent {
 						this.progress_report.report.weekly[i].days[j].monetary.total = this.progress_report.report.weekly[i].days[j].monetary.offering + this.progress_report.report.weekly[i].days[j].monetary.tithe.general + this.progress_report.report.weekly[i].days[j].monetary.tithe.pastor + this.progress_report.report.weekly[i].days[j].monetary.f_fruit + this.progress_report.report.weekly[i].days[j].monetary.t_giving;
 						
 						/** Calculating weekly attendance */
-						temp.attendance.men += this.progress_report.report.weekly[i].days[j].attendance.men;
-						temp.attendance.women += this.progress_report.report.weekly[i].days[j].attendance.women;
-						temp.attendance.children += this.progress_report.report.weekly[i].days[j].attendance.children;
-						temp.attendance.total += this.progress_report.report.weekly[i].days[j].attendance.total;
+						weeklyTemp.attendance.men += this.progress_report.report.weekly[i].days[j].attendance.men;
+						weeklyTemp.attendance.women += this.progress_report.report.weekly[i].days[j].attendance.women;
+						weeklyTemp.attendance.children += this.progress_report.report.weekly[i].days[j].attendance.children;
+						weeklyTemp.attendance.total += this.progress_report.report.weekly[i].days[j].attendance.total;
 						
 						/** Calculating weekly monetary */
-						temp.monetary.offering += this.progress_report.report.weekly[i].days[j].monetary.offering;
-						temp.monetary.tithe.pastor += this.progress_report.report.weekly[i].days[j].monetary.tithe.pastor;
-						temp.monetary.tithe.general += this.progress_report.report.weekly[i].days[j].monetary.tithe.general;
-						temp.monetary.f_fruit += this.progress_report.report.weekly[i].days[j].monetary.f_fruit;
-						temp.monetary.t_giving += this.progress_report.report.weekly[i].days[j].monetary.t_giving;
-						temp.monetary.total += this.progress_report.report.weekly[i].days[j].monetary.total;
-					
+						weeklyTemp.monetary.offering += this.progress_report.report.weekly[i].days[j].monetary.offering;
+						weeklyTemp.monetary.tithe.pastor += this.progress_report.report.weekly[i].days[j].monetary.tithe.pastor;
+						weeklyTemp.monetary.tithe.general += this.progress_report.report.weekly[i].days[j].monetary.tithe.general;
+						weeklyTemp.monetary.f_fruit += this.progress_report.report.weekly[i].days[j].monetary.f_fruit;
+						weeklyTemp.monetary.t_giving += this.progress_report.report.weekly[i].days[j].monetary.t_giving;
+						weeklyTemp.monetary.total += this.progress_report.report.weekly[i].days[j].monetary.total;
+						
 					}
 					
 					/** Saving weekly attendance */
-					this.progress_report.report.weekly[i].week_total.attendance.men = temp.attendance.men ;
-					this.progress_report.report.weekly[i].week_total.attendance.women = temp.attendance.women;
-					this.progress_report.report.weekly[i].week_total.attendance.children = temp.attendance.children;
-					this.progress_report.report.weekly[i].week_total.attendance.total = temp.attendance.total;
+					this.progress_report.report.weekly[i].weekly_total.attendance.men = weeklyTemp.attendance.men ;
+					this.progress_report.report.weekly[i].weekly_total.attendance.women = weeklyTemp.attendance.women;
+					this.progress_report.report.weekly[i].weekly_total.attendance.children = weeklyTemp.attendance.children;
+					this.progress_report.report.weekly[i].weekly_total.attendance.total = weeklyTemp.attendance.total;
 					
 					/** Saving weekly monetary */
-					this.progress_report.report.weekly[i].week_total.monetary.offering = temp.monetary.offering;
-					this.progress_report.report.weekly[i].week_total.monetary.tithe.pastor = temp.monetary.tithe.pastor;
-					this.progress_report.report.weekly[i].week_total.monetary.tithe.general = temp.monetary.tithe.general;
-					this.progress_report.report.weekly[i].week_total.monetary.f_fruit = temp.monetary.f_fruit;
-					this.progress_report.report.weekly[i].week_total.monetary.t_giving = temp.monetary.t_giving;
-					this.progress_report.report.weekly[i].week_total.monetary.total = temp.monetary.total;
+					this.progress_report.report.weekly[i].weekly_total.monetary.offering = weeklyTemp.monetary.offering;
+					this.progress_report.report.weekly[i].weekly_total.monetary.tithe.pastor = weeklyTemp.monetary.tithe.pastor;
+					this.progress_report.report.weekly[i].weekly_total.monetary.tithe.general = weeklyTemp.monetary.tithe.general;
+					this.progress_report.report.weekly[i].weekly_total.monetary.f_fruit = weeklyTemp.monetary.f_fruit;
+					this.progress_report.report.weekly[i].weekly_total.monetary.t_giving = weeklyTemp.monetary.t_giving;
+					this.progress_report.report.weekly[i].weekly_total.monetary.total = weeklyTemp.monetary.total;
 					
 					/** Calculating monthly attendance */
-					monthTemp.attendance.men += this.progress_report.report.weekly[i].week_total.attendance.men;
-					monthTemp.attendance.women += this.progress_report.report.weekly[i].week_total.attendance.women;
-					monthTemp.attendance.children += this.progress_report.report.weekly[i].week_total.attendance.children;
-					monthTemp.attendance.total += this.progress_report.report.weekly[i].week_total.attendance.total;
+					monthTemp.attendance.men += this.progress_report.report.weekly[i].weekly_total.attendance.men;
+					monthTemp.attendance.women += this.progress_report.report.weekly[i].weekly_total.attendance.women;
+					monthTemp.attendance.children += this.progress_report.report.weekly[i].weekly_total.attendance.children;
+					monthTemp.attendance.total += this.progress_report.report.weekly[i].weekly_total.attendance.total;
 					
 					/** Calculating monthly monetary */
-					monthTemp.monetary.offering += this.progress_report.report.weekly[i].week_total.monetary.offering;
-					monthTemp.monetary.tithe.pastor += this.progress_report.report.weekly[i].week_total.monetary.tithe.pastor;
-					monthTemp.monetary.tithe.general += this.progress_report.report.weekly[i].week_total.monetary.tithe.general;
-					monthTemp.monetary.f_fruit += this.progress_report.report.weekly[i].week_total.monetary.f_fruit;
-					monthTemp.monetary.t_giving += this.progress_report.report.weekly[i].week_total.monetary.t_giving;
-					monthTemp.monetary.total += this.progress_report.report.weekly[i].week_total.monetary.total;
-
+					monthTemp.monetary.offering += this.progress_report.report.weekly[i].weekly_total.monetary.offering;
+					monthTemp.monetary.tithe.pastor += this.progress_report.report.weekly[i].weekly_total.monetary.tithe.pastor;
+					monthTemp.monetary.tithe.general += this.progress_report.report.weekly[i].weekly_total.monetary.tithe.general;
+					monthTemp.monetary.f_fruit += this.progress_report.report.weekly[i].weekly_total.monetary.f_fruit;
+					monthTemp.monetary.t_giving += this.progress_report.report.weekly[i].weekly_total.monetary.t_giving;
+					monthTemp.monetary.total += this.progress_report.report.weekly[i].weekly_total.monetary.total;
+					
 				}
 				
 				/** Saving weekly attendance */
@@ -904,6 +904,7 @@ export class ListReportComponent {
 				this.progress_report.report.monthly_total.monetary.f_fruit = monthTemp.monetary.f_fruit;
 				this.progress_report.report.monthly_total.monetary.t_giving = monthTemp.monetary.t_giving;
 				this.progress_report.report.monthly_total.monetary.total = monthTemp.monetary.total;
+				
 				/** Calculating wem's share */
 				this.progress_report.wem_share =  this.progress_report.report.monthly_total.monetary.total * ( this.progress_report.wem_percentage/100 );
 				
