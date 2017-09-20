@@ -194,7 +194,7 @@ class ReportController extends Controller {
                     $attendance['total']            = null;
 
                     $monetary['offering']           = null;
-                    $monetary['title']              = ['pastor'=>null,"general"=> null];
+                    $monetary['tithe']              = ['pastor'=>null,"general"=> null];
                     $monetary['f_fruit']            = null;
                     $monetary['t_giving']           = null;
                     $monetary['total']              = null;
@@ -214,12 +214,12 @@ class ReportController extends Controller {
                         $days                       =   $this->getWeekDates($date, $start_date, $end_date,$attendance,$monetary);
                         $week_total['attendance']   =   $attendance;
                         $week_total['monetary']     =   $monetary;
-                        $setday['days']             =   $days;
-
-                        array_push($week,$week_total);
-                        array_push($week,$setday);
+                        $set_week['days']           =   $days;
+                        $set_week['weekly_total']   =   $week_total;
+                        
+                        array_push($week,$set_week);
                     }
-
+                    $report['wem_percentage']   = 10;
                     $report["parish_id"]        = $parish_id;
                     $report["parish_pastor"]    = $parish->users->first_name." ".$parish->users->last_name;
                     $report["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
@@ -232,9 +232,9 @@ class ReportController extends Controller {
                 }
 
                 $response = [
-                    'status'        => true,
-                    'progress_report' => $report,
-                    'message'       => "Report fetched successfully."
+                    'status'            => true,
+                    'progress_report'   => $report,
+                    'message'           => "Report fetched successfully."
                 ];
                 $responseCode = 201;
             } else {
