@@ -145,7 +145,7 @@ table tr td span.maa{
     display: inline-block;
     width: auto;
 }
-table tr td b{
+/*table tr td b{
     height: 100%;
     position: absolute;
     width: 100%;
@@ -154,11 +154,14 @@ table tr td b{
     top: 0;
     bottom: 0;
     background: #fff;
-}
+}*/
 table tr td b.sea-green{
     background: #98faee;
 }
 table tr td input.highlight-light{
+    background: #e8f5ff;
+}
+.highlight-light{
     background: #e8f5ff;
 }
 
