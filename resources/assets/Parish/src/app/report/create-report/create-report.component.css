@@ -95,13 +95,13 @@ table tr th span{
     border: 1px solid #000;
     position: relative;
 }
+
 table tr td input{
     display: block;
     width: 100%;
     padding: 5px 1px;
     border: none;
     color: #000;
-    font-size: 13px;
     text-align: center;
     border-radius: 0;
 }
@@ -199,8 +199,10 @@ table tr td input.highlight-light{
 
 select{width: 100%; background: #fff; border: 1px solid #ccc; padding: 3px;}
 .table-responsive{width: 100%; overflow-y: auto;}
-.sky-blue{background: #cde9ff;}
-
+.sky-blue, .disabled_input td, .disabled_input td input{background: #cde9ff;}
+.disabled_input td input{
+    font-weight: bold;
+}
 .dp-date-picker.dp-material .dp-picker-input{width: 105px !important;}
 
 

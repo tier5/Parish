@@ -79,68 +79,135 @@
             <div class="row">
               <div class="table-responsive">
                 <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th colspan="2">
-                        <span class="highlight">Crucial Date</span>
-                      </th>
-                      <th>
-                        <span class="sea-green">
-                          <!-- <dp-date-picker id="daytimePicker"
-                          name="daytimePicker"
-                          #datePicker
-                          #daytimePicker="ngModel"
-                          [(ngModel)]="progress_report.crucial_date"
-                          (ngModelChange)="log($event)"
-                          [mode]="'month'"
-                          [placeholder]="'Pick Month & Year'"
-                          [config]="config"
-                          [theme]="'dp-material'">
-                          </dp-date-picker> -->
-                          july 14
-                          <!-- <select>
-                              <option>select</option>
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                          </select> -->
-                        </span>
-                      </th>
-                      <th colspan="4"><span>Attendance</span></th>
-                      <th class="blank" style="width: 8px; padding: 0;"><span></span></th>
-                      <th colspan="6"><span>Monetary</span></th>
-                    </tr>
-                    <tr class="sky-blue">
-                      <th><span>Date</span></th>
-                      <th><span>Day</span></th>
-                      <th><span>Programmes</span></th>
-                      <th><span>Men</span></th>
-                      <th><span>Women</span></th>
-                      <th><span>Children</span></th>
-                      <th><span>Total</span></th>
-                      <th><span></span></th>
-                      <th><span>Offering</span></th>
-                      <th colspan="2">
-                          <table class="table no-margin sky-blue">
-                              <tr>
-                                  <th colspan="2"><span>Tithe</span></th>
-                              </tr>
-                              <tr>
-                                  <th style="border: 1px solid #000;border-left: 0;border-bottom: 0;"><span>Pastor</span></th>
-                                  <th><span>General</span></th>
-                              </tr>
-                          </table>
+                  <!--<thead>-->
+                    <!--<tr>-->
+                      <!--<th colspan="2">-->
+                        <!--<span class="highlight">Crucial Date</span>-->
+                      <!--</th>-->
+                      <!--<th>-->
+                        <!--<span class="sea-green">-->
+                          <!--<dp-date-picker id="daytimePicker"-->
+                              <!--name="daytimePicker"-->
+                              <!--#datePicker-->
+                              <!--#daytimePicker="ngModel"-->
+                              <!--[(ngModel)]="progress_report.crucial_date"-->
+                              <!--(ngModelChange)="log($event)"-->
+                              <!--[mode]="'month'"-->
+                              <!--[placeholder]="'Pick Month & Year'"-->
+                              <!--[config]="config"-->
+                              <!--[theme]="'dp-material'">-->
+                          <!--</dp-date-picker>-->
+                          <!--<select>-->
+                              <!--<option>select</option>-->
+                              <!--<option>1</option>-->
+                              <!--<option>2</option>-->
+                              <!--<option>3</option>-->
+                          <!--</select>-->
+                        <!--</span>-->
+                      <!--</th>-->
+                      <!--<th colspan="4"><span>Attendance</span></th>-->
+                      <!--<th class="blank"><span></span></th>-->
+                      <!--<th colspan="6"><span>Monetary</span></th>-->
+                    <!--</tr>-->
+                    <!--<tr class="sky-blue">-->
+                      <!--<th><span>Date</span></th>-->
+                      <!--<th><span>Day</span></th>-->
+                      <!--<th><span>Programmes</span></th>-->
+                      <!--<th><span>Men</span></th>-->
+                      <!--<th><span>Women</span></th>-->
+                      <!--<th><span>Children</span></th>-->
+                      <!--<th><span>Total</span></th>-->
+                      <!--<th><span></span></th>-->
+                      <!--<th><span>Offering</span></th>-->
+                      <!--<th colspan="2">-->
+                          <!--<table class="table no-margin sky-blue">-->
+                              <!--<tr>-->
+                                  <!--<th colspan="2"><span>Tithe</span></th>-->
+                              <!--</tr>-->
+                              <!--<tr>-->
+                                  <!--<th style="border: 1px solid #000;border-left: 0;border-bottom: 0;"><span>Pastor</span></th>-->
+                                  <!--<th><span>General</span></th>-->
+                              <!--</tr>-->
+                          <!--</table>-->
 
-                      </th>
-                      <th><span>F/Fruit</span></th>
-                      <th><span>T/Giving</span></th>
-                      <th><span>Total</span></th>
-                  </tr>
-                  </thead>
-                  <tbody *ngIf="progress_report.crucial_date != undefined">
+                      <!--</th>-->
+                      <!--<th><span>F/Fruit</span></th>-->
+                      <!--<th><span>T/Giving</span></th>-->
+                      <!--<th><span>Total</span></th>-->
+                    <!--</tr>-->
+                  <!--</thead>-->
+                  <!--<tbody *ngIf="progress_report.crucial_date != undefined">-->
+                    <tbody >
+                        <tr>
+                            <td colspan="14">
+                                <table class="table no-margin">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <span class="highlight">Crucial Date</span>
+                                            </td>
+                                            <td>
+                                                <span class="sea-green">
+                                                  <dp-date-picker id="daytimePicker"
+                                                                  name="daytimePicker"
+                                                                  #datePicker
+                                                                  #daytimePicker="ngModel"
+                                                                  [(ngModel)]="progress_report.crucial_date"
+                                                                  (ngModelChange)="log($event)"
+                                                                  [mode]="'month'"
+                                                                  [placeholder]="'Pick Month & Year'"
+                                                                  [config]="config"
+                                                                  [theme]="'dp-material'">
+                                                  </dp-date-picker>
+                                                  <select>
+                                                      <option>select</option>
+                                                      <option>1</option>
+                                                      <option>2</option>
+                                                      <option>3</option>
+                                                  </select>
+                                                </span>
+                                            </td>
+                                            <td colspan="4"><span>Attendance</span></td>
+                                            <td class="blank"><span></span></td>
+                                            <td colspan="6"><span>Monetary</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
                       <!-- First section start -->
                       <tr>
                           <td colspan="14">
+                              <table class="table no-margin">
+                                  <tbody>
+                                  <tr class="sky-blue disabled_input">
+                                      <td><input value="Date" disabled="disabled"></td>
+                                      <td><input value="Day" disabled></td>
+                                      <td><input value="Programmes" disabled></td>
+                                      <td><input value="Men" disabled></td>
+                                      <td><input value="Women" disabled></td>
+                                      <td><input value="Children" disabled></td>
+                                      <td><input value="Total" disabled></td>
+                                      <td style="width: 1.8%">&nbsp;</td>
+                                      <td><input value="Offering" disabled></td>
+                                      <td colspan="2">
+                                          <table class="table no-margin sky-blue">
+                                              <tr>
+                                                  <td colspan="2"><input value="Tithe" disabled></td>
+                                              </tr>
+                                              <tr>
+                                                  <td style="border: 1px solid #000;border-left: 0;border-bottom: 0;"><input value="Pastor"></td>
+                                                  <td><input value="General" disabled></td>
+                                              </tr>
+                                          </table>
+
+                                      </td>
+                                      <td><input value="F/Fruit" disabled></td>
+                                      <td><input value="T/Giving" disabled></td>
+                                      <td><input value="Total" disabled></td>
+                                  </tr>
+                                  </tbody>
+                              </table>
 
                               <!-- Week Generating Section Start -->
                               <table class="table no-margin"
@@ -207,7 +274,7 @@
                                                    disabled
                                             >
                                         </td>
-                                        <td class="blank">&nbsp;</td>
+                                        <td class="blank"  style="width: 1%">&nbsp;</td>
                                         <td colspan="6">&nbsp;</td>
                                       </tr>
                                       <tr *ngIf="week.day !== 'Sunday'">
@@ -271,7 +338,7 @@
                                                    disabled
                                             >
                                         </td>
-                                        <td class="blank">&nbsp;</td>
+                                        <td class="blank" style="width: 1%">&nbsp;</td>
                                         <td>
                                             <input type="number"
                                                    [name]="'week' + i + 'offering' + j"
