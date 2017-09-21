@@ -1,5 +1,5 @@
 import { ActivatedRoute, Data } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IDatePickerConfig } from 'ng2-date-picker';
 import { NgForm } from '@angular/forms';
 import { Response } from '@angular/http';
@@ -13,15 +13,15 @@ import { ReportService } from '../report.service';
 	templateUrl: './create-report.component.html',
 	styleUrls: [ './create-report.component.css' ]
 })
-export class CreateReportComponent implements OnInit {
+export class CreateReportComponent implements OnInit, OnDestroy {
 	
-	@ViewChild( 'prForm' ) prForm: NgForm;
-	generateReportSubscription: Subscription;
-	editMode: boolean = false; // Initializing edit mode for this component
-	responseMsg: string = '';
-	responseStatus: boolean = false;
-	responseReceived: boolean = false;
-	config: IDatePickerConfig = {
+	@ViewChild( 'prForm' ) prForm  : NgForm;
+	generateReportSubscription     : Subscription;
+	editMode                       : boolean             = false;
+	responseMsg                    : string              = '';
+	responseStatus                 : boolean             = false;
+	responseReceived               : boolean             = false;
+	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
 		disableKeypress: false,
@@ -54,8 +54,8 @@ export class CreateReportComponent implements OnInit {
 		showMultipleYearsNavigation: false,
 		locale: 'en'
 	};
-	timeInfo: { report_month: number, report_year: number };
-	temp_report: ProgressReportModel = {
+	timeInfo                       : { report_month: number, report_year: number };
+	temp_report                    : ProgressReportModel = {
 		'wem_percentage': 0,
 		'wem_share': 0,
 		'account_name': '',
@@ -799,7 +799,7 @@ export class CreateReportComponent implements OnInit {
 			]
 		}
 	};
-	progress_report: ProgressReportModel = this.temp_report;
+	progress_report                : ProgressReportModel = this.temp_report;
 	
 	constructor( private reportService: ReportService,
 	             private activatedRoute: ActivatedRoute ) { }
@@ -927,17 +927,26 @@ export class CreateReportComponent implements OnInit {
 		
 		this.generateReportSubscription = this.reportService.generateReport
 		.subscribe(
-			( body:{ report_month: number, report_year: number } ) => {
-				console.log(body);
+			( body:{ report_month: number, report_year: number, pastor_id: number } ) => {
+				
 				this.reportService.getReportBP( body )
 				.subscribe(
 					(response: Response) => {
-						const crucial_date = this.progress_report.crucial_date;
-						this.progress_report = response.json().progress_report[ (response.json().progress_report).length - 1 ].progress_report;
-						this.progress_report.crucial_date = crucial_date;
+						
+						if( this.editMode ) {
+						
+						} else {
+							
+							const crucial_date = this.progress_report.crucial_date;
+							this.progress_report = response.json().progress_report[ (response.json().progress_report).length - 1 ].progress_report;
+							this.progress_report.crucial_date = crucial_date;
+							
+						}
 
-					}
+					},
+					( error: Response ) => { console.log(error.json()); }
 				);
+				
 			}
 		);
 		
@@ -946,7 +955,6 @@ export class CreateReportComponent implements OnInit {
 		this.activatedRoute.data.subscribe(
 			(data: Data) => {
 				this.editMode = data['editMode'];
-				
 				
 			}
 		);
@@ -957,7 +965,7 @@ export class CreateReportComponent implements OnInit {
 		
 		if(event) {
 			
-			const date = new Date(event);
+			const date = new Date( event );
 			if( this.editMode ) {
 			
 			} else {
@@ -1000,6 +1008,8 @@ export class CreateReportComponent implements OnInit {
 					}, 5000);
 				},
 				() => {
+					this.progress_report = this.temp_report;
+					this.progress_report.crucial_date = undefined;
 					setTimeout( () => {
 						this.responseReceived = false;
 					}, 5000);
@@ -1007,6 +1017,12 @@ export class CreateReportComponent implements OnInit {
 			
 			);
 		}
+		
+	}
+	
+	ngOnDestroy() {
+		
+		this.generateReportSubscription.unsubscribe();
 		
 	}
 	
