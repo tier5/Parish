@@ -24,7 +24,8 @@ export class ListPaymentComponent {
 	responseReceived                = false;
 	responseMsg     : string        = '';
 	public isAdmin  : boolean       = false;
-	public isParish  : boolean       = false;
+	public isParish : boolean       = false;
+	public ifNoData : boolean       = false;
 	
 	paymentDetails                  = [];
 	uploader                        = new FileUploader({});
@@ -50,13 +51,14 @@ export class ListPaymentComponent {
 					this.payservice.listPayment().subscribe(
 						(response: Response) => {
 							this.responseStatus = response.json().status;
-							
 							if(response.json().status){
 								const user_type = this.authService.getToken().user_type;
 								if(user_type == 1){
 									this.isAdmin = true;
 								}else if(user_type == 3){
 									this.isParish = true;
+								}else{
+									this.isParish = false;
 								}
 								this.paymentDetails = response.json().paymentDetail;
 								this.paymentDetails.forEach(item => {
@@ -83,7 +85,8 @@ export class ListPaymentComponent {
 									}
 								});
 							} else {
-								this.paymentDetails = [];
+								this.ifNoData           = true;
+								this.responseMsg        = response.json().message;
 							}
 						},
 						(error: Response) => {

@@ -45,8 +45,8 @@ export class UploadPaymentComponent {
 		const formData      = new FormData();
 		
 		formData.append("name",this.files[0]);
-		formData.append("upload_month",year_data);
-		formData.append('upload_year', month_data);
+		formData.append("upload_month",month_data);
+		formData.append('upload_year', year_data);
 		formData.append("payment_description", uploadPaymentForm.value.payment_description);
 		formData.append("user_id", user_id);
 		

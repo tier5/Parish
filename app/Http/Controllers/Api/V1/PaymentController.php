@@ -114,7 +114,7 @@ class PaymentController extends Controller {
                 foreach ($payments as $key => $payment) {
                         $paymentArray[$key]['id']                     = $payment->id;
                         $paymentArray[$key]['wem_id']                 = $payment->wem_id;
-                        $paymentArray[$key]['file_name']             = $payment->file_name;
+                        $paymentArray[$key]['file_name']              = $payment->file_name;
                         $paymentArray[$key]['payment_description']    = $payment->payment_description;
                         $paymentArray[$key]['upload_month']           = $payment->upload_month;
                         $paymentArray[$key]['upload_year']            = $payment->upload_year;
@@ -174,29 +174,29 @@ class PaymentController extends Controller {
             $payment    = new Payment();
             $getUser    = User::find($request->input('user_id'));
 
-            $noOfUser = count($getUser);            
-
+            $noOfUser = count($getUser);
+                    
             if($noOfUser > 0 ) {
 
                 if($getUser->pastor_type == 1) {
 
                     $getWEMuser=Provience::where('user_id', $request->input('user_id'))->first();
-
                 }
                 else if($getUser->pastor_type == 2) {
 
                     $getWEMuser=Zone::where('user_id', $request->input('user_id'))->first(); 
                 }
-                else
+                else if($getUser->pastor_type == 3)
                 {
                     $getWEMuser=Area::where('user_id', $request->input('user_id'))->first(); 
+                } else{
+
+                    $getWEMuser=Parish::where('user_id', $request->input('user_id'))->first(); 
                 }
 
                 $this->WEMUser= $getWEMuser->created_by;
 
-            }
-            else
-            {
+            } else {
                 $response = [
                     'status'        => false,
                     'error'         => "pastor not found.",
@@ -213,7 +213,7 @@ class PaymentController extends Controller {
              */
 
             if ($request->file('name')) {
-
+                
                 $getFileExtension=$request->name->getClientOriginalExtension();
 
                 $allowedExts = array("jpg","pdf","jpeg", "doc","docx");
@@ -229,7 +229,6 @@ class PaymentController extends Controller {
                             } else {
 
                                 $payment->file_name=time().'.'.$request->name->getClientOriginalExtension();
-
                             }
 
                     } else {
