@@ -21,6 +21,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	responseMsg                    : string              = '';
 	responseStatus                 : boolean             = false;
 	responseReceived               : boolean             = false;
+	parish_id                      : number;
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
@@ -940,7 +941,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 							const crucial_date = this.progress_report.crucial_date;
 							this.progress_report = response.json().progress_report[ (response.json().progress_report).length - 1 ].progress_report;
 							this.progress_report.crucial_date = crucial_date;
-							
+							this.parish_id  = this.progress_report.parish_id;
 						}
 
 					},
@@ -961,6 +962,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 		
 	}
 	
+	/** Function to get date while changing dates in date picker */
 	log(event) {
 		
 		if(event) {
