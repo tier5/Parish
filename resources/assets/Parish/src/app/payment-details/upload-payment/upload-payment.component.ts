@@ -28,6 +28,40 @@ export class UploadPaymentComponent {
 	uploader                = new FileUploader({});
 	files       : FileList;
 	
+	config                         : IDatePickerConfig   = {
+		firstDayOfWeek: 'su',
+		monthFormat: 'MMM, YYYY',
+		disableKeypress: false,
+		allowMultiSelect: false,
+		closeOnSelect: undefined,
+		closeOnSelectDelay: 100,
+		onOpenDelay: 0,
+		weekDayFormat: 'ddd',
+		appendTo: document.body,
+		drops: 'down',
+		opens: 'right',
+		showNearMonthDays: false,
+		showWeekNumbers: false,
+		enableMonthSelector: true,
+		yearFormat: 'YYYY',
+		showGoToCurrent: true,
+		dayBtnFormat: 'DD',
+		monthBtnFormat: 'MMM',
+		hours12Format: 'hh',
+		hours24Format: 'HH',
+		meridiemFormat: 'A',
+		minutesFormat: 'mm',
+		minutesInterval: 1,
+		secondsFormat: 'ss',
+		secondsInterval: 1,
+		showSeconds: false,
+		showTwentyFourHours: false,
+		timeSeparator: ':',
+		multipleYearsNavigateBy: 10,
+		showMultipleYearsNavigation: false,
+		locale: 'en'
+	};
+	
 	/** Injecting services to be used in this component */
 	constructor( private payservice: PaymentService,
 	             private authService: AuthService) { }

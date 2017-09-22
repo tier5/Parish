@@ -27,7 +27,19 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label >Choose Year & Month (*)</label>
-                                <dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date" datestyle="yyyy/MM"></dp-month-calendar>
+                                <!--<dp-month-calendar  [config]="config" [(ngModel)]="paymentDate.payment_date"  name="payment_date" datestyle="yyyy/MM"></dp-month-calendar>-->
+                                <dp-date-picker id="daytimePicker"
+                                                name="daytimePicker"
+                                                #datePicker
+                                                #daytimePicker="ngModel"
+                                                [(ngModel)]="progress_report.crucial_date"
+                                                (ngModelChange)="log($event)"
+                                                [mode]="'month'"
+                                                [placeholder]="'Pick Month & Year'"
+                                                [config]="config"
+                                                [theme]="'dp-material'">
+                                </dp-date-picker>
+
                             </div>
                         </div>
 
