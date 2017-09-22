@@ -7,6 +7,7 @@ import { NgForm } from "@angular/forms";
 import { FileUploader } from 'ng2-file-upload';
 import { PaymentService } from "../payment.service";
 import { Response } from '@angular/http';
+import {IDatePickerConfig} from "ng2-date-picker";
 
 @Component({
 	selector: 'app-upload-payment',
@@ -27,6 +28,7 @@ export class UploadPaymentComponent {
 	progress    : number    = 0;
 	uploader                = new FileUploader({});
 	files       : FileList;
+	length                  = false;
 	
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
@@ -108,6 +110,11 @@ export class UploadPaymentComponent {
 	checkUploadedFileType(event){
 		this.progress   = 10;
 		this.files      = event.target.files;
+		if(this.files.length > 0 ){
+			this.length = true;
+		}else{
+			this.length = false;
+		}
 	}
 	
 }
