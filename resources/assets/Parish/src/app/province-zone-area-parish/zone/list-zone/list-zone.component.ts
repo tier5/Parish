@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ZoneListModel } from '../zone-list.model';
 import { ProvinceListModel } from '../../province/province-list.model';
 import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.service';
+import { AuthService } from "../../../auth/auth.service";
 
 @Component({
 	selector: 'app-list-zone',
@@ -15,6 +16,7 @@ import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.s
 	styleUrls: [ './list-zone.component.css' ]
 })
 export class ListZoneComponent implements OnInit, OnDestroy {
+	
 	
 	provinceList                : ProvinceListModel[];
 	zoneList                    : ZoneListModel[];
@@ -33,7 +35,8 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 	
 	/** Injecting services to be used in this component */
 	constructor( private router: Router,
-	             private pzapService: ProvinceZoneAreaParishService ) { }
+	             private pzapService: ProvinceZoneAreaParishService,
+	             private authService: AuthService) { }
 	
 	ngOnInit() {
 
@@ -55,6 +58,10 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 						}
 					},
 					(error: Response) => {
+							if( error.status === 401) {
+								this.authService.removeToken();
+								this.router.navigate( ['/login'] );
+							}
 							this.responseStatus = false;
 							this.responseReceived = true;
 							this.zoneList = [];
@@ -96,6 +103,10 @@ export class ListZoneComponent implements OnInit, OnDestroy {
 						}, 3000 )
 					},
 					(error: Response) => {
+							if( error.status === 401) {
+								this.authService.removeToken();
+								this.router.navigate( ['/login'] );
+							}
 							this.responseStatus = false;
 							this.responseReceived = true;
 							this.zoneList = [];

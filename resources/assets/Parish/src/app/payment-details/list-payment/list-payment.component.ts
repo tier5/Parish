@@ -84,6 +84,10 @@ export class ListPaymentComponent {
 							}
 						},
 						(error: Response) => {
+							if( error.status === 401) {
+								this.authService.removeToken();
+								this.router.navigate( ['/login'] );
+							}
 							this.responseStatus = false;
 							this.responseReceived = true;
 							this.paymentDetails = [];
@@ -124,6 +128,10 @@ export class ListPaymentComponent {
 					}
 					this.payservice.refreshList.next();
 				},(error: Response) => {
+					if( error.status === 401) {
+						this.authService.removeToken();
+						this.router.navigate( ['/login'] );
+					}
 					this.progress           = 0;
 					this.responseStatus     = false;
 					this.responseReceived   = true;
@@ -161,6 +169,10 @@ export class ListPaymentComponent {
 					}
 					this.payservice.refreshList.next();
 				},(error: Response) => {
+					if( error.status === 401) {
+						this.authService.removeToken();
+						this.router.navigate( ['/login'] );
+					}
 					this.responseStatus = false;
 					this.responseReceived = true;
 					this.responseMsg = error.json().error;

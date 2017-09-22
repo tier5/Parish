@@ -7,6 +7,7 @@ import { NgForm } from "@angular/forms";
 import { FileUploader } from 'ng2-file-upload';
 import { PaymentService } from "../payment.service";
 import { Response } from '@angular/http';
+import {Router} from "@angular/router";
 
 @Component({
 	selector: 'app-upload-payment',
@@ -30,7 +31,8 @@ export class UploadPaymentComponent {
 	
 	/** Injecting services to be used in this component */
 	constructor( private payservice: PaymentService,
-	             private authService: AuthService) { }
+	             private authService: AuthService,
+	             private router: Router) { }
 	             
 	/** Function call when form is submitted */
 	onSubmit(uploadPaymentForm: NgForm) {
@@ -62,6 +64,10 @@ export class UploadPaymentComponent {
 						this.responseMsg    = response.json().message;
 					}
 				},(error: Response) => {
+					if( error.status === 401) {
+						this.authService.removeToken();
+						this.router.navigate( ['/login'] );
+					}
 					this.showLoader         = false;
 					this.responseStatus     = false;
 					this.responseReceived   = true;
