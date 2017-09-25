@@ -382,8 +382,8 @@ DashboardModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_5__dashboard_routing__["a" /* DashboardRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* ReactiveFormsModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["ReactiveFormsModule"],
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_7_ng2_charts__["ChartsModule"],
             __WEBPACK_IMPORTED_MODULE_8_angular_svg_round_progressbar__["RoundProgressModule"],

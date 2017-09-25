@@ -1,4 +1,4 @@
-import { ActivatedRoute, Data } from '@angular/router';
+import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IDatePickerConfig } from 'ng2-date-picker';
 import { NgForm } from '@angular/forms';
@@ -7,6 +7,8 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { ProgressReportModel } from '../report-models/progress-report.model';
 import { ReportService } from '../report.service';
+import {AuthService} from "../../auth/auth.service";
+import * as moment from "moment";
 
 @Component({
 	selector: 'app-create-report',
@@ -22,6 +24,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	responseStatus                 : boolean             = false;
 	responseReceived               : boolean             = false;
 	parish_id                      : number;
+	reportId                       : number;
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
@@ -801,12 +804,16 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 		}
 	};
 	progress_report                : ProgressReportModel = this.temp_report;
-	
-	constructor( private reportService: ReportService,
+	title                          : string;
+
+	constructor( private authService: AuthService,
+				 private reportService: ReportService,
+	             private router: Router,
 	             private activatedRoute: ActivatedRoute ) { }
 	
 	ngOnInit() {
-		
+
+	    this.title = "Create Report";
 		this.prForm.valueChanges
 		.subscribe(
 			(response) => {
@@ -923,31 +930,69 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				/** Calculating wem's share */
 				this.progress_report.wem_share =  this.progress_report.report.monthly_total.monetary.total * ( this.progress_report.wem_percentage/100 );
 				
-			}
+			},
+            (error:Response) => {
+                if ( error.status === 401 ) {
+                    this.authService.removeToken();
+                    this.router.navigate( [ '/login' ] );
+                }
+            }
 		);
 		
 		this.generateReportSubscription = this.reportService.generateReport
 		.subscribe(
 			( body:{ report_month: number, report_year: number, pastor_id: number } ) => {
-				
-				this.reportService.getReportBP( body )
-				.subscribe(
-					(response: Response) => {
-						
-						if( this.editMode ) {
-						
-						} else {
-							
-							const crucial_date = this.progress_report.crucial_date;
-							this.progress_report = response.json().progress_report[ (response.json().progress_report).length - 1 ].progress_report;
-							this.progress_report.crucial_date = crucial_date;
-							this.parish_id  = this.progress_report.parish_id;
-						}
 
-					},
-					( error: Response ) => { console.log(error.json()); }
-				);
-				
+				if( this.editMode ) {
+
+				    this.title = "Update Report";
+					/** Checking route params to get id of province to edit */
+					this.activatedRoute.params.subscribe(
+						(params: Params) => {
+							this.reportId = params['id'];
+							this.reportService.reportToEdit(this.reportId)
+								.subscribe(
+									(response: Response) => {
+
+										this.progress_report = response.json().report.progress_report;
+										this.parish_id = response.json().report.parish_id;
+										const tempDate = moment(this.progress_report.crucial_date);
+										this.progress_report.crucial_date = tempDate;
+									},
+									(error: Response) => {
+                                        if ( error.status === 401 ) {
+                                            this.authService.removeToken();
+                                            this.router.navigate( [ '/login' ] );
+                                        }
+									}
+								);
+							
+						},
+						(error: Response) => {
+							if ( error.status === 401 ) {
+								this.authService.removeToken();
+								this.router.navigate( [ '/login' ] );
+							}
+						}
+					);
+					
+				} else {
+                   this.reportService.getReportBP(body)
+						.subscribe(
+							(response: Response) => {
+								const crucial_date = this.progress_report.crucial_date;
+								this.progress_report = response.json().progress_report[(response.json().progress_report).length - 1].progress_report;
+								this.progress_report.crucial_date = crucial_date;
+								this.parish_id = this.progress_report.parish_id;
+							},
+							(error: Response) => {
+                                if ( error.status === 401 ) {
+                                    this.authService.removeToken();
+                                    this.router.navigate( [ '/login' ] );
+                                }
+							}
+						);
+				}
 			}
 		);
 		
@@ -956,7 +1001,9 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 		this.activatedRoute.data.subscribe(
 			(data: Data) => {
 				this.editMode = data['editMode'];
-				
+				if(this.editMode) {
+					this.reportService.generateReport.next({});
+				}
 			}
 		);
 		
@@ -964,7 +1011,6 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	
 	/** Function to get date while changing dates in date picker */
 	log(event) {
-		
 		if(event) {
 			
 			const date = new Date( event );
@@ -975,18 +1021,50 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 					report_month: date.getMonth() + 1,
 					report_year: date.getFullYear()
 				};
+				this.reportService.generateReport.next( this.timeInfo );
 			}
-			
-			this.reportService.generateReport.next( this.timeInfo );
-			
 		}
-		
 	}
 	
+	/** Function to create report */
 	onSubmit() {
-		
+
 		if( this.editMode ) {
-		
+			const obj = {
+				progress_report: this.progress_report
+			};
+			this.reportService.updateReport( obj, this.reportId )
+				.subscribe(
+					
+					( response: Response ) => {
+						this.responseStatus = response.json().status;
+						this.responseMsg = response.json().message;
+						this.responseReceived = true;
+                        this.reportService.generateReport.next({});
+					},
+					( error: Response ) => {
+
+                        if ( error.status === 401 ) {
+                            this.authService.removeToken();
+                            this.router.navigate( [ '/login' ] );
+                        }
+
+						this.responseStatus = false;
+						this.responseReceived = true;
+						this.responseMsg = error.json().error;
+						setTimeout( () => {
+							this.responseReceived = false;
+						}, 5000);
+					},
+					() => {
+						this.progress_report = this.temp_report;
+						this.progress_report.crucial_date = undefined;
+						setTimeout( () => {
+							this.responseReceived = false;
+						}, 5000);
+					}
+				
+				);
 		} else {
 			const obj = {
 				report_month: this.timeInfo.report_month,
@@ -995,13 +1073,17 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 			};
 			this.reportService.sendReport( obj )
 			.subscribe(
-				
+
 				( response: Response ) => {
 					this.responseStatus = response.json().status;
 					this.responseMsg = response.json().message;
 					this.responseReceived = true;
 				},
 				( error: Response ) => {
+                    if ( error.status === 401 ) {
+                        this.authService.removeToken();
+                        this.router.navigate( [ '/login' ] );
+                    }
 					this.responseStatus = false;
 					this.responseReceived = true;
 					this.responseMsg = error.json().error;
@@ -1016,16 +1098,14 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 						this.responseReceived = false;
 					}, 5000);
 				}
-			
+
 			);
 		}
 		
 	}
 	
 	ngOnDestroy() {
-		
 		this.generateReportSubscription.unsubscribe();
-		
 	}
 	
 }

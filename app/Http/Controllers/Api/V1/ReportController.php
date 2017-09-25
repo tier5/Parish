@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Report;
 use App\Models\User;
 use App\Models\Parish;
-use App\Models\provience;
+use App\Models\Provience;
 use App\Models\Zone;
 use App\Models\Area;
 use App\Helpers;
@@ -450,7 +450,7 @@ class ReportController extends Controller {
     }
 
     /**
-     * Filter Report depend on report id, month , year, and parish id
+     * Update Report depend on report id, month , year, and parish id
      *
      * @param Request $request
      * @param $listId
@@ -471,48 +471,23 @@ class ReportController extends Controller {
             else
                 throw new HttpBadRequestException("Report Id is required."); 
 
-            if ($request->has('user_id'))
-
-                $parish_id = $request->input('user_id');
-            else
-                throw new HttpBadRequestException("User Id is required.");
-
             if ($request->has('progress_report'))
 
-                $progress_report = $request->input('progress_report');
+                $progress_report = json_encode($request->input('progress_report'));
             else
                 throw new HttpBadRequestException("Progress report is required.");
 
-            if ($request->has('report_month'))
-
-                $report_month   = $request->input('report_month');
-            else
-                throw new HttpBadRequestException("Month is required.");
-
-            if ($request->has('report_year'))
-
-                $report_year    = $request->input('report_year');
-            else
-                throw new HttpBadRequestException("Year is required.");
-            
-            $parish             = Parish::where('user_id',$parish_id)->whereNull('deleted_at')->first();
-
-            if($parish) {
                 if($report) {
-                    $report->report_month       = $report_month;
-                    $report->report_year        = $report_year;
                     $report->progress_report    = $progress_report;
                     $report->save();
                 } else {
                    throw new HttpBadRequestException("Report not found."); 
                 }
-            } else {
-                throw new HttpBadRequestException("Parish not found.");
-            }
+
             
             $response = [
                 'status'        => true,
-                'message'       => "Report created successfully."
+                'message'       => "Report updated successfully."
             ];
             $responseCode = 201;
            
@@ -553,4 +528,214 @@ class ReportController extends Controller {
         return response()->json($response, $responseCode);
     } 
 
+    /**
+     * Filter Report depend on report id, month , year, and parish id
+     *
+     * @param Request $request
+     * @param $listId
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function filteReport(Request $request,$user_id,$user_type) {
+        try {
+
+            DB::beginTransaction();
+            if($user_type == 1){
+                $request_month  = $request->input('report_month');
+                $request_year   = $request->input('report_year');
+                $parish_id      = $request->input('parish_id');
+                if($request_month && $request_year && $parish_id) {
+                    $report = Report::where('parish_id',$parish_id)
+                                    ->where('report_month',$request_month)
+                                    ->where('report_year',$request_year)
+                                    ->get();
+                } else if($request_month && $request_year && !$parish_id) {
+                    $report = Report::where('parish_id',$parish_id)
+                                    ->where('report_month',$request_month)
+                                    ->where('report_year',$request_year)
+                                    ->get();
+                } else if($request_month && $parish_id && !$request_year) {
+                    $report = Report::where('parish_id',$parish_id)
+                                    ->where('report_month',$request_month)
+                                    ->get();
+                }else if($request_year && $parish_id && !$request_month) {
+                    $report = Report::where('parish_id',$parish_id)
+                                    ->where('report_year',$request_year)
+                                    ->get();
+                } else if(!$request_month && !$request_year && $parish_id){
+                    $report = Report::where('parish_id',$parish_id)->get();
+                } else {
+                    $parish_all = Parish::where('created_by',$user_id)->get();
+                    $parishArray = array();
+                        foreach($parish_all as $parish) {
+                            array_push($parishArray,$parish->id);
+                        }
+                    $report = Report::whereIn('parish_id',$parishArray)->get();
+                }
+            } else if($user_type == 2){
+                $user = User::find($user_id);
+                if($user->pastor_type == 1){
+                    $provinceInfo   = provience::where('user_id',$user_id)->first();
+                    $zoneInfo       = zone::where('provience_id',$provinceInfo->id)->get();
+                    $zoneArray      = array();
+                    foreach($zoneInfo as $zone){
+                        array_push($zoneArray,$zone->id);
+                    }
+                    $areaList   = Area::whereIn('zone_id',$zoneArray)->get();
+                    $areaArray  = array();
+                    foreach($areaList as $area){
+                        array_push($areaArray,$area->id);
+                    }
+                    $parishList     = Parish::whereIn('area_id',$areaArray)->get();
+                    $parishArray    = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->id);
+                    }
+                    $report = Report::whereIn('parish_id',$parishArray)->get();
+                } else if($user->pastor_type == 2){
+                    $zoneInfo   = zone::where('user_id',$user->id)->first();
+                    $areaList   = Area::where('zone_id',$zoneInfo->id)->get();
+                    $areaArray  = array();
+                    foreach($areaList as $area){
+                        array_push($areaArray,$area->id);
+                    }
+                    $parishList     = Parish::whereIn('area_id',$areaArray)->get();
+                    $parishArray    = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->id);
+                    }
+                    $report         = Report::whereIn('parish_id',$parishArray)->get();
+                } else {
+                    $areaInfo       = Area::where('user_id',$user->id)->first();
+                    $parishList     = Parish::where('area_id',$areaInfo->id)->get();
+                    $parishArray    = array();
+                    foreach($parishList as $parish){
+                        array_push($parishArray,$parish->id);
+                    }
+                    $report = Report::whereIn('created_by',$parishArray)->get();
+                }
+            } else {
+                $parish_id      = Parish::where('user_id',$user_id)->first();
+                $request_month  = $request->input('report_month');
+                $request_year   = $request->input('report_year');
+                
+                if($request_month && $request_year) {
+                    $report     = Report::where('parish_id',$parish_id->id)
+                                        ->where('report_year',$request_year)
+                                        ->where('report_month',$request_month)
+                                        ->get(); 
+                } else if (!$request_month && $request_year) {
+                   $report     = Report::where('parish_id',$parish_id->id)
+                                        ->where('report_year',$request_year)
+                                        ->get(); 
+                } else if ($request_month && !$request_year) {
+                     $report     = Report::where('parish_id',$parish_id->id)
+                                        ->where('report_month',$request_month)
+                                        ->get(); 
+                } else {
+                    $report     = Report::where('parish_id',$parish_id->id)->get();   
+                }
+            }
+            $response = [
+                'status'        => true,
+                'message'       => "Report fetched successfully.",
+                'report'        => $report
+            ];
+            $responseCode = 201;
+        }catch (HttpBadRequestException $httpBadRequestException) {
+                $response = [
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
+                ];
+                $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        }
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * information of specific report
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function viewReport(Request $request,$report_id) {
+        try {
+
+            DB::beginTransaction();
+            $report = Report::find($report_id);
+
+            if($report){
+                $progress_report = array();
+                $progress_report['id']              = $report->id;
+                $progress_report['parish_id']       = $report->parish_id;
+                $progress_report['report_month']    = $report->report_month;
+                $progress_report['report_year']     = $report->report_year;
+                $progress_report['progress_report'] =json_decode($report->progress_report);
+                $response = [
+                    'status'        => true,
+                    'message'       => "Report fetched successfully.",
+                    'report'        => $progress_report
+                ];
+                $responseCode = 201; 
+            } else {
+
+                $response = [
+                    'status'        => false,
+                    'error'       => "Report not found.",
+                ];
+                $responseCode = 400;  
+            }
+            
+        }catch (HttpBadRequestException $httpBadRequestException) {
+                $response = [
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
+                ];
+                $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        }
+        return response()->json($response, $responseCode);
+    }
  }

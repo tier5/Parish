@@ -11,6 +11,7 @@ export class ReportService {
 	
 	/** Initializing custom Observables */
 	generateReport = new Subject();
+	refreshReportList = new Subject();
 	
 	
 	/** Injecting services to be used in this component */
@@ -48,5 +49,32 @@ export class ReportService {
 		};
 		return this.http.post( environment.API_URL + 'report/create', Object.assign( body, obj ), { headers: this.headers } );
 	}
+
+    /** Function to get list of all reports */
+    getReports( body: any ): Observable<any> {
+		const user_id = this.authService.getToken().user_id;
+		const user_type = this.authService.getToken().user_type;
+
+        return this.http.post( environment.API_URL + 'report/filter-report/' + user_id + '/' + user_type, body, { headers: this.headers } );
+    }
+	
+	/** Function to get view of specific report */
+	reportToEdit( report_id: number ): Observable<any> {
+		return this.http.get( environment.API_URL + 'report/view-report/' + report_id, { headers: this.headers } );
+	}
+	
+	/** Function to edit a report */
+	updateReport( body: any, id: number ): Observable<any> {
+		const obj = {
+			user_id: this.authService.getToken().user_id
+		};
+		return this.http.put( environment.API_URL + 'report/update-report/' + id, Object.assign( body, obj ), { headers: this.headers } );
+	}
+
+    /** Delete an existing report */
+    deleteReport( report_id: number) : Observable<any> {
+        const api_url = environment.API_URL + 'report/delete/' + report_id;
+        return this.http.delete( api_url, { headers: this.headers } );
+    }
 
 }

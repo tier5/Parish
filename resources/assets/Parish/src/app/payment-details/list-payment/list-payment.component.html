@@ -30,7 +30,8 @@
                         <tr>
                             <th>Serial</th>
                             <th>Description</th>
-                            <th>Payment Date</th>
+                            <th>Payment Month</th>
+                            <th>Payment Year</th>
                             <th>File</th>
                             <th>Status</th>
                             <th>Actions</th>
@@ -40,7 +41,8 @@
                         <tr *ngFor="let payment of paymentDetails">
                             <td>{{ payment.id }}</td>
                             <td>{{ payment.payment_description }}</td>
-                            <td>{{ payment.upload_month }} / {{ payment.upload_year }}</td>
+                            <td>{{ months[payment.upload_month].name }}</td>
+                            <td>{{ payment.upload_year }}</td>
                             <td>{{ payment.file_name }}</td>
                             <td>{{ payment.pay_status }}
 
@@ -61,7 +63,7 @@
 
                                 <button
                                         class="btn btn-active btn-xs"
-                                        type="button" *ngIf="payment.accept">
+                                        type="button" *ngIf="isAdmin || (!isAdmin && payment.accept)">
                                     <i class="fa fa-download fa-fw"></i><a [href]="base_url+'/paymentReceipt/'+payment.file_name" [download]="payment.file_name">Download</a>
 
                                 </button>

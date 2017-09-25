@@ -10,6 +10,7 @@ import { ZoneListModel } from '../../zone/zone-list.model';
 import { AreaListModel } from '../../area/area-list.model';
 import { ParishListModel } from '../parish-list.model';
 import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.service';
+import { AuthService } from "../../../auth/auth.service";
 
 @Component({
 	selector: 'app-list-parish',
@@ -45,7 +46,8 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	
 	/** Injecting services to be used in this component */
 	constructor( private router: Router,
-	             private pzapService: ProvinceZoneAreaParishService ) { }
+	             private pzapService: ProvinceZoneAreaParishService,
+	             private authService: AuthService) { }
 	
 	ngOnInit() {
 	
@@ -69,6 +71,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 						}
 					},
 					( error: Response ) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.parishList         = [];
@@ -113,6 +119,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 						}, 3000 )
 					},
 					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.areaList           = [];
@@ -139,6 +149,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 				}
 			},
 			(error: Response) => {
+				if ( error.status === 401 ) {
+					this.authService.removeToken();
+					this.router.navigate( [ '/login' ] );
+				}
 				this.responseStatus     = false;
 				this.responseReceived   = true;
 				this.provinceList       = [];
@@ -160,6 +174,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 				}
 			},
 			(error: Response) => {
+				if ( error.status === 401 ) {
+					this.authService.removeToken();
+					this.router.navigate( [ '/login' ] );
+				}
 				this.responseStatus     = false;
 				this.responseReceived   = true;
 				this.zoneList           = [];
@@ -181,6 +199,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 				}
 			},
 			(error: Response) => {
+				if ( error.status === 401 ) {
+					this.authService.removeToken();
+					this.router.navigate( [ '/login' ] );
+				}
 				this.responseStatus     = false;
 				this.responseReceived   = true;
 				this.areaList           = [];
@@ -243,6 +265,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 												}
 											},
 											(error: Response) => {
+												if ( error.status === 401 ) {
+													this.authService.removeToken();
+													this.router.navigate( [ '/login' ] );
+												}
 												this.responseStatus     = false;
 												this.responseReceived   = true;
 												this.zoneList           = [];
@@ -267,6 +293,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 						}
 					},
 					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.zoneList           = [];
@@ -315,6 +345,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 						}
 					},
 					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.areaList           = [];
@@ -352,6 +386,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 						}
 					},
 					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.selectionProvince  = null;
 						this.selectionZone      = null;
 					}

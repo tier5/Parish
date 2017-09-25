@@ -1,152 +1,6 @@
 webpackJsonp([3],{
 
-/***/ "../../../../../src/app/components/alert/alert.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"alert\" role=\"alert\" [style.background]=\"color\" [style.color]=\"font\" [hidden]=\"alertHidden\" [style.opacity]=\"opacity\">\n  {{text}} <i (click)=\"dismiss()\" class=\"fa fa-remove fa-fw pull-right\"></i>\n</div>\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/components/alert/alert.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AlertComponent; });
-/**
- * Created by mohma on 7/29/2017.
- */
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var AlertComponent = (function () {
-    function AlertComponent() {
-        this.color = "#ec045b";
-        this.font = "#ececec";
-        this.text = "Alert";
-        this.opacity = 0;
-        this.alertHidden = true;
-    }
-    AlertComponent.prototype.ngOnInit = function () {
-        var self = this;
-        setTimeout(function () {
-            self.alertHidden = false;
-            setInterval(function () {
-                self.opacity += 0.1;
-                //if(self.opacity===1.0)
-            }, 70);
-        }, 500);
-    };
-    AlertComponent.prototype.dismiss = function () {
-        this.alertHidden = true;
-    };
-    return AlertComponent;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('color'),
-    __metadata("design:type", String)
-], AlertComponent.prototype, "color", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('fontColor'),
-    __metadata("design:type", String)
-], AlertComponent.prototype, "font", void 0);
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('text'),
-    __metadata("design:type", String)
-], AlertComponent.prototype, "text", void 0);
-AlertComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/components/alert/alert.component.html"),
-        selector: 'alert',
-    })
-], AlertComponent);
-
-//# sourceMappingURL=alert.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/components/calendar/calendar.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<!--\n  Theme: PaperAdmin V1\n  Author: https://github.com/mohdrashid\n  Custom plugin\n-->\n<div class=\"panel\" [style.background]=\"properties['color']\" [style.color]=\"properties['font']\">\n  <div class=\"panel-heading dark-overlay\">\n    <i class=\"{{properties['icon']}}\" style=\"margin-right: 10px\"></i>{{properties['label']}}\n  </div>\n  <div class=\"panel-body\">\n    <div id=\"{{properties['id']}}\" (click)=\"onCalendarClick($event)\"></div>\n  </div>\n</div>\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/components/calendar/calendar.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__calendar__ = __webpack_require__("../../../../../src/app/components/calendar/calendar.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__calendar___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__calendar__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarComponent; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-/**
- * Created by mohma on 7/27/2017.
- */
-
-
-var CalendarComponent = (function () {
-    function CalendarComponent() {
-        this.properties = { color: "red", icon: "fa fa-calendar", label: "Calendar", font: "#ececec", id: "calendar1", click: function ($event) {
-                console.log($event);
-            } };
-    }
-    CalendarComponent.prototype.ngOnInit = function () {
-        this.properties.icon += " fa-fw";
-    };
-    CalendarComponent.prototype.ngAfterViewInit = function () {
-        $("#" + this.properties.id).datepicker({});
-    };
-    /**
-     *
-     * @param $event: Event details generated from click event
-     * Passes object of type JSON to callback
-     * Sample: Object {event: MouseEvent, value: "13", month: "July", year: "2017"}
-     */
-    CalendarComponent.prototype.onCalendarClick = function ($event) {
-        var data = { event: $event, value: $event['target']['innerText'] };
-        var chosen = $(".datepicker-switch")[0].innerText.split(" ");
-        data['month'] = chosen[0];
-        data['year'] = chosen[1];
-        this.properties.click(data);
-    };
-    return CalendarComponent;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('data'),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__calendar__["Calendar"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__calendar__["Calendar"]) === "function" && _a || Object)
-], CalendarComponent.prototype, "properties", void 0);
-CalendarComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/components/calendar/calendar.component.html"),
-        selector: 'calendar',
-        styles: [__webpack_require__("../../../../../src/app/components/calendar/calendar.scss")]
-    }),
-    __metadata("design:paramtypes", [])
-], CalendarComponent);
-
-var _a;
-//# sourceMappingURL=calendar.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/components/calendar/calendar.scss":
+/***/ "../../../../../src/app/payment-details/list-payment/list-payment.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -154,7 +8,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".progress {\n    margin-bottom: 0;\n}\n.upload_file{\n    display: inline-block;\n    margin-left: 10px;\n    margin-bottom: 10px;\n}", ""]);
 
 // exports
 
@@ -164,71 +18,26 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/components/calendar/calendar.ts":
+/***/ "../../../../../src/app/payment-details/list-payment/list-payment.component.html":
 /***/ (function(module, exports) {
 
-//# sourceMappingURL=calendar.js.map
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Payment - List</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                List Payment\n            </div>\n            <div class=\"panel-body overflowFix\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"table-responsive\">\n                    <table class=\"table table-hover table-condensed\">\n                        <thead>\n                        <tr>\n                            <th>Serial</th>\n                            <th>Description</th>\n                            <th>Payment Date</th>\n                            <th>File</th>\n                            <th>Status</th>\n                            <th>Actions</th>\n                        </tr>\n                        </thead>\n                        <tbody>\n                        <tr *ngFor=\"let payment of paymentDetails\">\n                            <td>{{ payment.id }}</td>\n                            <td>{{ payment.payment_description }}</td>\n                            <td>{{ payment.upload_month }} / {{ payment.upload_year }}</td>\n                            <td>{{ payment.file_name }}</td>\n                            <td>{{ payment.pay_status }}\n\n                            </td>\n                            <td>\n                                <!-- Appear Only in Admin Section -->\n                                <span *ngIf=\"payment.hold\">\n                                    <button\n                                            class=\"btn btn-warning btn-xs\"\n                                            type=\"button\" *ngIf=\"isAdmin\" (click)=\"OnChangeStatus(payment,0)\"> Accept\n                                    </button>\n                                    <button\n                                            class=\"btn btn-warning btn-xs\"\n                                            type=\"button\" *ngIf=\"isAdmin\" (click)=\"OnChangeStatus(payment,1)\"> Reject\n                                    </button>\n                                </span>\n                                <!-- End appear in admin section -->\n\n                                <button\n                                        class=\"btn btn-active btn-xs\"\n                                        type=\"button\" *ngIf=\"payment.accept\">\n                                    <i class=\"fa fa-download fa-fw\"></i><a [href]=\"base_url+'/paymentReceipt/'+payment.file_name\" [download]=\"payment.file_name\">Download</a>\n\n                                </button>\n\n                                <input type=\"file\" ng2FileSelect [uploader]=\"uploader\" class=\"upload_file\" *ngIf=\"isParish && payment.payment_status == 1 \" (change)=\"showUploader(payment,$event)\" accept=\".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG\"/>\n\n                                <button type=\"button\" class=\"btn btn-success btn-xs\"\n                                        (click)=\"upload(payment)\" *ngIf=\"showUploadButton == payment.id\">\n                                    <span class=\"glyphicon glyphicon-upload\"></span> Upload\n                                </button>\n\n                                <div class=\"progress\" *ngIf=\"showUploadButton == payment.id\">\n                                    <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': progress  + '%' }\"></div>\n                                </div>\n\n                            </td>\n                        </tr>\n                        <tr *ngIf=\"ifNoData\" >\n                            <td> No record found </td>\n                        </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div><!--/.row-->\n\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/widgets/main/main-routing.ts":
+/***/ "../../../../../src/app/payment-details/list-payment/list-payment.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__main_component__ = __webpack_require__("../../../../../src/app/widgets/main/main.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MainWidgetRoutingModule; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-/**
- * Created by mohma on 7/26/2017.
- */
-
-
-
-var routes = [
-    {
-        path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__main_component__["a" /* MainWidgetComponent */],
-        data: {
-            title: 'Form'
-        }
-    }
-];
-var MainWidgetRoutingModule = (function () {
-    function MainWidgetRoutingModule() {
-    }
-    return MainWidgetRoutingModule;
-}());
-MainWidgetRoutingModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
-    })
-], MainWidgetRoutingModule);
-
-//# sourceMappingURL=main-routing.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/widgets/main/main.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "\n\n<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <h1 class=\"page-header\">Main Widgets</h1>\n  </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n  <div class=\"col-md-4\">\n    <h2>Calendar</h2>\n    <calendar></calendar>\n  </div>\n  <div class=\"col-md-4\">\n    <h2>ListView with CRUD with JavaScript Objects</h2>\n    <ng2-listview-crud [properties]=\"listView\" [data]=\"listItems\"></ng2-listview-crud>\n  </div>\n  <div class=\"col-md-4\">\n    <h2>ListView with CRUD with Arrays</h2>\n    <ng2-listview-crud [properties]=\"arraysListViewProperty\" [data]=\"crudArray\"></ng2-listview-crud>\n  </div>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <h2>Alerts</h2>\n    <alert [color]=\"successColor\" [fontColor]=\"fontColor\" [text]='successText'></alert>\n    <alert [color]=\"warningCOlor\" [text]=\"warningText\"></alert>\n    <alert [color]=\"dangerColor\" [text]=\"dangerText\"></alert>\n  </div>\n</div>\n\n\n<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <h2>Basic Panels</h2>\n  </div>\n  <div class=\"col-md-4\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">\n        Default Panel\n      </div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"col-md-4\">\n    <div class=\"panel panel-primary\">\n      <div class=\"panel-heading\">\n        Primary Panel\n      </div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"col-md-4\">\n    <div class=\"panel panel-success\">\n      <div class=\"panel-heading\">\n        Success Panel\n      </div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div>\n\n</div><!-- /.row -->\n\n<div class=\"row\">\n  <div class=\"col-md-4\">\n    <div class=\"panel panel-info\">\n      <div class=\"panel-heading\">\n        Info Panel\n      </div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"col-md-4\">\n    <div class=\"panel panel-warning\">\n      <div class=\"panel-heading\">\n        Warning Panel\n      </div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"col-md-4\">\n    <div class=\"panel panel-danger\">\n      <div class=\"panel-heading\">\n        Danger Panel\n      </div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div>\n\n</div><!-- /.row -->\n\n\n<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <h2>Widget Panels</h2>\n  </div>\n\n  <div class=\"col-md-6\">\n    <div class=\"panel panel-blue\">\n      <div class=\"panel-heading dark-overlay\">Blue Panel</div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div><!--/.col-->\n  <div class=\"col-md-6\">\n    <div class=\"panel panel-teal\">\n      <div class=\"panel-heading dark-overlay\">Teal Panel</div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div><!--/.col-->\n\n  <div class=\"col-md-6\">\n    <div class=\"panel panel-orange\">\n      <div class=\"panel-heading dark-overlay\">Orange Panel</div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div><!--/.col-->\n\n  <div class=\"col-md-6\">\n    <div class=\"panel panel-red\">\n      <div class=\"panel-heading dark-overlay\">Red Panel</div>\n      <div class=\"panel-body\">\n        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui pharetra molestie. Fusce et dui urna.</p>\n      </div>\n    </div>\n  </div><!--/.col-->\n</div>\n\n<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <h2>Tab Panels</h2>\n  </div>\n\n  <div class=\"col-md-6\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-body tabs\">\n        <ul class=\"nav nav-tabs\">\n          <li class=\"active\"><a href=\"#tab1\" data-toggle=\"tab\">Tab 1</a></li>\n          <li><a href=\"#tab2\" data-toggle=\"tab\">Tab 2</a></li>\n          <li><a href=\"#tab3\" data-toggle=\"tab\">Tab 3</a></li>\n        </ul>\n\n        <div class=\"tab-content\">\n          <div class=\"tab-pane fade in active\" id=\"tab1\">\n            <h4>Tab 1</h4>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget rutrum purus. Donec hendrerit ante ac metus sagittis elementum. Mauris feugiat nisl sit amet neque luctus, a tincidunt odio auctor. </p>\n          </div>\n          <div class=\"tab-pane fade\" id=\"tab2\">\n            <h4>Tab 2</h4>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget rutrum purus. Donec hendrerit ante ac metus sagittis elementum. Mauris feugiat nisl sit amet neque luctus, a tincidunt odio auctor. </p>\n          </div>\n          <div class=\"tab-pane fade\" id=\"tab3\">\n            <h4>Tab 3</h4>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget rutrum purus. Donec hendrerit ante ac metus sagittis elementum. Mauris feugiat nisl sit amet neque luctus, a tincidunt odio auctor. </p>\n          </div>\n        </div>\n      </div>\n    </div><!--/.panel-->\n  </div><!--/.col-->\n\n  <div class=\"col-md-6\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-body tabs\">\n\n        <ul class=\"nav nav-pills\">\n          <li class=\"active\"><a href=\"#pilltab1\" data-toggle=\"tab\">Tab 1</a></li>\n          <li><a href=\"#pilltab2\" data-toggle=\"tab\">Tab 2</a></li>\n          <li><a href=\"#pilltab3\" data-toggle=\"tab\">Tab 3</a></li>\n        </ul>\n\n        <div class=\"tab-content\">\n          <div class=\"tab-pane fade in active\" id=\"pilltab1\">\n            <h4>Tab 1</h4>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget rutrum purus. Donec hendrerit ante ac metus sagittis elementum. Mauris feugiat nisl sit amet neque luctus, a tincidunt odio auctor. </p>\n          </div>\n          <div class=\"tab-pane fade\" id=\"pilltab2\">\n            <h4>Tab 2</h4>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget rutrum purus. Donec hendrerit ante ac metus sagittis elementum. Mauris feugiat nisl sit amet neque luctus, a tincidunt odio auctor. </p>\n          </div>\n          <div class=\"tab-pane fade\" id=\"pilltab3\">\n            <h4>Tab 3</h4>\n            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget rutrum purus. Donec hendrerit ante ac metus sagittis elementum. Mauris feugiat nisl sit amet neque luctus, a tincidunt odio auctor. </p>\n          </div>\n        </div>\n      </div>\n    </div><!--/.panel-->\n  </div><!-- /.col-->\n\n</div><!-- /.row -->\n\n<div class=\"row\">\n  <div class=\"col-md-6\">\n    <div class=\"panel  chat\">\n      <div class=\"panel-heading panel-blue\" id=\"accordion\">\n        <i class=\"fa fa-list fa-fw\"></i> Chat</div>\n      <div class=\"panel-body\">\n        <ul>\n          <li class=\"left clearfix\">\n\t\t\t\t\t\t\t\t<span class=\"chat-img pull-left\">\n\t\t\t\t\t\t\t\t\t<img src=\"http://placehold.it/80/30a5ff/fff\" alt=\"User Avatar\" class=\"img-circle\" />\n\t\t\t\t\t\t\t\t</span>\n            <div class=\"chat-body clearfix\">\n              <div class=\"header\">\n                <strong class=\"primary-font\">John Doe</strong> <small class=\"text-muted\">32 mins ago</small>\n              </div>\n              <p>\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies.\n              </p>\n            </div>\n          </li>\n          <li class=\"right clearfix\">\n\t\t\t\t\t\t\t\t<span class=\"chat-img pull-right\">\n\t\t\t\t\t\t\t\t\t<img src=\"http://placehold.it/80/dde0e6/5f6468\" alt=\"User Avatar\" class=\"img-circle\" />\n\t\t\t\t\t\t\t\t</span>\n            <div class=\"chat-body clearfix\">\n              <div class=\"header\">\n                <strong class=\"pull-left primary-font\">Jane Doe</strong> <small class=\"text-muted\">6 mins ago</small>\n              </div>\n              <p>\n                Mauris dignissim porta enim, sed commodo sem blandit non. Ut scelerisque sapien eu mauris faucibus ultrices. Nulla ac odio nisl. Proin est metus, interdum scelerisque quam eu, eleifend pretium nunc. Suspendisse finibus auctor lectus, eu interdum sapien.\n              </p>\n            </div>\n          </li>\n          <li class=\"left clearfix\">\n\t\t\t\t\t\t\t\t<span class=\"chat-img pull-left\">\n\t\t\t\t\t\t\t\t\t<img src=\"http://placehold.it/80/30a5ff/fff\" alt=\"User Avatar\" class=\"img-circle\" />\n\t\t\t\t\t\t\t\t</span>\n            <div class=\"chat-body clearfix\">\n              <div class=\"header\">\n                <strong class=\"primary-font\">John Doe</strong> <small class=\"text-muted\">32 mins ago</small>\n              </div>\n              <p>\n                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ante turpis, rutrum ut ullamcorper sed, dapibus ac nunc. Vivamus luctus convallis mauris, eu gravida tortor aliquam ultricies.\n              </p>\n            </div>\n          </li>\n        </ul>\n      </div>\n\n      <div class=\"panel-footer\">\n        <div class=\"input-group\">\n          <input id=\"btn-input\" type=\"text\" class=\"form-control input-md\" placeholder=\"Type your message here...\" />\n          <span class=\"input-group-btn\">\n\t\t\t\t\t\t\t\t<button class=\"btn btn-success btn-md\" id=\"btn-chat\">Send</button>\n\t\t\t\t\t\t\t</span>\n        </div>\n      </div>\n    </div>\n\n  </div><!--/.col-->\n</div>\n<div class=\"row\">\n  <div class=\"col-md-6\">\n    <div class=\"panel panel-default \">\n      <div class=\"panel-heading\">\n        Timeline\n      </div>\n\n      <div class=\"panel-body timeline-container\">\n        <ng2-timeline [completeListener]=\"completeListener\" [data]=\"timelineData\"></ng2-timeline>\n      </div>\n    </div>\n  </div>\n\n\n  <div class=\"col-md-6\">\n    <div class=\"panel panel-default articles\">\n      <div class=\"panel-heading\">\n        Latest News\n      </div>\n      <div class=\"panel-body articles-container\">\n        <ng2-news-list [data]=\"newsList\"></ng2-news-list>\n      </div>\n    </div><!--End .articles-->\n\n    <div class=\"panel panel-default \">\n      <div class=\"panel-heading\">\n        Progress bars\n      </div>\n      <div class=\"panel-body\">\n        <div class=\"col-md-12 no-padding\">\n          <div class=\"row progress-labels\">\n            <div class=\"col-sm-6\">New Orders</div>\n            <div class=\"col-sm-6\" style=\"text-align: right;\">80%</div>\n          </div>\n          <div class=\"progress\">\n            <div data-percentage=\"0%\" style=\"width: 80%;\" class=\"progress-bar progress-bar-blue\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n          </div>\n          <div class=\"row progress-labels\">\n            <div class=\"col-sm-6\">Comments</div>\n            <div class=\"col-sm-6\" style=\"text-align: right;\">60%</div>\n          </div>\n          <div class=\"progress\">\n            <div data-percentage=\"0%\" style=\"width: 60%;background-color: #1ebfae\" class=\"progress-bar\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n          </div>\n          <div class=\"row progress-labels\">\n            <div class=\"col-sm-6\">New Users</div>\n            <div class=\"col-sm-6\" style=\"text-align: right;\">40%</div>\n          </div>\n          <div class=\"progress\">\n            <div data-percentage=\"0%\" style=\"width: 40%;\" class=\"progress-bar progress-bar-teal\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n          </div>\n          <div class=\"row progress-labels\">\n            <div class=\"col-sm-6\">Page Views</div>\n            <div class=\"col-sm-6\" style=\"text-align: right;\">20%</div>\n          </div>\n          <div class=\"progress\">\n            <div data-percentage=\"0%\" style=\"width: 20%;\" class=\"progress-bar progress-bar-red\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/widgets/main/main.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MainWidgetComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__payment_service__ = __webpack_require__("../../../../../src/app/payment-details/payment.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListPaymentComponent; });
+/** Component to handle list of payment */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -238,482 +47,1408 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
-var MainWidgetComponent = (function () {
-    function MainWidgetComponent() {
-        this.successText = "Successful";
-        this.warningText = "Warning";
-        this.dangerText = "Danger";
-        this.successColor = "#8ad919";
-        this.warningCOlor = "#ffb53e";
-        this.dangerColor = "#f9243f";
-        this.fontColor = "#ececec";
-        this.timelineData = [
-            {
-                title: "Step 1",
-                icon: '<i class="fa fa-home"></i>',
-                content: "Hello World",
-                complete: true
-            },
-            {
-                title: "Step 2",
-                icon: '<i class="fa fa-pencil"></i>',
-                content: "Welcome World",
-                complete: false
-            }
-        ];
-        //News Component
-        this.newsList = [
-            {
-                large: "30",
-                small: "Jun",
-                link: "http://www.aebiss.com",
-                title: "AEBISS",
-                content: "Fullstack development, IoT, Blockchain related services in the U.A.E"
-            },
-            {
-                large: "1",
-                small: "Jul",
-                link: "http://www.tayar.ae",
-                title: "Tayar",
-                content: "One device that let you control any electrical device at home"
-            },
-            {
-                large: "1",
-                small: "Jul",
-                link: "http://www.wavex.io",
-                title: "WaveX",
-                content: "Blockchain based electricity trading platform"
-            }
-        ];
-        this.listView = {
-            add: true,
-            remove: true,
-            edit: true,
-            dataIsObject: true,
-            path: ["name", "first"],
-            label: "CRUD ListView",
-            headingBackgroundColor: "#3752ff",
-            headingFontColor: "#ececec",
-            icon: "fa fa-cogs",
-            onDelete: function (value) {
-                console.log("Deleting Value: " + JSON.stringify(value));
-                return true;
-            },
-            onUpdate: function (value, newValue) {
-                console.log("Editing Value: " + JSON.stringify(value) + " New Value:" + newValue);
-                return true;
-            },
-            onSearch: function (value) {
-                console.log(value);
-            },
-            onAdd: function (value) {
-                console.log("Adding Value: " + JSON.stringify(value));
-                return true;
-            },
-            onSelect: function (value) {
-                console.log(JSON.stringify(value));
-            },
-            onSearchChange: function (value) {
-                console.log(value);
-            }
-        };
-        //In this specific example the field name.first is displayed in the list
-        this.listItems = [
-            { name: { first: "Hello", last: "World" }, count: 2 },
-            { name: { first: "Hello2", last: "World" }, count: 2 }
-        ];
-        this.arraysListViewProperty = {
-            add: true,
-            remove: true,
-            edit: true,
-            dataIsObject: false,
-            path: [],
-            label: "CRUD ListView with Arrays",
-            headingBackgroundColor: "#3752ff",
-            headingFontColor: "#ececec",
-            icon: "fa fa-cogs",
-            onDelete: function (value) {
-                console.log("Deleting Value: " + JSON.stringify(value));
-                return true;
-            },
-            onUpdate: function (value, newValue) {
-                console.log("Editing Value: " + JSON.stringify(value) + " New Value:" + newValue);
-                return true;
-            },
-            onSearch: function (value) {
-                console.log(value);
-            },
-            onAdd: function (value) {
-                console.log("Adding Value: " + JSON.stringify(value));
-                return true;
-            },
-            onSelect: function (value) {
-                console.log(JSON.stringify(value));
-            },
-            onSearchChange: function (value) {
-                console.log(value);
-            }
-        };
-        //In this specific example the field name.first is displayed in the list
-        this.crudArray = [
-            "Apple", "Orange", "Banana"
-        ];
-        var self = this;
-        setTimeout(function () {
-            self.timelineData.push({
-                title: "Step 3",
-                icon: '<i class="fa fa-remove"></i>',
-                content: "Bye World",
-                complete: false
-            });
-        }, 5000);
+
+
+
+
+
+var ListPaymentComponent = (function () {
+    /** Injecting services to be used in this component */
+    function ListPaymentComponent(payservice, router, authService) {
+        this.payservice = payservice;
+        this.router = router;
+        this.authService = authService;
+        this.responseStatus = false;
+        this.responseReceived = false;
+        this.responseMsg = '';
+        this.isAdmin = false;
+        this.isParish = false;
+        this.ifNoData = false;
+        this.paymentDetails = [];
+        this.uploader = new __WEBPACK_IMPORTED_MODULE_4_ng2_file_upload__["FileUploader"]({});
+        this.showUploadButton = 0;
+        this.progress = 0;
+        this.base_url = __WEBPACK_IMPORTED_MODULE_5__environments_environment_prod__["a" /* environment */].base_url;
     }
-    //Timeline Related
-    MainWidgetComponent.prototype.completeListener = function (item) {
-        console.log(item);
-        return true;
+    ListPaymentComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        /** Subscribe to event to refresh province list */
+        this.refreshPaymentListSubscription = this.payservice.refreshList
+            .subscribe(function () {
+            _this.payservice.listPayment().subscribe(function (response) {
+                _this.responseStatus = response.json().status;
+                if (response.json().status) {
+                    var user_type = _this.authService.getToken().user_type;
+                    if (user_type == 1) {
+                        _this.isAdmin = true;
+                    }
+                    else if (user_type == 3) {
+                        _this.isParish = true;
+                    }
+                    else {
+                        _this.isParish = false;
+                    }
+                    _this.paymentDetails = response.json().paymentDetail;
+                    _this.paymentDetails.forEach(function (item) {
+                        var pay_status = (item.payment_status == 3) ? 'On Hold' : (item.payment_status == 0) ? 'Accepted' : 'Rejected';
+                        item.pay_status = pay_status;
+                        if (item.payment_status == 3) {
+                            item.hold = true;
+                            item.accept = false;
+                            item.reject = false;
+                            item.image = "<img src='http://localhost:4200/paymentReceipt/" + item.file_name + "'>";
+                        }
+                        else if (item.payment_status == 1) {
+                            item.hold = false;
+                            item.accept = false;
+                            item.reject = true;
+                        }
+                        else {
+                            item.hold = false;
+                            item.accept = true;
+                            item.reject = false;
+                        }
+                    });
+                }
+                else {
+                    _this.ifNoData = true;
+                    _this.responseMsg = response.json().message;
+                }
+            }, function (error) {
+                if (error.status === 401) {
+                    _this.authService.removeToken();
+                    _this.router.navigate(['/login']);
+                }
+                _this.responseStatus = false;
+                _this.responseReceived = true;
+                _this.paymentDetails = [];
+                _this.responseMsg = error.json().error;
+            });
+        });
+        /** Emitting event which will refresh the province list */
+        this.payservice.refreshList.next();
     };
-    return MainWidgetComponent;
+    /** upload doc Function */
+    ListPaymentComponent.prototype.upload = function (payment) {
+        var _this = this;
+        this.progress = 10;
+        var user_id = this.authService.getToken().user_id;
+        var formData = new FormData();
+        formData.append("name", this.files[0]);
+        formData.append("upload_month", payment.upload_month);
+        formData.append('upload_year', payment.upload_year);
+        formData.append("payment_description", payment.payment_description);
+        formData.append("user_id", user_id);
+        this.payservice.paymentCreate(formData)
+            .subscribe(function (response) {
+            _this.responseStatus = response.json().status;
+            if (response.json().status) {
+                _this.progress = 100;
+                _this.responseMsg = response.json().message;
+                _this.responseReceived = true;
+            }
+            else {
+                _this.responseMsg = '';
+            }
+            _this.payservice.refreshList.next();
+        }, function (error) {
+            if (error.status === 401) {
+                _this.authService.removeToken();
+                _this.router.navigate(['/login']);
+            }
+            _this.progress = 0;
+            _this.responseStatus = false;
+            _this.responseReceived = true;
+            _this.responseMsg = error.json().error;
+        });
+    };
+    /** Show upload button when try to upload any doc */
+    ListPaymentComponent.prototype.showUploader = function (payment, event) {
+        this.showUploadButton = payment.id;
+        this.files = event.target.files;
+        this.progress = 10;
+    };
+    /** Change status of Payment **/
+    ListPaymentComponent.prototype.OnChangeStatus = function (payment, status) {
+        var _this = this;
+        var setpaymentArray = [
+            { id: payment.id, payment_status: status }
+        ];
+        this.payservice.paymentChangeStatus(setpaymentArray[0])
+            .subscribe(function (response) {
+            _this.responseReceived = true;
+            _this.responseStatus = response.json().status;
+            if (response.json().status) {
+                _this.responseMsg = response.json().message;
+            }
+            else {
+                _this.responseMsg = '';
+            }
+            _this.payservice.refreshList.next();
+        }, function (error) {
+            if (error.status === 401) {
+                _this.authService.removeToken();
+                _this.router.navigate(['/login']);
+            }
+            _this.responseStatus = false;
+            _this.responseReceived = true;
+            _this.responseMsg = error.json().error;
+        });
+    };
+    return ListPaymentComponent;
 }());
-MainWidgetComponent = __decorate([
+ListPaymentComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/widgets/main/main.component.html"),
-        selector: 'widget-main'
+        selector: 'app-list-payment',
+        template: __webpack_require__("../../../../../src/app/payment-details/list-payment/list-payment.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/payment-details/list-payment/list-payment.component.css")]
     }),
-    __metadata("design:paramtypes", [])
-], MainWidgetComponent);
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__payment_service__["a" /* PaymentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__payment_service__["a" /* PaymentService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _c || Object])
+], ListPaymentComponent);
 
-//# sourceMappingURL=main.component.js.map
+var _a, _b, _c;
+//# sourceMappingURL=list-payment.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/widgets/main/main.module.ts":
+/***/ "../../../../../src/app/payment-details/payment-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__main_component__ = __webpack_require__("../../../../../src/app/widgets/main/main.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__main_routing__ = __webpack_require__("../../../../../src/app/widgets/main/main-routing.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_listview_crud__ = __webpack_require__("../../../../ng2-listview-crud/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_calendar_calendar_component__ = __webpack_require__("../../../../../src/app/components/calendar/calendar.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_alert_alert_component__ = __webpack_require__("../../../../../src/app/components/alert/alert.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ng2_timeline__ = __webpack_require__("../../../../ng2-timeline/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_ng2_newslist_ng2newslist_module__ = __webpack_require__("../../../../../src/app/components/ng2-newslist/ng2newslist.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MainWidgetModule", function() { return MainWidgetModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__upload_payment_upload_payment_component__ = __webpack_require__("../../../../../src/app/payment-details/upload-payment/upload-payment.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__list_payment_list_payment_component__ = __webpack_require__("../../../../../src/app/payment-details/list-payment/list-payment.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaymentRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
 
 
 
-
-
-
-
-
-
-var MainWidgetModule = (function () {
-    function MainWidgetModule() {
+var paymentRoutes = [
+    { path: 'upload', component: __WEBPACK_IMPORTED_MODULE_2__upload_payment_upload_payment_component__["a" /* UploadPaymentComponent */] },
+    { path: 'list', component: __WEBPACK_IMPORTED_MODULE_3__list_payment_list_payment_component__["a" /* ListPaymentComponent */] }
+];
+var PaymentRoutingModule = (function () {
+    function PaymentRoutingModule() {
     }
-    return MainWidgetModule;
+    return PaymentRoutingModule;
 }());
-MainWidgetModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* ReactiveFormsModule */],
-            __WEBPACK_IMPORTED_MODULE_3__main_routing__["a" /* MainWidgetRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_5__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_4_ng2_listview_crud__["a" /* Ng2ListViewCRUD */],
-            __WEBPACK_IMPORTED_MODULE_8_ng2_timeline__["a" /* Ng2Timeline */], __WEBPACK_IMPORTED_MODULE_9__components_ng2_newslist_ng2newslist_module__["a" /* Ng2NewsList */]
-        ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_2__main_component__["a" /* MainWidgetComponent */], __WEBPACK_IMPORTED_MODULE_6__components_calendar_calendar_component__["a" /* CalendarComponent */], __WEBPACK_IMPORTED_MODULE_7__components_alert_alert_component__["a" /* AlertComponent */]],
-        providers: [],
+PaymentRoutingModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* RouterModule */].forChild(paymentRoutes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* RouterModule */]]
     })
-], MainWidgetModule);
+], PaymentRoutingModule);
 
-//# sourceMappingURL=main.module.js.map
+//# sourceMappingURL=payment-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../ng2-listview-crud/index.js":
+/***/ "../../../../../src/app/payment-details/payment.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Ng2ListViewCRUD; });
-
-
-
-
-/**
- * Created by mohma on 7/27/2017.
- */
-var Ng2ListViewCRUDComponent = (function () {
-    function Ng2ListViewCRUDComponent() {
-        this.value = "";
-        this.search = "";
-        this.opType = "Add";
-    }
-    /**
-     * @param {?} changes
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.ngOnChanges = function (changes) {
-        this.subData = this.items;
-    };
-    /**
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.ngOnInit = function () {
-        this.properties.icon += " fa-fw";
-        this.subData = this.items;
-        this.path = "";
-        for (var /** @type {?} */ i = 0; i < this.properties.path.length; i++) {
-            this.path += this.properties.path[i];
-            if (i !== this.properties.path.length - 1) {
-                this.path += ".";
-            }
-        }
-    };
-    /**
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.ngAfterViewInit = function () {
-        var /** @type {?} */ self = this;
-        $('ul.ng2-listview').on('click', 'li', function () {
-            $('.selected').removeClass('selected');
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            }
-            else {
-                self.selectedIndex = $(this).attr('id');
-                $(this).addClass('selected');
-                self.properties.onSelect(self.items[self.selectedIndex]);
-            }
-        });
-    };
-    /**
-     * @param {?} $event
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.onChangeListener = function ($event) {
-        var /** @type {?} */ self = this;
-        if (this.search === "") {
-            this.subData = this.items;
-            return;
-        }
-        this.properties.onSearchChange(self.search);
-        var /** @type {?} */ result = this.items.filter(function (lhs) {
-            var /** @type {?} */ data = lhs;
-            if (self.properties.dataIsObject) {
-                if (!lhs[self.properties.path[0]])
-                    return false;
-                data = lhs[self.properties.path[0]];
-                for (var /** @type {?} */ i = 1; i < self.properties.path.length; i++) {
-                    if (data[self.properties.path[i]])
-                        data = data[self.properties.path[i]];
-                    else {
-                        return false;
-                    }
-                }
-            }
-            return data.match(self.search);
-        });
-        this.subData = result;
-    };
-    /**
-     * @param {?} obj
-     * @param {?} path
-     * @param {?} newValue
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.changeJSONValue = function (obj, path, newValue) {
-        var /** @type {?} */ parts = path.split('.');
-        while (parts.length > 1 && (obj = obj[parts.shift()])) { }
-        
-        obj[parts.shift()] = newValue;
-        return obj;
-    };
-    /**
-     * @param {?} obj
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.getJSONValue = function (obj) {
-        if (!obj[this.properties.path[0]])
-            return "Not Available";
-        var /** @type {?} */ data = obj[this.properties.path[0]];
-        for (var /** @type {?} */ i = 1; i < this.properties.path.length; i++) {
-            if (!data[this.properties.path[i]])
-                return "Not Available";
-            data = data[this.properties.path[i]];
-        }
-        return data;
-    };
-    /**
-     * @param {?} value
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.append = function (value) {
-        var /** @type {?} */ data = value;
-        if (this.properties.dataIsObject) {
-            data = "";
-            var /** @type {?} */ closing = "";
-            for (var /** @type {?} */ i = 0; i < this.properties.path.length; i++) {
-                data += "{\"";
-                data += this.properties.path[i] + "\":";
-                closing += "}";
-            }
-            data += ('"' + value + '"' + closing);
-            try {
-                data = JSON.parse(data);
-            }
-            catch (e) {
-                throw e;
-            }
-        }
-        this.items.push(data);
-        return data;
-    };
-    /**
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.onAddClickListener = function () {
-        if (this.value.length !== 0 && this.opType === "Add") {
-            if (this.properties.onAdd && this.properties.onAdd(this.append(this.value))) {
-                this.value = "";
-            }
-            else {
-                console.log("Function onAdd not found");
-            }
-        }
-        else if (this.value.length !== 0 && this.opType === "Edit") {
-            if (this.properties.onAdd && this.properties.onUpdate(this.items[this.selectedIndex], this.value)) {
-                if (!this.properties.dataIsObject) {
-                    this.items[this.selectedIndex] = this.value;
-                }
-                else {
-                    this.changeJSONValue(this.items[this.selectedIndex], this.path, this.value);
-                }
-                this.value = "";
-                this.opType = "Add";
-            }
-            else {
-                console.log("Function onEdit not found");
-            }
-        }
-    };
-    /**
-     * @param {?} index
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.onEditClickListener = function (index) {
-        this.selectedIndex = index;
-        if (!this.properties.dataIsObject)
-            this.value = this.items[this.selectedIndex];
-        else {
-            var /** @type {?} */ data = this.items[this.selectedIndex][this.properties.path[0]];
-            for (var /** @type {?} */ i = 1; i < this.properties.path.length; i++) {
-                if (!data[this.properties.path[i]]) {
-                    return null;
-                }
-                data = data[this.properties.path[i]];
-            }
-            this.value = data;
-        }
-        this.opType = "Edit";
-    };
-    /**
-     * @param {?} index
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.delete = function (index) {
-        this.items.splice(index, 1);
-    };
-    /**
-     * @param {?} index
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.get = function (index) {
-        return this.items[index];
-    };
-    /**
-     * @param {?} index
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.onDeleteClickListener = function (index) {
-        this.selectedIndex = index;
-        if (this.properties.onDelete && this.properties.onDelete(this.get(this.selectedIndex))) {
-            this.delete(this.selectedIndex);
-        }
-    };
-    /**
-     * @param {?} item
-     * @return {?}
-     */
-    Ng2ListViewCRUDComponent.prototype.getData = function (item) {
-        if (!this.properties.dataIsObject) {
-            return item;
-        }
-        return this.getJSONValue(item);
-    };
-    return Ng2ListViewCRUDComponent;
-}());
-Ng2ListViewCRUDComponent.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"], args: [{
-                template: "<div class=\"panel\"> <div class=\"panel-heading\" [style.background]=\"properties['headingBackgroundColor']\" [style.color]=\"properties['headingFontColor']\"> <i [class]=\"properties['icon']\" style=\"margin-right: 10px\"></i>{{properties['label']}} </div> <input type=\"text\" class=\"form-control searchBoxListView\" placeholder=\"Search....\" [(ngModel)]=\"search\" (keyup)=\"onChangeListener($event)\"> <div class=\"panel-body\"> <ul class=\"ng2-listview\"> <li *ngFor=\"let item of subData; index as i\" class=\"ng2-listview-item\" [id]=\"i\" > {{getData(item)}} <div class=\"pull-right action-buttons\"> <a href=\"javascript:void(0)\" (click)=\"onEditClickListener(i)\" [hidden]=\"!properties['edit']\"><i class=\"fa fa-pencil fa-fw\"></i> </a> <a href=\"javascript:void(0)\" (click)=\"onDeleteClickListener(i)\" [hidden]=\"!properties['remove']\"><i class=\"fa-fw fa fa-remove\"></i> </a> </div> </li> </ul> </div> <div class=\"panel-footer\" [hidden]=\"!properties['add']\"> <div class=\"input-group\"> <input type=\"text\" class=\"form-control input-md\" placeholder=\"Add\" [(ngModel)]=\"value\"> <span class=\"input-group-btn\"> <button class=\"btn btn-success btn-md\" id=\"btn-todo\" (click)=\"onAddClickListener()\">{{opType}}</button> </span> </div> </div> </div> ",
-                selector: 'ng2-listview-crud',
-                styles: ["/** NG2-Listview-CRUD Author: Mohammed Rashid Github: https://github.com/mohdrashid */ .selected { background: bisque; } .ng2-listview { padding: 0; margin: -15px; background: #fff; color: #5f6468; } #checkbox { margin: 0; } .ng2-listview .checkbox { display: inline-block; margin: 0px; } .panel-body input[type=checkbox]:checked + label { text-decoration: line-through; color: #777; } .ng2-listview-item { list-style: none; line-height: 0.9; padding: 14px 15px 8px 15px; } .ng2-listview-item:hover, a.ng2-listview-item:focus { text-decoration: none; background-color: #f6f6f6; } .ng2-listview-item .trash .glyph:hover { color: #ef4040; } .searchBoxListView { border-radius: 0px; } ul li a { text-decoration: none; } ul li div { display: none; } ul li:hover div { display: inline; } "]
-            },] },
-];
-/**
- * @nocollapse
- */
-Ng2ListViewCRUDComponent.ctorParameters = function () { return []; };
-Ng2ListViewCRUDComponent.propDecorators = {
-    'properties': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["Input"], args: ['properties',] },],
-    'items': [{ type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["Input"], args: ['data',] },],
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__upload_payment_upload_payment_component__ = __webpack_require__("../../../../../src/app/payment-details/upload-payment/upload-payment.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__payment_routing_module__ = __webpack_require__("../../../../../src/app/payment-details/payment-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_date_picker__ = __webpack_require__("../../../../ng2-date-picker/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_date_picker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_date_picker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__list_payment_list_payment_component__ = __webpack_require__("../../../../../src/app/payment-details/list-payment/list-payment.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PaymentModule", function() { return PaymentModule; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-var Ng2ListViewCRUD = (function () {
-    function Ng2ListViewCRUD() {
+
+
+
+
+
+
+
+var PaymentModule = (function () {
+    function PaymentModule() {
     }
-    return Ng2ListViewCRUD;
+    return PaymentModule;
 }());
-Ng2ListViewCRUD.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"], args: [{
-                imports: [
-                    __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* ReactiveFormsModule */],
-                ],
-                declarations: [
-                    Ng2ListViewCRUDComponent
-                ],
-                exports: [
-                    Ng2ListViewCRUDComponent
-                ]
-            },] },
+PaymentModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
+        declarations: [
+            __WEBPACK_IMPORTED_MODULE_3__upload_payment_upload_payment_component__["a" /* UploadPaymentComponent */],
+            __WEBPACK_IMPORTED_MODULE_7__list_payment_list_payment_component__["a" /* ListPaymentComponent */]
+        ],
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_4__payment_routing_module__["a" /* PaymentRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__["FileUploadModule"],
+            __WEBPACK_IMPORTED_MODULE_6_ng2_date_picker__["DpDatePickerModule"]
+        ],
+        providers: [],
+        exports: [],
+    })
+], PaymentModule);
+
+//# sourceMappingURL=payment.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/payment-details/upload-payment/upload-payment.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".progress {\n    height: 20px;\n    overflow: hidden;\n    background-color: #f5f5f5;\n    border-radius: 4px;\n    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);\n    margin-top: 15px;\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/payment-details/upload-payment/upload-payment.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Payment</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">Upload Payment</div>\n            <div class=\"panel-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <form #uploadPaymentForm=\"ngForm\" (submit)=\"onSubmit(uploadPaymentForm)\" enctype=\"multipart/form-data\">\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label >Choose Year & Month (*)</label>\n                                <!--<dp-month-calendar  [config]=\"config\" [(ngModel)]=\"paymentDate.payment_date\"  name=\"payment_date\" datestyle=\"yyyy/MM\"></dp-month-calendar>-->\n                                <dp-date-picker id=\"paymentDate\"\n                                                name=\"payment_date\"\n                                                #datePicker\n                                                #paymentDate=\"ngModel\"\n                                                [(ngModel)]=\"paymentDate.payment_date\"\n\n                                                [mode]=\"'month'\"\n                                                [placeholder]=\"'Pick Month & Year'\"\n                                                [config]=\"config\"\n                                                [theme]=\"'dp-material'\">\n                                </dp-date-picker>\n\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"paymentDate.invalid && paymentDate.touched\">\n                                Payment Date is Required!\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pdescription\">Payment Description</label>\n                                <textarea class=\"form-control\" rows=\"3\" id=\"pdescription\" [(ngModel)]=\"paymentDate.payment_description\"  name=\"payment_description\"></textarea>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pfile\">Upload File (*)</label>\n                                <input\n                                        id=\"pfile\"\n                                        class=\"form-control\"\n                                        name=\"uploadfile\"\n                                        required\n                                        [ngModel]=\"paymentDate.uploadfile\"\n                                        #uploadFile=\"ngModel\"\n                                        type=\"file\"\n                                        ng2FileSelect [uploader]=\"uploader\"\n                                        accept=\".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG\"\n                                        (change)=\"checkUploadedFileType($event)\"\n                                >\n                            </div>\n                        </div>\n\n\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\" *ngIf=\"uploader?.queue?.length\">\n                                <label></label>\n                                <div class=\"progress\">\n                                    <div data-percentage=\"0%\" [ngStyle]=\"{ 'width': progress  + '%' }\" class=\"progress-bar progress-bar-blue\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n                                </div>\n                            </div>\n\n                            <div class=\"alert alert-danger\" *ngIf=\"uploader?.queue?.length == 0 && uploadFile.touched\">\n                                File is Required!\n                            </div>\n                        </div>\n\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <button class=\"btn btn-primary\" [disabled]=\"uploader?.queue?.length == 0 || !length || paymentDate.invalid || !paymentDate.payment_date || showLoader\">\n                                <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                                Submit\n                            </button>\n\n                           <button\n                                    type=\"button\"\n                                    class=\"btn btn-default\"\n                                    [disabled]=\"showLoader\"\n                                    (click)=\"onReset(uploadPaymentForm)\">Reset\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n\n\n\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/payment-details/upload-payment/upload-payment.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng2_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__payment_service__ = __webpack_require__("../../../../../src/app/payment-details/payment.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UploadPaymentComponent; });
+/** Component to upload new payment */
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var UploadPaymentComponent = (function () {
+    /** Injecting services to be used in this component */
+    function UploadPaymentComponent(payservice, authService) {
+        this.payservice = payservice;
+        this.authService = authService;
+        this.paymentDate = {};
+        this.showLoader = false;
+        this.responseStatus = false;
+        this.responseReceived = false;
+        this.responseMsg = '';
+        this.progress = 0;
+        this.uploader = new __WEBPACK_IMPORTED_MODULE_2_ng2_file_upload__["FileUploader"]({});
+        this.length = false;
+        this.config = {
+            firstDayOfWeek: 'su',
+            monthFormat: 'MMM, YYYY',
+            disableKeypress: false,
+            allowMultiSelect: false,
+            closeOnSelect: undefined,
+            closeOnSelectDelay: 100,
+            onOpenDelay: 0,
+            weekDayFormat: 'ddd',
+            appendTo: document.body,
+            drops: 'down',
+            opens: 'right',
+            showNearMonthDays: false,
+            showWeekNumbers: false,
+            enableMonthSelector: true,
+            yearFormat: 'YYYY',
+            showGoToCurrent: true,
+            dayBtnFormat: 'DD',
+            monthBtnFormat: 'MMM',
+            hours12Format: 'hh',
+            hours24Format: 'HH',
+            meridiemFormat: 'A',
+            minutesFormat: 'mm',
+            minutesInterval: 1,
+            secondsFormat: 'ss',
+            secondsInterval: 1,
+            showSeconds: false,
+            showTwentyFourHours: false,
+            timeSeparator: ':',
+            multipleYearsNavigateBy: 10,
+            showMultipleYearsNavigation: false,
+            locale: 'en'
+        };
+    }
+    /** Function call when form is submitted */
+    UploadPaymentComponent.prototype.onSubmit = function (uploadPaymentForm) {
+        var _this = this;
+        this.showLoader = true;
+        this.progress = 30;
+        var payment_date = new Date(uploadPaymentForm.value.payment_date);
+        var month = payment_date.getMonth() + 1;
+        var user_id = this.authService.getToken().user_id;
+        var year_data = payment_date.getFullYear().toString();
+        var month_data = month.toString();
+        var formData = new FormData();
+        formData.append("name", this.files[0]);
+        formData.append("upload_month", month_data);
+        formData.append('upload_year', year_data);
+        formData.append("payment_description", uploadPaymentForm.value.payment_description);
+        formData.append("user_id", user_id);
+        this.payservice.paymentCreate(formData)
+            .subscribe(function (response) {
+            _this.responseReceived = true;
+            _this.responseStatus = response.json().status;
+            _this.showLoader = false;
+            if (response.json().status) {
+                _this.progress = 100;
+                _this.responseMsg = response.json().message;
+            }
+        }, function (error) {
+            _this.showLoader = false;
+            _this.responseStatus = false;
+            _this.responseReceived = true;
+            _this.responseMsg = error.json().error;
+        });
+    };
+    /** function to set files to be uploaded and increase progressbar */
+    UploadPaymentComponent.prototype.checkUploadedFileType = function (event) {
+        this.progress = 10;
+        this.files = event.target.files;
+        if (this.files.length > 0) {
+            this.length = true;
+        }
+        else {
+            this.length = false;
+        }
+    };
+    return UploadPaymentComponent;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('fileInput'),
+    __metadata("design:type", Object)
+], UploadPaymentComponent.prototype, "fileInput", void 0);
+UploadPaymentComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'app-upload-payment',
+        template: __webpack_require__("../../../../../src/app/payment-details/upload-payment/upload-payment.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/payment-details/upload-payment/upload-payment.component.css")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__payment_service__["a" /* PaymentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__payment_service__["a" /* PaymentService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+], UploadPaymentComponent);
+
+var _a, _b;
+//# sourceMappingURL=upload-payment.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-file-upload/file-upload/file-drop.directive.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var file_uploader_class_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-uploader.class.js");
+var FileDropDirective = (function () {
+    function FileDropDirective(element) {
+        this.fileOver = new core_1.EventEmitter();
+        this.onFileDrop = new core_1.EventEmitter();
+        this.element = element;
+    }
+    FileDropDirective.prototype.getOptions = function () {
+        return this.uploader.options;
+    };
+    FileDropDirective.prototype.getFilters = function () {
+        return {};
+    };
+    FileDropDirective.prototype.onDrop = function (event) {
+        var transfer = this._getTransfer(event);
+        if (!transfer) {
+            return;
+        }
+        var options = this.getOptions();
+        var filters = this.getFilters();
+        this._preventAndStop(event);
+        this.uploader.addToQueue(transfer.files, options, filters);
+        this.fileOver.emit(false);
+        this.onFileDrop.emit(transfer.files);
+    };
+    FileDropDirective.prototype.onDragOver = function (event) {
+        var transfer = this._getTransfer(event);
+        if (!this._haveFiles(transfer.types)) {
+            return;
+        }
+        transfer.dropEffect = 'copy';
+        this._preventAndStop(event);
+        this.fileOver.emit(true);
+    };
+    FileDropDirective.prototype.onDragLeave = function (event) {
+        if (this.element) {
+            if (event.currentTarget === this.element[0]) {
+                return;
+            }
+        }
+        this._preventAndStop(event);
+        this.fileOver.emit(false);
+    };
+    FileDropDirective.prototype._getTransfer = function (event) {
+        return event.dataTransfer ? event.dataTransfer : event.originalEvent.dataTransfer; // jQuery fix;
+    };
+    FileDropDirective.prototype._preventAndStop = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    };
+    FileDropDirective.prototype._haveFiles = function (types) {
+        if (!types) {
+            return false;
+        }
+        if (types.indexOf) {
+            return types.indexOf('Files') !== -1;
+        }
+        else if (types.contains) {
+            return types.contains('Files');
+        }
+        else {
+            return false;
+        }
+    };
+    return FileDropDirective;
+}());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", file_uploader_class_1.FileUploader)
+], FileDropDirective.prototype, "uploader", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], FileDropDirective.prototype, "fileOver", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], FileDropDirective.prototype, "onFileDrop", void 0);
+__decorate([
+    core_1.HostListener('drop', ['$event']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], FileDropDirective.prototype, "onDrop", null);
+__decorate([
+    core_1.HostListener('dragover', ['$event']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], FileDropDirective.prototype, "onDragOver", null);
+__decorate([
+    core_1.HostListener('dragleave', ['$event']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Object)
+], FileDropDirective.prototype, "onDragLeave", null);
+FileDropDirective = __decorate([
+    core_1.Directive({ selector: '[ng2FileDrop]' }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], FileDropDirective);
+exports.FileDropDirective = FileDropDirective;
+
+
+/***/ }),
+
+/***/ "../../../../ng2-file-upload/file-upload/file-item.class.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var file_like_object_class_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-like-object.class.js");
+var FileItem = (function () {
+    function FileItem(uploader, some, options) {
+        this.url = '/';
+        this.headers = [];
+        this.withCredentials = true;
+        this.formData = [];
+        this.isReady = false;
+        this.isUploading = false;
+        this.isUploaded = false;
+        this.isSuccess = false;
+        this.isCancel = false;
+        this.isError = false;
+        this.progress = 0;
+        this.index = void 0;
+        this.uploader = uploader;
+        this.some = some;
+        this.options = options;
+        this.file = new file_like_object_class_1.FileLikeObject(some);
+        this._file = some;
+        if (uploader.options) {
+            this.method = uploader.options.method || 'POST';
+            this.alias = uploader.options.itemAlias || 'file';
+        }
+        this.url = uploader.options.url;
+    }
+    FileItem.prototype.upload = function () {
+        try {
+            this.uploader.uploadItem(this);
+        }
+        catch (e) {
+            this.uploader._onCompleteItem(this, '', 0, {});
+            this.uploader._onErrorItem(this, '', 0, {});
+        }
+    };
+    FileItem.prototype.cancel = function () {
+        this.uploader.cancelItem(this);
+    };
+    FileItem.prototype.remove = function () {
+        this.uploader.removeFromQueue(this);
+    };
+    FileItem.prototype.onBeforeUpload = function () {
+        return void 0;
+    };
+    FileItem.prototype.onBuildForm = function (form) {
+        return { form: form };
+    };
+    FileItem.prototype.onProgress = function (progress) {
+        return { progress: progress };
+    };
+    FileItem.prototype.onSuccess = function (response, status, headers) {
+        return { response: response, status: status, headers: headers };
+    };
+    FileItem.prototype.onError = function (response, status, headers) {
+        return { response: response, status: status, headers: headers };
+    };
+    FileItem.prototype.onCancel = function (response, status, headers) {
+        return { response: response, status: status, headers: headers };
+    };
+    FileItem.prototype.onComplete = function (response, status, headers) {
+        return { response: response, status: status, headers: headers };
+    };
+    FileItem.prototype._onBeforeUpload = function () {
+        this.isReady = true;
+        this.isUploading = true;
+        this.isUploaded = false;
+        this.isSuccess = false;
+        this.isCancel = false;
+        this.isError = false;
+        this.progress = 0;
+        this.onBeforeUpload();
+    };
+    FileItem.prototype._onBuildForm = function (form) {
+        this.onBuildForm(form);
+    };
+    FileItem.prototype._onProgress = function (progress) {
+        this.progress = progress;
+        this.onProgress(progress);
+    };
+    FileItem.prototype._onSuccess = function (response, status, headers) {
+        this.isReady = false;
+        this.isUploading = false;
+        this.isUploaded = true;
+        this.isSuccess = true;
+        this.isCancel = false;
+        this.isError = false;
+        this.progress = 100;
+        this.index = void 0;
+        this.onSuccess(response, status, headers);
+    };
+    FileItem.prototype._onError = function (response, status, headers) {
+        this.isReady = false;
+        this.isUploading = false;
+        this.isUploaded = true;
+        this.isSuccess = false;
+        this.isCancel = false;
+        this.isError = true;
+        this.progress = 0;
+        this.index = void 0;
+        this.onError(response, status, headers);
+    };
+    FileItem.prototype._onCancel = function (response, status, headers) {
+        this.isReady = false;
+        this.isUploading = false;
+        this.isUploaded = false;
+        this.isSuccess = false;
+        this.isCancel = true;
+        this.isError = false;
+        this.progress = 0;
+        this.index = void 0;
+        this.onCancel(response, status, headers);
+    };
+    FileItem.prototype._onComplete = function (response, status, headers) {
+        this.onComplete(response, status, headers);
+        if (this.uploader.options.removeAfterUpload) {
+            this.remove();
+        }
+    };
+    FileItem.prototype._prepareToUploading = function () {
+        this.index = this.index || ++this.uploader._nextIndex;
+        this.isReady = true;
+    };
+    return FileItem;
+}());
+exports.FileItem = FileItem;
+
+
+/***/ }),
+
+/***/ "../../../../ng2-file-upload/file-upload/file-like-object.class.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function isElement(node) {
+    return !!(node && (node.nodeName || node.prop && node.attr && node.find));
+}
+var FileLikeObject = (function () {
+    function FileLikeObject(fileOrInput) {
+        var isInput = isElement(fileOrInput);
+        var fakePathOrObject = isInput ? fileOrInput.value : fileOrInput;
+        var postfix = typeof fakePathOrObject === 'string' ? 'FakePath' : 'Object';
+        var method = '_createFrom' + postfix;
+        this[method](fakePathOrObject);
+    }
+    FileLikeObject.prototype._createFromFakePath = function (path) {
+        this.lastModifiedDate = void 0;
+        this.size = void 0;
+        this.type = 'like/' + path.slice(path.lastIndexOf('.') + 1).toLowerCase();
+        this.name = path.slice(path.lastIndexOf('/') + path.lastIndexOf('\\') + 2);
+    };
+    FileLikeObject.prototype._createFromObject = function (object) {
+        // this.lastModifiedDate = copy(object.lastModifiedDate);
+        this.size = object.size;
+        this.type = object.type;
+        this.name = object.name;
+    };
+    return FileLikeObject;
+}());
+exports.FileLikeObject = FileLikeObject;
+
+
+/***/ }),
+
+/***/ "../../../../ng2-file-upload/file-upload/file-select.directive.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var file_uploader_class_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-uploader.class.js");
+// todo: filters
+var FileSelectDirective = (function () {
+    function FileSelectDirective(element) {
+        this.element = element;
+    }
+    FileSelectDirective.prototype.getOptions = function () {
+        return this.uploader.options;
+    };
+    FileSelectDirective.prototype.getFilters = function () {
+        return void 0;
+    };
+    FileSelectDirective.prototype.isEmptyAfterSelection = function () {
+        return !!this.element.nativeElement.attributes.multiple;
+    };
+    FileSelectDirective.prototype.onChange = function () {
+        // let files = this.uploader.isHTML5 ? this.element.nativeElement[0].files : this.element.nativeElement[0];
+        var files = this.element.nativeElement.files;
+        var options = this.getOptions();
+        var filters = this.getFilters();
+        // if(!this.uploader.isHTML5) this.destroy();
+        this.uploader.addToQueue(files, options, filters);
+        if (this.isEmptyAfterSelection()) {
+            // todo
+            this.element.nativeElement.value = '';
+        }
+    };
+    return FileSelectDirective;
+}());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", file_uploader_class_1.FileUploader)
+], FileSelectDirective.prototype, "uploader", void 0);
+__decorate([
+    core_1.HostListener('change'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Object)
+], FileSelectDirective.prototype, "onChange", null);
+FileSelectDirective = __decorate([
+    core_1.Directive({ selector: '[ng2FileSelect]' }),
+    __metadata("design:paramtypes", [core_1.ElementRef])
+], FileSelectDirective);
+exports.FileSelectDirective = FileSelectDirective;
+
+
+/***/ }),
+
+/***/ "../../../../ng2-file-upload/file-upload/file-type.class.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var FileType = (function () {
+    function FileType() {
+    }
+    FileType.getMimeClass = function (file) {
+        var mimeClass = 'application';
+        if (this.mime_psd.indexOf(file.type) !== -1) {
+            mimeClass = 'image';
+        }
+        else if (file.type.match('image.*')) {
+            mimeClass = 'image';
+        }
+        else if (file.type.match('video.*')) {
+            mimeClass = 'video';
+        }
+        else if (file.type.match('audio.*')) {
+            mimeClass = 'audio';
+        }
+        else if (file.type === 'application/pdf') {
+            mimeClass = 'pdf';
+        }
+        else if (this.mime_compress.indexOf(file.type) !== -1) {
+            mimeClass = 'compress';
+        }
+        else if (this.mime_doc.indexOf(file.type) !== -1) {
+            mimeClass = 'doc';
+        }
+        else if (this.mime_xsl.indexOf(file.type) !== -1) {
+            mimeClass = 'xls';
+        }
+        else if (this.mime_ppt.indexOf(file.type) !== -1) {
+            mimeClass = 'ppt';
+        }
+        if (mimeClass === 'application') {
+            mimeClass = this.fileTypeDetection(file.name);
+        }
+        return mimeClass;
+    };
+    FileType.fileTypeDetection = function (inputFilename) {
+        var types = {
+            'jpg': 'image',
+            'jpeg': 'image',
+            'tif': 'image',
+            'psd': 'image',
+            'bmp': 'image',
+            'png': 'image',
+            'nef': 'image',
+            'tiff': 'image',
+            'cr2': 'image',
+            'dwg': 'image',
+            'cdr': 'image',
+            'ai': 'image',
+            'indd': 'image',
+            'pin': 'image',
+            'cdp': 'image',
+            'skp': 'image',
+            'stp': 'image',
+            '3dm': 'image',
+            'mp3': 'audio',
+            'wav': 'audio',
+            'wma': 'audio',
+            'mod': 'audio',
+            'm4a': 'audio',
+            'compress': 'compress',
+            'rar': 'compress',
+            '7z': 'compress',
+            'lz': 'compress',
+            'z01': 'compress',
+            'pdf': 'pdf',
+            'xls': 'xls',
+            'xlsx': 'xls',
+            'ods': 'xls',
+            'mp4': 'video',
+            'avi': 'video',
+            'wmv': 'video',
+            'mpg': 'video',
+            'mts': 'video',
+            'flv': 'video',
+            '3gp': 'video',
+            'vob': 'video',
+            'm4v': 'video',
+            'mpeg': 'video',
+            'm2ts': 'video',
+            'mov': 'video',
+            'doc': 'doc',
+            'docx': 'doc',
+            'eps': 'doc',
+            'txt': 'doc',
+            'odt': 'doc',
+            'rtf': 'doc',
+            'ppt': 'ppt',
+            'pptx': 'ppt',
+            'pps': 'ppt',
+            'ppsx': 'ppt',
+            'odp': 'ppt'
+        };
+        var chunks = inputFilename.split('.');
+        if (chunks.length < 2) {
+            return 'application';
+        }
+        var extension = chunks[chunks.length - 1].toLowerCase();
+        if (types[extension] === undefined) {
+            return 'application';
+        }
+        else {
+            return types[extension];
+        }
+    };
+    return FileType;
+}());
+/*  MS office  */
+FileType.mime_doc = [
+    'application/msword',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+    'application/vnd.ms-word.document.macroEnabled.12',
+    'application/vnd.ms-word.template.macroEnabled.12'
 ];
-/**
- * @nocollapse
- */
-Ng2ListViewCRUD.ctorParameters = function () { return []; };
+FileType.mime_xsl = [
+    'application/vnd.ms-excel',
+    'application/vnd.ms-excel',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
+    'application/vnd.ms-excel.sheet.macroEnabled.12',
+    'application/vnd.ms-excel.template.macroEnabled.12',
+    'application/vnd.ms-excel.addin.macroEnabled.12',
+    'application/vnd.ms-excel.sheet.binary.macroEnabled.12'
+];
+FileType.mime_ppt = [
+    'application/vnd.ms-powerpoint',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    'application/vnd.openxmlformats-officedocument.presentationml.template',
+    'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
+    'application/vnd.ms-powerpoint.addin.macroEnabled.12',
+    'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+    'application/vnd.ms-powerpoint.presentation.macroEnabled.12',
+    'application/vnd.ms-powerpoint.slideshow.macroEnabled.12'
+];
+/* PSD */
+FileType.mime_psd = [
+    'image/photoshop',
+    'image/x-photoshop',
+    'image/psd',
+    'application/photoshop',
+    'application/psd',
+    'zz-application/zz-winassoc-psd'
+];
+/* Compressed files */
+FileType.mime_compress = [
+    'application/x-gtar',
+    'application/x-gcompress',
+    'application/compress',
+    'application/x-tar',
+    'application/x-rar-compressed',
+    'application/octet-stream'
+];
+exports.FileType = FileType;
 
 
+/***/ }),
+
+/***/ "../../../../ng2-file-upload/file-upload/file-upload.module.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var common_1 = __webpack_require__("../../../common/@angular/common.es5.js");
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var file_drop_directive_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-drop.directive.js");
+var file_select_directive_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-select.directive.js");
+var FileUploadModule = (function () {
+    function FileUploadModule() {
+    }
+    return FileUploadModule;
+}());
+FileUploadModule = __decorate([
+    core_1.NgModule({
+        imports: [common_1.CommonModule],
+        declarations: [file_drop_directive_1.FileDropDirective, file_select_directive_1.FileSelectDirective],
+        exports: [file_drop_directive_1.FileDropDirective, file_select_directive_1.FileSelectDirective]
+    })
+], FileUploadModule);
+exports.FileUploadModule = FileUploadModule;
+
+
+/***/ }),
+
+/***/ "../../../../ng2-file-upload/file-upload/file-uploader.class.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var file_like_object_class_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-like-object.class.js");
+var file_item_class_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-item.class.js");
+var file_type_class_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-type.class.js");
+function isFile(value) {
+    return (File && value instanceof File);
+}
+var FileUploader = (function () {
+    function FileUploader(options) {
+        this.isUploading = false;
+        this.queue = [];
+        this.progress = 0;
+        this._nextIndex = 0;
+        this.options = {
+            autoUpload: false,
+            isHTML5: true,
+            filters: [],
+            removeAfterUpload: false,
+            disableMultipart: false
+        };
+        this.setOptions(options);
+    }
+    FileUploader.prototype.setOptions = function (options) {
+        this.options = Object.assign(this.options, options);
+        this.authToken = options.authToken;
+        this.authTokenHeader = options.authTokenHeader || 'Authorization';
+        this.autoUpload = options.autoUpload;
+        this.options.filters.unshift({ name: 'queueLimit', fn: this._queueLimitFilter });
+        if (this.options.maxFileSize) {
+            this.options.filters.unshift({ name: 'fileSize', fn: this._fileSizeFilter });
+        }
+        if (this.options.allowedFileType) {
+            this.options.filters.unshift({ name: 'fileType', fn: this._fileTypeFilter });
+        }
+        if (this.options.allowedMimeType) {
+            this.options.filters.unshift({ name: 'mimeType', fn: this._mimeTypeFilter });
+        }
+        for (var i = 0; i < this.queue.length; i++) {
+            this.queue[i].url = this.options.url;
+        }
+        // this.options.filters.unshift({name: 'folder', fn: this._folderFilter});
+    };
+    FileUploader.prototype.addToQueue = function (files, options, filters) {
+        var _this = this;
+        var list = [];
+        for (var _i = 0, files_1 = files; _i < files_1.length; _i++) {
+            var file = files_1[_i];
+            list.push(file);
+        }
+        var arrayOfFilters = this._getFilters(filters);
+        var count = this.queue.length;
+        var addedFileItems = [];
+        list.map(function (some) {
+            if (!options) {
+                options = _this.options;
+            }
+            var temp = new file_like_object_class_1.FileLikeObject(some);
+            if (_this._isValidFile(temp, arrayOfFilters, options)) {
+                var fileItem = new file_item_class_1.FileItem(_this, some, options);
+                addedFileItems.push(fileItem);
+                _this.queue.push(fileItem);
+                _this._onAfterAddingFile(fileItem);
+            }
+            else {
+                var filter = arrayOfFilters[_this._failFilterIndex];
+                _this._onWhenAddingFileFailed(temp, filter, options);
+            }
+        });
+        if (this.queue.length !== count) {
+            this._onAfterAddingAll(addedFileItems);
+            this.progress = this._getTotalProgress();
+        }
+        this._render();
+        if (this.options.autoUpload) {
+            this.uploadAll();
+        }
+    };
+    FileUploader.prototype.removeFromQueue = function (value) {
+        var index = this.getIndexOfItem(value);
+        var item = this.queue[index];
+        if (item.isUploading) {
+            item.cancel();
+        }
+        this.queue.splice(index, 1);
+        this.progress = this._getTotalProgress();
+    };
+    FileUploader.prototype.clearQueue = function () {
+        while (this.queue.length) {
+            this.queue[0].remove();
+        }
+        this.progress = 0;
+    };
+    FileUploader.prototype.uploadItem = function (value) {
+        var index = this.getIndexOfItem(value);
+        var item = this.queue[index];
+        var transport = this.options.isHTML5 ? '_xhrTransport' : '_iframeTransport';
+        item._prepareToUploading();
+        if (this.isUploading) {
+            return;
+        }
+        this.isUploading = true;
+        this[transport](item);
+    };
+    FileUploader.prototype.cancelItem = function (value) {
+        var index = this.getIndexOfItem(value);
+        var item = this.queue[index];
+        var prop = this.options.isHTML5 ? item._xhr : item._form;
+        if (item && item.isUploading) {
+            prop.abort();
+        }
+    };
+    FileUploader.prototype.uploadAll = function () {
+        var items = this.getNotUploadedItems().filter(function (item) { return !item.isUploading; });
+        if (!items.length) {
+            return;
+        }
+        items.map(function (item) { return item._prepareToUploading(); });
+        items[0].upload();
+    };
+    FileUploader.prototype.cancelAll = function () {
+        var items = this.getNotUploadedItems();
+        items.map(function (item) { return item.cancel(); });
+    };
+    FileUploader.prototype.isFile = function (value) {
+        return isFile(value);
+    };
+    FileUploader.prototype.isFileLikeObject = function (value) {
+        return value instanceof file_like_object_class_1.FileLikeObject;
+    };
+    FileUploader.prototype.getIndexOfItem = function (value) {
+        return typeof value === 'number' ? value : this.queue.indexOf(value);
+    };
+    FileUploader.prototype.getNotUploadedItems = function () {
+        return this.queue.filter(function (item) { return !item.isUploaded; });
+    };
+    FileUploader.prototype.getReadyItems = function () {
+        return this.queue
+            .filter(function (item) { return (item.isReady && !item.isUploading); })
+            .sort(function (item1, item2) { return item1.index - item2.index; });
+    };
+    FileUploader.prototype.destroy = function () {
+        return void 0;
+        /*forEach(this._directives, (key) => {
+         forEach(this._directives[key], (object) => {
+         object.destroy();
+         });
+         });*/
+    };
+    FileUploader.prototype.onAfterAddingAll = function (fileItems) {
+        return { fileItems: fileItems };
+    };
+    FileUploader.prototype.onBuildItemForm = function (fileItem, form) {
+        return { fileItem: fileItem, form: form };
+    };
+    FileUploader.prototype.onAfterAddingFile = function (fileItem) {
+        return { fileItem: fileItem };
+    };
+    FileUploader.prototype.onWhenAddingFileFailed = function (item, filter, options) {
+        return { item: item, filter: filter, options: options };
+    };
+    FileUploader.prototype.onBeforeUploadItem = function (fileItem) {
+        return { fileItem: fileItem };
+    };
+    FileUploader.prototype.onProgressItem = function (fileItem, progress) {
+        return { fileItem: fileItem, progress: progress };
+    };
+    FileUploader.prototype.onProgressAll = function (progress) {
+        return { progress: progress };
+    };
+    FileUploader.prototype.onSuccessItem = function (item, response, status, headers) {
+        return { item: item, response: response, status: status, headers: headers };
+    };
+    FileUploader.prototype.onErrorItem = function (item, response, status, headers) {
+        return { item: item, response: response, status: status, headers: headers };
+    };
+    FileUploader.prototype.onCancelItem = function (item, response, status, headers) {
+        return { item: item, response: response, status: status, headers: headers };
+    };
+    FileUploader.prototype.onCompleteItem = function (item, response, status, headers) {
+        return { item: item, response: response, status: status, headers: headers };
+    };
+    FileUploader.prototype.onCompleteAll = function () {
+        return void 0;
+    };
+    FileUploader.prototype._mimeTypeFilter = function (item) {
+        return !(this.options.allowedMimeType && this.options.allowedMimeType.indexOf(item.type) === -1);
+    };
+    FileUploader.prototype._fileSizeFilter = function (item) {
+        return !(this.options.maxFileSize && item.size > this.options.maxFileSize);
+    };
+    FileUploader.prototype._fileTypeFilter = function (item) {
+        return !(this.options.allowedFileType &&
+            this.options.allowedFileType.indexOf(file_type_class_1.FileType.getMimeClass(item)) === -1);
+    };
+    FileUploader.prototype._onErrorItem = function (item, response, status, headers) {
+        item._onError(response, status, headers);
+        this.onErrorItem(item, response, status, headers);
+    };
+    FileUploader.prototype._onCompleteItem = function (item, response, status, headers) {
+        item._onComplete(response, status, headers);
+        this.onCompleteItem(item, response, status, headers);
+        var nextItem = this.getReadyItems()[0];
+        this.isUploading = false;
+        if (nextItem) {
+            nextItem.upload();
+            return;
+        }
+        this.onCompleteAll();
+        this.progress = this._getTotalProgress();
+        this._render();
+    };
+    FileUploader.prototype._headersGetter = function (parsedHeaders) {
+        return function (name) {
+            if (name) {
+                return parsedHeaders[name.toLowerCase()] || void 0;
+            }
+            return parsedHeaders;
+        };
+    };
+    FileUploader.prototype._xhrTransport = function (item) {
+        var _this = this;
+        var xhr = item._xhr = new XMLHttpRequest();
+        var sendable;
+        this._onBeforeUploadItem(item);
+        // todo
+        /*item.formData.map(obj => {
+         obj.map((value, key) => {
+         form.append(key, value);
+         });
+         });*/
+        if (typeof item._file.size !== 'number') {
+            throw new TypeError('The file specified is no longer valid');
+        }
+        if (!this.options.disableMultipart) {
+            sendable = new FormData();
+            this._onBuildItemForm(item, sendable);
+            sendable.append(item.alias, item._file, item.file.name);
+            if (this.options.additionalParameter !== undefined) {
+                Object.keys(this.options.additionalParameter).forEach(function (key) {
+                    sendable.append(key, _this.options.additionalParameter[key]);
+                });
+            }
+        }
+        else {
+            sendable = item._file;
+        }
+        xhr.upload.onprogress = function (event) {
+            var progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
+            _this._onProgressItem(item, progress);
+        };
+        xhr.onload = function () {
+            var headers = _this._parseHeaders(xhr.getAllResponseHeaders());
+            var response = _this._transformResponse(xhr.response, headers);
+            var gist = _this._isSuccessCode(xhr.status) ? 'Success' : 'Error';
+            var method = '_on' + gist + 'Item';
+            _this[method](item, response, xhr.status, headers);
+            _this._onCompleteItem(item, response, xhr.status, headers);
+        };
+        xhr.onerror = function () {
+            var headers = _this._parseHeaders(xhr.getAllResponseHeaders());
+            var response = _this._transformResponse(xhr.response, headers);
+            _this._onErrorItem(item, response, xhr.status, headers);
+            _this._onCompleteItem(item, response, xhr.status, headers);
+        };
+        xhr.onabort = function () {
+            var headers = _this._parseHeaders(xhr.getAllResponseHeaders());
+            var response = _this._transformResponse(xhr.response, headers);
+            _this._onCancelItem(item, response, xhr.status, headers);
+            _this._onCompleteItem(item, response, xhr.status, headers);
+        };
+        xhr.open(item.method, item.url, true);
+        xhr.withCredentials = item.withCredentials;
+        if (this.options.headers) {
+            for (var _i = 0, _a = this.options.headers; _i < _a.length; _i++) {
+                var header = _a[_i];
+                xhr.setRequestHeader(header.name, header.value);
+            }
+        }
+        if (item.headers.length) {
+            for (var _b = 0, _c = item.headers; _b < _c.length; _b++) {
+                var header = _c[_b];
+                xhr.setRequestHeader(header.name, header.value);
+            }
+        }
+        if (this.authToken) {
+            xhr.setRequestHeader(this.authTokenHeader, this.authToken);
+        }
+        xhr.send(sendable);
+        this._render();
+    };
+    FileUploader.prototype._getTotalProgress = function (value) {
+        if (value === void 0) { value = 0; }
+        if (this.options.removeAfterUpload) {
+            return value;
+        }
+        var notUploaded = this.getNotUploadedItems().length;
+        var uploaded = notUploaded ? this.queue.length - notUploaded : this.queue.length;
+        var ratio = 100 / this.queue.length;
+        var current = value * ratio / 100;
+        return Math.round(uploaded * ratio + current);
+    };
+    FileUploader.prototype._getFilters = function (filters) {
+        if (!filters) {
+            return this.options.filters;
+        }
+        if (Array.isArray(filters)) {
+            return filters;
+        }
+        if (typeof filters === 'string') {
+            var names_1 = filters.match(/[^\s,]+/g);
+            return this.options.filters
+                .filter(function (filter) { return names_1.indexOf(filter.name) !== -1; });
+        }
+        return this.options.filters;
+    };
+    FileUploader.prototype._render = function () {
+        return void 0;
+        // todo: ?
+    };
+    // protected _folderFilter(item:FileItem):boolean {
+    //   return !!(item.size || item.type);
+    // }
+    FileUploader.prototype._queueLimitFilter = function () {
+        return this.options.queueLimit === undefined || this.queue.length < this.options.queueLimit;
+    };
+    FileUploader.prototype._isValidFile = function (file, filters, options) {
+        var _this = this;
+        this._failFilterIndex = -1;
+        return !filters.length ? true : filters.every(function (filter) {
+            _this._failFilterIndex++;
+            return filter.fn.call(_this, file, options);
+        });
+    };
+    FileUploader.prototype._isSuccessCode = function (status) {
+        return (status >= 200 && status < 300) || status === 304;
+    };
+    /* tslint:disable */
+    FileUploader.prototype._transformResponse = function (response, headers) {
+        // todo: ?
+        /*var headersGetter = this._headersGetter(headers);
+         forEach($http.defaults.transformResponse, (transformFn) => {
+         response = transformFn(response, headersGetter);
+         });*/
+        return response;
+    };
+    /* tslint:enable */
+    FileUploader.prototype._parseHeaders = function (headers) {
+        var parsed = {};
+        var key;
+        var val;
+        var i;
+        if (!headers) {
+            return parsed;
+        }
+        headers.split('\n').map(function (line) {
+            i = line.indexOf(':');
+            key = line.slice(0, i).trim().toLowerCase();
+            val = line.slice(i + 1).trim();
+            if (key) {
+                parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+            }
+        });
+        return parsed;
+    };
+    /*protected _iframeTransport(item:FileItem) {
+     // todo: implement it later
+     }*/
+    FileUploader.prototype._onWhenAddingFileFailed = function (item, filter, options) {
+        this.onWhenAddingFileFailed(item, filter, options);
+    };
+    FileUploader.prototype._onAfterAddingFile = function (item) {
+        this.onAfterAddingFile(item);
+    };
+    FileUploader.prototype._onAfterAddingAll = function (items) {
+        this.onAfterAddingAll(items);
+    };
+    FileUploader.prototype._onBeforeUploadItem = function (item) {
+        item._onBeforeUpload();
+        this.onBeforeUploadItem(item);
+    };
+    FileUploader.prototype._onBuildItemForm = function (item, form) {
+        item._onBuildForm(form);
+        this.onBuildItemForm(item, form);
+    };
+    FileUploader.prototype._onProgressItem = function (item, progress) {
+        var total = this._getTotalProgress(progress);
+        this.progress = total;
+        item._onProgress(progress);
+        this.onProgressItem(item, progress);
+        this.onProgressAll(total);
+        this._render();
+    };
+    /* tslint:disable */
+    FileUploader.prototype._onSuccessItem = function (item, response, status, headers) {
+        item._onSuccess(response, status, headers);
+        this.onSuccessItem(item, response, status, headers);
+    };
+    /* tslint:enable */
+    FileUploader.prototype._onCancelItem = function (item, response, status, headers) {
+        item._onCancel(response, status, headers);
+        this.onCancelItem(item, response, status, headers);
+    };
+    return FileUploader;
+}());
+exports.FileUploader = FileUploader;
+
+
+/***/ }),
+
+/***/ "../../../../ng2-file-upload/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(__webpack_require__("../../../../ng2-file-upload/file-upload/file-select.directive.js"));
+__export(__webpack_require__("../../../../ng2-file-upload/file-upload/file-drop.directive.js"));
+__export(__webpack_require__("../../../../ng2-file-upload/file-upload/file-uploader.class.js"));
+__export(__webpack_require__("../../../../ng2-file-upload/file-upload/file-item.class.js"));
+__export(__webpack_require__("../../../../ng2-file-upload/file-upload/file-like-object.class.js"));
+var file_upload_module_1 = __webpack_require__("../../../../ng2-file-upload/file-upload/file-upload.module.js");
+exports.FileUploadModule = file_upload_module_1.FileUploadModule;
 
 
 /***/ })

@@ -298,10 +298,10 @@ Route::group(['prefix' => 'v1'], function() {
                 'as'    => 'api.v1.deleteReport.delete'
             ]);
 
-            /*Route::post('/filter-report', [
+            Route::post('/filter-report/{user_id}/{user_type}', [
                 'uses' => 'Api\V1\ReportController@filteReport',
                 'as' => 'api.v1.filteReport.post'
-            ]);*/
+            ]);
 
             Route::put('/update-report/{report_id}', [
                 'uses' => 'Api\V1\ReportController@updateReport',
@@ -311,6 +311,11 @@ Route::group(['prefix' => 'v1'], function() {
             Route::patch('/update-report/{report_id}', [
                 'uses' => 'Api\V1\ReportController@updateReport',
                 'as' => 'api.v1.updateReport.patch'
+            ]);
+
+            Route::get('/view-report/{report_id}', [
+                'uses' => 'Api\V1\ReportController@viewReport',
+                'as' => 'api.v1.viewReport.get'
             ]);
 
         });

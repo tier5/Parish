@@ -1,5 +1,5 @@
-<h3 class="page-header">Create Report </h3>
-<h5 class="page-header">( Pick a date to create report )</h5>
+<h3 class="page-header">{{ title }}</h3>
+<h5 class="page-header" *ngIf="!editMode">( Pick a date to create report )</h5>
 
 <div class="row">
     <div class="col-lg-12">
@@ -30,7 +30,7 @@
                     </p>
                     <p class="acc-id">Parish Id :
                         <select *ngIf="parish_id">
-                            <option>{{parish_id}}</option>
+                            <option>ROI{{parish_id}}</option>
 
                         </select>
                     </p>
@@ -89,8 +89,9 @@
                                                 <span class="highlight">Crucial Date</span>
                                             </td>
                                             <td>
-                                                <span class="sea-green">
-                                                  <dp-date-picker id="daytimePicker"
+
+										        <span class="sea-green">
+                                                    <dp-date-picker id="daytimePicker"
                                                                   name="daytimePicker"
                                                                   #datePicker
                                                                   #daytimePicker="ngModel"
@@ -99,8 +100,8 @@
                                                                   [mode]="'month'"
                                                                   [placeholder]="'Pick Month & Year'"
                                                                   [config]="config"
-                                                                  [theme]="'dp-material'">
-                                                  </dp-date-picker>
+                                                                  [theme]="'dp-material'" [disabled]="editMode">
+                                                    </dp-date-picker>
                                                   <!--<select>
                                                       <option>select</option>
                                                       <option>1</option>

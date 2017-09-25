@@ -1,4 +1,4 @@
-webpackJsonp([15],{
+webpackJsonp([16],{
 
 /***/ "../../../../../src async recursive":
 /***/ (function(module, exports, __webpack_require__) {
@@ -6,12 +6,12 @@ webpackJsonp([15],{
 var map = {
 	"./auth/login/login.module": [
 		"../../../../../src/app/auth/login/login.module.ts",
-		10,
+		11,
 		0
 	],
 	"./auth/register/register.module": [
 		"../../../../../src/app/auth/register/register.module.ts",
-		9,
+		10,
 		0
 	],
 	"./dashboard/dashboard.module": [
@@ -21,46 +21,52 @@ var map = {
 	],
 	"./form/form.module": [
 		"../../../../../src/app/form/form.module.ts",
-		12,
+		13,
+		0
+	],
+	"./payment-details/payment.module": [
+		"../../../../../src/app/payment-details/payment.module.ts",
+		3,
 		0
 	],
 	"./profile-details/profile.module": [
 		"../../../../../src/app/profile-details/profile.module.ts",
-		11,
+		12,
 		0
 	],
 	"./province-zone-area-parish/area/area.module": [
 		"../../../../../src/app/province-zone-area-parish/area/area.module.ts",
-		7,
+		9,
 		0
 	],
 	"./province-zone-area-parish/parish/parish.module": [
 		"../../../../../src/app/province-zone-area-parish/parish/parish.module.ts",
-		6,
+		8,
 		0
 	],
 	"./province-zone-area-parish/province/province.module": [
 		"../../../../../src/app/province-zone-area-parish/province/province.module.ts",
-		5,
+		7,
 		0
 	],
 	"./province-zone-area-parish/zone/zone.module": [
 		"../../../../../src/app/province-zone-area-parish/zone/zone.module.ts",
-		4,
+		6,
 		0
 	],
 	"./report/report.module": [
 		"../../../../../src/app/report/report.module.ts",
-		8
+		5,
+		0
 	],
 	"./widgets/charts/charts.module": [
 		"../../../../../src/app/widgets/charts/charts.module.ts",
-		13,
+		14,
 		0
 	],
 	"./widgets/main/main.module": [
 		"../../../../../src/app/widgets/main/main.module.ts",
-		3,
+		4,
 		0
 	],
 	"./widgets/tables/tables.module": [
@@ -111,7 +117,7 @@ var appRoutes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'login', canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_not_auth_guard__["a" /* NotAuthGuard */]], loadChildren: './auth/login/login.module#LoginModule' },
     { path: 'register', canActivate: [__WEBPACK_IMPORTED_MODULE_4__auth_not_auth_guard__["a" /* NotAuthGuard */]], loadChildren: './auth/register/register.module#RegisterModule' },
-    { path: '', canActivate: [__WEBPACK_IMPORTED_MODULE_2__auth_auth_guard__["a" /* AuthGuard */]], component: __WEBPACK_IMPORTED_MODULE_3__layout_full_layout_component__["a" /* FullLayoutComponent */], data: { title: 'Home' }, children: [
+    { path: '', canActivate: [__WEBPACK_IMPORTED_MODULE_2__auth_auth_guard__["a" /* AuthGuard */]], canActivateChild: [__WEBPACK_IMPORTED_MODULE_2__auth_auth_guard__["a" /* AuthGuard */]], component: __WEBPACK_IMPORTED_MODULE_3__layout_full_layout_component__["a" /* FullLayoutComponent */], data: { title: 'Home' }, children: [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { title2: 'Dashboard' } },
             { path: 'form', loadChildren: './form/form.module#FormModule' },
             { path: 'widget', children: [
@@ -125,7 +131,8 @@ var appRoutes = [
             { path: 'area', loadChildren: './province-zone-area-parish/area/area.module#AreaModule' },
             { path: 'parish', loadChildren: './province-zone-area-parish/parish/parish.module#ParishModule' },
             { path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' },
-            { path: 'report', loadChildren: './report/report.module#ReportModule' }
+            { path: 'report', loadChildren: './report/report.module#ReportModule' },
+            { path: 'payment', loadChildren: './payment-details/payment.module#PaymentModule' }
         ] }
 ];
 var AppRoutingModule = (function () {
@@ -135,7 +142,7 @@ var AppRoutingModule = (function () {
 }());
 AppRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(appRoutes)],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(appRoutes, { preloadingStrategy: __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* PreloadAllModules */] })],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
 ], AppRoutingModule);
@@ -191,6 +198,8 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__province_zone_area_parish_province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__profile_details_profile_service__ = __webpack_require__("../../../../../src/app/profile-details/profile.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__payment_details_payment_service__ = __webpack_require__("../../../../../src/app/payment-details/payment.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__report_report_service__ = __webpack_require__("../../../../../src/app/report/report.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -198,6 +207,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -225,7 +236,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_9_ng2_auto_breadcrumb__["a" /* Ng2AutoBreadCrumb */],
-            __WEBPACK_IMPORTED_MODULE_12__shared_shared_module__["a" /* SharedModule */]
+            __WEBPACK_IMPORTED_MODULE_12__shared_shared_module__["a" /* SharedModule */],
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_8__layout_full_layout_component__["a" /* FullLayoutComponent */],
@@ -236,7 +247,9 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_6__auth_auth_guard__["a" /* AuthGuard */],
             __WEBPACK_IMPORTED_MODULE_10__auth_not_auth_guard__["a" /* NotAuthGuard */],
             __WEBPACK_IMPORTED_MODULE_11__province_zone_area_parish_province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */],
-            __WEBPACK_IMPORTED_MODULE_13__profile_details_profile_service__["a" /* ProfileService */]
+            __WEBPACK_IMPORTED_MODULE_13__profile_details_profile_service__["a" /* ProfileService */],
+            __WEBPACK_IMPORTED_MODULE_14__payment_details_payment_service__["a" /* PaymentService */],
+            __WEBPACK_IMPORTED_MODULE_15__report_report_service__["a" /* ReportService */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
     })
@@ -272,6 +285,15 @@ var AuthGuard = (function () {
         this.router = router;
     }
     AuthGuard.prototype.canActivate = function (next, state) {
+        if (this.authService.isAuthenticated()) {
+            return true;
+        }
+        else {
+            this.router.navigate(['/']);
+            return false;
+        }
+    };
+    AuthGuard.prototype.canActivateChild = function () {
         if (this.authService.isAuthenticated()) {
             return true;
         }
@@ -402,7 +424,7 @@ var _a, _b;
 /***/ "../../../../../src/app/layout/full-layout.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#sidebar-collapse\"\n                    (click)=\"toggle()\">\n                <span class=\"sr-only\">Toggle navigation</span>\n                <i class=\"fa {{toggleBarIcon?'fa-bars':'fa-remove'}} text-white custom-nav-toggle\"></i>\n            </button>\n            <a class=\"navbar-brand\" [routerLink]=\"['/dashboard']\" ><span>Parish </span><!--Admin--></a>\n            <ul class=\"user-menu\">\n                <li class=\"dropdown pull-right\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n                        User <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li [routerLink]=\"['/profile']\"><a><i class=\"fa fa-fw fa-user\"></i> Profile</a></li>\n                        <li><a><i class=\"fa fa-fw fa-cogs\"></i> Settings</a></li>\n                        <li><a (click)=\"onLogout()\"><i class=\"fa fa-fw fa-lock\"></i> Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div><!-- /.container-fluid -->\n</nav>\n\n<div id=\"sidebar-collapse\" class=\"col-sm-3 col-lg-2 sidebar\">\n    <form role=\"search\">\n        <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n    </form>\n    <ul class=\"nav menu\">\n\n        <!-- Dashboard Section -->\n        <li>\n            <a routerLinkActive=\"active\" [routerLink]=\"['/dashboard']\">\n                <i class=\"fa fa-dashboard fa-fw\"></i>\n                Dashboard\n            </a>\n        </li>\n\n        <li role=\"presentation\" class=\"divider\"></li>\n\n        <!-- Province Section -->\n        <li class=\"parent \" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-1\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Province\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-1\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/province/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/province/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Zone Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-2\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Zone\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-2\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/zone/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/zone/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Area Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-3\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Area\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-3\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/area/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/area/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li>\n\n        <!-- Parish Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#parish-section\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Parish\n            </a>\n            <ul class=\"children collapse\" id=\"parish-section\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li>\n\n        <!-- Report Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#report-section\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Report\n            </a>\n            <ul class=\"children collapse\" id=\"report-section\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/report/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/report/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li>\n\n<!--         <li><a routerLinkActive=\"active\" [routerLink]=\"['/form']\"><i class=\"fa fa-list fa-fw\"></i> Form</a></li>\n\n        <li class=\"parent \">\n            <a data-toggle=\"collapse\" href=\"#sub-item-4\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Widgets\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-4\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/widget/main']\">\n                        <i class=\"fa fa-fw fa-cogs\"></i> Main\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/widget/table']\">\n                        <i class=\"fa fa-fw fa-table\"></i> Table\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/widget/chart']\">\n                        <i class=\"fa fa-fw fa-bar-chart\"></i> Charts\n                    </a>\n                </li>\n            </ul>\n        </li>\n        <li role=\"presentation\" class=\"divider\"></li> -->\n\n    </ul>\n</div><!--/.sidebar-->\n<div class=\"col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main\">\n    <!-- Main content -->\n    <div class=\"row\">\n        <ng2-auto-breadcrumb></ng2-auto-breadcrumb>\n    </div><!--/.row-->\n\n    <router-outlet></router-outlet>\n</div>\n"
+module.exports = "<nav class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#sidebar-collapse\"\n                    (click)=\"toggle()\">\n                <span class=\"sr-only\">Toggle navigation</span>\n                <i class=\"fa {{toggleBarIcon?'fa-bars':'fa-remove'}} text-white custom-nav-toggle\"></i>\n            </button>\n            <a class=\"navbar-brand\" [routerLink]=\"['/dashboard']\" ><span>Parish </span><!--Admin--></a>\n            <ul class=\"user-menu\">\n                <li class=\"dropdown pull-right\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n                        User <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li [routerLink]=\"['/profile']\"><a><i class=\"fa fa-fw fa-user\"></i> Profile</a></li>\n                        <li><a><i class=\"fa fa-fw fa-cogs\"></i> Settings</a></li>\n                        <li><a (click)=\"onLogout()\"><i class=\"fa fa-fw fa-lock\"></i> Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div><!-- /.container-fluid -->\n</nav>\n\n<div id=\"sidebar-collapse\" class=\"col-sm-3 col-lg-2 sidebar\">\n    <form role=\"search\">\n        <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n    </form>\n    <ul class=\"nav menu\">\n\n        <!-- Dashboard Section -->\n        <li>\n            <a routerLinkActive=\"active\" [routerLink]=\"['/dashboard']\">\n                <i class=\"fa fa-dashboard fa-fw\"></i>\n                Dashboard\n            </a>\n        </li>\n\n        <li role=\"presentation\" class=\"divider\"></li>\n\n        <!-- Province Section -->\n        <li class=\"parent \" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-1\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Province\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-1\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/province/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/province/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Zone Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-2\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Zone\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-2\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/zone/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/zone/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Area Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-3\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Area\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-3\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/area/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/area/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li>\n\n        <!-- Parish Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#parish-section\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Parish\n            </a>\n            <ul class=\"children collapse\" id=\"parish-section\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li>\n\n        <!-- Payment Section -->\n        <li class=\"parent\">\n            <a data-toggle=\"collapse\" href=\"#payment-section\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Payment\n            </a>\n            <ul class=\"children collapse\" id=\"payment-section\">\n                <li *ngIf=\"paymentOption\">\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/payment/upload']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Upload\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/payment/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Report Section -->\n        <li class=\"parent\" *ngIf=\"paymentOption\">\n            <a data-toggle=\"collapse\" href=\"#report-section\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Report\n            </a>\n            <ul class=\"children collapse\" id=\"report-section\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/report/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/report/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li>\n\n\n        <!--<li><a routerLinkActive=\"active\" [routerLink]=\"['/form']\"><i class=\"fa fa-list fa-fw\"></i> Form</a></li>\n\n        <li class=\"parent \">\n            <a data-toggle=\"collapse\" href=\"#sub-item-4\">\n                <i class=\"fa fa-fw fa-chevron-circle-down\"></i> Widgets\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-4\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/widget/main']\">\n                        <i class=\"fa fa-fw fa-cogs\"></i> Main\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/widget/table']\">\n                        <i class=\"fa fa-fw fa-table\"></i> Table\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/widget/chart']\">\n                        <i class=\"fa fa-fw fa-bar-chart\"></i> Charts\n                    </a>\n                </li>\n            </ul>\n        </li>\n        <li role=\"presentation\" class=\"divider\"></li>-->\n\n    </ul>\n</div><!--/.sidebar-->\n<div class=\"col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main\">\n    <!-- Main content -->\n    <div class=\"row\">\n        <ng2-auto-breadcrumb></ng2-auto-breadcrumb>\n    </div><!--/.row-->\n\n    <router-outlet></router-outlet>\n</div>\n"
 
 /***/ }),
 
@@ -450,11 +472,15 @@ var FullLayoutComponent = (function () {
         this.router = router;
         this.toggleBarIcon = true;
         this.showSidebar = true;
+        this.paymentOption = false;
     }
     FullLayoutComponent.prototype.ngOnInit = function () {
         var user_type = this.authService.getToken().user_type;
         if (user_type != 1) {
             this.showSidebar = false;
+            if (user_type == 3) {
+                this.paymentOption = true;
+            }
         }
     };
     FullLayoutComponent.prototype.onLogout = function () {
@@ -490,6 +516,81 @@ FullLayoutComponent = __decorate([
 
 var _a, _b;
 //# sourceMappingURL=full-layout.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/payment-details/payment.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaymentService; });
+/** Service created for upload payment */
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var PaymentService = (function () {
+    /** Injecting services to be used in this component */
+    function PaymentService(http, authService) {
+        this.http = http;
+        this.authService = authService;
+        /** Initializing custom Observables */
+        this.refreshList = new __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__["Subject"]();
+        /** Initializing the different headers to be passed with each api call */
+        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({
+            'X-Requested-With': 'XMLHttpRequest'
+        });
+        if (this.authService.isAuthenticated()) {
+            this.refreshHeader();
+        }
+    }
+    /** Refreshing the header for authenticated users */
+    PaymentService.prototype.refreshHeader = function () {
+        this.headers.set('Authorization', 'Bearer ' + this.authService.getToken().token);
+    };
+    /** Function to create a new payment */
+    PaymentService.prototype.paymentCreate = function (body) {
+        var headers = this.headers;
+        headers.delete('Content-Type');
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__["a" /* environment */].API_URL + 'payment/upload-payment', body, { headers: this.headers });
+    };
+    /** Get List of all payment  */
+    PaymentService.prototype.listPayment = function () {
+        var user_id = this.authService.getToken().user_id;
+        var user_type = this.authService.getToken().user_type;
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__["a" /* environment */].API_URL + 'payment/' + user_id + '/' + user_type, { headers: this.headers });
+    };
+    /** Function to change status of payment */
+    PaymentService.prototype.paymentChangeStatus = function (body) {
+        var headers = this.headers;
+        headers.delete('Content-Type');
+        return this.http.put(__WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__["a" /* environment */].API_URL + 'payment/update-payment-status' + '/' + body.id, body, { headers: this.headers });
+    };
+    return PaymentService;
+}());
+PaymentService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+], PaymentService);
+
+var _a, _b;
+//# sourceMappingURL=payment.service.js.map
 
 /***/ }),
 
@@ -737,6 +838,83 @@ var _a, _b;
 
 /***/ }),
 
+/***/ "../../../../../src/app/report/report.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ReportService = (function () {
+    /** Injecting services to be used in this component */
+    function ReportService(http, authService) {
+        this.http = http;
+        this.authService = authService;
+        /** Initializing custom Observables */
+        this.generateReport = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__["Subject"]();
+        this.refreshReportList = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__["Subject"]();
+        /** Initializing the different headers to be passed with each api call */
+        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({
+            'X-Requested-With': 'XMLHttpRequest'
+        });
+        if (this.authService.isAuthenticated()) {
+            this.refreshHeader();
+        }
+    }
+    /** Refreshing the header for authenticated users */
+    ReportService.prototype.refreshHeader = function () {
+        this.headers.set('Authorization', 'Bearer ' + this.authService.getToken().token);
+    };
+    /** Function to get a new report blueprint */
+    ReportService.prototype.getReportBP = function (body) {
+        var obj = {
+            user_id: this.authService.getToken().user_id
+        };
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'report/all-report', Object.assign(body, obj), { headers: this.headers });
+    };
+    /** Function to send a new report */
+    ReportService.prototype.sendReport = function (body) {
+        var obj = {
+            user_id: this.authService.getToken().user_id
+        };
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'report/create', Object.assign(body, obj), { headers: this.headers });
+    };
+    /** Function to get list of all reports */
+    ReportService.prototype.getReports = function (body) {
+        var user_id = this.authService.getToken().user_id;
+        var user_type = this.authService.getToken().user_type;
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'report/filter-report/' + user_id + '/' + user_type, body, { headers: this.headers });
+    };
+    return ReportService;
+}());
+ReportService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+], ReportService);
+
+var _a, _b;
+//# sourceMappingURL=report.service.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/edit-province-zone-area/edit-province-zone-area.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -934,7 +1112,8 @@ SharedModule = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 var environment = {
     production: true,
-    API_URL: 'http://parish.local/api/v1/'
+    API_URL: 'http://parish.local/api/v1/',
+    base_url: 'http://parish.local'
 };
 //# sourceMappingURL=environment.prod.js.map
 
