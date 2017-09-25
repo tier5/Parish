@@ -140,12 +140,12 @@
         </li>
 
         <!-- Report Section -->
-        <li class="parent">
+        <li class="parent" *ngIf="paymentOption">
             <a data-toggle="collapse" href="#report-section">
                 <i class="fa fa-fw fa-chevron-circle-down"></i> Report
             </a>
             <ul class="children collapse" id="report-section">
-                <li *ngIf="paymentOption">
+                <li>
                     <a routerLinkActive="active" [routerLink]="['/report/create']">
                         <i class="fa fa-fw fa-plus-square"></i> Create
                     </a>
