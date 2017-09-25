@@ -10,7 +10,7 @@ export class ProgressReportModel {
 				 public zonal_pastor: string,
 				 public area_pastor: string,
 				 public parish_pastor: string,
-				 public crucial_date: string,
+				 public crucial_date: any,
 				 public month: string,
 				 public year: string,
 				 public report: ReportModel ) { }

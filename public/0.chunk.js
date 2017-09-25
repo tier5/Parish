@@ -30693,6 +30693,2488 @@ __export(__webpack_require__("../../../../ng2-charts/charts/charts.js"));
 
 /***/ }),
 
+/***/ "../../../../ng2-date-picker/calendar-nav/calendar-nav.component.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var CalendarNavComponent = (function () {
+    function CalendarNavComponent() {
+        this.onLeftNav = new core_1.EventEmitter();
+        this.onLeftSecondaryNav = new core_1.EventEmitter();
+        this.onRightNav = new core_1.EventEmitter();
+        this.onRightSecondaryNav = new core_1.EventEmitter();
+        this.onLabelClick = new core_1.EventEmitter();
+        this.isLabelClickable = false;
+        this.showLeftNav = true;
+        this.showLeftSecondaryNav = false;
+        this.showRightNav = true;
+        this.showRightSecondaryNav = false;
+        this.leftNavDisabled = false;
+        this.leftSecondaryNavDisabled = false;
+        this.rightNavDisabled = false;
+        this.rightSecondaryNavDisabled = false;
+    }
+    CalendarNavComponent.prototype.leftNavClicked = function () {
+        this.onLeftNav.emit();
+    };
+    CalendarNavComponent.prototype.leftSecondaryNavClicked = function () {
+        this.onLeftSecondaryNav.emit();
+    };
+    CalendarNavComponent.prototype.rightNavClicked = function () {
+        this.onRightNav.emit();
+    };
+    CalendarNavComponent.prototype.rightSecondaryNavClicked = function () {
+        this.onRightSecondaryNav.emit();
+    };
+    CalendarNavComponent.prototype.labelClicked = function () {
+        this.onLabelClick.emit();
+    };
+    return CalendarNavComponent;
+}());
+CalendarNavComponent.decorators = [
+    { type: core_1.Component, args: [{
+                selector: 'dp-calendar-nav',
+                template: '<div class="dp-calendar-nav-container">   <div class="dp-calendar-nav-container-left">     <button type="button"             class="dp-calendar-nav-left"             [hidden]="!showLeftNav"             [disabled]="leftNavDisabled"             (click)="leftNavClicked()">     </button>     <button type="button"             class="dp-calendar-secondary-nav-left"             *ngIf="showLeftSecondaryNav"             [disabled]="leftSecondaryNavDisabled"             (click)="leftSecondaryNavClicked()">     </button>   </div>   <span class="dp-nav-header" [hidden]="isLabelClickable">{{label}}</span>   <button type="button"           class="dp-nav-header dp-nav-header-btn"           [hidden]="!isLabelClickable"           (click)="labelClicked()">     {{label}}   </button>   <div class="dp-calendar-nav-container-right">     <button type="button"             class="dp-calendar-secondary-nav-right"             *ngIf="showRightSecondaryNav"             [disabled]="rightSecondaryNavDisabled"             (click)="rightSecondaryNavClicked()">     </button>     <button type="button"             class="dp-calendar-nav-right"             [hidden]="!showRightNav"             [disabled]="rightNavDisabled"             (click)="rightNavClicked()">     </button>   </div> </div> ',
+                styles: ['dp-calendar-nav .dp-calendar-nav-container {  position: relative;  box-sizing: border-box;  height: 25px;  border: 1px solid #000000;  border-bottom: none;}dp-calendar-nav .dp-nav-date-btn {  box-sizing: border-box;  height: 25px;  border: 1px solid #000000;  border-bottom: none;}dp-calendar-nav .dp-calendar-nav-container-left,dp-calendar-nav .dp-calendar-nav-container-right {  position: absolute;  top: 50%;  transform: translateY(-50%);}dp-calendar-nav .dp-calendar-nav-container-left {  left: 5px;}dp-calendar-nav .dp-calendar-nav-container-right {  right: 5px;}dp-calendar-nav .dp-calendar-nav-left,dp-calendar-nav .dp-calendar-nav-right,dp-calendar-nav .dp-calendar-secondary-nav-left,dp-calendar-nav .dp-calendar-secondary-nav-right {  cursor: pointer;}dp-calendar-nav .dp-calendar-nav-left,dp-calendar-nav .dp-calendar-nav-right {  line-height: 0;}dp-calendar-nav .dp-calendar-nav-left::before,dp-calendar-nav .dp-calendar-nav-right::before {  position: relative;  content: \'\';  display: inline-block;  height: 8px;  width: 8px;  vertical-align: baseline;  border-style: solid;  border-width: 2px 2px 0 0;  transform: rotate(45deg);}dp-calendar-nav .dp-calendar-secondary-nav-left::before,dp-calendar-nav .dp-calendar-secondary-nav-right::before,dp-calendar-nav .dp-calendar-secondary-nav-left::after,dp-calendar-nav .dp-calendar-secondary-nav-right::after {  position: relative;  content: \'\';  display: inline-block;  height: 8px;  width: 8px;  vertical-align: baseline;  border-style: solid;  border-width: 2px 2px 0 0;  transform: rotate(45deg);}dp-calendar-nav .dp-calendar-secondary-nav-left::before,dp-calendar-nav .dp-calendar-secondary-nav-right::before {  margin-right: -8px;}dp-calendar-nav .dp-calendar-nav-left::before {  position: relative;  content: \'\';  display: inline-block;  height: 8px;  width: 8px;  vertical-align: baseline;  border-style: solid;  border-width: 2px 2px 0 0;  transform: rotate(-135deg);}dp-calendar-nav .dp-calendar-secondary-nav-left::before,dp-calendar-nav .dp-calendar-secondary-nav-left::after {  position: relative;  content: \'\';  display: inline-block;  height: 8px;  width: 8px;  vertical-align: baseline;  border-style: solid;  border-width: 2px 2px 0 0;  transform: rotate(-135deg);}dp-calendar-nav .dp-calendar-secondary-nav-left::before {  margin-right: -8px;}dp-calendar-nav .dp-nav-header {  position: absolute;  top: 50%;  left: 50%;  transform: translate(-50%, -50%);  font-size: 13px;}dp-calendar-nav .dp-nav-header-btn {  cursor: pointer;}dp-calendar-nav.dp-material .dp-calendar-nav-container {  height: 30px;  border: 1px solid #E0E0E0;}dp-calendar-nav.dp-material .dp-calendar-nav-left,dp-calendar-nav.dp-material .dp-calendar-nav-right,dp-calendar-nav.dp-material .dp-calendar-secondary-nav-left,dp-calendar-nav.dp-material .dp-calendar-secondary-nav-right {  border: none;  background: #FFFFFF;  outline: none;  font-size: 16px;}dp-calendar-nav.dp-material .dp-nav-header-btn {  height: 20px;  width: 80px;  border: none;  background: #FFFFFF;  outline: none;}dp-calendar-nav.dp-material .dp-nav-header-btn:hover {  background: rgba(0, 0, 0, 0.05);}dp-calendar-nav.dp-material .dp-nav-header-btn:active {  background: rgba(0, 0, 0, 0.1);}'],
+                encapsulation: core_1.ViewEncapsulation.None
+            },] },
+];
+/** @nocollapse */
+CalendarNavComponent.ctorParameters = function () { return []; };
+CalendarNavComponent.propDecorators = {
+    'onLeftNav': [{ type: core_1.Output },],
+    'onLeftSecondaryNav': [{ type: core_1.Output },],
+    'onRightNav': [{ type: core_1.Output },],
+    'onRightSecondaryNav': [{ type: core_1.Output },],
+    'onLabelClick': [{ type: core_1.Output },],
+    'label': [{ type: core_1.Input },],
+    'isLabelClickable': [{ type: core_1.Input },],
+    'showLeftNav': [{ type: core_1.Input },],
+    'showLeftSecondaryNav': [{ type: core_1.Input },],
+    'showRightNav': [{ type: core_1.Input },],
+    'showRightSecondaryNav': [{ type: core_1.Input },],
+    'leftNavDisabled': [{ type: core_1.Input },],
+    'leftSecondaryNavDisabled': [{ type: core_1.Input },],
+    'rightNavDisabled': [{ type: core_1.Input },],
+    'rightSecondaryNavDisabled': [{ type: core_1.Input },],
+    'theme': [{ type: core_1.HostBinding, args: ['class',] }, { type: core_1.Input },],
+};
+exports.CalendarNavComponent = CalendarNavComponent;
+//# sourceMappingURL=calendar-nav.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/common/services/dom-appender/dom-appender.service.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var DomHelper = (function () {
+    function DomHelper() {
+    }
+    DomHelper.setYAxisPosition = function (element, container, anchor, drops) {
+        var anchorRect = anchor.getBoundingClientRect();
+        var containerRect = container.getBoundingClientRect();
+        var bottom = anchorRect.bottom - containerRect.top;
+        var top = anchorRect.top - containerRect.top;
+        if (drops === 'down') {
+            element.style.top = (bottom + 1 + 'px');
+        }
+        else {
+            element.style.top = (top - 1 - element.scrollHeight) + 'px';
+        }
+    };
+    DomHelper.setXAxisPosition = function (element, container, anchor, dimElem, opens) {
+        var anchorRect = anchor.getBoundingClientRect();
+        var containerRect = container.getBoundingClientRect();
+        var left = anchorRect.left - containerRect.left;
+        if (opens === 'right') {
+            element.style.left = left + 'px';
+        }
+        else {
+            element.style.left = left - dimElem.offsetWidth + anchor.offsetWidth + 'px';
+        }
+    };
+    DomHelper.isTopInView = function (el) {
+        var top = el.getBoundingClientRect().top;
+        return (top >= 0);
+    };
+    DomHelper.isBottomInView = function (el) {
+        var bottom = el.getBoundingClientRect().bottom;
+        return (bottom <= window.innerHeight);
+    };
+    DomHelper.isLeftInView = function (el) {
+        var left = el.getBoundingClientRect().left;
+        return (left >= 0);
+    };
+    DomHelper.isRightInView = function (el) {
+        var right = el.getBoundingClientRect().right;
+        return (right <= window.innerWidth);
+    };
+    DomHelper.prototype.appendElementToPosition = function (config) {
+        var _this = this;
+        var container = config.container, element = config.element;
+        if (!container.style.position || container.style.position === 'static') {
+            container.style.position = 'relative';
+        }
+        if (element.style.position !== 'absolute') {
+            element.style.position = 'absolute';
+        }
+        element.style.visibility = 'hidden';
+        setTimeout(function () {
+            _this.setElementPosition(config);
+            element.style.visibility = 'visible';
+        });
+    };
+    DomHelper.prototype.setElementPosition = function (_a) {
+        var element = _a.element, container = _a.container, anchor = _a.anchor, dimElem = _a.dimElem, drops = _a.drops, opens = _a.opens;
+        DomHelper.setYAxisPosition(element, container, anchor, drops);
+        DomHelper.setXAxisPosition(element, container, anchor, dimElem, opens);
+        if (drops === 'down' && !DomHelper.isBottomInView(dimElem)) {
+            DomHelper.setYAxisPosition(element, container, anchor, 'up');
+        }
+        if (drops === 'up' && !DomHelper.isTopInView(dimElem)) {
+            DomHelper.setYAxisPosition(element, container, anchor, 'down');
+        }
+        if (opens === 'right' && !DomHelper.isRightInView(dimElem)) {
+            DomHelper.setXAxisPosition(element, container, anchor, dimElem, 'left');
+        }
+        if (opens === 'left' && !DomHelper.isLeftInView(dimElem)) {
+            DomHelper.setXAxisPosition(element, container, anchor, dimElem, 'right');
+        }
+    };
+    return DomHelper;
+}());
+DomHelper.decorators = [
+    { type: core_1.Injectable },
+];
+/** @nocollapse */
+DomHelper.ctorParameters = function () { return []; };
+exports.DomHelper = DomHelper;
+//# sourceMappingURL=dom-appender.service.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/common/services/utils/utils.service.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var calendar_value_enum_1 = __webpack_require__("../../../../ng2-date-picker/common/types/calendar-value-enum.js");
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var moment = __webpack_require__("../../../../moment/moment.js");
+var UtilsService = (function () {
+    function UtilsService() {
+    }
+    UtilsService.debounce = function (func, wait) {
+        var timeout;
+        return function () {
+            var context = this, args = arguments;
+            timeout = clearTimeout(timeout);
+            setTimeout(function () {
+                func.apply(context, args);
+            }, wait);
+        };
+    };
+    ;
+    UtilsService.prototype.createArray = function (size) {
+        return new Array(size).fill(1);
+    };
+    UtilsService.prototype.convertToMoment = function (date, format) {
+        var retVal;
+        if (!date) {
+            return null;
+        }
+        else if (typeof date === 'string') {
+            retVal = moment(date, format);
+        }
+        else {
+            retVal = date;
+        }
+        return retVal;
+    };
+    UtilsService.prototype.isDateValid = function (date, format) {
+        if (date === '') {
+            return true;
+        }
+        return moment(date, format, true).isValid();
+    };
+    // todo:: add unit test
+    UtilsService.prototype.getDefaultDisplayDate = function (def, selected, allowMultiSelect) {
+        if (def) {
+            return def.clone();
+        }
+        else if (allowMultiSelect) {
+            if (selected && selected[selected.length]) {
+                return selected[selected.length].clone();
+            }
+        }
+        else if (selected && selected[0]) {
+            return selected[0].clone();
+        }
+        return moment();
+    };
+    // todo:: add unit test
+    UtilsService.prototype.getInputType = function (value, allowMultiSelect) {
+        if (Array.isArray(value)) {
+            if (!value.length) {
+                return calendar_value_enum_1.ECalendarValue.MomentArr;
+            }
+            else if (typeof value[0] === 'string') {
+                return calendar_value_enum_1.ECalendarValue.StringArr;
+            }
+            else if (moment.isMoment(value[0])) {
+                return calendar_value_enum_1.ECalendarValue.MomentArr;
+            }
+        }
+        else {
+            if (typeof value === 'string') {
+                return calendar_value_enum_1.ECalendarValue.String;
+            }
+            else if (moment.isMoment(value)) {
+                return calendar_value_enum_1.ECalendarValue.Moment;
+            }
+        }
+        return allowMultiSelect ? calendar_value_enum_1.ECalendarValue.MomentArr : calendar_value_enum_1.ECalendarValue.Moment;
+    };
+    // todo:: add unit test
+    UtilsService.prototype.convertToMomentArray = function (value, format, allowMultiSelect) {
+        switch (this.getInputType(value, allowMultiSelect)) {
+            case (calendar_value_enum_1.ECalendarValue.String):
+                return value ? [moment(value, format)] : [];
+            case (calendar_value_enum_1.ECalendarValue.StringArr):
+                return value.map(function (v) { return v ? moment(v, format) : null; }).filter(Boolean);
+            case (calendar_value_enum_1.ECalendarValue.Moment):
+                return [value];
+            case (calendar_value_enum_1.ECalendarValue.MomentArr):
+                return [].concat(value);
+            default:
+                return [];
+        }
+    };
+    // todo:: add unit test
+    UtilsService.prototype.convertFromMomentArray = function (format, value, inputValueType) {
+        switch (inputValueType) {
+            case (calendar_value_enum_1.ECalendarValue.String):
+                return value[0].format(format);
+            case (calendar_value_enum_1.ECalendarValue.StringArr):
+                return value.map(function (v) { return v.format(format); });
+            case (calendar_value_enum_1.ECalendarValue.Moment):
+                return value[0];
+            case (calendar_value_enum_1.ECalendarValue.MomentArr):
+                return value;
+            default:
+                return value;
+        }
+    };
+    // todo:: add unit test
+    UtilsService.prototype.clearUndefined = function (obj) {
+        if (!obj) {
+            return obj;
+        }
+        Object.keys(obj).forEach(function (key) { return (obj[key] === undefined) && delete obj[key]; });
+        return obj;
+    };
+    // todo:: add unit test
+    UtilsService.prototype.compareMomentArrays = function (arr1, arr2, granularity) {
+        if (arr1.length !== arr2.length) {
+            return false;
+        }
+        var sortArr1 = arr1.sort(function (a, b) { return a.diff(b); });
+        var sortArr2 = arr1.sort(function (a, b) { return a.diff(b); });
+        for (var i = 0; i < sortArr1.length; i++) {
+            if (!sortArr1[i].isSame(sortArr2, granularity)) {
+                return false;
+            }
+        }
+        return true;
+    };
+    UtilsService.prototype.updateSelected = function (isMultiple, currentlySelected, date, granularity) {
+        if (granularity === void 0) { granularity = 'day'; }
+        var isSelected = !date.selected;
+        if (isMultiple) {
+            return isSelected
+                ? currentlySelected.concat([date.date])
+                : currentlySelected.filter(function (d) { return !d.isSame(date.date, granularity); });
+        }
+        else {
+            return isSelected ? [date.date] : [];
+        }
+    };
+    UtilsService.prototype.closestParent = function (element, selector) {
+        if (!element) {
+            return undefined;
+        }
+        var match = element.querySelector(selector);
+        return match || this.closestParent(element.parentElement, selector);
+    };
+    UtilsService.prototype.onlyTime = function (m) {
+        return m && moment(m.format('HH:mm:ss'), 'HH:mm:ss');
+    };
+    UtilsService.prototype.granularityFromType = function (calendarType) {
+        switch (calendarType) {
+            case 'time':
+                return 'second';
+            case 'daytime':
+                return 'second';
+            default:
+                return calendarType;
+        }
+    };
+    UtilsService.prototype.createValidator = function (_a, format, calendarType) {
+        var _this = this;
+        var minDate = _a.minDate, maxDate = _a.maxDate, minTime = _a.minTime, maxTime = _a.maxTime;
+        var isValid;
+        var value;
+        var validators = [];
+        var granularity = this.granularityFromType(calendarType);
+        if (minDate) {
+            var md_1 = this.convertToMoment(minDate, format);
+            validators.push({
+                key: 'minDate',
+                isValid: function () {
+                    var _isValid = value.every(function (val) { return val.isSameOrAfter(md_1, granularity); });
+                    isValid = isValid ? _isValid : false;
+                    return _isValid;
+                }
+            });
+        }
+        if (maxDate) {
+            var md_2 = this.convertToMoment(maxDate, format);
+            validators.push({
+                key: 'maxDate',
+                isValid: function () {
+                    var _isValid = value.every(function (val) { return val.isSameOrBefore(md_2, granularity); });
+                    isValid = isValid ? _isValid : false;
+                    return _isValid;
+                }
+            });
+        }
+        if (minTime) {
+            var md_3 = this.onlyTime(this.convertToMoment(minTime, format));
+            validators.push({
+                key: 'minTime',
+                isValid: function () {
+                    var _isValid = value.every(function (val) { return _this.onlyTime(val).isSameOrAfter(md_3); });
+                    isValid = isValid ? _isValid : false;
+                    return _isValid;
+                }
+            });
+        }
+        if (maxTime) {
+            var md_4 = this.onlyTime(this.convertToMoment(maxTime, format));
+            validators.push({
+                key: 'maxTime',
+                isValid: function () {
+                    var _isValid = value.every(function (val) { return _this.onlyTime(val).isSameOrBefore(md_4); });
+                    isValid = isValid ? _isValid : false;
+                    return _isValid;
+                }
+            });
+        }
+        return function (inputVal) {
+            isValid = true;
+            value = _this.convertToMomentArray(inputVal, format, true).filter(Boolean);
+            if (!value.every(function (val) { return val.isValid(); })) {
+                return {
+                    format: {
+                        given: inputVal
+                    }
+                };
+            }
+            var errors = validators.reduce(function (map, err) {
+                if (!err.isValid()) {
+                    map[err.key] = {
+                        given: value
+                    };
+                }
+                return map;
+            }, {});
+            return !isValid ? errors : null;
+        };
+    };
+    return UtilsService;
+}());
+UtilsService.decorators = [
+    { type: core_1.Injectable },
+];
+/** @nocollapse */
+UtilsService.ctorParameters = function () { return []; };
+exports.UtilsService = UtilsService;
+//# sourceMappingURL=utils.service.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/common/types/calendar-mode-enum.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var ECalendarMode;
+(function (ECalendarMode) {
+    ECalendarMode[ECalendarMode["Day"] = 0] = "Day";
+    ECalendarMode[ECalendarMode["DayTime"] = 1] = "DayTime";
+    ECalendarMode[ECalendarMode["Month"] = 2] = "Month";
+    ECalendarMode[ECalendarMode["Time"] = 3] = "Time";
+})(ECalendarMode = exports.ECalendarMode || (exports.ECalendarMode = {}));
+//# sourceMappingURL=calendar-mode-enum.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/common/types/calendar-value-enum.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var ECalendarValue;
+(function (ECalendarValue) {
+    ECalendarValue[ECalendarValue["Moment"] = 0] = "Moment";
+    ECalendarValue[ECalendarValue["MomentArr"] = 1] = "MomentArr";
+    ECalendarValue[ECalendarValue["String"] = 2] = "String";
+    ECalendarValue[ECalendarValue["StringArr"] = 3] = "StringArr";
+})(ECalendarValue = exports.ECalendarValue || (exports.ECalendarValue = {}));
+//# sourceMappingURL=calendar-value-enum.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/date-picker.module.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var forms_1 = __webpack_require__("../../../forms/@angular/forms.es5.js");
+var common_1 = __webpack_require__("../../../common/@angular/common.es5.js");
+var dom_appender_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/dom-appender/dom-appender.service.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var date_picker_component_1 = __webpack_require__("../../../../ng2-date-picker/date-picker/date-picker.component.js");
+var date_picker_directive_1 = __webpack_require__("../../../../ng2-date-picker/date-picker/date-picker.directive.js");
+var day_calendar_component_1 = __webpack_require__("../../../../ng2-date-picker/day-calendar/day-calendar.component.js");
+var month_calendar_component_1 = __webpack_require__("../../../../ng2-date-picker/month-calendar/month-calendar.component.js");
+var time_select_component_1 = __webpack_require__("../../../../ng2-date-picker/time-select/time-select.component.js");
+var calendar_nav_component_1 = __webpack_require__("../../../../ng2-date-picker/calendar-nav/calendar-nav.component.js");
+var day_time_calendar_component_1 = __webpack_require__("../../../../ng2-date-picker/day-time-calendar/day-time-calendar.component.js");
+var date_picker_component_2 = __webpack_require__("../../../../ng2-date-picker/date-picker/date-picker.component.js");
+exports.DatePickerComponent = date_picker_component_2.DatePickerComponent;
+var date_picker_directive_2 = __webpack_require__("../../../../ng2-date-picker/date-picker/date-picker.directive.js");
+exports.DatePickerDirective = date_picker_directive_2.DatePickerDirective;
+var day_calendar_component_2 = __webpack_require__("../../../../ng2-date-picker/day-calendar/day-calendar.component.js");
+exports.DayCalendarComponent = day_calendar_component_2.DayCalendarComponent;
+var day_time_calendar_component_2 = __webpack_require__("../../../../ng2-date-picker/day-time-calendar/day-time-calendar.component.js");
+exports.DayTimeCalendarComponent = day_time_calendar_component_2.DayTimeCalendarComponent;
+var time_select_component_2 = __webpack_require__("../../../../ng2-date-picker/time-select/time-select.component.js");
+exports.TimeSelectComponent = time_select_component_2.TimeSelectComponent;
+var month_calendar_component_2 = __webpack_require__("../../../../ng2-date-picker/month-calendar/month-calendar.component.js");
+exports.MonthCalendarComponent = month_calendar_component_2.MonthCalendarComponent;
+var DpDatePickerModule = (function () {
+    function DpDatePickerModule() {
+    }
+    return DpDatePickerModule;
+}());
+DpDatePickerModule.decorators = [
+    { type: core_1.NgModule, args: [{
+                providers: [
+                    dom_appender_service_1.DomHelper,
+                    utils_service_1.UtilsService
+                ],
+                declarations: [
+                    date_picker_component_1.DatePickerComponent,
+                    date_picker_directive_1.DatePickerDirective,
+                    day_calendar_component_1.DayCalendarComponent,
+                    month_calendar_component_1.MonthCalendarComponent,
+                    calendar_nav_component_1.CalendarNavComponent,
+                    time_select_component_1.TimeSelectComponent,
+                    day_time_calendar_component_1.DayTimeCalendarComponent
+                ],
+                entryComponents: [
+                    date_picker_component_1.DatePickerComponent
+                ],
+                imports: [
+                    common_1.CommonModule,
+                    forms_1.FormsModule
+                ],
+                exports: [
+                    date_picker_component_1.DatePickerComponent,
+                    date_picker_directive_1.DatePickerDirective,
+                    month_calendar_component_1.MonthCalendarComponent,
+                    day_calendar_component_1.DayCalendarComponent,
+                    time_select_component_1.TimeSelectComponent,
+                    day_time_calendar_component_1.DayTimeCalendarComponent
+                ]
+            },] },
+];
+/** @nocollapse */
+DpDatePickerModule.ctorParameters = function () { return []; };
+exports.DpDatePickerModule = DpDatePickerModule;
+//# sourceMappingURL=date-picker.module.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/date-picker/date-picker-directive.service.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var DatePickerDirectiveService = (function () {
+    function DatePickerDirectiveService(utilsService) {
+        this.utilsService = utilsService;
+    }
+    DatePickerDirectiveService.prototype.convertToHTMLElement = function (attachTo, baseElement) {
+        if (typeof attachTo === 'string') {
+            return this.utilsService.closestParent(baseElement, attachTo);
+        }
+        else if (attachTo) {
+            return attachTo.nativeElement;
+        }
+        return undefined;
+    };
+    DatePickerDirectiveService.prototype.getConfig = function (config, baseElement, attachTo) {
+        if (config === void 0) { config = {}; }
+        var _config = __assign({}, config);
+        _config.hideInputContainer = true;
+        if (baseElement) {
+            _config.inputElementContainer = attachTo
+                ? this.convertToHTMLElement(attachTo, baseElement.nativeElement)
+                : baseElement.nativeElement;
+        }
+        return _config;
+    };
+    return DatePickerDirectiveService;
+}());
+DatePickerDirectiveService.decorators = [
+    { type: core_1.Injectable },
+];
+/** @nocollapse */
+DatePickerDirectiveService.ctorParameters = function () { return [
+    { type: utils_service_1.UtilsService, },
+]; };
+exports.DatePickerDirectiveService = DatePickerDirectiveService;
+//# sourceMappingURL=date-picker-directive.service.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/date-picker/date-picker.component.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var dom_appender_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/dom-appender/dom-appender.service.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var calendar_mode_enum_1 = __webpack_require__("../../../../ng2-date-picker/common/types/calendar-mode-enum.js");
+var calendar_value_enum_1 = __webpack_require__("../../../../ng2-date-picker/common/types/calendar-value-enum.js");
+var day_calendar_service_1 = __webpack_require__("../../../../ng2-date-picker/day-calendar/day-calendar.service.js");
+var day_time_calendar_service_1 = __webpack_require__("../../../../ng2-date-picker/day-time-calendar/day-time-calendar.service.js");
+var time_select_service_1 = __webpack_require__("../../../../ng2-date-picker/time-select/time-select.service.js");
+var date_picker_service_1 = __webpack_require__("../../../../ng2-date-picker/date-picker/date-picker.service.js");
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var forms_1 = __webpack_require__("../../../forms/@angular/forms.es5.js");
+var moment = __webpack_require__("../../../../moment/moment.js");
+var DatePickerComponent = (function () {
+    function DatePickerComponent(dayPickerService, domHelper, elemRef, renderer, utilsService) {
+        this.dayPickerService = dayPickerService;
+        this.domHelper = domHelper;
+        this.elemRef = elemRef;
+        this.renderer = renderer;
+        this.utilsService = utilsService;
+        this.isInitialized = false;
+        this.mode = 'day';
+        this.placeholder = '';
+        this.disabled = false;
+        this.open = new core_1.EventEmitter();
+        this.close = new core_1.EventEmitter();
+        this._areCalendarsShown = false;
+        this.hideStateHelper = false;
+        this._selected = [];
+        this.isFocusedTrigger = false;
+        this.handleInnerElementClickUnlisteners = [];
+        this.globalListnersUnlisteners = [];
+        this.api = {
+            open: this.showCalendars.bind(this),
+            close: this.hideCalendar.bind(this)
+        };
+    }
+    Object.defineProperty(DatePickerComponent.prototype, "selected", {
+        get: function () {
+            return this._selected;
+        },
+        set: function (selected) {
+            this._selected = selected;
+            this.inputElementValue = this.utilsService
+                .convertFromMomentArray(this.componentConfig.format, selected, calendar_value_enum_1.ECalendarValue.StringArr)
+                .join(', ');
+            this.onChangeCallback(this.processOnChangeCallback(selected));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DatePickerComponent.prototype, "areCalendarsShown", {
+        get: function () {
+            return this._areCalendarsShown;
+        },
+        set: function (value) {
+            if (value) {
+                this.startGlobalListeners();
+                this.domHelper.appendElementToPosition({
+                    container: this.appendToElement,
+                    element: this.calendarWrapper,
+                    anchor: this.inputElementContainer,
+                    dimElem: this.popupElem,
+                    drops: this.componentConfig.drops,
+                    opens: this.componentConfig.opens
+                });
+            }
+            else {
+                this.stopGlobalListeners();
+                this.dayPickerService.pickerClosed();
+            }
+            this._areCalendarsShown = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DatePickerComponent.prototype.onClick = function () {
+        if (!this.isFocusedTrigger && !this.disabled) {
+            this.hideStateHelper = true;
+            if (!this.areCalendarsShown) {
+                this.showCalendars();
+            }
+        }
+    };
+    DatePickerComponent.prototype.onBodyClick = function () {
+        if (!this.hideStateHelper && this.areCalendarsShown) {
+            this.hideCalendar();
+        }
+        this.hideStateHelper = false;
+    };
+    DatePickerComponent.prototype.onScroll = function () {
+        if (this.areCalendarsShown) {
+            this.domHelper.setElementPosition({
+                container: this.appendToElement,
+                element: this.calendarWrapper,
+                anchor: this.inputElementContainer,
+                dimElem: this.popupElem,
+                drops: this.componentConfig.drops,
+                opens: this.componentConfig.opens
+            });
+        }
+    };
+    DatePickerComponent.prototype.writeValue = function (value) {
+        this.inputValue = value;
+        if (value) {
+            this.selected = this.utilsService
+                .convertToMomentArray(value, this.componentConfig.format, this.componentConfig.allowMultiSelect);
+            this.init();
+        }
+        else {
+            this.selected = [];
+        }
+    };
+    DatePickerComponent.prototype.registerOnChange = function (fn) {
+        this.onChangeCallback = fn;
+    };
+    DatePickerComponent.prototype.onChangeCallback = function (_) {
+    };
+    ;
+    DatePickerComponent.prototype.registerOnTouched = function (fn) {
+    };
+    DatePickerComponent.prototype.validate = function (formControl) {
+        if (this.minDate || this.maxDate || this.minTime || this.maxTime) {
+            return this.validateFn(formControl.value);
+        }
+        else {
+            return function () { return null; };
+        }
+    };
+    DatePickerComponent.prototype.processOnChangeCallback = function (selected) {
+        return this.utilsService.convertFromMomentArray(this.componentConfig.format, selected, this.inputValueType);
+    };
+    DatePickerComponent.prototype.initValidators = function () {
+        this.validateFn = this.utilsService.createValidator({
+            minDate: this.minDate,
+            maxDate: this.maxDate,
+            minTime: this.minTime,
+            maxTime: this.maxTime
+        }, this.componentConfig.format, this.mode);
+        this.onChangeCallback(this.processOnChangeCallback(this.selected));
+    };
+    DatePickerComponent.prototype.ngOnInit = function () {
+        this.isInitialized = true;
+        this.init();
+        this.initValidators();
+    };
+    DatePickerComponent.prototype.ngOnChanges = function (changes) {
+        if (this.isInitialized) {
+            var minDate = changes.minDate, maxDate = changes.maxDate, minTime = changes.minTime, maxTime = changes.maxTime;
+            this.init();
+            if (minDate || maxDate || minTime || maxTime) {
+                this.initValidators();
+            }
+        }
+    };
+    DatePickerComponent.prototype.ngAfterViewInit = function () {
+        this.setElementPositionInDom();
+    };
+    DatePickerComponent.prototype.setDisabledState = function (isDisabled) {
+        this.disabled = isDisabled;
+    };
+    DatePickerComponent.prototype.setElementPositionInDom = function () {
+        this.calendarWrapper = this.calendarContainer.nativeElement;
+        this.setInputElementContainer();
+        this.popupElem = this.elemRef.nativeElement.querySelector('.dp-popup');
+        this.handleInnerElementClick(this.popupElem);
+        var appendTo = this.componentConfig.appendTo;
+        if (appendTo) {
+            if (typeof appendTo === 'string') {
+                this.appendToElement = document.querySelector(appendTo);
+            }
+            else {
+                this.appendToElement = appendTo;
+            }
+        }
+        else {
+            this.appendToElement = this.elemRef.nativeElement;
+        }
+        this.appendToElement.appendChild(this.calendarWrapper);
+    };
+    DatePickerComponent.prototype.setInputElementContainer = function () {
+        this.inputElementContainer = this.componentConfig.inputElementContainer
+            || this.elemRef.nativeElement.querySelector('.dp-input-container')
+            || document.body;
+    };
+    DatePickerComponent.prototype.handleInnerElementClick = function (element) {
+        var _this = this;
+        this.handleInnerElementClickUnlisteners.push(this.renderer.listen(element, 'click', function () {
+            _this.hideStateHelper = true;
+        }));
+    };
+    DatePickerComponent.prototype.init = function () {
+        this.componentConfig = this.dayPickerService.getConfig(this.config, this.mode);
+        this.currentDateView = this.displayDate
+            ? this.utilsService.convertToMoment(this.displayDate, this.componentConfig.format).clone()
+            : this.utilsService
+                .getDefaultDisplayDate(this.currentDateView, this.selected, this.componentConfig.allowMultiSelect);
+        this.inputValueType = this.utilsService.getInputType(this.inputValue, this.componentConfig.allowMultiSelect);
+        this.dayCalendarConfig = this.dayPickerService.getDayConfigService(this.componentConfig);
+        this.dayTimeCalendarConfig = this.dayPickerService.getDayTimeConfigService(this.componentConfig);
+        this.timeSelectConfig = this.dayPickerService.getTimeConfigService(this.componentConfig);
+    };
+    DatePickerComponent.prototype.inputFocused = function () {
+        var _this = this;
+        this.isFocusedTrigger = true;
+        setTimeout(function () {
+            _this.hideStateHelper = false;
+            if (!_this.areCalendarsShown) {
+                _this.showCalendars();
+            }
+            _this.isFocusedTrigger = false;
+        }, this.componentConfig.onOpenDelay);
+    };
+    DatePickerComponent.prototype.showCalendars = function () {
+        this.hideStateHelper = true;
+        this.areCalendarsShown = true;
+        if (this.timeSelectRef) {
+            this.timeSelectRef.api.triggerChange();
+        }
+        this.open.emit();
+    };
+    DatePickerComponent.prototype.hideCalendar = function () {
+        this.areCalendarsShown = false;
+        if (this.dayCalendarRef) {
+            this.dayCalendarRef.api.toggleCalendar(calendar_mode_enum_1.ECalendarMode.Day);
+        }
+        this.close.emit();
+    };
+    DatePickerComponent.prototype.onViewDateChange = function (value) {
+        if (this.dayPickerService.isValidInputDateValue(value, this.componentConfig)) {
+            this.selected = this.dayPickerService.convertInputValueToMomentArray(value, this.componentConfig);
+            this.currentDateView = this.selected.length
+                ? this.utilsService.getDefaultDisplayDate(null, this.selected, this.componentConfig.allowMultiSelect)
+                : this.currentDateView;
+        }
+    };
+    DatePickerComponent.prototype.shouldShowGoToCurrent = function () {
+        return this.componentConfig.showGoToCurrent && this.mode !== 'time';
+    };
+    DatePickerComponent.prototype.moveToCurrent = function () {
+        this.currentDateView = moment();
+    };
+    DatePickerComponent.prototype.dateSelected = function (date, granularity, ignoreClose) {
+        this.selected = this.utilsService
+            .updateSelected(this.componentConfig.allowMultiSelect, this.selected, date, granularity);
+        if (!ignoreClose) {
+            this.onDateClick();
+        }
+    };
+    DatePickerComponent.prototype.onDateClick = function () {
+        if (this.componentConfig.closeOnSelect) {
+            setTimeout(this.hideCalendar.bind(this), this.componentConfig.closeOnSelectDelay);
+        }
+    };
+    DatePickerComponent.prototype.onKeyPress = function (event) {
+        switch (event.keyCode) {
+            case (9):
+            case (27):
+                this.hideCalendar();
+                break;
+        }
+    };
+    DatePickerComponent.prototype.startGlobalListeners = function () {
+        var _this = this;
+        this.globalListnersUnlisteners.push(this.renderer.listen(document, 'keydown', function (e) {
+            _this.onKeyPress(e);
+        }));
+    };
+    DatePickerComponent.prototype.stopGlobalListeners = function () {
+        this.globalListnersUnlisteners.forEach(function (ul) { return ul(); });
+        this.globalListnersUnlisteners = [];
+    };
+    DatePickerComponent.prototype.ngOnDestroy = function () {
+        this.handleInnerElementClickUnlisteners.forEach(function (ul) { return ul(); });
+        this.appendToElement.removeChild(this.calendarWrapper);
+    };
+    return DatePickerComponent;
+}());
+DatePickerComponent.decorators = [
+    { type: core_1.Component, args: [{
+                selector: 'dp-date-picker',
+                template: '<div [ngClass]="{\'dp-open\': areCalendarsShown}">   <div *ngIf="!componentConfig.hideInputContainer" class="dp-input-container">     <input type="text"            class="dp-picker-input"            [placeholder]="placeholder"            [ngModel]="inputElementValue"            (ngModelChange)="onViewDateChange($event)"            (focus)="inputFocused()"            [readonly]="componentConfig.disableKeypress"            [disabled]="disabled"/>      <button type="button"             class="dp-current-location-btn"             *ngIf="shouldShowGoToCurrent()"             (click)="moveToCurrent()"             [hidden]="!_areCalendarsShown">     </button>   </div>   <div #container>     <div class="dp-popup {{theme}}"          [ngSwitch]="mode"          [hidden]="!_areCalendarsShown">       <dp-day-calendar #dayCalendar                        *ngSwitchCase="\'day\'"                        [config]="dayCalendarConfig"                        [ngModel]="_selected"                        [displayDate]="currentDateView"                        (onSelect)="dateSelected($event, \'day\')"                        [theme]="theme">       </dp-day-calendar>        <dp-month-calendar #monthCalendar                          *ngSwitchCase="\'month\'"                          [config]="dayCalendarConfig"                          [ngModel]="_selected"                          [displayDate]="currentDateView"                          (onSelect)="dateSelected($event, \'month\')"                          [theme]="theme">       </dp-month-calendar>        <dp-time-select #timeSelect                       *ngSwitchCase="\'time\'"                       [config]="timeSelectConfig"                       [ngModel]="_selected && _selected[0]"                       (onChange)="dateSelected($event, \'second\', true)"                       [theme]="theme">       </dp-time-select>        <dp-day-time-calendar #daytimeCalendar                             *ngSwitchCase="\'daytime\'"                             [config]="dayTimeCalendarConfig"                             [displayDate]="currentDateView"                             [ngModel]="_selected && _selected[0]"                             (onChange)="dateSelected($event, \'second\', true)"                             [theme]="theme">       </dp-day-time-calendar>     </div>   </div> </div> ',
+                styles: ['dp-date-picker {  display: inline-block;}dp-date-picker.dp-material .dp-picker-input {  box-sizing: border-box;  height: 30px;  width: 213px;  font-size: 13px;  outline: none;}dp-date-picker.dp-material .dp-current-location-btn {  top: calc(50% - 9px);  right: 5px;  height: 18px;  width: 18px;  border: 2px solid rgba(0, 0, 0, 0.6);}dp-date-picker .dp-input-container {  position: relative;}dp-date-picker .dp-selected {  background: #106CC8;  color: #FFFFFF;}dp-date-picker .dp-current-location-btn {  position: absolute;  top: calc(50% - 7px);  right: 5px;  height: 14px;  width: 13px;  background: rgba(0, 0, 0, 0.6);  border: 1px solid rgba(0, 0, 0, 0.6);  outline: none;  border-radius: 50%;  box-shadow: inset 0 0 0 3px #FFFFFF;  cursor: pointer;}dp-date-picker .dp-current-location-btn:hover {  background: #000000;}.dp-popup {  position: relative;  background: #FFFFFF;  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.1);  border-left: 1px solid rgba(0, 0, 0, 0.1);  border-right: 1px solid rgba(0, 0, 0, 0.1);  border-bottom: 1px solid rgba(0, 0, 0, 0.1);  z-index: 9999;  white-space: nowrap;}'],
+                encapsulation: core_1.ViewEncapsulation.None,
+                providers: [
+                    date_picker_service_1.DatePickerService,
+                    day_time_calendar_service_1.DayTimeCalendarService,
+                    day_calendar_service_1.DayCalendarService,
+                    time_select_service_1.TimeSelectService,
+                    {
+                        provide: forms_1.NG_VALUE_ACCESSOR,
+                        useExisting: core_1.forwardRef(function () { return DatePickerComponent; }),
+                        multi: true
+                    },
+                    {
+                        provide: forms_1.NG_VALIDATORS,
+                        useExisting: core_1.forwardRef(function () { return DatePickerComponent; }),
+                        multi: true
+                    }
+                ]
+            },] },
+];
+/** @nocollapse */
+DatePickerComponent.ctorParameters = function () { return [
+    { type: date_picker_service_1.DatePickerService, },
+    { type: dom_appender_service_1.DomHelper, },
+    { type: core_1.ElementRef, },
+    { type: core_1.Renderer, },
+    { type: utils_service_1.UtilsService, },
+]; };
+DatePickerComponent.propDecorators = {
+    'config': [{ type: core_1.Input },],
+    'mode': [{ type: core_1.Input },],
+    'placeholder': [{ type: core_1.Input },],
+    'disabled': [{ type: core_1.Input },],
+    'displayDate': [{ type: core_1.Input },],
+    'theme': [{ type: core_1.HostBinding, args: ['class',] }, { type: core_1.Input },],
+    'minDate': [{ type: core_1.Input },],
+    'maxDate': [{ type: core_1.Input },],
+    'minTime': [{ type: core_1.Input },],
+    'maxTime': [{ type: core_1.Input },],
+    'open': [{ type: core_1.Output },],
+    'close': [{ type: core_1.Output },],
+    'calendarContainer': [{ type: core_1.ViewChild, args: ['container',] },],
+    'dayCalendarRef': [{ type: core_1.ViewChild, args: ['dayCalendar',] },],
+    'monthCalendarRef': [{ type: core_1.ViewChild, args: ['monthCalendar',] },],
+    'timeSelectRef': [{ type: core_1.ViewChild, args: ['timeSelect',] },],
+    'onClick': [{ type: core_1.HostListener, args: ['click',] },],
+    'onBodyClick': [{ type: core_1.HostListener, args: ['document:click',] },],
+    'onScroll': [{ type: core_1.HostListener, args: ['document:scroll',] }, { type: core_1.HostListener, args: ['window:resize',] },],
+};
+exports.DatePickerComponent = DatePickerComponent;
+//# sourceMappingURL=date-picker.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/date-picker/date-picker.directive.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var date_picker_directive_service_1 = __webpack_require__("../../../../ng2-date-picker/date-picker/date-picker-directive.service.js");
+var date_picker_component_1 = __webpack_require__("../../../../ng2-date-picker/date-picker/date-picker.component.js");
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var forms_1 = __webpack_require__("../../../forms/@angular/forms.es5.js");
+var DatePickerDirective = (function () {
+    function DatePickerDirective(viewContainerRef, componentFactoryResolver, formControl, service) {
+        this.viewContainerRef = viewContainerRef;
+        this.componentFactoryResolver = componentFactoryResolver;
+        this.formControl = formControl;
+        this.service = service;
+        this._mode = 'day';
+        this.firstChange = true;
+        this.open = new core_1.EventEmitter();
+        this.close = new core_1.EventEmitter();
+    }
+    Object.defineProperty(DatePickerDirective.prototype, "config", {
+        get: function () {
+            return this._config;
+        },
+        set: function (config) {
+            this._config = this.service.getConfig(config, this.viewContainerRef.element, this.attachTo);
+            this.updateDatepickerConfig();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DatePickerDirective.prototype, "attachTo", {
+        get: function () {
+            return this._attachTo;
+        },
+        set: function (attachTo) {
+            this._attachTo = attachTo;
+            this._config = this.service.getConfig(this.config, this.viewContainerRef.element, this.attachTo);
+            this.updateDatepickerConfig();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DatePickerDirective.prototype, "theme", {
+        get: function () {
+            return this._theme;
+        },
+        set: function (theme) {
+            this._theme = theme;
+            if (this.datePicker) {
+                this.datePicker.theme = theme;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DatePickerDirective.prototype, "mode", {
+        get: function () {
+            return this._mode;
+        },
+        set: function (mode) {
+            this._mode = mode;
+            if (this.datePicker) {
+                this.datePicker.mode = mode;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DatePickerDirective.prototype, "minDate", {
+        get: function () {
+            return this._minDate;
+        },
+        set: function (minDate) {
+            this._minDate = minDate;
+            if (this.datePicker) {
+                this.datePicker.minDate = minDate;
+                this.datePicker.ngOnInit();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DatePickerDirective.prototype, "maxDate", {
+        get: function () {
+            return this._maxDate;
+        },
+        set: function (maxDate) {
+            this._maxDate = maxDate;
+            if (this.datePicker) {
+                this.datePicker.maxDate = maxDate;
+                this.datePicker.ngOnInit();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DatePickerDirective.prototype, "minTime", {
+        get: function () {
+            return this._minTime;
+        },
+        set: function (minTime) {
+            this._minTime = minTime;
+            if (this.datePicker) {
+                this.datePicker.minTime = minTime;
+                this.datePicker.ngOnInit();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DatePickerDirective.prototype, "maxTime", {
+        get: function () {
+            return this._maxTime;
+        },
+        set: function (maxTime) {
+            this._maxTime = maxTime;
+            if (this.datePicker) {
+                this.datePicker.maxTime = maxTime;
+                this.datePicker.ngOnInit();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DatePickerDirective.prototype.ngOnInit = function () {
+        this.datePicker = this.createDatePicker();
+        this.api = this.datePicker.api;
+        this.updateDatepickerConfig();
+        this.attachModelToDatePicker();
+        this.datePicker.theme = this.theme;
+    };
+    DatePickerDirective.prototype.createDatePicker = function () {
+        var factory = this.componentFactoryResolver.resolveComponentFactory(date_picker_component_1.DatePickerComponent);
+        return this.viewContainerRef.createComponent(factory).instance;
+    };
+    DatePickerDirective.prototype.attachModelToDatePicker = function () {
+        var _this = this;
+        if (!this.formControl) {
+            return;
+        }
+        this.datePicker.onViewDateChange(this.formControl.value);
+        this.formControl.valueChanges.subscribe(function (value) {
+            if (value !== _this.datePicker.inputElementValue) {
+                _this.datePicker.onViewDateChange(value);
+            }
+        });
+        var setup = true;
+        this.datePicker.registerOnChange(function (value) {
+            if (value) {
+                var isMultiselectEmpty = setup && Array.isArray(value) && !value.length;
+                if (!isMultiselectEmpty) {
+                    _this.formControl.control.setValue(_this.datePicker.inputElementValue);
+                }
+            }
+            var errors = _this.datePicker.validateFn(value);
+            if (!setup) {
+                _this.formControl.control.markAsDirty(true);
+            }
+            else {
+                setup = false;
+            }
+            if (errors) {
+                _this.formControl.control.setErrors(errors);
+            }
+        });
+    };
+    DatePickerDirective.prototype.onClick = function () {
+        this.datePicker.onClick();
+    };
+    DatePickerDirective.prototype.onFocus = function () {
+        this.datePicker.inputFocused();
+    };
+    DatePickerDirective.prototype.updateDatepickerConfig = function () {
+        if (this.datePicker) {
+            this.datePicker.minDate = this.minDate;
+            this.datePicker.maxDate = this.maxDate;
+            this.datePicker.minTime = this.minTime;
+            this.datePicker.maxTime = this.maxTime;
+            this.datePicker.mode = this.mode || 'day';
+            this.datePicker.config = this.config;
+            this.datePicker.open = this.open;
+            this.datePicker.close = this.close;
+            this.datePicker.init();
+        }
+    };
+    return DatePickerDirective;
+}());
+DatePickerDirective.decorators = [
+    { type: core_1.Directive, args: [{
+                exportAs: 'dpDayPicker',
+                providers: [date_picker_directive_service_1.DatePickerDirectiveService],
+                selector: '[dpDayPicker]'
+            },] },
+];
+/** @nocollapse */
+DatePickerDirective.ctorParameters = function () { return [
+    { type: core_1.ViewContainerRef, },
+    { type: core_1.ComponentFactoryResolver, },
+    { type: forms_1.NgControl, decorators: [{ type: core_1.Optional },] },
+    { type: date_picker_directive_service_1.DatePickerDirectiveService, },
+]; };
+DatePickerDirective.propDecorators = {
+    'config': [{ type: core_1.Input, args: ['dpDayPicker',] },],
+    'attachTo': [{ type: core_1.Input },],
+    'theme': [{ type: core_1.Input },],
+    'mode': [{ type: core_1.Input },],
+    'minDate': [{ type: core_1.Input },],
+    'maxDate': [{ type: core_1.Input },],
+    'minTime': [{ type: core_1.Input },],
+    'maxTime': [{ type: core_1.Input },],
+    'open': [{ type: core_1.Output },],
+    'close': [{ type: core_1.Output },],
+    'onClick': [{ type: core_1.HostListener, args: ['click',] },],
+    'onFocus': [{ type: core_1.HostListener, args: ['focus',] },],
+};
+exports.DatePickerDirective = DatePickerDirective;
+//# sourceMappingURL=date-picker.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/date-picker/date-picker.service.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var moment = __webpack_require__("../../../../moment/moment.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var time_select_service_1 = __webpack_require__("../../../../ng2-date-picker/time-select/time-select.service.js");
+var day_time_calendar_service_1 = __webpack_require__("../../../../ng2-date-picker/day-time-calendar/day-time-calendar.service.js");
+var DatePickerService = (function () {
+    function DatePickerService(utilsService, timeSelectService, daytimeCalendarService) {
+        this.utilsService = utilsService;
+        this.timeSelectService = timeSelectService;
+        this.daytimeCalendarService = daytimeCalendarService;
+        this.onPickerClosed = new core_1.EventEmitter();
+        this.defaultConfig = {
+            closeOnSelect: true,
+            closeOnSelectDelay: 100,
+            format: 'DD-MM-YYYY',
+            onOpenDelay: 0,
+            disableKeypress: false,
+            showNearMonthDays: true,
+            drops: 'down',
+            opens: 'right',
+            showWeekNumbers: false,
+            enableMonthSelector: true,
+            showGoToCurrent: true,
+            locale: 'en'
+        };
+    }
+    // todo:: add unit tests
+    DatePickerService.prototype.getConfig = function (config, mode) {
+        if (mode === void 0) { mode = 'daytime'; }
+        var _config = __assign({}, this.defaultConfig, { format: this.getDefaultFormatByMode(mode) }, this.utilsService.clearUndefined(config));
+        var min = _config.min, max = _config.max, format = _config.format;
+        if (min) {
+            _config.min = this.utilsService.convertToMoment(min, format);
+        }
+        if (max) {
+            _config.max = this.utilsService.convertToMoment(max, format);
+        }
+        if (config && config.allowMultiSelect && config.closeOnSelect === undefined) {
+            _config.closeOnSelect = false;
+        }
+        moment.locale(_config.locale);
+        return _config;
+    };
+    DatePickerService.prototype.getDayConfigService = function (pickerConfig) {
+        return {
+            min: pickerConfig.min,
+            max: pickerConfig.max,
+            isDayDisabledCallback: pickerConfig.isDayDisabledCallback,
+            weekDayFormat: pickerConfig.weekDayFormat,
+            showNearMonthDays: pickerConfig.showNearMonthDays,
+            showWeekNumbers: pickerConfig.showWeekNumbers,
+            firstDayOfWeek: pickerConfig.firstDayOfWeek,
+            format: pickerConfig.format,
+            allowMultiSelect: pickerConfig.allowMultiSelect,
+            monthFormat: pickerConfig.monthFormat,
+            monthFormatter: pickerConfig.monthFormatter,
+            enableMonthSelector: pickerConfig.enableMonthSelector,
+            yearFormat: pickerConfig.yearFormat,
+            yearFormatter: pickerConfig.yearFormatter,
+            dayBtnFormat: pickerConfig.dayBtnFormat,
+            dayBtnFormatter: pickerConfig.dayBtnFormatter,
+            dayBtnCssClassCallback: pickerConfig.dayBtnCssClassCallback,
+            monthBtnFormat: pickerConfig.monthBtnFormat,
+            monthBtnFormatter: pickerConfig.monthBtnFormatter,
+            monthBtnCssClassCallback: pickerConfig.monthBtnCssClassCallback,
+            multipleYearsNavigateBy: pickerConfig.multipleYearsNavigateBy,
+            showMultipleYearsNavigation: pickerConfig.showMultipleYearsNavigation,
+            locale: pickerConfig.locale
+        };
+    };
+    DatePickerService.prototype.getDayTimeConfigService = function (pickerConfig) {
+        return this.daytimeCalendarService.getConfig(pickerConfig);
+    };
+    DatePickerService.prototype.getTimeConfigService = function (pickerConfig) {
+        return this.timeSelectService.getConfig(pickerConfig);
+    };
+    DatePickerService.prototype.pickerClosed = function () {
+        this.onPickerClosed.emit();
+    };
+    // todo:: add unit tests
+    DatePickerService.prototype.isValidInputDateValue = function (value, config) {
+        var _this = this;
+        value = value ? value : '';
+        var datesStrArr;
+        if (config.allowMultiSelect) {
+            datesStrArr = value.split(',');
+        }
+        else {
+            datesStrArr = [value];
+        }
+        return datesStrArr.every(function (date) { return _this.utilsService.isDateValid(date, config.format); });
+    };
+    // todo:: add unit tests
+    DatePickerService.prototype.convertInputValueToMomentArray = function (value, config) {
+        value = value ? value : '';
+        var datesStrArr;
+        if (config.allowMultiSelect) {
+            datesStrArr = value.split(',');
+        }
+        else {
+            datesStrArr = [value];
+        }
+        return this.utilsService.convertToMomentArray(datesStrArr, config.format, config.allowMultiSelect);
+    };
+    DatePickerService.prototype.getDefaultFormatByMode = function (mode) {
+        switch (mode) {
+            case 'day':
+                return 'DD-MM-YYYY';
+            case 'daytime':
+                return 'DD-MM-YYYY HH:mm:ss';
+            case 'time':
+                return 'HH:mm:ss';
+            case 'month':
+                return 'MMM, YYYY';
+        }
+    };
+    return DatePickerService;
+}());
+DatePickerService.decorators = [
+    { type: core_1.Injectable },
+];
+/** @nocollapse */
+DatePickerService.ctorParameters = function () { return [
+    { type: utils_service_1.UtilsService, },
+    { type: time_select_service_1.TimeSelectService, },
+    { type: day_time_calendar_service_1.DayTimeCalendarService, },
+]; };
+exports.DatePickerService = DatePickerService;
+//# sourceMappingURL=date-picker.service.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/day-calendar/day-calendar.component.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var calendar_mode_enum_1 = __webpack_require__("../../../../ng2-date-picker/common/types/calendar-mode-enum.js");
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var day_calendar_service_1 = __webpack_require__("../../../../ng2-date-picker/day-calendar/day-calendar.service.js");
+var forms_1 = __webpack_require__("../../../forms/@angular/forms.es5.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var DayCalendarComponent = (function () {
+    function DayCalendarComponent(dayCalendarService, utilsService) {
+        this.dayCalendarService = dayCalendarService;
+        this.utilsService = utilsService;
+        this.onSelect = new core_1.EventEmitter();
+        this.onMonthSelect = new core_1.EventEmitter();
+        this.onNavHeaderBtnClick = new core_1.EventEmitter();
+        this.CalendarMode = calendar_mode_enum_1.ECalendarMode;
+        this.isInited = false;
+        this.currentCalendarMode = calendar_mode_enum_1.ECalendarMode.Day;
+        this.api = {
+            moveCalendarsBy: this.moveCalendarsBy.bind(this),
+            toggleCalendar: this.toggleCalendar.bind(this)
+        };
+    }
+    Object.defineProperty(DayCalendarComponent.prototype, "selected", {
+        get: function () {
+            return this._selected;
+        },
+        set: function (selected) {
+            this._selected = selected;
+            this.onChangeCallback(this.processOnChangeCallback(selected));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DayCalendarComponent.prototype.ngOnInit = function () {
+        this.isInited = true;
+        this.init();
+        this.initValidators();
+    };
+    DayCalendarComponent.prototype.init = function () {
+        this.componentConfig = this.dayCalendarService.getConfig(this.config);
+        this.selected = this.selected || [];
+        this.currentDateView = this.displayDate
+            ? this.utilsService.convertToMoment(this.displayDate, this.componentConfig.format).clone()
+            : this.utilsService
+                .getDefaultDisplayDate(this.currentDateView, this.selected, this.componentConfig.allowMultiSelect);
+        this.weeks = this.dayCalendarService
+            .generateMonthArray(this.componentConfig, this.currentDateView, this.selected);
+        this.weekdays = this.dayCalendarService
+            .generateWeekdays(this.componentConfig.firstDayOfWeek);
+        this.inputValueType = this.utilsService.getInputType(this.inputValue, this.componentConfig.allowMultiSelect);
+        this.monthCalendarConfig = this.dayCalendarService.getMonthCalendarConfig(this.componentConfig);
+    };
+    DayCalendarComponent.prototype.ngOnChanges = function (changes) {
+        if (this.isInited) {
+            var minDate = changes.minDate, maxDate = changes.maxDate;
+            this.init();
+            if (minDate || maxDate) {
+                this.initValidators();
+            }
+        }
+    };
+    DayCalendarComponent.prototype.writeValue = function (value) {
+        this.inputValue = value;
+        if (value) {
+            this.selected = this.utilsService
+                .convertToMomentArray(value, this.componentConfig.format, this.componentConfig.allowMultiSelect);
+            this.weeks = this.dayCalendarService
+                .generateMonthArray(this.componentConfig, this.currentDateView, this.selected);
+            this.inputValueType = this.utilsService
+                .getInputType(this.inputValue, this.componentConfig.allowMultiSelect);
+        }
+        else {
+            this.selected = [];
+            this.weeks = this.dayCalendarService
+                .generateMonthArray(this.componentConfig, this.currentDateView, this.selected);
+        }
+    };
+    DayCalendarComponent.prototype.registerOnChange = function (fn) {
+        this.onChangeCallback = fn;
+    };
+    DayCalendarComponent.prototype.onChangeCallback = function (_) {
+    };
+    ;
+    DayCalendarComponent.prototype.registerOnTouched = function (fn) {
+    };
+    DayCalendarComponent.prototype.validate = function (formControl) {
+        if (this.minDate || this.maxDate) {
+            return this.validateFn(formControl.value);
+        }
+        else {
+            return function () { return null; };
+        }
+    };
+    DayCalendarComponent.prototype.processOnChangeCallback = function (value) {
+        return this.utilsService.convertFromMomentArray(this.componentConfig.format, value, this.inputValueType);
+    };
+    DayCalendarComponent.prototype.initValidators = function () {
+        this.validateFn = this.utilsService.createValidator({ minDate: this.minDate, maxDate: this.maxDate }, this.componentConfig.format, 'day');
+        this.onChangeCallback(this.processOnChangeCallback(this.selected));
+    };
+    DayCalendarComponent.prototype.isDisabledDay = function (day) {
+        return this.dayCalendarService.isDateDisabled(day, this.componentConfig);
+    };
+    DayCalendarComponent.prototype.dayClicked = function (day) {
+        this.selected = this.utilsService
+            .updateSelected(this.componentConfig.allowMultiSelect, this.selected, day);
+        this.weeks = this.dayCalendarService
+            .generateMonthArray(this.componentConfig, this.currentDateView, this.selected);
+        this.onSelect.emit(day);
+    };
+    DayCalendarComponent.prototype.getNavLabel = function () {
+        return this.dayCalendarService.getHeaderLabel(this.componentConfig, this.currentDateView);
+    };
+    DayCalendarComponent.prototype.getDayBtnText = function (day) {
+        return this.dayCalendarService.getDayBtnText(this.componentConfig, day.date);
+    };
+    DayCalendarComponent.prototype.getDayBtnCssClass = function (day) {
+        var cssClasses = {
+            'dp-selected': day.selected,
+            'dp-current-month': day.currentMonth,
+            'dp-prev-month': day.prevMonth,
+            'dp-next-month': day.nextMonth,
+            'dp-current-day': day.currentDay
+        };
+        var customCssClass = this.dayCalendarService.getDayBtnCssClass(this.componentConfig, day.date);
+        if (customCssClass) {
+            cssClasses[customCssClass] = true;
+        }
+        return cssClasses;
+    };
+    DayCalendarComponent.prototype.onLeftNav = function () {
+        this.currentDateView.subtract(1, 'month');
+        this.weeks = this.dayCalendarService
+            .generateMonthArray(this.componentConfig, this.currentDateView, this.selected);
+    };
+    DayCalendarComponent.prototype.onRightNav = function () {
+        this.currentDateView.add(1, 'month');
+        this.weeks = this.dayCalendarService
+            .generateMonthArray(this.componentConfig, this.currentDateView, this.selected);
+    };
+    DayCalendarComponent.prototype.shouldShowLeftNav = function () {
+        return this.dayCalendarService.shouldShowLeft(this.componentConfig.min, this.currentDateView);
+    };
+    DayCalendarComponent.prototype.shouldShowRightNav = function () {
+        return this.dayCalendarService.shouldShowRight(this.componentConfig.max, this.currentDateView);
+    };
+    DayCalendarComponent.prototype.isNavHeaderBtnClickable = function () {
+        return this.componentConfig.enableMonthSelector;
+    };
+    DayCalendarComponent.prototype.toggleCalendar = function (mode) {
+        if (this.currentCalendarMode !== mode) {
+            this.currentCalendarMode = mode;
+            this.onNavHeaderBtnClick.emit(mode);
+        }
+    };
+    DayCalendarComponent.prototype.monthSelected = function (month) {
+        this.currentDateView = month.date.clone();
+        this.currentCalendarMode = calendar_mode_enum_1.ECalendarMode.Day;
+        this.weeks = this.dayCalendarService
+            .generateMonthArray(this.componentConfig, this.currentDateView, this.selected);
+        this.onMonthSelect.emit(month);
+    };
+    DayCalendarComponent.prototype.moveCalendarsBy = function (current, amount, granularity) {
+        if (granularity === void 0) { granularity = 'month'; }
+        var to = current.add(amount, granularity);
+        this.currentDateView = to;
+        this.weeks = this.dayCalendarService.generateMonthArray(this.componentConfig, to, this.selected);
+    };
+    return DayCalendarComponent;
+}());
+DayCalendarComponent.decorators = [
+    { type: core_1.Component, args: [{
+                selector: 'dp-day-calendar',
+                template: '<div class="dp-day-calendar-container" [hidden]="currentCalendarMode !==  CalendarMode.Day">   <dp-calendar-nav       [label]="getNavLabel()"       [showLeftNav]="shouldShowLeftNav()"       [showRightNav]="shouldShowRightNav()"       [isLabelClickable]="isNavHeaderBtnClickable()"       [theme]="theme"       (onLeftNav)="onLeftNav()"       (onRightNav)="onRightNav()"       (onLabelClick)="toggleCalendar(CalendarMode.Month)">   </dp-calendar-nav>    <div class="dp-calendar-wrapper"        [ngClass]="{\'dp-hide-near-month\': !componentConfig.showNearMonthDays}">     <div class="dp-weekdays">       <span class="dp-calendar-weekday"             *ngFor="let weekday of weekdays">             {{weekday.format(componentConfig.weekDayFormat)}}       </span>     </div>     <div class="dp-calendar-week" *ngFor="let week of weeks">       <span *ngIf="componentConfig.showWeekNumbers" class="dp-week-number">{{week[0].date.isoWeek()}}</span>       <button type="button"               class="dp-calendar-day"               *ngFor="let day of week"               (click)="dayClicked(day)"               [disabled]="isDisabledDay(day)"               [ngClass]="getDayBtnCssClass(day)">         {{getDayBtnText(day)}}       </button>     </div>   </div>  </div>  <dp-month-calendar     *ngIf="currentCalendarMode ===  CalendarMode.Month"     [config]="monthCalendarConfig"     [displayDate]="currentDateView"     [theme]="theme"     (onSelect)="monthSelected($event)"     (onNavHeaderBtnClick)="toggleCalendar(CalendarMode.Day)"> </dp-month-calendar> ',
+                styles: ['dp-day-calendar {  display: inline-block;}dp-day-calendar .dp-day-calendar-container {  background: #FFFFFF;}dp-day-calendar .dp-calendar-wrapper {  box-sizing: border-box;  border: 1px solid #000000;}dp-day-calendar .dp-calendar-wrapper .dp-calendar-weekday:first-child {  border-left: none;}dp-day-calendar .dp-weekdays {  font-size: 15px;  margin-bottom: 5px;}dp-day-calendar .dp-calendar-weekday {  box-sizing: border-box;  display: inline-block;  width: 30px;  text-align: center;  border-left: 1px solid #000000;  border-bottom: 1px solid #000000;}dp-day-calendar .dp-calendar-day {  box-sizing: border-box;  width: 30px;  height: 30px;  cursor: pointer;}dp-day-calendar .dp-selected {  background: #106CC8;  color: #FFFFFF;}dp-day-calendar .dp-prev-month,dp-day-calendar .dp-next-month {  opacity: 0.5;}dp-day-calendar .dp-hide-near-month .dp-prev-month,dp-day-calendar .dp-hide-near-month .dp-next-month {  visibility: hidden;}dp-day-calendar .dp-week-number {  position: absolute;  font-size: 9px;}dp-day-calendar.dp-material .dp-calendar-weekday {  height: 25px;  width: 30px;  line-height: 25px;  color: #7a7a7a;  border: none;}dp-day-calendar.dp-material .dp-calendar-wrapper {  border: 1px solid #E0E0E0;}dp-day-calendar.dp-material .dp-calendar-month,dp-day-calendar.dp-material .dp-calendar-day {  box-sizing: border-box;  background: #FFFFFF;  border-radius: 50%;  border: none;  outline: none;}dp-day-calendar.dp-material .dp-calendar-month:hover,dp-day-calendar.dp-material .dp-calendar-day:hover {  background: #E0E0E0;}dp-day-calendar.dp-material .dp-selected {  background: #106CC8;  color: #FFFFFF;}dp-day-calendar.dp-material .dp-selected:hover {  background: #106CC8;}dp-day-calendar.dp-material .dp-current-day {  border: 1px solid #106CC8;}'],
+                encapsulation: core_1.ViewEncapsulation.None,
+                providers: [
+                    day_calendar_service_1.DayCalendarService,
+                    {
+                        provide: forms_1.NG_VALUE_ACCESSOR,
+                        useExisting: core_1.forwardRef(function () { return DayCalendarComponent; }),
+                        multi: true
+                    },
+                    {
+                        provide: forms_1.NG_VALIDATORS,
+                        useExisting: core_1.forwardRef(function () { return DayCalendarComponent; }),
+                        multi: true
+                    }
+                ]
+            },] },
+];
+/** @nocollapse */
+DayCalendarComponent.ctorParameters = function () { return [
+    { type: day_calendar_service_1.DayCalendarService, },
+    { type: utils_service_1.UtilsService, },
+]; };
+DayCalendarComponent.propDecorators = {
+    'config': [{ type: core_1.Input },],
+    'displayDate': [{ type: core_1.Input },],
+    'minDate': [{ type: core_1.Input },],
+    'maxDate': [{ type: core_1.Input },],
+    'theme': [{ type: core_1.HostBinding, args: ['class',] }, { type: core_1.Input },],
+    'onSelect': [{ type: core_1.Output },],
+    'onMonthSelect': [{ type: core_1.Output },],
+    'onNavHeaderBtnClick': [{ type: core_1.Output },],
+};
+exports.DayCalendarComponent = DayCalendarComponent;
+//# sourceMappingURL=day-calendar.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/day-calendar/day-calendar.service.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var moment = __webpack_require__("../../../../moment/moment.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var DayCalendarService = (function () {
+    function DayCalendarService(utilsService) {
+        this.utilsService = utilsService;
+        this.DAYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
+        this.DEFAULT_CONFIG = {
+            showNearMonthDays: true,
+            showWeekNumbers: false,
+            firstDayOfWeek: 'su',
+            weekDayFormat: 'ddd',
+            format: 'DD-MM-YYYY',
+            allowMultiSelect: false,
+            monthFormat: 'MMM, YYYY',
+            enableMonthSelector: true,
+            locale: 'en',
+            dayBtnFormat: 'DD'
+        };
+    }
+    DayCalendarService.prototype.removeNearMonthWeeks = function (currentMonth, monthArray) {
+        if (monthArray[monthArray.length - 1].find(function (day) { return day.date.isSame(currentMonth, 'month'); })) {
+            return monthArray;
+        }
+        else {
+            return monthArray.slice(0, -1);
+        }
+    };
+    DayCalendarService.prototype.getConfig = function (config) {
+        var _config = __assign({}, this.DEFAULT_CONFIG, this.utilsService.clearUndefined(config));
+        moment.locale(_config.locale);
+        return _config;
+    };
+    DayCalendarService.prototype.generateDaysMap = function (firstDayOfWeek) {
+        var firstDayIndex = this.DAYS.indexOf(firstDayOfWeek);
+        var daysArr = this.DAYS.slice(firstDayIndex, 7).concat(this.DAYS.slice(0, firstDayIndex));
+        return daysArr.reduce(function (map, day, index) {
+            map[day] = index;
+            return map;
+        }, {});
+    };
+    DayCalendarService.prototype.generateMonthArray = function (config, month, selected) {
+        var monthArray = [];
+        var firstDayOfMonth = month.clone().startOf('month');
+        var firstDayOfWeekIndex = this.DAYS.indexOf(config.firstDayOfWeek);
+        var firstDayOfBoard = firstDayOfMonth;
+        while (firstDayOfBoard.day() !== firstDayOfWeekIndex) {
+            firstDayOfBoard.subtract(1, 'day');
+        }
+        var current = firstDayOfBoard.clone();
+        var daysOfCalendar = this.utilsService.createArray(42).reduce(function (array) {
+            array.push({
+                date: current.clone(),
+                selected: !!selected.find(function (selectedDay) { return current.isSame(selectedDay, 'day'); }),
+                currentMonth: current.isSame(month, 'month'),
+                prevMonth: current.isSame(month.clone().subtract(1, 'month'), 'month'),
+                nextMonth: current.isSame(month.clone().add(1, 'month'), 'month'),
+                currentDay: current.isSame(moment(), 'day')
+            });
+            current.add(1, 'd');
+            return array;
+        }, []);
+        daysOfCalendar.forEach(function (day, index) {
+            var weekIndex = Math.floor(index / 7);
+            if (!monthArray[weekIndex]) {
+                monthArray.push([]);
+            }
+            monthArray[weekIndex].push(day);
+        });
+        if (!config.showNearMonthDays) {
+            monthArray = this.removeNearMonthWeeks(month, monthArray);
+        }
+        return monthArray;
+    };
+    DayCalendarService.prototype.generateWeekdays = function (firstDayOfWeek) {
+        var weekdayNames = {
+            su: moment().day(0),
+            mo: moment().day(1),
+            tu: moment().day(2),
+            we: moment().day(3),
+            th: moment().day(4),
+            fr: moment().day(5),
+            sa: moment().day(6)
+        };
+        var weekdays = [];
+        var daysMap = this.generateDaysMap(firstDayOfWeek);
+        for (var dayKey in daysMap) {
+            if (daysMap.hasOwnProperty(dayKey)) {
+                weekdays[daysMap[dayKey]] = weekdayNames[dayKey];
+            }
+        }
+        return weekdays;
+    };
+    DayCalendarService.prototype.isDateDisabled = function (day, config) {
+        if (config.isDayDisabledCallback) {
+            return config.isDayDisabledCallback(day.date);
+        }
+        if (config.min && day.date.isBefore(config.min, 'day')) {
+            return true;
+        }
+        return !!(config.max && day.date.isAfter(config.max, 'day'));
+    };
+    // todo:: add unit tests
+    DayCalendarService.prototype.getHeaderLabel = function (config, month) {
+        if (config.monthFormatter) {
+            return config.monthFormatter(month);
+        }
+        return month.format(config.monthFormat);
+    };
+    // todo:: add unit tests
+    DayCalendarService.prototype.shouldShowLeft = function (min, currentMonthView) {
+        return min ? min.isBefore(currentMonthView, 'month') : true;
+    };
+    // todo:: add unit tests
+    DayCalendarService.prototype.shouldShowRight = function (max, currentMonthView) {
+        return max ? max.isAfter(currentMonthView, 'month') : true;
+    };
+    DayCalendarService.prototype.generateDaysIndexMap = function (firstDayOfWeek) {
+        var firstDayIndex = this.DAYS.indexOf(firstDayOfWeek);
+        var daysArr = this.DAYS.slice(firstDayIndex, 7).concat(this.DAYS.slice(0, firstDayIndex));
+        return daysArr.reduce(function (map, day, index) {
+            map[index] = day;
+            return map;
+        }, {});
+    };
+    // todo:: add unit tests
+    DayCalendarService.prototype.getMonthCalendarConfig = function (componentConfig) {
+        return this.utilsService.clearUndefined({
+            min: componentConfig.min,
+            max: componentConfig.max,
+            format: componentConfig.format,
+            isNavHeaderBtnClickable: true,
+            allowMultiSelect: false,
+            yearFormat: componentConfig.yearFormat,
+            yearFormatter: componentConfig.yearFormatter,
+            monthBtnFormat: componentConfig.monthBtnFormat,
+            monthBtnFormatter: componentConfig.monthBtnFormatter,
+            monthBtnCssClassCallback: componentConfig.monthBtnCssClassCallback,
+            multipleYearsNavigateBy: componentConfig.multipleYearsNavigateBy,
+            showMultipleYearsNavigation: componentConfig.showMultipleYearsNavigation
+        });
+    };
+    DayCalendarService.prototype.getDayBtnText = function (config, day) {
+        if (config.dayBtnFormatter) {
+            return config.dayBtnFormatter(day);
+        }
+        return day.format(config.dayBtnFormat);
+    };
+    DayCalendarService.prototype.getDayBtnCssClass = function (config, day) {
+        if (config.dayBtnCssClassCallback) {
+            return config.dayBtnCssClassCallback(day);
+        }
+        return '';
+    };
+    return DayCalendarService;
+}());
+DayCalendarService.decorators = [
+    { type: core_1.Injectable },
+];
+/** @nocollapse */
+DayCalendarService.ctorParameters = function () { return [
+    { type: utils_service_1.UtilsService, },
+]; };
+exports.DayCalendarService = DayCalendarService;
+//# sourceMappingURL=day-calendar.service.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/day-time-calendar/day-time-calendar.component.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var forms_1 = __webpack_require__("../../../forms/@angular/forms.es5.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var day_calendar_service_1 = __webpack_require__("../../../../ng2-date-picker/day-calendar/day-calendar.service.js");
+var time_select_service_1 = __webpack_require__("../../../../ng2-date-picker/time-select/time-select.service.js");
+var day_time_calendar_service_1 = __webpack_require__("../../../../ng2-date-picker/day-time-calendar/day-time-calendar.service.js");
+var DayTimeCalendarComponent = (function () {
+    function DayTimeCalendarComponent(dayTimeCalendarService, utilsService) {
+        this.dayTimeCalendarService = dayTimeCalendarService;
+        this.utilsService = utilsService;
+        this.onChange = new core_1.EventEmitter();
+        this.isInited = false;
+    }
+    Object.defineProperty(DayTimeCalendarComponent.prototype, "selected", {
+        get: function () {
+            return this._selected;
+        },
+        set: function (selected) {
+            this._selected = selected;
+            this.onChangeCallback(this.processOnChangeCallback(selected));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    DayTimeCalendarComponent.prototype.ngOnInit = function () {
+        this.isInited = true;
+        this.init();
+        this.initValidators();
+    };
+    DayTimeCalendarComponent.prototype.init = function () {
+        this.componentConfig = this.dayTimeCalendarService.getConfig(this.config);
+        this.inputValueType = this.utilsService.getInputType(this.inputValue, false);
+    };
+    DayTimeCalendarComponent.prototype.ngOnChanges = function (changes) {
+        if (this.isInited) {
+            var minDate = changes.minDate, maxDate = changes.maxDate;
+            this.init();
+            if (minDate || maxDate) {
+                this.initValidators();
+            }
+        }
+    };
+    DayTimeCalendarComponent.prototype.writeValue = function (value) {
+        this.inputValue = value;
+        if (value) {
+            this.selected = this.utilsService
+                .convertToMomentArray(value, this.componentConfig.format, false)[0];
+            this.inputValueType = this.utilsService
+                .getInputType(this.inputValue, false);
+        }
+        else {
+            this.selected = null;
+        }
+    };
+    DayTimeCalendarComponent.prototype.registerOnChange = function (fn) {
+        this.onChangeCallback = fn;
+    };
+    DayTimeCalendarComponent.prototype.onChangeCallback = function (_) {
+    };
+    ;
+    DayTimeCalendarComponent.prototype.registerOnTouched = function (fn) {
+    };
+    DayTimeCalendarComponent.prototype.validate = function (formControl) {
+        if (this.minDate || this.maxDate) {
+            return this.validateFn(formControl.value);
+        }
+        else {
+            return function () { return null; };
+        }
+    };
+    DayTimeCalendarComponent.prototype.processOnChangeCallback = function (value) {
+        return this.utilsService.convertFromMomentArray(this.componentConfig.format, [value], this.inputValueType);
+    };
+    DayTimeCalendarComponent.prototype.initValidators = function () {
+        this.validateFn = this.utilsService.createValidator({
+            minDate: this.minDate,
+            maxDate: this.maxDate
+        }, undefined, 'daytime');
+        this.onChangeCallback(this.processOnChangeCallback(this.selected));
+    };
+    DayTimeCalendarComponent.prototype.dateSelected = function (day) {
+        this.selected = this.dayTimeCalendarService.updateDay(this.selected, day.date);
+        this.emitChange();
+    };
+    DayTimeCalendarComponent.prototype.timeChange = function (time) {
+        this.selected = this.dayTimeCalendarService.updateTime(this.selected, time.date);
+        this.emitChange();
+    };
+    DayTimeCalendarComponent.prototype.emitChange = function () {
+        this.onChange.emit({ date: this.selected, selected: false });
+    };
+    return DayTimeCalendarComponent;
+}());
+DayTimeCalendarComponent.decorators = [
+    { type: core_1.Component, args: [{
+                selector: 'dp-day-time-calendar',
+                template: '<dp-day-calendar #dayCalendar                  [config]="componentConfig"                  [ngModel]="_selected"                  [displayDate]="displayDate"                  (onSelect)="dateSelected($event)"                  [theme]="theme"> </dp-day-calendar> <dp-time-select #timeSelect                 [config]="componentConfig"                 [ngModel]="_selected"                 (onChange)="timeChange($event)"                 [theme]="theme"> </dp-time-select> ',
+                styles: ['dp-day-time-calendar {  display: inline-block;}dp-day-time-calendar dp-time-select {  display: block;  border: 1px solid #000000;  border-top: 0;}dp-day-time-calendar.dp-material dp-time-select {  border: 1px solid #E0E0E0;  border-top: 0;}'],
+                encapsulation: core_1.ViewEncapsulation.None,
+                providers: [
+                    day_time_calendar_service_1.DayTimeCalendarService,
+                    day_calendar_service_1.DayCalendarService,
+                    time_select_service_1.TimeSelectService,
+                    {
+                        provide: forms_1.NG_VALUE_ACCESSOR,
+                        useExisting: core_1.forwardRef(function () { return DayTimeCalendarComponent; }),
+                        multi: true
+                    },
+                    {
+                        provide: forms_1.NG_VALIDATORS,
+                        useExisting: core_1.forwardRef(function () { return DayTimeCalendarComponent; }),
+                        multi: true
+                    }
+                ]
+            },] },
+];
+/** @nocollapse */
+DayTimeCalendarComponent.ctorParameters = function () { return [
+    { type: day_time_calendar_service_1.DayTimeCalendarService, },
+    { type: utils_service_1.UtilsService, },
+]; };
+DayTimeCalendarComponent.propDecorators = {
+    'config': [{ type: core_1.Input },],
+    'displayDate': [{ type: core_1.Input },],
+    'minDate': [{ type: core_1.Input },],
+    'maxDate': [{ type: core_1.Input },],
+    'theme': [{ type: core_1.HostBinding, args: ['class',] }, { type: core_1.Input },],
+    'onChange': [{ type: core_1.Output },],
+};
+exports.DayTimeCalendarComponent = DayTimeCalendarComponent;
+//# sourceMappingURL=day-time-calendar.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/day-time-calendar/day-time-calendar.service.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var moment = __webpack_require__("../../../../moment/moment.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var day_calendar_service_1 = __webpack_require__("../../../../ng2-date-picker/day-calendar/day-calendar.service.js");
+var time_select_service_1 = __webpack_require__("../../../../ng2-date-picker/time-select/time-select.service.js");
+var DAY_FORMAT = 'YYYYMMDD';
+var TIME_FORMAT = 'HH:mm:ss';
+var COMBINED_FORMAT = DAY_FORMAT + TIME_FORMAT;
+var DayTimeCalendarService = (function () {
+    function DayTimeCalendarService(utilsService, dayCalendarService, timeSelectService) {
+        this.utilsService = utilsService;
+        this.dayCalendarService = dayCalendarService;
+        this.timeSelectService = timeSelectService;
+        this.DEFAULT_CONFIG = {
+            locale: 'en'
+        };
+    }
+    DayTimeCalendarService.prototype.getConfig = function (config) {
+        var _config = __assign({}, this.DEFAULT_CONFIG, this.timeSelectService.getConfig(config), this.dayCalendarService.getConfig(config));
+        moment.locale(config.locale);
+        return _config;
+    };
+    DayTimeCalendarService.prototype.updateDay = function (current, day) {
+        var time = current ? current : moment();
+        return moment(day.format(DAY_FORMAT) + time.format(TIME_FORMAT), COMBINED_FORMAT);
+    };
+    DayTimeCalendarService.prototype.updateTime = function (current, time) {
+        var day = current ? current : moment();
+        return moment(day.format(DAY_FORMAT) + time.format(TIME_FORMAT), COMBINED_FORMAT);
+    };
+    return DayTimeCalendarService;
+}());
+DayTimeCalendarService.decorators = [
+    { type: core_1.Injectable },
+];
+/** @nocollapse */
+DayTimeCalendarService.ctorParameters = function () { return [
+    { type: utils_service_1.UtilsService, },
+    { type: day_calendar_service_1.DayCalendarService, },
+    { type: time_select_service_1.TimeSelectService, },
+]; };
+exports.DayTimeCalendarService = DayTimeCalendarService;
+//# sourceMappingURL=day-time-calendar.service.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+__export(__webpack_require__("../../../../ng2-date-picker/date-picker.module.js"));
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/month-calendar/month-calendar.component.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var month_calendar_service_1 = __webpack_require__("../../../../ng2-date-picker/month-calendar/month-calendar.service.js");
+var forms_1 = __webpack_require__("../../../forms/@angular/forms.es5.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var MonthCalendarComponent = (function () {
+    function MonthCalendarComponent(monthCalendarService, utilsService) {
+        this.monthCalendarService = monthCalendarService;
+        this.utilsService = utilsService;
+        this.onSelect = new core_1.EventEmitter();
+        this.onNavHeaderBtnClick = new core_1.EventEmitter();
+        this.isInited = false;
+    }
+    Object.defineProperty(MonthCalendarComponent.prototype, "selected", {
+        get: function () {
+            return this._selected;
+        },
+        set: function (selected) {
+            this._selected = selected;
+            this.onChangeCallback(this.processOnChangeCallback(selected));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MonthCalendarComponent.prototype.ngOnInit = function () {
+        this.isInited = true;
+        this.init();
+        this.initValidators();
+    };
+    MonthCalendarComponent.prototype.ngOnChanges = function (changes) {
+        if (this.isInited) {
+            var minDate = changes.minDate, maxDate = changes.maxDate;
+            this.init();
+            if (minDate || maxDate) {
+                this.initValidators();
+            }
+        }
+    };
+    MonthCalendarComponent.prototype.init = function () {
+        this.componentConfig = this.monthCalendarService.getConfig(this.config);
+        this.selected = this.selected || [];
+        this.currentDateView = this.displayDate
+            ? this.displayDate
+            : this.utilsService
+                .getDefaultDisplayDate(this.currentDateView, this.selected, this.componentConfig.allowMultiSelect);
+        this.yearMonths = this.monthCalendarService.generateYear(this.currentDateView, this.selected);
+        this.inputValueType = this.utilsService.getInputType(this.inputValue, this.componentConfig.allowMultiSelect);
+    };
+    MonthCalendarComponent.prototype.writeValue = function (value) {
+        this.inputValue = value;
+        if (value) {
+            this.selected = this.utilsService
+                .convertToMomentArray(value, this.componentConfig.format, this.componentConfig.allowMultiSelect);
+            this.yearMonths = this.monthCalendarService.generateYear(this.currentDateView, this.selected);
+            this.inputValueType = this.utilsService.getInputType(this.inputValue, this.componentConfig.allowMultiSelect);
+        }
+    };
+    MonthCalendarComponent.prototype.registerOnChange = function (fn) {
+        this.onChangeCallback = fn;
+    };
+    MonthCalendarComponent.prototype.onChangeCallback = function (_) {
+    };
+    ;
+    MonthCalendarComponent.prototype.registerOnTouched = function (fn) {
+    };
+    MonthCalendarComponent.prototype.validate = function (formControl) {
+        if (this.minDate || this.maxDate) {
+            return this.validateFn(formControl.value);
+        }
+        else {
+            return function () { return null; };
+        }
+    };
+    MonthCalendarComponent.prototype.processOnChangeCallback = function (value) {
+        return this.utilsService.convertFromMomentArray(this.componentConfig.format, value, this.inputValueType);
+    };
+    MonthCalendarComponent.prototype.initValidators = function () {
+        this.validateFn = this.validateFn = this.utilsService.createValidator({ minDate: this.minDate, maxDate: this.maxDate }, this.componentConfig.format, 'month');
+        this.onChangeCallback(this.processOnChangeCallback(this.selected));
+    };
+    MonthCalendarComponent.prototype.isDisabledMonth = function (month) {
+        return this.monthCalendarService.isMonthDisabled(month, this.componentConfig);
+    };
+    MonthCalendarComponent.prototype.monthClicked = function (month) {
+        this.selected = this.utilsService
+            .updateSelected(this.componentConfig.allowMultiSelect, this.selected, month, 'month');
+        this.yearMonths = this.monthCalendarService
+            .generateYear(this.currentDateView, this.selected);
+        this.onSelect.emit(month);
+    };
+    MonthCalendarComponent.prototype.getNavLabel = function () {
+        return this.monthCalendarService.getHeaderLabel(this.componentConfig, this.currentDateView);
+    };
+    MonthCalendarComponent.prototype.onLeftNav = function () {
+        this.currentDateView = this.currentDateView.subtract(1, 'year');
+        this.yearMonths = this.monthCalendarService.generateYear(this.currentDateView, this.selected);
+    };
+    MonthCalendarComponent.prototype.onLeftSecondaryNav = function () {
+        var navigateBy = this.componentConfig.multipleYearsNavigateBy;
+        var isOutsideRange = this.componentConfig.min &&
+            this.currentDateView.year() - this.componentConfig.min.year() < navigateBy;
+        if (isOutsideRange) {
+            navigateBy = this.currentDateView.year() - this.componentConfig.min.year();
+        }
+        this.currentDateView = this.currentDateView.subtract(navigateBy, 'year');
+        this.yearMonths = this.monthCalendarService.generateYear(this.currentDateView, this.selected);
+    };
+    MonthCalendarComponent.prototype.onRightNav = function () {
+        this.currentDateView.add(1, 'year');
+        this.yearMonths = this.monthCalendarService.generateYear(this.currentDateView, this.selected);
+    };
+    MonthCalendarComponent.prototype.onRightSecondaryNav = function () {
+        var navigateBy = this.componentConfig.multipleYearsNavigateBy;
+        var isOutsideRange = this.componentConfig.max &&
+            this.componentConfig.max.year() - this.currentDateView.year() < navigateBy;
+        if (isOutsideRange) {
+            navigateBy = this.componentConfig.max.year() - this.currentDateView.year();
+        }
+        this.currentDateView.add(navigateBy, 'year');
+        this.yearMonths = this.monthCalendarService.generateYear(this.currentDateView, this.selected);
+    };
+    MonthCalendarComponent.prototype.shouldShowLeftNav = function () {
+        return this.monthCalendarService.shouldShowLeft(this.componentConfig.min, this.currentDateView);
+    };
+    MonthCalendarComponent.prototype.shouldShowLeftSecondaryNav = function () {
+        return this.componentConfig.showMultipleYearsNavigation && this.shouldShowLeftNav();
+    };
+    MonthCalendarComponent.prototype.shouldShowRightNav = function () {
+        return this.monthCalendarService.shouldShowRight(this.componentConfig.max, this.currentDateView);
+    };
+    MonthCalendarComponent.prototype.shouldShowRightSecondaryNav = function () {
+        return this.componentConfig.showMultipleYearsNavigation && this.shouldShowRightNav();
+    };
+    MonthCalendarComponent.prototype.isNavHeaderBtnClickable = function () {
+        return this.componentConfig.isNavHeaderBtnClickable;
+    };
+    MonthCalendarComponent.prototype.toggleCalendar = function () {
+        this.onNavHeaderBtnClick.emit();
+    };
+    MonthCalendarComponent.prototype.getMonthBtnText = function (month) {
+        return this.monthCalendarService.getMonthBtnText(this.componentConfig, month.date);
+    };
+    MonthCalendarComponent.prototype.getMonthBtnCssClass = function (month) {
+        var cssClass = {
+            'dp-selected': month.selected,
+            'dp-current-month': month.currentMonth
+        };
+        var customCssClass = this.monthCalendarService.getMonthBtnCssClass(this.componentConfig, month.date);
+        if (customCssClass) {
+            cssClass[customCssClass] = true;
+        }
+        return cssClass;
+    };
+    return MonthCalendarComponent;
+}());
+MonthCalendarComponent.decorators = [
+    { type: core_1.Component, args: [{
+                selector: 'dp-month-calendar',
+                template: '<div class="dp-month-calendar-container">   <dp-calendar-nav       [label]="getNavLabel()"       [showLeftNav]="shouldShowLeftNav()"       [showLeftSecondaryNav]="shouldShowLeftSecondaryNav()"       [showRightNav]="shouldShowRightNav()"       [showRightSecondaryNav]="shouldShowRightSecondaryNav()"       [isLabelClickable]="isNavHeaderBtnClickable()"       [theme]="theme"       (onLeftNav)="onLeftNav()"       (onLeftSecondaryNav)="onLeftSecondaryNav()"       (onRightNav)="onRightNav()"       (onRightSecondaryNav)="onRightSecondaryNav()"       (onLabelClick)="toggleCalendar()">   </dp-calendar-nav>    <div class="dp-calendar-wrapper">     <div class="dp-months-row" *ngFor="let monthRow of yearMonths">       <button type="button"               class="dp-calendar-month"               *ngFor="let month of monthRow"               [disabled]="isDisabledMonth(month)"               [ngClass]="getMonthBtnCssClass(month)"               (click)="monthClicked(month)">         {{getMonthBtnText(month)}}       </button>     </div>   </div> </div> ',
+                styles: ['dp-month-calendar {  display: inline-block;}dp-month-calendar .dp-month-calendar-container {  background: #FFFFFF;}dp-month-calendar .dp-calendar-wrapper {  border: 1px solid #000000;}dp-month-calendar .dp-calendar-month {  box-sizing: border-box;  width: 52.5px;  height: 52.5px;  cursor: pointer;}dp-month-calendar .dp-calendar-month.dp-selected {  background: #106CC8;  color: #FFFFFF;}dp-month-calendar.dp-material .dp-calendar-weekday {  height: 25px;  width: 30px;  line-height: 25px;  background: #E0E0E0;  border: 1px solid #E0E0E0;}dp-month-calendar.dp-material .dp-calendar-wrapper {  border: 1px solid #E0E0E0;}dp-month-calendar.dp-material .dp-calendar-month {  box-sizing: border-box;  background: #FFFFFF;  border-radius: 50%;  border: none;  outline: none;}dp-month-calendar.dp-material .dp-calendar-month:hover {  background: #E0E0E0;}dp-month-calendar.dp-material .dp-selected {  background: #106CC8;  color: #FFFFFF;}dp-month-calendar.dp-material .dp-selected:hover {  background: #106CC8;}dp-month-calendar.dp-material .dp-current-month {  border: 1px solid #106CC8;}'],
+                encapsulation: core_1.ViewEncapsulation.None,
+                providers: [
+                    month_calendar_service_1.MonthCalendarService,
+                    {
+                        provide: forms_1.NG_VALUE_ACCESSOR,
+                        useExisting: core_1.forwardRef(function () { return MonthCalendarComponent; }),
+                        multi: true
+                    },
+                    {
+                        provide: forms_1.NG_VALIDATORS,
+                        useExisting: core_1.forwardRef(function () { return MonthCalendarComponent; }),
+                        multi: true
+                    }
+                ]
+            },] },
+];
+/** @nocollapse */
+MonthCalendarComponent.ctorParameters = function () { return [
+    { type: month_calendar_service_1.MonthCalendarService, },
+    { type: utils_service_1.UtilsService, },
+]; };
+MonthCalendarComponent.propDecorators = {
+    'config': [{ type: core_1.Input },],
+    'displayDate': [{ type: core_1.Input },],
+    'minDate': [{ type: core_1.Input },],
+    'maxDate': [{ type: core_1.Input },],
+    'theme': [{ type: core_1.HostBinding, args: ['class',] }, { type: core_1.Input },],
+    'onSelect': [{ type: core_1.Output },],
+    'onNavHeaderBtnClick': [{ type: core_1.Output },],
+};
+exports.MonthCalendarComponent = MonthCalendarComponent;
+//# sourceMappingURL=month-calendar.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/month-calendar/month-calendar.service.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var moment = __webpack_require__("../../../../moment/moment.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var MonthCalendarService = (function () {
+    function MonthCalendarService(utilsService) {
+        this.utilsService = utilsService;
+        this.DEFAULT_CONFIG = {
+            allowMultiSelect: false,
+            yearFormat: 'YYYY',
+            format: 'MM-YYYY',
+            isNavHeaderBtnClickable: false,
+            monthBtnFormat: 'MMM',
+            locale: 'en',
+            multipleYearsNavigateBy: 10,
+            showMultipleYearsNavigation: false
+        };
+    }
+    MonthCalendarService.prototype.getConfig = function (config) {
+        var _config = __assign({}, this.DEFAULT_CONFIG, this.utilsService.clearUndefined(config));
+        moment.locale(_config.locale);
+        return _config;
+    };
+    MonthCalendarService.prototype.generateYear = function (year, selected) {
+        var _this = this;
+        if (selected === void 0) { selected = null; }
+        var index = year.clone().startOf('year');
+        return this.utilsService.createArray(3).map(function () {
+            return _this.utilsService.createArray(4).map(function () {
+                var month = {
+                    date: index.clone(),
+                    selected: !!selected.find(function (s) { return index.isSame(s, 'month'); }),
+                    currentMonth: index.isSame(moment(), 'month')
+                };
+                index.add(1, 'month');
+                return month;
+            });
+        });
+    };
+    MonthCalendarService.prototype.isMonthDisabled = function (month, config) {
+        if (config.min && month.date.isBefore(config.min, 'month')) {
+            return true;
+        }
+        return !!(config.max && month.date.isAfter(config.max, 'month'));
+    };
+    MonthCalendarService.prototype.shouldShowLeft = function (min, currentMonthView) {
+        return min ? min.isBefore(currentMonthView, 'year') : true;
+    };
+    MonthCalendarService.prototype.shouldShowRight = function (max, currentMonthView) {
+        return max ? max.isAfter(currentMonthView, 'year') : true;
+    };
+    MonthCalendarService.prototype.getHeaderLabel = function (config, year) {
+        if (config.yearFormatter) {
+            return config.yearFormatter(year);
+        }
+        return year.format(config.yearFormat);
+    };
+    MonthCalendarService.prototype.getMonthBtnText = function (config, month) {
+        if (config.monthBtnFormatter) {
+            return config.monthBtnFormatter(month);
+        }
+        return month.format(config.monthBtnFormat);
+    };
+    MonthCalendarService.prototype.getMonthBtnCssClass = function (config, month) {
+        if (config.monthBtnCssClassCallback) {
+            return config.monthBtnCssClassCallback(month);
+        }
+        return '';
+    };
+    return MonthCalendarService;
+}());
+MonthCalendarService.decorators = [
+    { type: core_1.Injectable },
+];
+/** @nocollapse */
+MonthCalendarService.ctorParameters = function () { return [
+    { type: utils_service_1.UtilsService, },
+]; };
+exports.MonthCalendarService = MonthCalendarService;
+//# sourceMappingURL=month-calendar.service.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/time-select/time-select.component.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var calendar_mode_enum_1 = __webpack_require__("../../../../ng2-date-picker/common/types/calendar-mode-enum.js");
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var time_select_service_1 = __webpack_require__("../../../../ng2-date-picker/time-select/time-select.service.js");
+var moment = __webpack_require__("../../../../moment/moment.js");
+var forms_1 = __webpack_require__("../../../forms/@angular/forms.es5.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+var TimeSelectComponent = (function () {
+    function TimeSelectComponent(timeSelectService, utilsService) {
+        this.timeSelectService = timeSelectService;
+        this.utilsService = utilsService;
+        this.onChange = new core_1.EventEmitter();
+        this.CalendarType = calendar_mode_enum_1.ECalendarMode;
+        this.isInited = false;
+        this.api = {
+            triggerChange: this.emitChange.bind(this)
+        };
+    }
+    Object.defineProperty(TimeSelectComponent.prototype, "selected", {
+        get: function () {
+            return this._selected;
+        },
+        set: function (selected) {
+            this._selected = selected;
+            this.calculateTimeParts(this.selected);
+            this.onChangeCallback(this.processOnChangeCallback(selected));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    TimeSelectComponent.prototype.ngOnInit = function () {
+        this.isInited = true;
+        this.init();
+        this.initValidators();
+    };
+    TimeSelectComponent.prototype.init = function () {
+        this.componentConfig = this.timeSelectService.getConfig(this.config);
+        this.selected = this.selected || moment();
+        this.inputValueType = this.utilsService.getInputType(this.inputValue, false);
+    };
+    TimeSelectComponent.prototype.ngOnChanges = function (changes) {
+        if (this.isInited) {
+            var minDate = changes.minDate, maxDate = changes.maxDate, minTime = changes.minTime, maxTime = changes.maxTime;
+            this.init();
+            if (minDate || maxDate || minTime || maxTime) {
+                this.initValidators();
+            }
+        }
+    };
+    TimeSelectComponent.prototype.writeValue = function (value) {
+        this.inputValue = value;
+        if (value) {
+            var momentValue = this.utilsService
+                .convertToMomentArray(value, this.timeSelectService.getTimeFormat(this.componentConfig), false)[0];
+            if (momentValue.isValid()) {
+                this.selected = momentValue;
+                this.inputValueType = this.utilsService
+                    .getInputType(this.inputValue, false);
+            }
+        }
+    };
+    TimeSelectComponent.prototype.registerOnChange = function (fn) {
+        this.onChangeCallback = fn;
+    };
+    TimeSelectComponent.prototype.onChangeCallback = function (_) {
+    };
+    ;
+    TimeSelectComponent.prototype.registerOnTouched = function (fn) {
+    };
+    TimeSelectComponent.prototype.validate = function (formControl) {
+        if (this.minDate || this.maxDate || this.minTime || this.maxTime) {
+            return this.validateFn(formControl.value);
+        }
+        else {
+            return function () { return null; };
+        }
+    };
+    TimeSelectComponent.prototype.processOnChangeCallback = function (value) {
+        return this.utilsService.convertFromMomentArray(this.timeSelectService.getTimeFormat(this.componentConfig), [value], this.inputValueType);
+    };
+    TimeSelectComponent.prototype.initValidators = function () {
+        this.validateFn = this.utilsService.createValidator({
+            minDate: this.minDate,
+            maxDate: this.maxDate,
+            minTime: this.minTime,
+            maxTime: this.maxTime
+        }, undefined, 'day');
+        this.onChangeCallback(this.processOnChangeCallback(this.selected));
+    };
+    TimeSelectComponent.prototype.decrease = function (unit) {
+        this.selected = this.timeSelectService.decrease(this.componentConfig, this.selected, unit);
+        this.emitChange();
+    };
+    TimeSelectComponent.prototype.increase = function (unit) {
+        this.selected = this.timeSelectService.increase(this.componentConfig, this.selected, unit);
+        this.emitChange();
+    };
+    TimeSelectComponent.prototype.toggleMeridiem = function () {
+        this.selected = this.timeSelectService.toggleMeridiem(this.selected);
+        this.emitChange();
+    };
+    TimeSelectComponent.prototype.emitChange = function () {
+        this.onChange.emit({ date: this.selected, selected: false });
+    };
+    TimeSelectComponent.prototype.calculateTimeParts = function (time) {
+        this.hours = this.timeSelectService.getHours(this.componentConfig, time);
+        this.minutes = this.timeSelectService.getMinutes(this.componentConfig, time);
+        this.seconds = this.timeSelectService.getSeconds(this.componentConfig, time);
+        this.meridiem = this.timeSelectService.getMeridiem(this.componentConfig, time);
+    };
+    TimeSelectComponent.prototype.shouldShowDecrease = function (unit) {
+        return this.timeSelectService.shouldShowDecrease(this.componentConfig, this.selected, unit);
+    };
+    TimeSelectComponent.prototype.shouldShowIncrease = function (unit) {
+        return this.timeSelectService.shouldShowIncrease(this.componentConfig, this.selected, unit);
+    };
+    TimeSelectComponent.prototype.shouldShowToggleMeridiem = function () {
+        return this.timeSelectService.shouldShowToggleMeridiem(this.componentConfig, this.selected);
+    };
+    return TimeSelectComponent;
+}());
+TimeSelectComponent.decorators = [
+    { type: core_1.Component, args: [{
+                selector: 'dp-time-select',
+                template: '<ul class="dp-time-select-controls">   <li class="dp-time-select-control dp-time-select-control-hours">     <button type="button"             [disabled]="!shouldShowIncrease(\'hour\')"             class="dp-time-select-control-up"             (click)="increase(\'hour\')">     </button>     <span class="dp-time-select-display-hours">{{hours}}</span>     <button type="button"             [disabled]="!shouldShowDecrease(\'hour\')"             class="dp-time-select-control-down"             (click)="decrease(\'hour\')"></button>   </li>   <li class="dp-time-select-control dp-time-select-separator">{{componentConfig.timeSeparator}}</li>   <li class="dp-time-select-control dp-time-select-control-minutes">     <button type="button"             [disabled]="!shouldShowIncrease(\'minute\')" class="dp-time-select-control-up"             (click)="increase(\'minute\')"></button>     <span class="dp-time-select-display-minutes">{{minutes}}</span>     <button type="button"             [disabled]="!shouldShowDecrease(\'minute\')" class="dp-time-select-control-down"             (click)="decrease(\'minute\')"></button>   </li>   <ng-container *ngIf="componentConfig.showSeconds">     <li class="dp-time-select-control dp-time-select-separator">{{componentConfig.timeSeparator}}</li>     <li class="dp-time-select-control dp-time-select-control-seconds">       <button type="button"               [disabled]="!shouldShowIncrease(\'second\')"               class="dp-time-select-control-up"               (click)="increase(\'second\')"></button>       <span class="dp-time-select-display-seconds">{{seconds}}</span>       <button type="button"               [disabled]="!shouldShowDecrease(\'second\')" class="dp-time-select-control-down"               (click)="decrease(\'second\')"></button>     </li>   </ng-container>   <li class="dp-time-select-control dp-time-select-control-meridiem" *ngIf="!componentConfig.showTwentyFourHours">     <button type="button"             [disabled]="!shouldShowToggleMeridiem()"             class="dp-time-select-control-up"             (click)="toggleMeridiem()"></button>     <span class="dp-time-select-display-meridiem">{{meridiem}}</span>     <button type="button"             [disabled]="!shouldShowToggleMeridiem()"             class="dp-time-select-control-down"             (click)="toggleMeridiem()"></button>   </li> </ul> ',
+                styles: ['dp-time-select {  display: inline-block;}dp-time-select .dp-time-select-controls {  margin: 0;  padding: 0;  text-align: center;  line-height: normal;  background: #FFFFFF;}dp-time-select .dp-time-select-control {  display: inline-block;  width: 35px;  margin: 0 auto;  vertical-align: middle;  font-size: inherit;  letter-spacing: 1px;}dp-time-select .dp-time-select-control-up,dp-time-select .dp-time-select-control-down {  position: relative;  display: block;  width: 24px;  height: 24px;  margin: 3px auto;  cursor: pointer;}dp-time-select .dp-time-select-control-up::before,dp-time-select .dp-time-select-control-down::before {  position: relative;  content: \'\';  display: inline-block;  height: 8px;  width: 8px;  vertical-align: baseline;  border-style: solid;  border-width: 2px 2px 0 0;  transform: rotate(0deg);}dp-time-select .dp-time-select-control-up::before {  transform: rotate(-45deg);  top: 4px;}dp-time-select .dp-time-select-control-down::before {  transform: rotate(135deg);}dp-time-select .dp-time-select-separator {  width: 5px;}dp-time-select.dp-material .dp-time-select-control-up,dp-time-select.dp-material .dp-time-select-control-down {  box-sizing: border-box;  background: transparent;  border: none;  outline: none;  border-radius: 50%;}dp-time-select.dp-material .dp-time-select-control-up::before,dp-time-select.dp-material .dp-time-select-control-down::before {  left: 0;}dp-time-select.dp-material .dp-time-select-control-up:hover,dp-time-select.dp-material .dp-time-select-control-down:hover {  background: #E0E0E0;}'],
+                encapsulation: core_1.ViewEncapsulation.None,
+                providers: [
+                    time_select_service_1.TimeSelectService,
+                    {
+                        provide: forms_1.NG_VALUE_ACCESSOR,
+                        useExisting: core_1.forwardRef(function () { return TimeSelectComponent; }),
+                        multi: true
+                    },
+                    {
+                        provide: forms_1.NG_VALIDATORS,
+                        useExisting: core_1.forwardRef(function () { return TimeSelectComponent; }),
+                        multi: true
+                    }
+                ]
+            },] },
+];
+/** @nocollapse */
+TimeSelectComponent.ctorParameters = function () { return [
+    { type: time_select_service_1.TimeSelectService, },
+    { type: utils_service_1.UtilsService, },
+]; };
+TimeSelectComponent.propDecorators = {
+    'config': [{ type: core_1.Input },],
+    'displayDate': [{ type: core_1.Input },],
+    'minDate': [{ type: core_1.Input },],
+    'maxDate': [{ type: core_1.Input },],
+    'minTime': [{ type: core_1.Input },],
+    'maxTime': [{ type: core_1.Input },],
+    'theme': [{ type: core_1.HostBinding, args: ['class',] }, { type: core_1.Input },],
+    'onChange': [{ type: core_1.Output },],
+};
+exports.TimeSelectComponent = TimeSelectComponent;
+//# sourceMappingURL=time-select.component.js.map
+
+/***/ }),
+
+/***/ "../../../../ng2-date-picker/time-select/time-select.service.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var moment = __webpack_require__("../../../../moment/moment.js");
+var utils_service_1 = __webpack_require__("../../../../ng2-date-picker/common/services/utils/utils.service.js");
+exports.FIRST_PM_HOUR = 12;
+var TimeSelectService = (function () {
+    function TimeSelectService(utilsService) {
+        this.utilsService = utilsService;
+        this.DEFAULT_CONFIG = {
+            hours12Format: 'hh',
+            hours24Format: 'HH',
+            meridiemFormat: 'A',
+            minutesFormat: 'mm',
+            minutesInterval: 1,
+            secondsFormat: 'ss',
+            secondsInterval: 1,
+            showSeconds: false,
+            showTwentyFourHours: false,
+            timeSeparator: ':',
+            locale: 'en'
+        };
+    }
+    TimeSelectService.prototype.getConfig = function (config) {
+        var timeConfigs = {
+            maxTime: this.utilsService.onlyTime(config && config.maxTime),
+            minTime: this.utilsService.onlyTime(config && config.minTime)
+        };
+        var _config = __assign({}, this.DEFAULT_CONFIG, this.utilsService.clearUndefined(config), timeConfigs);
+        moment.locale(_config.locale);
+        return _config;
+    };
+    TimeSelectService.prototype.getTimeFormat = function (config) {
+        return (config.showTwentyFourHours ? config.hours24Format : config.hours12Format)
+            + config.timeSeparator + config.minutesFormat
+            + (config.showSeconds ? (config.timeSeparator + config.secondsFormat) : '')
+            + (config.showTwentyFourHours ? '' : ' ' + config.meridiemFormat);
+    };
+    TimeSelectService.prototype.getHours = function (config, t) {
+        var time = t || moment();
+        return time && time.format(config.showTwentyFourHours ? config.hours24Format : config.hours12Format);
+    };
+    TimeSelectService.prototype.getMinutes = function (config, t) {
+        var time = t || moment();
+        return time && time.format(config.minutesFormat);
+    };
+    TimeSelectService.prototype.getSeconds = function (config, t) {
+        var time = t || moment();
+        return time && time.format(config.secondsFormat);
+    };
+    TimeSelectService.prototype.getMeridiem = function (config, time) {
+        return time && time.format(config.meridiemFormat);
+    };
+    TimeSelectService.prototype.decrease = function (config, time, unit) {
+        var amount = 1;
+        switch (unit) {
+            case 'minute':
+                amount = config.minutesInterval;
+                break;
+            case 'second':
+                amount = config.secondsInterval;
+                break;
+        }
+        return time.clone().subtract(amount, unit);
+    };
+    TimeSelectService.prototype.increase = function (config, time, unit) {
+        var amount = 1;
+        switch (unit) {
+            case 'minute':
+                amount = config.minutesInterval;
+                break;
+            case 'second':
+                amount = config.secondsInterval;
+                break;
+        }
+        return time.clone().add(amount, unit);
+    };
+    TimeSelectService.prototype.toggleMeridiem = function (time) {
+        if (time.hours() < exports.FIRST_PM_HOUR) {
+            return time.clone().add(12, 'hour');
+        }
+        else {
+            return time.clone().subtract(12, 'hour');
+        }
+    };
+    TimeSelectService.prototype.shouldShowDecrease = function (config, time, unit) {
+        if (!config.min && !config.minTime) {
+            return true;
+        }
+        ;
+        var newTime = this.decrease(config, time, unit);
+        return (!config.min || config.min.isSameOrBefore(newTime))
+            && (!config.minTime || config.minTime.isSameOrBefore(this.utilsService.onlyTime(newTime)));
+    };
+    TimeSelectService.prototype.shouldShowIncrease = function (config, time, unit) {
+        if (!config.max && !config.maxTime) {
+            return true;
+        }
+        ;
+        var newTime = this.increase(config, time, unit);
+        return (!config.max || config.max.isSameOrAfter(newTime))
+            && (!config.maxTime || config.maxTime.isSameOrAfter(this.utilsService.onlyTime(newTime)));
+    };
+    TimeSelectService.prototype.shouldShowToggleMeridiem = function (config, time) {
+        if (!config.min && !config.max && !config.minTime && !config.maxTime) {
+            return true;
+        }
+        var newTime = this.toggleMeridiem(time);
+        return (!config.max || config.max.isSameOrAfter(newTime))
+            && (!config.min || config.min.isSameOrBefore(newTime))
+            && (!config.maxTime || config.maxTime.isSameOrAfter(this.utilsService.onlyTime(newTime)))
+            && (!config.minTime || config.minTime.isSameOrBefore(this.utilsService.onlyTime(newTime)));
+    };
+    return TimeSelectService;
+}());
+TimeSelectService.decorators = [
+    { type: core_1.Injectable },
+];
+/** @nocollapse */
+TimeSelectService.ctorParameters = function () { return [
+    { type: utils_service_1.UtilsService, },
+]; };
+exports.TimeSelectService = TimeSelectService;
+//# sourceMappingURL=time-select.service.js.map
+
+/***/ }),
+
 /***/ "../../../../ng2-timeline/index.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -30931,6 +33413,7 @@ module.exports = function(module) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_tslib__ = __webpack_require__("../../../../tslib/tslib.es6.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_observable_forkJoin__ = __webpack_require__("../../../../rxjs/observable/forkJoin.js");
@@ -30940,80 +33423,80 @@ module.exports = function(module) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operator_map__ = __webpack_require__("../../../../rxjs/operator/map.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
-/* unused harmony export AbstractControlDirective */
-/* unused harmony export AbstractFormGroupDirective */
-/* unused harmony export CheckboxControlValueAccessor */
-/* unused harmony export ControlContainer */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NG_VALUE_ACCESSOR; });
-/* unused harmony export COMPOSITION_BUFFER_MODE */
-/* unused harmony export DefaultValueAccessor */
-/* unused harmony export NgControl */
-/* unused harmony export NgControlStatus */
-/* unused harmony export NgControlStatusGroup */
-/* unused harmony export NgForm */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return NgModel; });
-/* unused harmony export NgModelGroup */
-/* unused harmony export RadioControlValueAccessor */
-/* unused harmony export FormControlDirective */
-/* unused harmony export FormControlName */
-/* unused harmony export FormGroupDirective */
-/* unused harmony export FormArrayName */
-/* unused harmony export FormGroupName */
-/* unused harmony export NgSelectOption */
-/* unused harmony export SelectControlValueAccessor */
-/* unused harmony export SelectMultipleControlValueAccessor */
-/* unused harmony export CheckboxRequiredValidator */
-/* unused harmony export EmailValidator */
-/* unused harmony export MaxLengthValidator */
-/* unused harmony export MinLengthValidator */
-/* unused harmony export PatternValidator */
-/* unused harmony export RequiredValidator */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return FormBuilder; });
-/* unused harmony export AbstractControl */
-/* unused harmony export FormArray */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return FormControl; });
-/* unused harmony export FormGroup */
-/* unused harmony export NG_ASYNC_VALIDATORS */
-/* unused harmony export NG_VALIDATORS */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return Validators; });
-/* unused harmony export VERSION */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormsModule; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ReactiveFormsModule; });
-/* unused harmony export ɵba */
-/* unused harmony export ɵz */
-/* unused harmony export ɵx */
-/* unused harmony export ɵy */
-/* unused harmony export ɵa */
-/* unused harmony export ɵb */
-/* unused harmony export ɵc */
-/* unused harmony export ɵd */
-/* unused harmony export ɵe */
-/* unused harmony export ɵf */
-/* unused harmony export ɵg */
-/* unused harmony export ɵbf */
-/* unused harmony export ɵbb */
-/* unused harmony export ɵbc */
-/* unused harmony export ɵh */
-/* unused harmony export ɵi */
-/* unused harmony export ɵbd */
-/* unused harmony export ɵbe */
-/* unused harmony export ɵj */
-/* unused harmony export ɵk */
-/* unused harmony export ɵl */
-/* unused harmony export ɵn */
-/* unused harmony export ɵm */
-/* unused harmony export ɵo */
-/* unused harmony export ɵq */
-/* unused harmony export ɵp */
-/* unused harmony export ɵs */
-/* unused harmony export ɵt */
-/* unused harmony export ɵv */
-/* unused harmony export ɵu */
-/* unused harmony export ɵw */
-/* unused harmony export ɵr */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AbstractControlDirective", function() { return AbstractControlDirective; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AbstractFormGroupDirective", function() { return AbstractFormGroupDirective; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxControlValueAccessor", function() { return CheckboxControlValueAccessor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ControlContainer", function() { return ControlContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NG_VALUE_ACCESSOR", function() { return NG_VALUE_ACCESSOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COMPOSITION_BUFFER_MODE", function() { return COMPOSITION_BUFFER_MODE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DefaultValueAccessor", function() { return DefaultValueAccessor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgControl", function() { return NgControl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgControlStatus", function() { return NgControlStatus; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgControlStatusGroup", function() { return NgControlStatusGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgForm", function() { return NgForm; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgModel", function() { return NgModel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgModelGroup", function() { return NgModelGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RadioControlValueAccessor", function() { return RadioControlValueAccessor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormControlDirective", function() { return FormControlDirective; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormControlName", function() { return FormControlName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormGroupDirective", function() { return FormGroupDirective; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormArrayName", function() { return FormArrayName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormGroupName", function() { return FormGroupName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgSelectOption", function() { return NgSelectOption; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectControlValueAccessor", function() { return SelectControlValueAccessor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SelectMultipleControlValueAccessor", function() { return SelectMultipleControlValueAccessor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CheckboxRequiredValidator", function() { return CheckboxRequiredValidator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EmailValidator", function() { return EmailValidator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MaxLengthValidator", function() { return MaxLengthValidator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MinLengthValidator", function() { return MinLengthValidator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PatternValidator", function() { return PatternValidator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RequiredValidator", function() { return RequiredValidator; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormBuilder", function() { return FormBuilder; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AbstractControl", function() { return AbstractControl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormArray", function() { return FormArray; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormControl", function() { return FormControl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormGroup", function() { return FormGroup; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NG_ASYNC_VALIDATORS", function() { return NG_ASYNC_VALIDATORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NG_VALIDATORS", function() { return NG_VALIDATORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Validators", function() { return Validators; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VERSION", function() { return VERSION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormsModule", function() { return FormsModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReactiveFormsModule", function() { return ReactiveFormsModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵba", function() { return InternalFormsSharedModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵz", function() { return REACTIVE_DRIVEN_DIRECTIVES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵx", function() { return SHARED_FORM_DIRECTIVES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵy", function() { return TEMPLATE_DRIVEN_DIRECTIVES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵa", function() { return CHECKBOX_VALUE_ACCESSOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵb", function() { return DEFAULT_VALUE_ACCESSOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵc", function() { return AbstractControlStatus; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵd", function() { return ngControlStatusHost; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵe", function() { return formDirectiveProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵf", function() { return formControlBinding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵg", function() { return modelGroupProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵbf", function() { return NgNoValidate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵbb", function() { return NUMBER_VALUE_ACCESSOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵbc", function() { return NumberValueAccessor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵh", function() { return RADIO_VALUE_ACCESSOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵi", function() { return RadioControlRegistry; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵbd", function() { return RANGE_VALUE_ACCESSOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵbe", function() { return RangeValueAccessor; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵj", function() { return formControlBinding$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵk", function() { return controlNameBinding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵl", function() { return formDirectiveProvider$1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵn", function() { return formArrayNameProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵm", function() { return formGroupNameProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵo", function() { return SELECT_VALUE_ACCESSOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵq", function() { return NgSelectMultipleOption; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵp", function() { return SELECT_MULTIPLE_VALUE_ACCESSOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵs", function() { return CHECKBOX_REQUIRED_VALIDATOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵt", function() { return EMAIL_VALIDATOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵv", function() { return MAX_LENGTH_VALIDATOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵu", function() { return MIN_LENGTH_VALIDATOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵw", function() { return PATTERN_VALIDATOR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵr", function() { return REQUIRED_VALIDATOR; });
 
 /**
- * @license Angular v4.3.6
+ * @license Angular v4.4.3
  * (c) 2010-2017 Google, Inc. https://angular.io/
  * License: MIT
  */
@@ -35579,12 +38062,12 @@ var formControlBinding$1 = {
  * {\@link AbstractControl}.
  *
  * **Set the value**: You can pass in an initial value when instantiating the {\@link FormControl},
- * or you can set it programmatically later using {\@link AbstractControl#setValue} or
- * {\@link AbstractControl#patchValue}.
+ * or you can set it programmatically later using {\@link AbstractControl#setValue setValue} or
+ * {\@link AbstractControl#patchValue patchValue}.
  *
  * **Listen to value**: If you want to listen to changes in the value of the control, you can
- * subscribe to the {\@link AbstractControl#valueChanges} event.  You can also listen to
- * {\@link AbstractControl#statusChanges} to be notified when the validation status is
+ * subscribe to the {\@link AbstractControl#valueChanges valueChanges} event.  You can also listen to
+ * {\@link AbstractControl#statusChanges statusChanges} to be notified when the validation status is
  * re-calculated.
  *
  * ### Example
@@ -35729,12 +38212,13 @@ var formDirectiveProvider$1 = {
  *
  * **Set value**: You can set the form's initial value when instantiating the
  * {\@link FormGroup}, or you can set it programmatically later using the {\@link FormGroup}'s
- * {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue} methods.
+ * {\@link AbstractControl#setValue setValue} or {\@link AbstractControl#patchValue patchValue}
+ * methods.
  *
  * **Listen to value**: If you want to listen to changes in the value of the form, you can subscribe
- * to the {\@link FormGroup}'s {\@link AbstractControl#valueChanges} event.  You can also listen to
- * its {\@link AbstractControl#statusChanges} event to be notified when the validation status is
- * re-calculated.
+ * to the {\@link FormGroup}'s {\@link AbstractControl#valueChanges valueChanges} event.  You can also
+ * listen to its {\@link AbstractControl#statusChanges statusChanges} event to be notified when the
+ * validation status is re-calculated.
  *
  * Furthermore, you can listen to the directive's `ngSubmit` event to be notified when the user has
  * triggered a form submission. The `ngSubmit` event will be emitted with the original form
@@ -36017,11 +38501,11 @@ var formGroupNameProvider = {
  *
  * **Set the value**: You can set an initial value for each child control when instantiating
  * the {\@link FormGroup}, or you can set it programmatically later using
- * {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue}.
+ * {\@link AbstractControl#setValue setValue} or {\@link AbstractControl#patchValue patchValue}.
  *
  * **Listen to value**: If you want to listen to changes in the value of the group, you can
- * subscribe to the {\@link AbstractControl#valueChanges} event.  You can also listen to
- * {\@link AbstractControl#statusChanges} to be notified when the validation status is
+ * subscribe to the {\@link AbstractControl#valueChanges valueChanges} event.  You can also listen to
+ * {\@link AbstractControl#statusChanges statusChanges} to be notified when the validation status is
  * re-calculated.
  *
  * ### Example
@@ -36259,7 +38743,7 @@ var controlNameBinding = {
  * closest {\@link FormGroup} or {\@link FormArray} above it.
  *
  * **Access the control**: You can access the {\@link FormControl} associated with
- * this directive by using the {\@link AbstractControl#get} method.
+ * this directive by using the {\@link AbstractControl#get get} method.
  * Ex: `this.form.get('first');`
  *
  * **Get value**: the `value` property is always synced and available on the {\@link FormControl}.
@@ -36267,11 +38751,11 @@ var controlNameBinding = {
  *
  *  **Set value**: You can set an initial value for the control when instantiating the
  *  {\@link FormControl}, or you can set it programmatically later using
- *  {\@link AbstractControl#setValue} or {\@link AbstractControl#patchValue}.
+ *  {\@link AbstractControl#setValue setValue} or {\@link AbstractControl#patchValue patchValue}.
  *
  * **Listen to value**: If you want to listen to changes in the value of the control, you can
- * subscribe to the {\@link AbstractControl#valueChanges} event.  You can also listen to
- * {\@link AbstractControl#statusChanges} to be notified when the validation status is
+ * subscribe to the {\@link AbstractControl#valueChanges valueChanges} event.  You can also listen to
+ * {\@link AbstractControl#statusChanges statusChanges} to be notified when the validation status is
  * re-calculated.
  *
  * ### Example
@@ -36937,7 +39421,7 @@ FormBuilder.ctorParameters = function () { return []; };
 /**
  * \@stable
  */
-var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["Version"]('4.3.6');
+var VERSION = new __WEBPACK_IMPORTED_MODULE_1__angular_core__["Version"]('4.4.3');
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.

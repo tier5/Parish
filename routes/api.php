@@ -33,6 +33,15 @@ Route::group(['prefix' => 'v1'], function() {
        'uses' => 'Api\V1\AuthController@signOut',
         'as' => 'api.v1.signOut.post'
     ]);
+    Route::post('forgot-password', [
+       'uses' => 'Api\V1\AuthController@forgetPassword',
+        'as' => 'api.v1.forgetPassword.post'
+    ]);
+
+    Route::post('reset-password', [
+                'uses' => 'Api\V1\AuthController@resetPassword',
+                'as' => 'api.v1.resetPassword.post'
+            ]);
     /**
      * Route for Authenticated user
      */
@@ -298,10 +307,10 @@ Route::group(['prefix' => 'v1'], function() {
                 'as'    => 'api.v1.deleteReport.delete'
             ]);
 
-            /*Route::post('/filter-report', [
+            Route::post('/filter-report/{user_id}/{user_type}', [
                 'uses' => 'Api\V1\ReportController@filteReport',
                 'as' => 'api.v1.filteReport.post'
-            ]);*/
+            ]);
 
             Route::put('/update-report/{report_id}', [
                 'uses' => 'Api\V1\ReportController@updateReport',
@@ -311,6 +320,11 @@ Route::group(['prefix' => 'v1'], function() {
             Route::patch('/update-report/{report_id}', [
                 'uses' => 'Api\V1\ReportController@updateReport',
                 'as' => 'api.v1.updateReport.patch'
+            ]);
+
+            Route::get('/view-report/{report_id}', [
+                'uses' => 'Api\V1\ReportController@viewReport',
+                'as' => 'api.v1.viewReport.get'
             ]);
 
         });

@@ -110,13 +110,22 @@ export class CreateParishComponent {
 																	this.areaList = response.json().areas;
 																}
 															);
+												},
+												(error: Response) => {
+													if ( error.status === 401 ) {
+														this.authService.removeToken();
+														this.router.navigate( [ '/login' ] );
+													}
 												}
 											);
 										}
 									);
 								},
 								(error: Response) => {
-									console.log(error);
+									if ( error.status === 401 ) {
+										this.authService.removeToken();
+										this.router.navigate( [ '/login' ] );
+									}
 								},
 								() => { }
 							);
@@ -130,6 +139,10 @@ export class CreateParishComponent {
 				
 			},
 			(error: Response) => {
+				if ( error.status === 401 ) {
+					this.authService.removeToken();
+					this.router.navigate( [ '/login' ] );
+				}
 				this.responseStatus = false;
 				this.responseReceived = true;
 				this.provinceList = [];
@@ -161,6 +174,10 @@ export class CreateParishComponent {
 						}
 					},
 					( error: Response ) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.zoneList           = [];
@@ -198,6 +215,10 @@ export class CreateParishComponent {
 						}
 					},
 					( error: Response ) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.zoneList           = [];
@@ -242,8 +263,9 @@ export class CreateParishComponent {
 				( error: Response ) => {
 					if ( error.status === 401 ) {
 						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
 					}
-					console.log( error );
+					
 					this.showLoader         = false;
 					this.responseStatus     = false;
 					this.responseReceived   = true;
@@ -322,6 +344,12 @@ export class CreateParishComponent {
 						area_id     : this.parishData.area_id,
 						parish_name : this.parishData.parish_name
 					} );
+				},
+				(error: Response) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
 				}
 			);
 		} else {

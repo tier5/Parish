@@ -1,6 +1,6 @@
 /** Component to handle create and edit Province */
 
-import { ActivatedRoute, Data, Params } from '@angular/router';
+import {ActivatedRoute, Data, Params, Router} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Response } from '@angular/http';
@@ -38,7 +38,8 @@ export class CreateProvinceComponent implements OnInit {
 	/** Injecting services to be used in this component */
 	constructor( private pzapService: ProvinceZoneAreaParishService,
 				 private authService: AuthService,
-				 private activatedRoute: ActivatedRoute ) { }
+				 private activatedRoute: ActivatedRoute,
+	             private router: Router) { }
 	
 	ngOnInit() {
 
@@ -66,7 +67,10 @@ export class CreateProvinceComponent implements OnInit {
 					);
 				},
 				(error: Response) => {
-					console.log(error);
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
 				}
 			);
 		}
@@ -95,8 +99,8 @@ export class CreateProvinceComponent implements OnInit {
 				( error: Response ) => {
 					if ( error.status === 401 ) {
 						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
 					}
-					
 					this.showLoader         = false;
 					this.responseStatus     = false;
 					this.responseReceived   = true;
@@ -129,6 +133,7 @@ export class CreateProvinceComponent implements OnInit {
 				( error: Response ) => {
 					if ( error.status === 401 ) {
 						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
 					}
 					
 					this.showLoader         = false;
@@ -163,6 +168,13 @@ export class CreateProvinceComponent implements OnInit {
 						last_name       : this.provinceData.last_name,
 						province_name   : this.provinceData.province_name
 					} );
+				},
+				(error: Response) => {
+					
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
 				}
 			);
 		} else {

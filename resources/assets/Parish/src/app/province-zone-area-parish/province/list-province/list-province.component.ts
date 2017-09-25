@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ProvinceListModel } from '../province-list.model';
 import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.service';
 import { Subscription } from 'rxjs/Subscription';
+import { AuthService } from "../../../auth/auth.service";
 
 
 @Component({
@@ -29,7 +30,8 @@ export class ListProvinceComponent implements OnInit, OnDestroy {
 	
 	/** Injecting services to be used in this component */
 	constructor( private pzapService: ProvinceZoneAreaParishService,
-	             private router: Router ) { }
+	             private router: Router,
+	             private authService: AuthService) { }
 	
 	ngOnInit() {
 
@@ -51,6 +53,10 @@ export class ListProvinceComponent implements OnInit, OnDestroy {
 						}
 					},
 					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus = false;
 						this.responseReceived = true;
 						this.provinceList = [];
@@ -92,6 +98,10 @@ export class ListProvinceComponent implements OnInit, OnDestroy {
 						}, 3000 )
 					},
 					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.provinceList       = [];

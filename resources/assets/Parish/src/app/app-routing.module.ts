@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import {Routes, RouterModule, PreloadAllModules} from '@angular/router';
+import {Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 import { AuthGuard } from './auth/auth.guard';
 import { FullLayoutComponent } from './layout/full-layout.component';
@@ -8,8 +8,10 @@ import { NotAuthGuard } from './auth/not-auth.guard';
 /** All Routes */
 const appRoutes: Routes = [
 	{ path: '', redirectTo: 'login', pathMatch: 'full' },
-	{ path: 'login', canActivate: [ NotAuthGuard ], loadChildren: './auth/login/login.module#LoginModule' },
+    { path: 'login', canActivate: [ NotAuthGuard ], loadChildren: './auth/login/login.module#LoginModule' },
 	{ path: 'register', canActivate: [ NotAuthGuard ], loadChildren: './auth/register/register.module#RegisterModule' },
+    { path: 'forgot-password', canActivate: [ NotAuthGuard ], loadChildren: './auth/forgot-password/forgot-password.module#ForgotPasswordModule' },
+    { path: 'reset-password/:email/:token', canActivate: [ NotAuthGuard ], loadChildren: './auth/reset-password/reset-password.module#ResetPasswordModule' },
 	{ path: '', canActivate: [ AuthGuard ], canActivateChild: [ AuthGuard ], component: FullLayoutComponent, data: { title: 'Home' }, children: [
 		{ path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule', data: { title2: 'Dashboard' } },
 		{ path: 'form', loadChildren: './form/form.module#FormModule' },
@@ -26,7 +28,8 @@ const appRoutes: Routes = [
 		{ path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' },
 		{ path: 'report', loadChildren: './report/report.module#ReportModule' },
 		{ path: 'payment', loadChildren: './payment-details/payment.module#PaymentModule'}
-	] }
+	] },
+    { path: '**', redirectTo: 'login' }
 ];
 @NgModule( {
 	imports: [ RouterModule.forRoot( appRoutes, { preloadingStrategy: PreloadAllModules } ) ],

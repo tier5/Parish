@@ -108,6 +108,10 @@ export class CreateAreaComponent {
 				
 			},
 			(error: Response) => {
+				if( error.status === 401) {
+					this.authService.removeToken();
+					this.router.navigate( ['/login'] );
+				}
 				this.responseStatus     = false;
 				this.responseReceived   = true;
 				this.provinceList       = [];
@@ -134,6 +138,10 @@ export class CreateAreaComponent {
 					}
 				},
 				(error: Response) => {
+					if( error.status === 401) {
+						this.authService.removeToken();
+						this.router.navigate( ['/login'] );
+					}
 					this.responseStatus     = false;
 					this.responseReceived   = true;
 					this.zoneList           = [];
@@ -172,10 +180,10 @@ export class CreateAreaComponent {
 					}
 				},
 				( error: Response ) => {
-					if ( error.status === 401 ) {
+					if( error.status === 401) {
 						this.authService.removeToken();
+						this.router.navigate( ['/login'] );
 					}
-					console.log( error );
 					this.showLoader         = false;
 					this.responseStatus     = false;
 					this.responseReceived   = true;
@@ -249,9 +257,14 @@ export class CreateAreaComponent {
 						zone_id     : this.areaData.zone_id,
 						area_name   : this.areaData.area_name
 					} );
+				},
+				(error: Response) =>{
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
 				}
 			);
-			
 		} else {
 			createAreaForm.reset();
 			this.provinceSelected   = false;

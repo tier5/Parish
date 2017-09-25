@@ -192,7 +192,7 @@ var TablesWidgetModule = (function () {
 TablesWidgetModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* ReactiveFormsModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"], __WEBPACK_IMPORTED_MODULE_1__angular_forms__["ReactiveFormsModule"],
             __WEBPACK_IMPORTED_MODULE_2__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_4_app_widgets_tables_tables_routing__["a" /* TableWidgetRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_5_ng2_smart_table__["a" /* Ng2SmartTableModule */]
@@ -17320,7 +17320,7 @@ TablesWidgetModule = __decorate([
 
 var noop = function () { };
 var COMPLETER_CONTROL_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
+    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NG_VALUE_ACCESSOR"],
     useExisting: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return CompleterCmp; }),
     multi: true
 };
@@ -17354,7 +17354,7 @@ var CompleterCmp = (function () {
         this.opened = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.keyup = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
         this.keydown = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.control = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */]("");
+        this.control = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"]("");
         this.displaySearching = true;
         this.displayNoResults = true;
         this._textNoResults = __WEBPACK_IMPORTED_MODULE_4__globals__["f" /* TEXT_NO_RESULTS */];
@@ -18216,7 +18216,7 @@ var CtrInput = (function () {
     /** @nocollapse */
     CtrInput.ctorParameters = function () { return [
         { type: __WEBPACK_IMPORTED_MODULE_3__ctr_completer__["a" /* CtrCompleter */], decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Host"] },] },
-        { type: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* NgModel */], },
+        { type: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["NgModel"], },
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
     ]; };
     CtrInput.propDecorators = {
@@ -18684,7 +18684,7 @@ var Ng2CompleterModule = (function () {
         { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
                     imports: [
                         __WEBPACK_IMPORTED_MODULE_12__angular_common__["CommonModule"],
-                        __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
+                        __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
                         __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */]
                     ],
                     declarations: [
@@ -19920,7 +19920,7 @@ CellModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_3_ng2_completer__["a" /* Ng2CompleterModule */],
         ],
         declarations: CELL_COMPONENTS.slice(),
@@ -19970,7 +19970,7 @@ var CheckboxFilterComponent = (function (_super) {
     function CheckboxFilterComponent() {
         var _this = _super.call(this) || this;
         _this.filterActive = false;
-        _this.inputControl = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */]();
+        _this.inputControl = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"]();
         return _this;
     }
     CheckboxFilterComponent.prototype.ngOnInit = function () {
@@ -20186,7 +20186,7 @@ var InputFilterComponent = (function (_super) {
     __extends(InputFilterComponent, _super);
     function InputFilterComponent() {
         var _this = _super.call(this) || this;
-        _this.inputControl = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */]();
+        _this.inputControl = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"]();
         return _this;
     }
     InputFilterComponent.prototype.ngOnInit = function () {
@@ -20254,7 +20254,7 @@ var SelectFilterComponent = (function (_super) {
     __extends(SelectFilterComponent, _super);
     function SelectFilterComponent() {
         var _this = _super.call(this) || this;
-        _this.inputControl = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["e" /* FormControl */]();
+        _this.inputControl = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"]();
         return _this;
     }
     SelectFilterComponent.prototype.ngOnInit = function () {
@@ -20410,8 +20410,8 @@ FilterModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* ReactiveFormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["ReactiveFormsModule"],
             __WEBPACK_IMPORTED_MODULE_3_ng2_completer__["a" /* Ng2CompleterModule */],
         ],
         declarations: FILTER_COMPONENTS.slice(),
@@ -20589,7 +20589,7 @@ PagerModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_3__pager_component__["a" /* PagerComponent */],
@@ -20996,7 +20996,7 @@ TBodyModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_3__cell_cell_module__["a" /* CellModule */],
         ],
         declarations: TBODY_COMPONENTS.slice(),
@@ -21684,7 +21684,7 @@ THeadModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_3__filter_filter_module__["a" /* FilterModule */],
             __WEBPACK_IMPORTED_MODULE_4__cell_cell_module__["a" /* CellModule */],
         ],
@@ -23292,8 +23292,8 @@ Ng2SmartTableModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* ReactiveFormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["ReactiveFormsModule"],
             __WEBPACK_IMPORTED_MODULE_3__components_cell_cell_module__["a" /* CellModule */],
             __WEBPACK_IMPORTED_MODULE_4__components_filter_filter_module__["a" /* FilterModule */],
             __WEBPACK_IMPORTED_MODULE_5__components_pager_pager_module__["a" /* PagerModule */],

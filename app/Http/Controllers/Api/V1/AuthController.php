@@ -5,6 +5,7 @@
 namespace App\Http\Controllers\Api\V1;
 use App\Exceptions\HttpBadRequestException;
 use App\Models\User;
+use App\Models\PasswordReset;
 use Auth;
 use Crypt;
 use DB;
@@ -346,4 +347,172 @@ class AuthController extends Controller {
         return response()->json($response, $responseCode);
     }
 
+    /**
+     * Forget password generate url
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function forgetPassword(Request $request) {
+        try {
+
+            /**
+             * Validate mandatory fields
+             */
+            if (!$request->has('email'))
+
+                throw new HttpBadRequestException("Email is required.");
+            
+            $user = User::where('email',$request->input('email'))->first();
+            if ($user) {
+                
+                if ($user->deleted_at != null){
+                /** can't login due to soft delete */
+                $response = [
+                    'status'    => false,
+                    'error'     => "User already deleted, so cannot reset password.",
+                ];
+                $responseCode = 422;
+
+                } else {
+
+                /**
+                 * Fire a mail to user with original subject and message
+                 */
+                    $token = str_random(64);
+                    $reset = new PasswordReset();
+                    $reset->email = $user->email;
+                    $reset->token = $token;
+                    $reset->created_at = date('Y-m-d h:i:j');
+                    $reset->save();
+                    $url = url('/') . '/reset-password/' . $user->email . '/' . $token;
+                    $name = $user->firstName . ' ' . $user->lastName;
+
+                     Mail::send('emails.resetpasswordEmail', [
+                        'firstName'     => $user->first_name,
+                        'lastName'      => $user->last_name,
+                        'email'         => 'info@parish.com',
+                        'url'           => $url
+                        
+                    ], function ($mail) use ($user) {
+                        /** @noinspection PhpUndefinedMethodInspection */
+                        $mail->from('info@parish.com', 'WEM Reset-Password');
+                        /** @noinspection PhpUndefinedMethodInspection */
+                        $mail->to($user->email, "Parish")
+                            ->subject('Parish WEM Re-set Password Link');
+                    });
+                    $response = [
+                        'status'            => true,
+                        'message'           => "Confirmation mail send to your email address.",
+                    ];
+                    $responseCode = 200; 
+                }
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "Sorry! no data avilable for this email address."
+                ];
+                $responseCode = 422;
+            }
+
+        } catch (HttpBadRequestException $httpBadRequestException) {    
+
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } /** @noinspection PhpUndefinedClassInspection */ 
+        catch (JWTAuthException $JWTAuthException) {
+
+            $response = [
+                'status'        => false,
+                'error'         => "Failed to create token.",
+                'error_info'    => $JWTAuthException->getMessage()
+            ];
+            $responseCode = 500;
+
+        } catch (Exception $exception) {
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                "error_info"    => $exception->getMessage()
+            ];
+            $responseCode = 500;
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Reset Password if user Successfully fill up his reset password form
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+      
+    public function resetPassword(Request $request) {
+        $reset = PasswordReset::where('email', $request->email)->where('token', $request->token)->first();
+        if ($reset != null) {
+            /*if (strtotime($reset->created_at) > strtotime("-30 minutes")) {*/
+                if ($request->email != null && $request->password != null && $request->confirm_password != null) {
+                    if ($request->password == $request->confirm_password) {
+                        
+                        $user = User::where('email', $request->email)->first();
+                        if ($user != null) {
+                            $user->password = $request->input('password');
+                            $user->uniqueKey = Crypt::encrypt($request->input('password'));
+                            $user->update();
+                            $password = PasswordReset::where('email', $user->email)->delete();
+                            
+                            $response = [
+                                'status'        => true,
+                                'message'         => "Password Reset Successfully"
+                            ];
+                            $responseCode = 200;
+                            return response()->json($response, $responseCode);
+                        } else {
+                            $response = [
+                                'status'        => false,
+                                'error'         => "User not Found"
+                            ];
+                            $responseCode = 400;
+                            return response()->json($response, $responseCode);
+                        }
+                    } else {
+                        $response = [
+                            'status'        => false,
+                            'error'         => "Password and confirm should be same"
+                        ];
+                        $responseCode = 406;
+                        return response()->json($response, $responseCode);
+                    }
+                } else {
+                    
+                    $response = [
+                    'status'        => false,
+                    'error'         => "Enter Password and confirm password"
+                    ];
+                    $responseCode = 406;
+                    return response()->json($response, $responseCode);
+                }
+            /*} else {
+                $response = [
+                    'status'        => false,
+                    'error'         => "Token expired"
+                ];
+                $responseCode = 403;
+                return response()->json($response, $responseCode);
+            }*/
+        } else {
+            $response = [
+                'status'        => false,
+                'error'         => "Token not valid or You Use this token already"
+            ];
+            $responseCode = 403;
+            return response()->json($response, $responseCode);
+        }
+    }
 }

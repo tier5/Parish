@@ -6,7 +6,8 @@ import { ListReportComponent } from './list-report/list-report.component';
 
 const reportRoutes: Routes = [
 	{ path: 'create', component: CreateReportComponent,  data: { editMode: false } },
-	{ path: 'list', component: ListReportComponent }
+	{ path: 'list', component: ListReportComponent },
+    { path: 'edit/:id', component: CreateReportComponent,  data: { editMode: true } },
 ];
 
 @NgModule({

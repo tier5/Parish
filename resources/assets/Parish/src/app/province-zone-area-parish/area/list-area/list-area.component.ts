@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { ZoneListModel } from '../../zone/zone-list.model';
 import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.service';
+import {AuthService} from "../../../auth/auth.service";
 
 @Component({
 	selector: 'app-list-area',
@@ -43,7 +44,8 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 	
 	/** Injecting services to be used in this component */
 	constructor( private router: Router,
-	             private pzapService: ProvinceZoneAreaParishService ) { }
+	             private pzapService: ProvinceZoneAreaParishService,
+	             private authService: AuthService) { }
 	
 	ngOnInit() {
 
@@ -65,6 +67,10 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 						}
 					},
 					(error: Response) => {
+						if( error.status === 401) {
+							this.authService.removeToken();
+							this.router.navigate( ['/login'] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.areaList           = [];
@@ -88,7 +94,6 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 							if (this.selectionProvince == 0 && this.zoneSelected ){
 								this.selectionProvince = this.zoneList[0].province_id;
 							}
-							
 							this.responseNoRecord   = response.json().noData;
 						} else {
 							this.zoneList           = [];
@@ -97,6 +102,10 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 						}
 					},
 					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.zoneList           = [];
@@ -139,6 +148,10 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 						}, 3000 )
 					},
 					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
 						this.responseStatus     = false;
 						this.responseReceived   = true;
 						this.areaList           = [];
@@ -164,6 +177,10 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 				}
 			},
 			(error: Response) => {
+				if ( error.status === 401 ) {
+					this.authService.removeToken();
+					this.router.navigate( [ '/login' ] );
+				}
 				this.responseStatus     = false;
 				this.responseReceived   = true;
 				this.provinceList       = [];
@@ -213,6 +230,10 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 					}
 				},
 				(error: Response) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
 					this.responseStatus     = false;
 					this.responseReceived   = true;
 					this.selectionZone      = null;
@@ -251,6 +272,10 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 					}
 				},
 				(error: Response) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
 					this.responseStatus     = false;
 					this.responseReceived   = true;
 					this.responseMsg        = error.json().error;

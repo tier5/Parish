@@ -35,15 +35,29 @@ export class ListPaymentComponent {
 	progress                        : number        =  0 ;
 	files                           : FileList;
 	base_url                        : string        = environment.base_url;
-	
+	months 							= Array();
+
 	/** Injecting services to be used in this component */
 	constructor( private payservice: PaymentService,
 	             private router: Router,
 	             private authService: AuthService ) { }
 	
 	ngOnInit() {
-		
-		
+
+        /** Initializing month array */
+        this.months[1] = { name:"January", number: 1 };
+        this.months[2] = { name:"February", number: 2 };
+        this.months[3] = { name:"March", number: 3 };
+        this.months[4] = { name:"April", number: 4 };
+        this.months[5] = { name:"May", number: 5 };
+        this.months[6] = { name:"June", number: 6 };
+        this.months[7] = { name:"July", number: 7 };
+        this.months[8] = { name:"August", number: 8 };
+        this.months[9] = { name:"September", number: 9 };
+        this.months[10] = { name:"October", number: 10 };
+        this.months[11] = { name:"November", number: 11 };
+        this.months[12] = { name:"December", number: 12 };
+
 		/** Subscribe to event to refresh province list */
 		this.refreshPaymentListSubscription = this.payservice.refreshList
 			.subscribe(
