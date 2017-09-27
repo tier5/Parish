@@ -33,6 +33,15 @@ Route::group(['prefix' => 'v1'], function() {
        'uses' => 'Api\V1\AuthController@signOut',
         'as' => 'api.v1.signOut.post'
     ]);
+    Route::post('forgot-password', [
+       'uses' => 'Api\V1\AuthController@forgetPassword',
+        'as' => 'api.v1.forgetPassword.post'
+    ]);
+
+    Route::post('reset-password', [
+                'uses' => 'Api\V1\AuthController@resetPassword',
+                'as' => 'api.v1.resetPassword.post'
+            ]);
     /**
      * Route for Authenticated user
      */

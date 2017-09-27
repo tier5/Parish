@@ -60,8 +60,9 @@
                             <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                             Login
                         </button>
-                        <button type="reset" class="btn btn-default" (click)="onReset(form)">Reset</button>
-                        <button type="button" class="btn btn-primary pull-right" (click)="onNavigate()">Register</button>
+                        <button type="reset" class="btn btn-default" [disabled]="showLoader" (click)="onReset(form)">Reset</button>
+                        <button type="button" class="btn btn-warning" [disabled]="showLoader" (click)="onForgotPassword()">Forgot Password</button>
+                        <button type="button" class="btn btn-primary pull-right" [disabled]="showLoader" (click)="onNavigate()">Register</button>
                     </fieldset>
                 </form>
             </div>

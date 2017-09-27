@@ -80,6 +80,11 @@ export class LoginComponent {
 	onReset( formSignIn: NgForm ) {
 		formSignIn.reset();
 	}
+
+    /** Function call to navigate to forgot password page */
+    onForgotPassword() {
+        this.router.navigate(['/forgot-password']);
+	}
 	
 	/** Function call to navigate to registration page */
 	onNavigate() {
