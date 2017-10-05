@@ -540,107 +540,279 @@ class ReportController extends Controller {
         try {
 
             DB::beginTransaction();
-            if($user_type == 1){
-                $request_month  = $request->input('report_month');
-                $request_year   = $request->input('report_year');
-                $parish_id      = $request->input('parish_id');
-                if($request_month && $request_year && $parish_id) {
-                    $report = Report::where('parish_id',$parish_id)
-                                    ->where('report_month',$request_month)
-                                    ->where('report_year',$request_year)
-                                    ->get();
-                } else if($request_month && $request_year && !$parish_id) {
-                    $report = Report::where('parish_id',$parish_id)
-                                    ->where('report_month',$request_month)
-                                    ->where('report_year',$request_year)
-                                    ->get();
-                } else if($request_month && $parish_id && !$request_year) {
-                    $report = Report::where('parish_id',$parish_id)
-                                    ->where('report_month',$request_month)
-                                    ->get();
-                }else if($request_year && $parish_id && !$request_month) {
-                    $report = Report::where('parish_id',$parish_id)
-                                    ->where('report_year',$request_year)
-                                    ->get();
-                } else if(!$request_month && !$request_year && $parish_id){
-                    $report = Report::where('parish_id',$parish_id)->get();
-                } else {
-                    $parish_all = Parish::where('created_by',$user_id)->get();
-                    $parishArray = array();
-                        foreach($parish_all as $parish) {
-                            array_push($parishArray,$parish->id);
+
+            /** Logged in user is Parish */
+            if($user_type == 3) {
+                $request_month  =   $request->input('report_month');
+                $request_year   =   $request->input('report_year');
+                $parishInfo = Parish::where('user_id',$user_id)->first();
+                $report = Report::whereNull('deleted_at');
+                $report = $request->has('report_month') ? $report->where('report_month', $request_month) : $report;
+                $report = $request->has('report_year') ? $report->where('report_year', $request_year) : $report;
+                $report = $report->where('parish_id',$parishInfo->id);
+                $report = $report->get();
+            }
+            /** Logged in user is WEM */
+            else if($user_type == 1) {
+                if($request->has('province_id') || $request->has('zone_id') || $request->has('area_id') || $request->has('parish_id') || $request->has('report_month') || $request->has('report_year') ){
+
+                    $province_id    =   $request->input('province_id');
+                    $zone_id        =   $request->input('zone_id');
+                    $area_id        =   $request->input('area_id');
+                    $request_month  =   $request->input('report_month');
+                    $request_year   =   $request->input('report_year');
+
+                    if($request->has('parish_id')){
+                        $report = Report::whereNull('deleted_at');
+                        $report = $request->has('report_month') ? $report->where('report_month', $request_month) : $report;
+                        $report = $request->has('report_year') ? $report->where('report_year', $request_year) : $report;
+                        $report = $report->where('parish_id',$request->input('parish_id'));
+                        $report = $report->get();
+                    } else if($request->has('province_id') || $request->has('zone_id') || $request->has('area_id')) {
+
+                        $province_id    =   $request->input('province_id');
+                        $zone_id        =   $request->input('zone_id');
+                        $area_id        =   $request->input('area_id');
+                        
+                        if($request->has('area_id')) {
+
+                            $parishes = Area::find($area_id)->parishes;
+                        } else {
+
+                           if($request->has('zone_id')) {
+                                if(Zone::find($zone_id)){
+                                  $parishes = Zone::find($zone_id)->parishes;  
+                                } else {
+                                  $parishes = [];  
+                                }
+                            } else {
+                                if(Provience::find($province_id)) {
+                                    $areas = Provience::find($province_id)->areas;
+                                    $area_array =[];
+                                    foreach ($areas as  $area) {
+
+                                        array_push($area_array,$area->id);
+                                    }
+                                    $parishes = Parish::whereIn('area_id',$area_array)->get();
+                                } else {
+                                   $parishes = []; 
+                                }
+                            }
                         }
-                    $report = Report::whereIn('parish_id',$parishArray)->get();
-                }
-            } else if($user_type == 2){
-                $user = User::find($user_id);
-                if($user->pastor_type == 1){
-                    $provinceInfo   = provience::where('user_id',$user_id)->first();
-                    $zoneInfo       = zone::where('provience_id',$provinceInfo->id)->get();
-                    $zoneArray      = array();
-                    foreach($zoneInfo as $zone){
-                        array_push($zoneArray,$zone->id);
+
+                        $parishArray = array();
+                        if($parishes) {
+                            foreach($parishes as $parish) {
+                                array_push($parishArray, $parish->id);
+                            }
+                            $report = Report::whereNull('deleted_at');
+                            $report = $request->has('request_month') ? $report->where('upload_month', $request_month) : $report;
+                            $report = $request->has('request_year') ? $report->where('upload_year', $request_year) : $report;
+                            $report = ($parishes) ? $report->whereIn('parish_id',$parishArray) : $report;
+                            $report = $report->get();
+                        } else {
+                            $report = [];
+                        }
+                    } else {
+                        $parishArray = array();
+                        $parishes = Parish::where('created_by',$user_id)->get();
+                        if($parishes) {
+                            foreach($parishes as $parish) {
+                                array_push($parishArray, $parish->id);
+                            }
+                            $report = Report::whereNull('deleted_at');
+                            $report = $request->has('report_month') ? $report->where('report_month', $request_month) : $report;
+                            $report = $request->has('report_year') ? $report->where('report_year', $request_year) : $report;
+                            $report = ($parishes) ? $report->whereIn('parish_id',$parishArray) : $report;
+                            $report = $report->get();
+                        } else {
+                            $report = [];
+                        }
                     }
-                    $areaList   = Area::whereIn('zone_id',$zoneArray)->get();
-                    $areaArray  = array();
-                    foreach($areaList as $area){
-                        array_push($areaArray,$area->id);
-                    }
-                    $parishList     = Parish::whereIn('area_id',$areaArray)->get();
-                    $parishArray    = array();
-                    foreach($parishList as $parish){
-                        array_push($parishArray,$parish->id);
-                    }
-                    $report = Report::whereIn('parish_id',$parishArray)->get();
-                } else if($user->pastor_type == 2){
-                    $zoneInfo   = zone::where('user_id',$user->id)->first();
-                    $areaList   = Area::where('zone_id',$zoneInfo->id)->get();
-                    $areaArray  = array();
-                    foreach($areaList as $area){
-                        array_push($areaArray,$area->id);
-                    }
-                    $parishList     = Parish::whereIn('area_id',$areaArray)->get();
-                    $parishArray    = array();
-                    foreach($parishList as $parish){
-                        array_push($parishArray,$parish->id);
-                    }
-                    $report         = Report::whereIn('parish_id',$parishArray)->get();
                 } else {
-                    $areaInfo       = Area::where('user_id',$user->id)->first();
-                    $parishList     = Parish::where('area_id',$areaInfo->id)->get();
-                    $parishArray    = array();
-                    foreach($parishList as $parish){
-                        array_push($parishArray,$parish->id);
-                    }
-                    $report = Report::whereIn('created_by',$parishArray)->get();
+                    $request_month  =   $request->input('report_month');
+                    $request_year   =   $request->input('report_year');
+                    $parishArray = array();
+                        $parishes = Parish::where('created_by',$user_id)->get();
+                        if($parishes) {
+                            foreach($parishes as $parish) {
+                                array_push($parishArray, $parish->id);
+                            }
+                            $report = Report::whereNull('deleted_at');
+                            $report = $request->has('request_month') ? $report->where('upload_month', $request_month) : $report;
+                            $report = $request->has('request_year') ? $report->where('upload_year', $request_year) : $report;
+                            $report = ($parishes) ? $report->whereIn('parish_id',$parishArray) : $report;
+                            $report = $report->get();
+                        } else {
+                            $report = [];
+                        }
                 }
             } else {
-                $parish_id      = Parish::where('user_id',$user_id)->first();
-                $request_month  = $request->input('report_month');
-                $request_year   = $request->input('report_year');
-                
-                if($request_month && $request_year) {
-                    $report     = Report::where('parish_id',$parish_id->id)
-                                        ->where('report_year',$request_year)
-                                        ->where('report_month',$request_month)
-                                        ->get(); 
-                } else if (!$request_month && $request_year) {
-                   $report     = Report::where('parish_id',$parish_id->id)
-                                        ->where('report_year',$request_year)
-                                        ->get(); 
-                } else if ($request_month && !$request_year) {
-                     $report     = Report::where('parish_id',$parish_id->id)
-                                        ->where('report_month',$request_month)
-                                        ->get(); 
+                /** Logged in user is Paster */
+                $province_id    =   $request->input('province_id');
+                $zone_id        =   $request->input('zone_id');
+                $area_id        =   $request->input('area_id');
+                $request_month  =   $request->input('report_month');
+                $request_year   =   $request->input('report_year');
+
+                $userDetails =User::find($user_id);
+                if($userDetails->pastor_type == 1) {
+
+                   if($request->has('parish_id')) {
+                        $report = Report::whereNull('deleted_at');
+                        $report = $request->has('report_month') ? $report->where('report_month', $request_month) : $report;
+                        $report = $request->has('report_year') ? $report->where('report_year', $request_year) : $report;
+                        $report = $report->where('parish_id',$request->input('parish_id'));
+                        $report = $report->get();
+
+                    } else {
+                        if ($request->has('area_id')) {
+                            $parishList = Parish::where('area_id',$request->input('area_id'))->get();
+                            $parishArray = array();
+                            foreach($parishList as $parish){
+                                array_push($parishArray,$parish->id);
+                            }
+                        } else if ($request->has('zone_id')) {
+                            $areaList = Area::where('zone_id',$request->input('zone_id'))->get();
+                            $areaArray = array();
+                            $parishArray = array();
+                            if($areaList) {
+                                foreach($areaList as $area){
+                                array_push($areaArray,$area->id);
+                                }
+                                $parishList = Parish::whereIn('area_id',$areaArray)->get();
+                                if($parishList) {
+                                    foreach($parishList as $parish){
+                                        array_push($parishArray,$parish->id);
+                                    }   
+                                }
+                            }
+                        } else {
+                            $provinceInfo = Provience::where('user_id',$userDetails->id)->first();
+                            $zoneInfo = zone::where('provience_id',$provinceInfo->id)->get();
+                            $zoneArray = array();
+                            $areaArray = array();
+                            $parishArray = array();
+                            if($zoneInfo) {
+                                foreach($zoneInfo as $zone){
+                                    array_push($zoneArray,$zone->id);
+                                }
+                                if($zoneArray) {
+                                    $areaList = Area::whereIn('zone_id',$zoneArray)->get();
+                                    if($areaList) {
+                                        foreach($areaList as $area){
+                                            array_push($areaArray,$area->id);
+                                        }
+                                        $parishList = Parish::whereIn('area_id',$areaArray)->get();
+                                        if($parishList) {
+                                            foreach($parishList as $parish){
+                                             array_push($parishArray,$parish->id);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        if($parishArray) {
+                            $report = Report::whereNull('deleted_at');
+                            $report = $request->has('report_month') ? $report->where('report_month', $request_month) : $report;
+                            $report = $request->has('report_year') ? $report->where('report_year', $request_year) : $report;
+                            $report = $report->whereIn('parish_id',$parishArray);
+                            $report = $report->get();
+                        } else {
+                            $report = [];
+                        }
+                    }
+                } else if($userDetails->pastor_type == 2) {
+                    if($request->has('parish_id')) {
+                        $parishInfo = Parish::find($request->input('parish_id'));
+                        $parish_id  = $parishInfo->user_id;
+
+                        $report = Report::whereNull('deleted_at');
+                        $report = $request->has('report_month') ? $report->where('report_month', $request_month) : $report;
+                        $report = $request->has('report_year') ? $report->where('report_year', $request_year) : $report;
+                        $report = $report->where('parish_id',$request->input('parish_id'));
+                        $report = $report->get();
+                    } else {
+                        $parishArray = array();
+                        if($request->has('area_id')){
+                            $parishList = Parish::where('area_id',$request->input('area_id'))->get();
+                        } else {
+                            $zoneInfo = zone::where('user_id',$userDetails->id)->first();
+                            $areaList = Area::where('zone_id',$zoneInfo->id)->get();
+                            $areaArray = array();
+                            $parishArray = array();
+                            if($areaList) {
+                               foreach($areaList as $area){
+                                    array_push($areaArray,$area->id);
+                                }
+                                $parishList = Parish::whereIn('area_id',$areaArray)->get(); 
+                            }
+                        }
+                        if($parishList) {
+                            foreach($parishList as $parish){
+                                array_push($parishArray,$parish->id);
+                            }
+                            $report = Report::whereNull('deleted_at');
+                            $report = $request->has('report_month') ? $report->where('report_month', $request_month) : $report;
+                            $report = $request->has('report_year') ? $report->where('report_year', $request_year) : $report;
+                            $report = $report->whereIn('parish_id',$parishArray);
+                            $report = $report->get();
+                        } else {
+                            $report = []; 
+                        }
+                    }
                 } else {
-                    $report     = Report::where('parish_id',$parish_id->id)->get();   
+                    $areaInfo = Area::where('user_id',$userDetails->id)->first();
+                    $parishList = Parish::where('area_id',$areaInfo->id)->get();
+                    $parishArray = array();
+                    if($parishList) {
+                        foreach($parishList as $parish){
+                            array_push($parishArray,$parish->id);
+                        }
+                        $report = Report::whereNull('deleted_at');
+                        $report = $request->has('report_month') ? $report->where('report_month', $request_month) : $report;
+                        $report = $request->has('report_year') ? $report->where('report_year', $request_year) : $report;
+                        $report = $report->whereIn('parish_id',$parishArray);
+                        $report = $report->get();
+                    } else {
+                        $report = [];
+                    }
                 }
             }
-            $response = [
-                'status'        => true,
-                'message'       => "Report fetched successfully.",
-                'report'        => $report
-            ];
+            $noOfReport = count($report);
+            if($noOfReport > 0){
+                $reportArray = [];
+                foreach ($report as $key => $reportKey) {
+                        $parishDetails = Parish::find($reportKey->parish_id);
+                        $reportArray[$key]['id']                     = $reportKey->id;
+                        $reportArray[$key]['progress_report']        = $reportKey->progress_report;
+                        $reportArray[$key]['report_month']           = $reportKey->report_month;
+                        $reportArray[$key]['report_year']            = $reportKey->report_year;
+                        $reportArray[$key]['created_at']             = $reportKey->created_at;
+                        $reportArray[$key]['parish_id']              = $parishDetails->id;
+                        $reportArray[$key]['parish_name']            = $parishDetails->name;
+                        $reportArray[$key]['province_name']          = $parishDetails->areas->zones->proviences->name;
+                        $reportArray[$key]['zone_name']              = $parishDetails->areas->zones->name;
+                        $reportArray[$key]['area_name']              = $parishDetails->areas->name;
+                        $reportArray[$key]['province_id']            = $parishDetails->areas->zones->proviences->id;
+                        $reportArray[$key]['zone_id']                = $parishDetails->areas->zones->id;
+                        $reportArray[$key]['area_id']                = $parishDetails->areas->id;
+                        $reportArray[$key]['first_name']             = $parishDetails->users->first_name;
+                        $reportArray[$key]['last_name']              = $parishDetails->users->last_name;
+                }
+                $response = [
+                    'status'        => true,
+                    'message'       => "Report fetched successfully.",
+                    'report'        => $reportArray
+                ];
+            } else {
+                $response = [
+                    'status'        => true,
+                    'message'       => "No Report Found.",
+                    'report'        => $report
+                ];
+            }
             $responseCode = 201;
         }catch (HttpBadRequestException $httpBadRequestException) {
                 $response = [

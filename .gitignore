@@ -1,4 +1,5 @@
 /node_modules
+/public/paymentReceipt/
 /resources/assets/Parish/dist
 /resources/assets/Parish/tmp
 /resources/assets/Parish/out-tsc

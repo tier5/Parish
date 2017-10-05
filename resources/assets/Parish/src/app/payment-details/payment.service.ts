@@ -42,10 +42,10 @@ export class PaymentService {
 	}
 	
 	/** Get List of all payment  */
-	listPayment(): Observable<any> {
+	listPayment( body: any ): Observable<any> {
 		const user_id   = this.authService.getToken().user_id;
 		const user_type = this.authService.getToken().user_type;
-		return this.http.get( environment.API_URL + 'payment/' + user_id + '/' + user_type, { headers: this.headers } );
+		return this.http.post( environment.API_URL + 'payment/' + user_id + '/' + user_type, body, { headers: this.headers } );
 	}
 	
 	/** Function to change status of payment */

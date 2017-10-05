@@ -611,9 +611,13 @@ class ZoneController extends Controller {
             } else {
 
                 if($request->has('user_id')) {
-                   
-                    $zones=Zone::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
-
+                    $userDetails = user::find($request->input('user_id'));
+                    if($userDetails->user_type == 1) {
+                        $zones=Zone::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                    } else {
+                        $province = Provience::where('user_id',$request->input('user_id'))->first();
+                        $zones=Zone::where('provience_id',$province->id)->whereNull('deleted_at')->get();
+                    }
                 } else {
                     throw new HttpBadRequestException("Please Provide user id.");
                 }

@@ -429,7 +429,6 @@ class ParishController extends Controller {
                 $area_id        =   $request->input('area_id');
 
                 if($request->has('area_id')) {
-
                     $parishes = Area::find($area_id)->parishes;
                 } else {
 
@@ -441,7 +440,6 @@ class ParishController extends Controller {
                         $areas = Provience::find($province_id)->areas;
                         $area_array =[];
                         foreach ($areas as  $area) {
-
                             array_push($area_array,$area->id);
                         }
 
@@ -450,17 +448,65 @@ class ParishController extends Controller {
                 }
              
             } else {
-
                 if($request->has('user_id')) {
+                   $userDetails = user::find($request->input('user_id'));
+                   if($userDetails->user_type == 1) {
+                     $parishes=Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                   } else {
+                        if($userDetails->pastor_type == 1) {
+                             $province = Provience::where('user_id',$request->input('user_id'))->first();
+                             $zones    = Zone::where('provience_id',$province->id)->whereNull('deleted_at')->get();
+                            if($zones){
+                                $zoneArray = array();
+                                foreach($zones as $zone) {
+                                    array_push($zoneArray, $zone->id);
+                                }
+                                if($zoneArray) {
+                                    $areaArray = array();
+                                    $areas=Area::whereIn('zone_id',$zoneArray)->whereNull('deleted_at')->get();
+                                    if($areas) {
+                                        foreach($areas as $area) {
+                                        array_push($areaArray, $area->id);
+                                        }
+                                        if($areaArray) {
+                                           $parishes=Parish::whereIn('area_id',$areaArray)->whereNull('deleted_at')->get();
+                                        } else {
+                                           $parishes= []; 
+                                        } 
+                                    } else {
+                                        $parishes= []; 
+                                    }
+                                   
+                                } else {
+                                   $parishes= []; 
+                                }
+                            }  
+                        } elseif($userDetails->pastor_type == 2) {
+                            $zone  = Zone::where('user_id',$request->input('user_id'))->first();
+                            $areas = Area::where('zone_id',$zone->id)->whereNull('deleted_at')->get();
+                            if($areas) {
+                                $areaArray = array();
+                                foreach($areas as $area) {
+                                array_push($areaArray, $area->id);
+                                }
+                                if($areaArray) {
+                                   $parishes=Parish::whereIn('area_id',$areaArray)->whereNull('deleted_at')->get();
+                                } else {
+                                   $parishes= []; 
+                                }
+                            }
+                        }else{
+                            $area  = Area::where('user_id',$request->input('user_id'))->first();
+                            $parishes=Parish::where('area_id',$area->id)->whereNull('deleted_at')->get();
+                        }
+                   }
                    
-                    $parishes=Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
-
                 } else {
                     throw new HttpBadRequestException("Please Provide user id.");
                 }
             }
             
-            if(count($parishes)>0)
+            if(count($parishes) >0 )
             {
                 $parishArray    = [];
                 $noOfParishes   = count($parishes);

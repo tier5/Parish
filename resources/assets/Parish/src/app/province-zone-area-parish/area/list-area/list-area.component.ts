@@ -80,7 +80,7 @@ export class ListAreaComponent implements OnInit, OnDestroy{
 			}
 		);
 		
-		/** Subscription to event to refresh zone list */
+		/** Subscribe to event to refresh zone list */
 		this.refreshZoneListSubscription = this.pzapService.refreshList
 		.subscribe(
 			( body ) => {
