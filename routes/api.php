@@ -259,9 +259,9 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.createPayment.post'
             ]);
             
-            Route::get('/{user_id}/{user_type}', [
+            Route::post('/{user_id}/{user_type}', [
                 'uses' => 'Api\V1\PaymentController@getPastorPaymentList',
-                'as' => 'api.v1.getPastorPaymentList.get'
+                'as' => 'api.v1.getPastorPaymentList.post'
             ]);
 
             Route::get('/rejectedList/{user_id}/{user_type}', [
@@ -281,7 +281,12 @@ Route::group(['prefix' => 'v1'], function() {
 
             Route::post('/downloadFile/{payment_id}', [
                 'uses' => 'Api\V1\PaymentController@downloadFile',
-                'as' => 'api.v1.doewnloadFile.post'
+                'as' => 'api.v1.downloadFile.post'
+            ]);
+
+            Route::post('/filter-payment', [
+                'uses' => 'Api\V1\PaymentController@filterPayment',
+                'as' => 'api.v1.filterPayment.post'
             ]);            
 
         });

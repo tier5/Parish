@@ -8,6 +8,10 @@ import { AuthService } from "../../auth/auth.service";
 import { ProvinceZoneAreaParishService } from "../../province-zone-area-parish/province-zone-area-parish.service";
 import { ReportService } from "../report.service";
 import {ParishListModel} from "../../province-zone-area-parish/parish/parish-list.model";
+import {AreaListModel} from "app/province-zone-area-parish/area/area-list.model";
+import {ZoneListModel} from "../../province-zone-area-parish/zone/zone-list.model";
+import {ProvinceListModel} from "app/province-zone-area-parish/province/province-list.model";
+import {isPromise} from "q";
 
 @Component({
 	selector: 'app-list-report',
@@ -21,15 +25,38 @@ export class ListReportComponent implements OnInit, OnDestroy {
     currentMonth: number = ((new Date()).getMonth()) + 1;
     currentYearList: number[] = [];
     reportList: any[];
-    selectionYear: number;
-    selectionMonth: number;
     months = Array();
     parishIdList: ParishListModel[];
     prompt: boolean = false;
     toDeleteReport: number;
     showParishIdList: boolean = false;
+
+    isWEM: boolean = false;
+    isProvincePastor: boolean = false;
+    isZonePastor: boolean = false;
+    isAreaPastor: boolean = false;
+    isParishPastor: boolean = false;
+
+    responseStatus      : boolean       = false;
+    responseReceived    : boolean       = false;
+    responseMsg         : string        = '';
+
+    areaList            : AreaListModel[];
+    zoneList            : ZoneListModel[];
+    parishList          : ParishListModel[];
+    provinceList        : ProvinceListModel[];
+
+    selectionYear       : number        = 0;
+    selectionMonth      : number        = 0;
+    selectionProvince   : number        = 0;
+    selectionZone       : number        = 0;
+    selectionArea       : number        = 0;
+    selectionParish     : number        = 0;
+
     refreshReportListSubscription: Subscription;
-    parishId: number;
+    refreshZoneListSubscription  : Subscription;
+    refreshAreaListSubscription  : Subscription;
+    refreshParishListSubscription  : Subscription;
 
     /** Injecting services to be used in this component */
     constructor( private authService: AuthService,
@@ -40,28 +67,59 @@ export class ListReportComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 
-        if(this.authService.getToken().user_type === 1){
+        /** Setting user type */
+        if( this.authService.getToken().user_type === 1 ) {
             this.showParishIdList = true;
-        } else {
+            this.isWEM = true;
+        }else {
+            if(this.authService.getToken().pastor_type === 1) {
+                this.isProvincePastor = true;
+                this.isZonePastor = false;
+                this.isAreaPastor = false;
+                this.isParishPastor = false;
+            } else if(this.authService.getToken().pastor_type === 2) {
+                this.isProvincePastor = false;
+                this.isZonePastor = true;
+                this.isAreaPastor = false;
+                this.isParishPastor = false;
+            } else if(this.authService.getToken().pastor_type === 3) {
+                this.isProvincePastor = false;
+                this.isZonePastor = false;
+                this.isAreaPastor = true;
+                this.isParishPastor = false;
+            } else{
+                this.isProvincePastor = false;
+                this.isZonePastor = false;
+                this.isAreaPastor = false;
+                this.isParishPastor = true;
+            }
+
             this.showParishIdList = false;
+            this.isWEM = false;
         }
 
-        this.pzapService.filterParish({})
-            .subscribe(
-                ( response: Response ) => {
-                    if( response.json().status) {
-                        this.parishIdList = response.json().parishes;
-                    } else {
-                        console.log(response.json());
-                    }
-                },
-                ( error: Response ) => {
-                    if ( error.status === 401 ) {
-                        this.authService.removeToken();
-                        this.router.navigate( [ '/login' ] );
-                    }
-                }
-            );
+        /***/
+        // this.pzapService.filterParish({})
+        //     .subscribe(
+        //         ( response: Response ) => {
+        //             if( response.json().status) {
+        //                 this.parishIdList = response.json().parishes;
+        //             } else {
+        //                 console.log(response.json());
+        //             }
+        //         },
+        //         ( error: Response ) => {
+        //             if ( error.status === 401 ) {
+        //                 this.authService.removeToken();
+        //                 this.router.navigate( [ '/login' ] );
+        //             }
+        //         }
+        //     );
+
+        /** Populating the year array */
+        for( let i = 2010; i <= this.currentYear; i++ ) {
+            this.currentYearList.push( i );
+        }
 
         /** Initializing month array */
         this.months[0] = { name:"January", number: 1 };
@@ -77,17 +135,166 @@ export class ListReportComponent implements OnInit, OnDestroy {
         this.months[10] = { name:"November", number: 11 };
         this.months[11] = { name:"December", number: 12 };
 
-	    /** Subscribing to refreshReportList Event */
+
+        /** Service call to get list of all available province */
+
+        if( this.isWEM ) {
+
+            this.pzapService.listProvince()
+                .subscribe(
+                    (response: Response) => {
+                        this.responseStatus = response.json().status;
+                        if( response.json().status ) {
+                            this.provinceList   = response.json().provinces;
+                        } else {
+                            this.provinceList   = [];
+                            this.responseMsg    = response.json().message;
+                        }
+                    },
+                    (error: Response) => {
+                        if ( error.status === 401 ) {
+                            this.authService.removeToken();
+                            this.router.navigate( [ '/login' ] );
+                        }
+                        this.responseStatus     = false;
+                        this.responseReceived   = true;
+                        this.provinceList       = [];
+                        this.responseMsg        = error.json().error;
+                    }
+                );
+
+        }
+
+
+        /** Subscribe to event to refresh zone list */
+        this.refreshZoneListSubscription = this.reportService.refreshReportList
+            .subscribe(
+                () => {
+                    if ( this.isWEM || this.isProvincePastor ) {
+
+                        this.pzapService.filterZone( this.getCurrentSelectedFilters() )
+                            .subscribe(
+                                (response: Response) => {
+                                    this.responseStatus = response.json().status;
+                                    if( response.json().status ) {
+                                        this.zoneList = response.json().zones;
+
+                                        if ( this.zoneList && this.zoneList.length == 1 ) {
+                                            this.selectionZone = this.zoneList[0].id;
+                                        }
+
+                                    } else {
+                                        this.zoneList           = [];
+                                        this.responseMsg        = response.json().message;
+                                    }
+                                },
+                                (error: Response) => {
+                                    if ( error.status === 401 ) {
+                                        this.authService.removeToken();
+                                        this.router.navigate( [ '/login' ] );
+                                    }
+                                    this.responseStatus     = false;
+                                    this.responseReceived   = true;
+                                    this.zoneList           = [];
+                                    this.responseMsg        = error.json().error;
+                                }
+                            );
+
+                    }
+                }
+            );
+
+        /** Subscribe to event to refresh area list */
+        this.refreshAreaListSubscription = this.reportService.refreshReportList
+            .subscribe(
+                () => {
+
+                    if( this.isWEM || this.isProvincePastor || this.isZonePastor ) {
+
+                        this.pzapService.filterArea( this.getCurrentSelectedFilters() )
+                            .subscribe(
+                                (response: Response) => {
+                                    this.responseStatus = response.json().status;
+
+                                    if( response.json().status ) {
+                                        this.areaList = response.json().areas;
+
+                                        if ( this.areaList && this.areaList.length == 1 ){
+                                            this.selectionArea = this.areaList[0].id;
+                                        }
+
+                                    } else {
+                                        this.areaList = [];
+                                        this.responseMsg = response.json().message;
+                                    }
+                                },
+                                (error: Response) => {
+                                    if( error.status === 401) {
+                                        this.authService.removeToken();
+                                        this.router.navigate( ['/login'] );
+                                    }
+                                    this.responseStatus     = false;
+                                    this.responseReceived   = true;
+                                    this.areaList           = [];
+                                    this.responseMsg        = error.json().error;
+                                }
+                            );
+
+                    }
+
+                }
+            );
+
+        /** Subscribe to event to refresh parish list */
+        this.refreshParishListSubscription = this.reportService.refreshReportList
+            .subscribe(
+                () => {
+
+                    if( this.isWEM || this.isProvincePastor || this.isZonePastor || this.isAreaPastor ) {
+
+                        this.pzapService.filterParish( this.getCurrentSelectedFilters() )
+                            .subscribe(
+                                ( response: Response ) => {
+                                    this.responseStatus = response.json().status;
+
+                                    if( response.json().status ) {
+                                        this.parishList       = response.json().parishes;
+
+                                        if ( this.parishList && this.parishList.length == 1 ) {
+                                            this.selectionParish = this.parishList[0].id;
+                                        }
+
+                                    } else {
+                                        this.parishList         = [];
+                                        this.selectionProvince  = null;
+                                        this.selectionZone      = null;
+                                        this.responseMsg        = response.json().message;
+                                    }
+                                },
+                                ( error: Response ) => {
+                                    if ( error.status === 401 ) {
+                                        this.authService.removeToken();
+                                        this.router.navigate( [ '/login' ] );
+                                    }
+                                    this.responseStatus     = false;
+                                    this.responseReceived   = true;
+                                    this.parishList         = [];
+                                    this.responseMsg        = error.json().error;
+                                }
+                            );
+
+                    }
+
+                }
+            );
+
+
+        /** Subscribe to event to refresh payment list */
         this.refreshReportListSubscription = this.reportService.refreshReportList
             .subscribe(
-                ( data: any ) => {
-                    let obj = {
-                        report_year: isNullOrUndefined(data.report_year) ? '': data.report_year,
-                        report_month: isNullOrUndefined(data.report_month) ? '': data.report_month,
-                        parish_id:isNullOrUndefined(data.parish_id) ? '': data.parish_id
-                    };
+                () => {
 
-                    this.reportService.getReports( obj )
+                    this.reportService.getReports( this.getCurrentSelectedFilters() )
                         .subscribe(
                             ( response: Response ) => {
                                 if(response.json().status) {
@@ -105,31 +312,80 @@ export class ListReportComponent implements OnInit, OnDestroy {
                         );
                 }
             );
+
+        /** Emitting event which will refresh the payment list */
         this.reportService.refreshReportList.next({});
 
-        /** Populating the year array */
-	    for( let i = 2010; i <= this.currentYear; i++ ) {
-	        this.currentYearList.push( i );
-        }
-
 	}
-
-	/** Function call when year selected */
-	onSelectYear( year: number ) {
-        this.selectionYear = year;
-        this.reportService.refreshReportList.next( { report_year: this.selectionYear, report_month: this.selectionMonth, parish_id:this.parishId } );
-    }
 
     /** Function call when month selected */
     onSelectMonth( month: number ) {
         this.selectionMonth = month;
-        this.reportService.refreshReportList.next( { report_year: this.selectionYear, report_month: this.selectionMonth, parish_id:this.parishId } );
+        this.reportService.refreshReportList.next();
+    }
+
+    /** Function call when year selected */
+    onSelectYear( year: number ) {
+        this.selectionYear = year;
+        this.reportService.refreshReportList.next();
+    }
+
+    /** Function call to refresh payment list on select of province */
+    onSelectProvince( provinceId: number ) {
+        this.selectionProvince = provinceId;
+        this.selectionZone = 0;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+
+        this.reportService.refreshReportList.next();
+    }
+
+    /** Function call to refresh payment list on select of province */
+    onSelectZone( zoneId: number ) {
+        this.selectionZone = zoneId;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+        if( zoneId > 0 ) {
+            const selected = this.zoneList.find((item) => {
+                return item.id == this.selectionZone;
+            });
+            this.selectionProvince = selected.province_id;
+        } else {
+            this.zoneList = [];
+        }
+        this.reportService.refreshReportList.next();
+    }
+
+    /** Function call to refresh payment list on select of province */
+    onSelectArea( areaId: number ) {
+        this.selectionArea = areaId;
+        this.selectionParish = 0;
+        if( areaId > 0) {
+            const selected = this.areaList.find((item) => {
+                return item.id == this.selectionArea;
+            });
+            this.selectionProvince = selected.province_id;
+            this.selectionZone = selected.zone_id;
+        } else {
+            this.areaList = [];
+        }
+        this.reportService.refreshReportList.next();
     }
 
     /** Function call when month selected */
-    onSelectParish( parish: number ) {
-        this.parishId = parish;
-        this.reportService.refreshReportList.next( { report_year: this.selectionYear, report_month: this.selectionMonth, parish_id:this.parishId } );
+    onSelectParish( parishId: number ) {
+        this.selectionParish = parishId;
+        if( parishId > 0) {
+            const selected = this.parishList.find((item) => {
+                return item.id == this.selectionParish;
+            });
+            this.selectionProvince = selected.province_id;
+            this.selectionZone = selected.zone_id;
+            this.selectionArea = selected.area_id;
+        } else {
+            this.areaList = [];
+        }
+        this.reportService.refreshReportList.next();
     }
 
     /** Function call on edit button click */
@@ -140,9 +396,13 @@ export class ListReportComponent implements OnInit, OnDestroy {
 
     /** Function call to reset filters */
     onResetFilters() {
-        this.reportService.refreshReportList.next({});
         this.selectionMonth = 0;
         this.selectionYear = 0;
+        this.selectionProvince = 0;
+        this.selectionZone = 0;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+        this.reportService.refreshReportList.next();
     }
 
     /** Function call to show delete prompt */
@@ -183,8 +443,23 @@ export class ListReportComponent implements OnInit, OnDestroy {
         console.log(report);
     }
 
+    /** Function that returns current selected filters */
+    getCurrentSelectedFilters() {
+        return {
+            report_year: this.selectionYear > 0 ? this.selectionYear : '',
+            report_month: this.selectionMonth > 0 ? this.selectionMonth : '',
+            province_id: this.selectionProvince > 0 ? this.selectionProvince : '',
+            zone_id: this.selectionZone > 0 ? this.selectionZone : '',
+            area_id: this.selectionArea > 0 ? this.selectionArea : '',
+            parish_id: this.selectionParish > 0 ? this.selectionParish : ''
+        }
+    }
+
     /** Un-subscribing from all custom made events when component is destroyed */
     ngOnDestroy() {
         this.refreshReportListSubscription.unsubscribe();
+        this.refreshZoneListSubscription.unsubscribe();
+        this.refreshAreaListSubscription.unsubscribe();
+        this.refreshParishListSubscription.unsubscribe();
     }
 }

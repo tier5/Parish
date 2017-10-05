@@ -1,14 +1,19 @@
 /** Component to handle list of payment */
 
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { FileUploader } from 'ng2-file-upload';
 import { Router } from "@angular/router";
+import { Response } from '@angular/http';
+import { Subscription } from "rxjs/Subscription";
 
 import { PaymentService } from "../payment.service";
-import { Subscription } from "rxjs/Subscription";
-import { Response } from '@angular/http';
 import { AuthService } from "../../auth/auth.service";
-import { FileUploader } from 'ng2-file-upload';
-import {environment } from "../../../environments/environment.prod";
+import { environment } from "../../../environments/environment.prod";
+import { ProvinceZoneAreaParishService } from "../../province-zone-area-parish/province-zone-area-parish.service";
+import { ParishListModel } from "../../province-zone-area-parish/parish/parish-list.model";
+import { ProvinceListModel } from "../../province-zone-area-parish/province/province-list.model";
+import { ZoneListModel } from "../../province-zone-area-parish/zone/zone-list.model";
+import { AreaListModel } from "../../province-zone-area-parish/area/area-list.model";
 
 
 @Component({
@@ -18,19 +23,44 @@ import {environment } from "../../../environments/environment.prod";
 })
 
 
-export class ListPaymentComponent {
+export class ListPaymentComponent implements OnInit, OnDestroy {
 	
-	responseStatus                  = false;
-	responseReceived                = false;
-	responseMsg     : string        = '';
-	public isAdmin  : boolean       = false;
-	public isParish : boolean       = false;
-	public ifNoData : boolean       = false;
+	responseStatus                      = false;
+	responseReceived                    = false;
+	responseMsg         : string        = '';
+	public ifNoData     : boolean       = false;
+
+	selectionYear       : number        = 0;
+    selectionMonth      : number        = 0;
+    selectionProvince   : number        = 0;
+    selectionZone       : number        = 0;
+    selectionArea       : number        = 0;
+    selectionParish     : number        = 0;
+
+    showParishIdList    : boolean       = false;
+    provinceList        : ProvinceListModel[];
+    zoneList            : ZoneListModel[];
+    areaList            : AreaListModel[];
+    parishList          : ParishListModel[];
+    currentYear         : number        = (new Date()).getFullYear();
+    currentMonth        : number        = ((new Date()).getMonth()) + 1;
+    currentYearList     : number[]      = [];
+
+    isWEM: boolean = false;
+    isProvincePastor: boolean = false;
+    isZonePastor: boolean = false;
+    isAreaPastor: boolean = false;
+    isParishPastor: boolean = false;
+
 	
 	paymentDetails                  = [];
 	uploader                        = new FileUploader({});
 	
 	refreshPaymentListSubscription  : Subscription;
+    refreshZoneListSubscription  : Subscription;
+    refreshAreaListSubscription  : Subscription;
+    refreshParishListSubscription  : Subscription;
+
 	showUploadButton                : number        =  0 ;
 	progress                        : number        =  0 ;
 	files                           : FileList;
@@ -38,92 +68,273 @@ export class ListPaymentComponent {
 	months 							= Array();
 
 	/** Injecting services to be used in this component */
-	constructor( private payservice: PaymentService,
+	constructor( private paymentService: PaymentService,
 	             private router: Router,
-	             private authService: AuthService ) { }
+	             private authService: AuthService,
+                 private pzapService: ProvinceZoneAreaParishService ) { }
 	
 	ngOnInit() {
 
-        /** Initializing month array */
-        this.months[1] = { name:"January", number: 1 };
-        this.months[2] = { name:"February", number: 2 };
-        this.months[3] = { name:"March", number: 3 };
-        this.months[4] = { name:"April", number: 4 };
-        this.months[5] = { name:"May", number: 5 };
-        this.months[6] = { name:"June", number: 6 };
-        this.months[7] = { name:"July", number: 7 };
-        this.months[8] = { name:"August", number: 8 };
-        this.months[9] = { name:"September", number: 9 };
-        this.months[10] = { name:"October", number: 10 };
-        this.months[11] = { name:"November", number: 11 };
-        this.months[12] = { name:"December", number: 12 };
+        /** Setting user type */
+        if( this.authService.getToken().user_type === 1 ) {
+            this.showParishIdList = true;
+            this.isWEM = true;
+        }else {
+            if(this.authService.getToken().pastor_type === 1) {
+                this.isProvincePastor = true;
+                this.isZonePastor = false;
+                this.isAreaPastor = false;
+                this.isParishPastor = false;
+            } else if(this.authService.getToken().pastor_type === 2) {
+                this.isProvincePastor = false;
+                this.isZonePastor = true;
+                this.isAreaPastor = false;
+                this.isParishPastor = false;
+            } else if(this.authService.getToken().pastor_type === 3) {
+                this.isProvincePastor = false;
+                this.isZonePastor = false;
+                this.isAreaPastor = true;
+                this.isParishPastor = false;
+            } else{
+                this.isProvincePastor = false;
+                this.isZonePastor = false;
+                this.isAreaPastor = false;
+                this.isParishPastor = true;
+            }
 
-		/** Subscribe to event to refresh province list */
-		this.refreshPaymentListSubscription = this.payservice.refreshList
+            this.showParishIdList = false;
+            this.isWEM = false;
+        }
+
+        /** Populating the year array */
+        for( let i = 2010; i <= this.currentYear; i++ ) {
+            this.currentYearList.push( i );
+        }
+
+        /** Initializing month array */
+        this.months[0] = { name:"January", number: 1 };
+        this.months[1] = { name:"February", number: 2 };
+        this.months[2] = { name:"March", number: 3 };
+        this.months[3] = { name:"April", number: 4 };
+        this.months[4] = { name:"May", number: 5 };
+        this.months[5] = { name:"June", number: 6 };
+        this.months[6] = { name:"July", number: 7 };
+        this.months[7] = { name:"August", number: 8 };
+        this.months[8] = { name:"September", number: 9 };
+        this.months[9] = { name:"October", number: 10 };
+        this.months[10] = { name:"November", number: 11 };
+        this.months[11] = { name:"December", number: 12 };
+
+        /** Service call to get list of all available province */
+        this.pzapService.listProvince()
+            .subscribe(
+                (response: Response) => {
+                    this.responseStatus = response.json().status;
+                    if( response.json().status ) {
+                        this.provinceList   = response.json().provinces;
+                    } else {
+                        this.provinceList   = [];
+                        this.responseMsg    = response.json().message;
+                    }
+                },
+                (error: Response) => {
+                    if ( error.status === 401 ) {
+                        this.authService.removeToken();
+                        this.router.navigate( [ '/login' ] );
+                    }
+                    this.responseStatus     = false;
+                    this.responseReceived   = true;
+                    this.provinceList       = [];
+                    this.responseMsg        = error.json().error;
+                }
+            );
+
+        /** Subscribe to event to refresh zone list */
+        this.refreshZoneListSubscription = this.paymentService.refreshList
+            .subscribe(
+                () => {
+
+                    if( this.isWEM || this.isProvincePastor ) {
+
+                        this.pzapService.filterZone( this.getCurrentSelectedFilters() )
+                            .subscribe(
+                                (response: Response) => {
+                                    this.responseStatus = response.json().status;
+                                    if( response.json().status ) {
+                                        this.zoneList = response.json().zones;
+
+                                        if ( this.zoneList && this.zoneList.length == 1 ) {
+                                            this.selectionZone = this.zoneList[0].id;
+                                        }
+
+                                    } else {
+                                        this.zoneList           = [];
+                                        this.responseMsg        = response.json().message;
+                                        // this.responseNoRecord   = response.json().noData;
+                                    }
+                                },
+                                (error: Response) => {
+                                    if ( error.status === 401 ) {
+                                        this.authService.removeToken();
+                                        this.router.navigate( [ '/login' ] );
+                                    }
+                                    this.responseStatus     = false;
+                                    this.responseReceived   = true;
+                                    this.zoneList           = [];
+                                    this.responseMsg        = error.json().error;
+                                }
+                            );
+
+                    }
+                }
+            );
+
+        /** Subscribe to event to refresh area list */
+        this.refreshAreaListSubscription = this.paymentService.refreshList
+            .subscribe(
+                () => {
+                    if( this.isWEM || this.isProvincePastor || this.isZonePastor ) {
+
+                        this.pzapService.filterArea( this.getCurrentSelectedFilters() )
+                            .subscribe(
+                                (response: Response) => {
+                                    this.responseStatus = response.json().status;
+
+                                    if( response.json().status ) {
+                                        this.areaList = response.json().areas;
+
+                                        if ( this.areaList && this.areaList.length == 1 ){
+                                            this.selectionArea = this.areaList[0].id;
+                                        }
+                                        // this.responseNoRecord   = response.json().noData;
+                                    } else {
+                                        this.areaList = [];
+                                        this.responseMsg = response.json().message;
+                                        // this.responseNoRecord   = response.json().noData;
+                                    }
+                                },
+                                (error: Response) => {
+                                    if( error.status === 401) {
+                                        this.authService.removeToken();
+                                        this.router.navigate( ['/login'] );
+                                    }
+                                    this.responseStatus     = false;
+                                    this.responseReceived   = true;
+                                    this.areaList           = [];
+                                    this.responseMsg        = error.json().error;
+                                }
+                            );
+
+                    }
+                }
+            );
+
+        /** Subscribe to event to refresh parish list */
+        this.refreshParishListSubscription = this.paymentService.refreshList
+            .subscribe(
+                () => {
+
+                    if( this.isWEM || this.isProvincePastor || this.isZonePastor || this.isAreaPastor ) {
+
+                        this.pzapService.filterParish(this.getCurrentSelectedFilters())
+                            .subscribe(
+                                (response: Response) => {
+                                    this.responseStatus = response.json().status;
+
+                                    if (response.json().status) {
+                                        this.parishList = response.json().parishes;
+
+                                        if (this.parishList && this.parishList.length == 1) {
+                                            this.selectionParish = this.parishList[0].id;
+                                        }
+
+                                    } else {
+                                        this.parishList = [];
+                                        this.selectionProvince = null;
+                                        this.selectionZone = null;
+                                        this.responseMsg = response.json().message;
+                                        // this.responseNoRecord   = response.json().noData;
+                                    }
+                                },
+                                (error: Response) => {
+                                    if (error.status === 401) {
+                                        this.authService.removeToken();
+                                        this.router.navigate(['/login']);
+                                    }
+                                    this.responseStatus = false;
+                                    this.responseReceived = true;
+                                    this.parishList = [];
+                                    this.responseMsg = error.json().error;
+                                }
+                            );
+
+                    }
+                }
+            );
+
+
+        /** Subscribe to event to refresh payment list */
+		this.refreshPaymentListSubscription = this.paymentService.refreshList
 			.subscribe(
 				() => {
-					this.payservice.listPayment().subscribe(
-						(response: Response) => {
-							this.responseStatus = response.json().status;
-							if(response.json().status){
-								const user_type = this.authService.getToken().user_type;
-								if(user_type == 1){
-									this.isAdmin = true;
-								}else if(user_type == 3){
-									this.isParish = true;
-								}else{
-									this.isParish = false;
-								}
-								this.paymentDetails = response.json().paymentDetail;
-								this.paymentDetails.forEach(item => {
-									let pay_status = (item.payment_status == 3)?'On Hold':(item.payment_status == 0)?'Accepted':'Rejected';
-									item.pay_status = pay_status;
-									if ( item.payment_status == 3 ){
-										
-										item.hold   = true;
-										item.accept = false;
-										item.reject = false;
-										item.image  = "<img src='http://localhost:4200/paymentReceipt/"+item.file_name+"'>";
-										
-									} else if ( item.payment_status == 1 ){
-										
-										item.hold   = false;
-										item.accept = false;
-										item.reject = true;
-										
-									} else{
-										
-										item.hold   = false;
-										item.accept = true;
-										item.reject = false;
-									}
-								});
-							} else {
-								this.ifNoData           = true;
-								this.responseMsg        = response.json().message;
-							}
-						},
-						(error: Response) => {
-							if( error.status === 401) {
-								this.authService.removeToken();
-								this.router.navigate( ['/login'] );
-							}
-							this.responseStatus = false;
-							this.responseReceived = true;
-							this.paymentDetails = [];
-							this.responseMsg = error.json().error;
-						}
-					);
+					this.paymentService.listPayment( this.getCurrentSelectedFilters() )
+                        .subscribe(
+                            (response: Response) => {
+                                this.responseStatus = response.json().status;
+                                this.ifNoData       = false;
+                                if(response.json().status) {
+
+                                    this.paymentDetails = response.json().paymentDetail;
+                                    this.paymentDetails.forEach(item => {
+                                        let pay_status = (item.payment_status == 3)?'On Hold':(item.payment_status == 0)?'Accepted':'Rejected';
+                                        item.pay_status = pay_status;
+                                        if ( item.payment_status == 3 ){
+
+                                            item.hold   = true;
+                                            item.accept = false;
+                                            item.reject = false
+
+                                        } else if ( item.payment_status == 1 ){
+
+                                            item.hold   = false;
+                                            item.accept = false;
+                                            item.reject = true;
+
+                                        } else{
+
+                                            item.hold   = false;
+                                            item.accept = true;
+                                            item.reject = false;
+                                        }
+                                    });
+                                }
+                                else {
+                                    this.ifNoData           = true;
+                                    this.responseMsg        = response.json().message;
+                                    this.paymentDetails = response.json().paymentDetail;
+                                }
+                            },
+                            (error: Response) => {
+                                if( error.status === 401) {
+                                    this.authService.removeToken();
+                                    this.router.navigate( ['/login'] );
+                                }
+                                this.responseStatus = false;
+                                this.responseReceived = true;
+                                this.paymentDetails = [];
+                                this.responseMsg = error.json().error;
+                            }
+                        );
+
 				}
 			);
 		
-		/** Emitting event which will refresh the province list */
-		this.payservice.refreshList.next();
+		/** Emitting event which will refresh the payment list */
+		this.paymentService.refreshList.next();
 	}
 	
-	/** upload doc Function */
-	
-	upload(payment){
+	/** Upload doc Function */
+	upload(payment) {
 		
 		this.progress       = 10;
 		const user_id       = this.authService.getToken().user_id;
@@ -135,7 +346,7 @@ export class ListPaymentComponent {
 		formData.append("payment_description",payment.payment_description);
 		formData.append("user_id", user_id);
 		
-		this.payservice.paymentCreate(formData)
+		this.paymentService.paymentCreate(formData)
 			.subscribe(
 				(response: Response) => {
 					this.responseStatus = response.json().status;
@@ -146,8 +357,9 @@ export class ListPaymentComponent {
 					} else {
 						this.responseMsg        = '';
 					}
-					this.payservice.refreshList.next();
-				},(error: Response) => {
+					this.paymentService.refreshList.next();
+				},
+				(error: Response) => {
 					if( error.status === 401) {
 						this.authService.removeToken();
 						this.router.navigate( ['/login'] );
@@ -162,22 +374,19 @@ export class ListPaymentComponent {
 	}
 	
 	/** Show upload button when try to upload any doc */
-	
-	showUploader(payment,event){
+	showUploader(payment,event) {
 		this.showUploadButton   = payment.id;
 		this.files              = event.target.files;
 		this.progress           = 10;
 	}
-	
 
 	/** Change status of Payment **/
-	
-	OnChangeStatus(payment,status){
+	OnChangeStatus(payment,status) {
 		let setpaymentArray = [
 			{ id: payment.id, payment_status: status}
 		];
 		
-		this.payservice.paymentChangeStatus(setpaymentArray[0])
+		this.paymentService.paymentChangeStatus(setpaymentArray[0])
 			.subscribe(
 				(response: Response) => {
 					this.responseReceived   = true;
@@ -187,8 +396,9 @@ export class ListPaymentComponent {
 					} else {
 						this.responseMsg = '';
 					}
-					this.payservice.refreshList.next();
-				},(error: Response) => {
+					this.paymentService.refreshList.next();
+				},
+				(error: Response) => {
 					if( error.status === 401) {
 						this.authService.removeToken();
 						this.router.navigate( ['/login'] );
@@ -199,4 +409,106 @@ export class ListPaymentComponent {
 				}
 			);
 	}
+
+    /** Function call when month selected */
+    onSelectMonth( month: number ) {
+        this.selectionMonth = month;
+        this.paymentService.refreshList.next();
+    }
+
+    /** Function call when year selected */
+    onSelectYear( year: number ) {
+        this.selectionYear = year;
+        this.paymentService.refreshList.next();
+    }
+
+    /** Function call to refresh payment list on select of province */
+    onSelectProvince( provinceId: number ) {
+        this.selectionProvince = provinceId;
+        this.selectionZone = 0;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+
+        this.paymentService.refreshList.next();
+    }
+
+    /** Function call to refresh payment list on select of province */
+    onSelectZone( zoneId: number ) {
+        this.selectionZone = zoneId;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+        if( zoneId > 0 ) {
+            const selected = this.zoneList.find((item) => {
+                return item.id == this.selectionZone;
+            });
+            this.selectionProvince = selected.province_id;
+        } else {
+            this.zoneList = [];
+        }
+        this.paymentService.refreshList.next();
+    }
+
+    /** Function call to refresh payment list on select of province */
+    onSelectArea( areaId: number ) {
+        this.selectionArea = areaId;
+        this.selectionParish = 0;
+        if( areaId > 0) {
+            const selected = this.areaList.find((item) => {
+                return item.id == this.selectionArea;
+            });
+            this.selectionProvince = selected.province_id;
+            this.selectionZone = selected.zone_id;
+        } else {
+            this.areaList = [];
+        }
+        this.paymentService.refreshList.next();
+    }
+
+    /** Function call when month selected */
+    onSelectParish( parishId: number ) {
+        this.selectionParish = parishId;
+        if( parishId > 0) {
+            const selected = this.parishList.find((item) => {
+                return item.id == this.selectionParish;
+            });
+            this.selectionProvince = selected.province_id;
+            this.selectionZone = selected.zone_id;
+            this.selectionArea = selected.area_id;
+        } else {
+            this.areaList = [];
+        }
+        this.paymentService.refreshList.next();
+    }
+
+    /** Function call to reset filters */
+    onResetFilters() {
+        this.selectionMonth = 0;
+        this.selectionYear = 0;
+        this.selectionProvince = 0;
+        this.selectionZone = 0;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+        this.paymentService.refreshList.next();
+    }
+
+    /** Function that returns current selected filters */
+    getCurrentSelectedFilters() {
+        return {
+            request_year: this.selectionYear > 0 ? this.selectionYear : '',
+            request_month: this.selectionMonth > 0 ? this.selectionMonth : '',
+            province_id: this.selectionProvince > 0 ? this.selectionProvince : '',
+            zone_id: this.selectionZone > 0 ? this.selectionZone : '',
+            area_id: this.selectionArea > 0 ? this.selectionArea : '',
+            parish_id: this.selectionParish > 0 ? this.selectionParish : ''
+        }
+    }
+
+    /** Un-subscribing from all custom made events when component is destroyed */
+    ngOnDestroy() {
+        this.refreshPaymentListSubscription.unsubscribe();
+        this.refreshZoneListSubscription.unsubscribe();
+        this.refreshAreaListSubscription.unsubscribe();
+        this.refreshParishListSubscription.unsubscribe();
+    }
+
 }

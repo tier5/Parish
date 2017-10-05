@@ -691,9 +691,30 @@ class AreaController extends Controller {
                 } else {
 
                     if($request->has('user_id')) {
-                       
-                        $areas=Area::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
 
+                        $userDetails = user::find($request->input('user_id'));
+                        if($userDetails->user_type == 1) {
+                           $areas=Area::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                        } else {
+                            if($userDetails->pastor_type == 1) {
+                                $province = Provience::where('user_id',$request->input('user_id'))->first();
+                                $zones=Zone::where('provience_id',$province->id)->whereNull('deleted_at')->get();
+                                $zoneArray = array();
+                                if($zones){
+                                    foreach($zones as $zone) {
+                                        array_push($zoneArray, $zone->id);
+                                    }
+                                    if($zoneArray) {
+                                        $areas=Area::whereIn('zone_id',$zoneArray)->whereNull('deleted_at')->get();
+                                    } else {
+                                       $areas= []; 
+                                    }
+                                }  
+                            } else {
+                                $zone = Zone::where('user_id',$request->input('user_id'))->first();
+                                $areas=Area::where('zone_id',$zone->id)->whereNull('deleted_at')->get();
+                            }
+                        }
                     } else {
 
                         throw new HttpBadRequestException("Please Provide user id.");

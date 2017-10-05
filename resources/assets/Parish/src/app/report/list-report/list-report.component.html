@@ -26,33 +26,15 @@
                     </div>
                 </div>
 
+
+                <!-- Reset Filter - Month - Year -->
                 <div class="row">
                     <div class="col-md-3">
                         <p></p>
                         <button (click)="onResetFilters()">Reset Filter</button>
                     </div>
 
-                    <div class="col-md-3">
-                        <div *ngIf="showParishIdList">
-                            <label>Filter Parish Id:</label>
-                            <select
-                                    #selectedParish
-                                    name="province_id"
-                                    class="form-control"
-                                    [(ngModel)]="selectionParish"
-                                    (change)="onSelectParish(selectedParish.value)">
-                                <option value="0" selected>Choose...</option>
-                                <option
-                                        *ngFor="let parishId of parishIdList"
-                                        [value]="parishId.id">
-                                    ROI{{ parishId.id }}
-                                </option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-3">
+                    <div class="col-md-3 col-md-offset-3">
                         <label>Filter Month:</label>
                         <select
                                 #selectedMonth
@@ -81,41 +63,121 @@
                     </div>
 
                 </div>
+
+                <br>
+
+                <!-- Province - Zone - Area - Parish -->
+                <div class="row">
+
+                    <!-- Province -->
+                    <div class="col-md-3" *ngIf="isWEM">
+                        <label>Filter Province:</label>
+                        <select
+                                #selectedProvince
+                                name="province_id"
+                                class="form-control"
+                                [(ngModel)]="selectionProvince"
+                                (change)="onSelectProvince(selectedProvince.value)">
+                            <option value="0" selected>Choose...</option>
+                            <option
+                                    *ngFor="let province of provinceList"
+                                    [value]="province.id">
+                                {{ province.province_name }}
+                            </option>
+                        </select>
+
+                    </div>
+
+                    <!-- Zone -->
+                    <div class="col-md-3" *ngIf="isWEM || isProvincePastor">
+                        <label>Filter Zone:</label>
+                        <select
+                                #selectedZone
+                                class="form-control"
+                                [(ngModel)]="selectionZone"
+                                (change)="onSelectZone(selectedZone.value)">
+                            <option value="0" selected>Choose...</option>
+                            <option
+                                    *ngFor="let zone of zoneList"
+                                    [value]="zone.id">
+                                {{zone.zone_name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Area -->
+                    <div class="col-md-3" *ngIf="isWEM || isProvincePastor || isZonePastor">
+                        <label>Filter Area:</label>
+                        <select
+                                #selectedArea
+                                class="form-control"
+                                [(ngModel)]="selectionArea"
+                                (change)="onSelectArea(selectedArea.value)">
+                            <option value="0" selected>Choose...</option>
+                            <option
+                                    *ngFor="let area of areaList"
+                                    [value]="area.id">
+                                {{area.area_name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Parish -->
+                    <div class="col-md-3" *ngIf="isWEM || isProvincePastor || isZonePastor || isAreaPastor">
+                        <label>Filter Parish:</label>
+                        <select
+                                #selectedParish
+                                name="parish_id"
+                                class="form-control"
+                                [(ngModel)]="selectionParish"
+                                (change)="onSelectParish(selectedParish.value)">
+                            <option value="0" selected>Choose...</option>
+                            <option
+                                    *ngFor="let parish of parishList"
+                                    [value]="parish.id">
+                                {{ parish.parish_name }}
+                            </option>
+                        </select>
+
+                    </div>
+
+                </div>
+
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed">
                         <thead>
                         <tr>
                             <th>Parish ID</th>
-                            <th>Month</th>
-                            <th>Year</th>
+                            <th>Province / Zone / Area / Parish</th>
+                            <th>Payment Month / Year</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let report of reportList">
                             <td>ROI{{ report.parish_id }}</td>
-                            <td>{{ months[report.report_month - 1].name }}</td>
-                            <td>{{ report.report_year}}</td>
+                            <td>{{ report.province_name }} / {{ report.zone_name }} / {{ report.area_name }} / {{ report.parish_name }}</td>
+                            <td>{{ months[report.report_month - 1].name }} / {{ report.report_year}}</td>
                             <td>
                                 <button
                                         class="btn btn-warning btn-xs"
                                         type="button"
                                         (click)="onEdit(report)"
-                                        *ngIf="!showParishIdList">
+                                        *ngIf="isParishPastor">
                                     <i class="fa fa-pencil fa-fw"></i>
                                 </button>
                                 <button
                                         class="btn btn-danger btn-xs"
                                         type="button"
                                         (click)="showPrompt(report)"
-                                        *ngIf="!showParishIdList">
+                                        *ngIf="isParishPastor">
                                     <i class="fa fa-trash fa-fw"></i>
                                 </button>
                                 <button
                                         class="btn btn-primary btn-xs"
                                         type="button"
                                         (click)="viewReport(report)"
-                                        *ngIf="showParishIdList">
+                                        *ngIf="!isParishPastor">
                                     <i class="fa fa-eye fa-fw"></i>
                                 </button>
                             </td>
