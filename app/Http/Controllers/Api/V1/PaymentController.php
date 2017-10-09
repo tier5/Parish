@@ -109,7 +109,6 @@ class PaymentController extends Controller {
                                         }
                                         $parishes = Parish::whereIn('area_id',$area_array)->get();
                                     }
-                                    
                                 } else {
                                    $parishes = []; 
                                 }

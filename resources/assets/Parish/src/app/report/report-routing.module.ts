@@ -5,9 +5,10 @@ import { CreateReportComponent } from './create-report/create-report.component';
 import { ListReportComponent } from './list-report/list-report.component';
 
 const reportRoutes: Routes = [
-	{ path: 'create', component: CreateReportComponent,  data: { editMode: false } },
+	{ path: 'create', component: CreateReportComponent,  data: { editMode: false, viewMode: false } },
 	{ path: 'list', component: ListReportComponent },
-    { path: 'edit/:id', component: CreateReportComponent,  data: { editMode: true } },
+    { path: 'edit/:id', component: CreateReportComponent,  data: { editMode: true, viewMode: false } },
+	{ path: 'view/:id', component: CreateReportComponent,  data: { editMode: false, viewMode: true  } }
 ];
 
 @NgModule({

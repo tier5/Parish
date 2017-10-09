@@ -97,25 +97,7 @@ export class ListReportComponent implements OnInit, OnDestroy {
             this.showParishIdList = false;
             this.isWEM = false;
         }
-
-        /***/
-        // this.pzapService.filterParish({})
-        //     .subscribe(
-        //         ( response: Response ) => {
-        //             if( response.json().status) {
-        //                 this.parishIdList = response.json().parishes;
-        //             } else {
-        //                 console.log(response.json());
-        //             }
-        //         },
-        //         ( error: Response ) => {
-        //             if ( error.status === 401 ) {
-        //                 this.authService.removeToken();
-        //                 this.router.navigate( [ '/login' ] );
-        //             }
-        //         }
-        //     );
-
+        
         /** Populating the year array */
         for( let i = 2010; i <= this.currentYear; i++ ) {
             this.currentYearList.push( i );
@@ -440,7 +422,7 @@ export class ListReportComponent implements OnInit, OnDestroy {
 
     /** Function call to view Report */
     viewReport(report: any) {
-        console.log(report);
+        this.router.navigate( [ 'report/view/', report.id ] );
     }
 
     /** Function that returns current selected filters */

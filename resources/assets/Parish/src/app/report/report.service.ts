@@ -50,6 +50,14 @@ export class ReportService {
 		return this.http.post( environment.API_URL + 'report/create', Object.assign( body, obj ), { headers: this.headers } );
 	}
 
+    /** Function to send a new report */
+    viewReport( report_id: number ): Observable<any> {
+        const obj = {
+            user_id: this.authService.getToken().user_id
+        };
+        return this.http.get( environment.API_URL + 'report/view-report/' + report_id, { headers: this.headers } );
+    }
+
     /** Function to get list of all reports */
     getReports( body: any ): Observable<any> {
 		const user_id = this.authService.getToken().user_id;
@@ -57,6 +65,12 @@ export class ReportService {
 
         return this.http.post( environment.API_URL + 'report/filter-report/' + user_id + '/' + user_type, body, { headers: this.headers } );
     }
+
+    /** Function to get detail of single report */
+    fetchReport( body: any ): Observable<any> {
+        return this.http.post( environment.API_URL + 'report/fetch-report', body, { headers: this.headers } );
+    }
+
 	
 	/** Function to get view of specific report */
 	reportToEdit( report_id: number ): Observable<any> {
