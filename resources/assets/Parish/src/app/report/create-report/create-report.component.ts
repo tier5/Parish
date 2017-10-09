@@ -1,4 +1,4 @@
-import {ActivatedRoute, Data, Params, Router} from '@angular/router';
+import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { IDatePickerConfig } from 'ng2-date-picker';
 import { NgForm } from '@angular/forms';
@@ -7,8 +7,9 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { ProgressReportModel } from '../report-models/progress-report.model';
 import { ReportService } from '../report.service';
-import {AuthService} from "../../auth/auth.service";
+import { AuthService } from "../../auth/auth.service";
 import * as moment from "moment";
+import { ProvinceZoneAreaParishService } from "../../province-zone-area-parish/province-zone-area-parish.service";
 
 @Component({
 	selector: 'app-create-report',
@@ -20,11 +21,15 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	@ViewChild( 'prForm' ) prForm  : NgForm;
 	generateReportSubscription     : Subscription;
 	editMode                       : boolean             = false;
+    viewMode                       : boolean             = false;
+    displaymode                    : boolean             = true;
 	responseMsg                    : string              = '';
 	responseStatus                 : boolean             = false;
 	responseReceived               : boolean             = false;
 	parish_id                      : number;
+	parishIdList                   : any;
 	reportId                       : number;
+	reportIdList                   : any;
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
@@ -809,10 +814,11 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	constructor( private authService: AuthService,
 				 private reportService: ReportService,
 	             private router: Router,
-	             private activatedRoute: ActivatedRoute ) { }
+	             private activatedRoute: ActivatedRoute,
+                 private pzapService: ProvinceZoneAreaParishService ) { }
 	
 	ngOnInit() {
-
+		this.displaymode  = true;
 	    this.title = "Create Report";
 		this.prForm.valueChanges
 		.subscribe(
@@ -944,36 +950,37 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 			( body:{ report_month: number, report_year: number, pastor_id: number } ) => {
 
 				if( this.editMode ) {
-
+					this.displaymode  = true;
 				    this.title = "Update Report";
 					/** Checking route params to get id of province to edit */
-					this.activatedRoute.params.subscribe(
-						(params: Params) => {
-							this.reportId = params['id'];
-							this.reportService.reportToEdit(this.reportId)
-								.subscribe(
-									(response: Response) => {
+					this.activatedRoute.params
+                        .subscribe(
+                            (params: Params) => {
+                                this.reportId = params['id'];
+                                this.reportService.reportToEdit(this.reportId)
+                                    .subscribe(
+                                        (response: Response) => {
 
-										this.progress_report = response.json().report.progress_report;
-										this.parish_id = response.json().report.parish_id;
-										const tempDate = moment(this.progress_report.crucial_date);
-										this.progress_report.crucial_date = tempDate;
-									},
-									(error: Response) => {
-                                        if ( error.status === 401 ) {
-                                            this.authService.removeToken();
-                                            this.router.navigate( [ '/login' ] );
+                                            this.progress_report = response.json().report.progress_report;
+                                            this.parish_id = response.json().report.parish_id;
+                                            let tempDate = moment(this.progress_report.crucial_date);
+                                            this.progress_report.crucial_date = tempDate;
+                                        },
+                                        (error: Response) => {
+                                            if ( error.status === 401 ) {
+                                                this.authService.removeToken();
+                                                this.router.navigate( [ '/login' ] );
+                                            }
                                         }
-									}
-								);
-							
-						},
-						(error: Response) => {
-							if ( error.status === 401 ) {
-								this.authService.removeToken();
-								this.router.navigate( [ '/login' ] );
-							}
-						}
+                                    );
+
+                            },
+                            (error: Response) => {
+                                if ( error.status === 401 ) {
+                                    this.authService.removeToken();
+                                    this.router.navigate( [ '/login' ] );
+                                }
+                            }
 					);
 					
 				} else {
@@ -997,16 +1004,73 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 		);
 		
 		
-		/** Checking route params to get present mode */
-		this.activatedRoute.data.subscribe(
-			(data: Data) => {
-				this.editMode = data['editMode'];
-				if(this.editMode) {
-					this.reportService.generateReport.next({});
-				}
-			}
+		/** Checking route data to get present mode */
+		this.activatedRoute.data
+            .subscribe(
+                (data: Data) => {
+
+                    this.editMode = data['editMode'];
+                    this.viewMode = data['viewMode'];
+
+                    if( this.editMode ) {
+                        this.reportService.generateReport.next({});
+                    }
+
+                    if( this.viewMode ) {
+
+                        this.title = "View Report";
+                        /** Checking route params to get id of report to edit */
+                        this.activatedRoute.params
+                            .subscribe(
+                                (params: Params) => {
+                                    if( this.viewMode ) {
+
+                                        this.reportId = params['id'];
+	                                    this.displaymode  = true;
+                                        this.reportService.viewReport( this.reportId )
+                                            .subscribe(
+                                                (response: Response) => {
+                                                    this.reportIdList = response.json().allreportId;
+                                                    this.parish_id = response.json().report.parish_id;
+                                                    this.progress_report = response.json().report.progress_report;
+                                                    let tmpDate = moment(this.progress_report.crucial_date);
+                                                    const date = new Date( this.progress_report.crucial_date );
+                                                    this.progress_report.crucial_date = tmpDate;
+                                                    this.timeInfo = {
+                                                        report_month: date.getMonth() + 1,
+                                                        report_year: date.getFullYear()
+                                                    };
+                                                }
+                                            );
+
+                                    }
+
+                                },
+                                (error: Response) => {
+                                    console.log(error);
+                                }
+                        );
+
+                    }
+
+                }
 		);
-		
+
+		/** List all available Parish Id's*/
+		if(this.authService.getToken().user_type !=3 ) {
+			this.pzapService.filterParish({})
+				.subscribe(
+					(response: Response) => {
+						if (response.json().status) {
+							this.displaymode = true;
+							this.parishIdList = response.json().parishes;
+						}
+					},
+					(error: Response) => {
+						console.log(error.json())
+					}
+				);
+		}
 	}
 	
 	/** Function to get date while changing dates in date picker */
@@ -1014,17 +1078,82 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 		if(event) {
 			
 			const date = new Date( event );
-			if( this.editMode ) {
-			
-			} else {
-				this.timeInfo = {
-					report_month: date.getMonth() + 1,
-					report_year: date.getFullYear()
+            this.timeInfo = {
+                report_month: date.getMonth() + 1,
+                report_year: date.getFullYear()
+            };
+			if( this.viewMode ) {
+				const obj = {
+					...this.timeInfo,
+					parish_id:  this.parish_id
 				};
+				this.reportService.fetchReport(obj)
+					.subscribe(
+						( response: Response ) => {
+							if(response.json().status) {
+								this.displaymode  = true;
+								this.reportIdList = response.json().allreportId;
+								let reportIsPresent = false;
+                                for( let i=0; i< this.reportIdList.length; i++ ) {
+                                    if(this.reportIdList[i].id == this.reportId){
+                                        reportIsPresent = true;
+									}
+								}
+								if(!reportIsPresent){
+                                    this.reportId = this.reportIdList[0].id;
+                                    this.onReportChange(this.reportId);
+								}
+
+							} else {
+								this.reportIdList = response.json().allreportId;
+								this.displaymode  = false;
+							}
+						},( error: Response ) => {
+							this.reportIdList = error.json().allreportId;
+							this.displaymode  = false;
+						}
+					);
+			} else {
 				this.reportService.generateReport.next( this.timeInfo );
 			}
 		}
+
 	}
+
+	/** Function call when parish id changed */
+    onParishIdChange( parishId: number ) {
+        const obj = {
+            ...this.timeInfo,
+            parish_id: parishId
+        };
+        this.reportService.fetchReport(obj)
+            .subscribe(
+	            ( response: Response ) => {
+		            if(response.json().status) {
+			            this.displaymode  = true;
+			            this.reportIdList = response.json().allreportId;
+
+                        let reportIsPresent = false;
+                        for( let i=0; i< this.reportIdList.length; i++ ) {
+                            if(this.reportIdList[i].id == this.reportId){
+                                reportIsPresent = true;
+                            }
+                        }
+                        if(!reportIsPresent){
+                            this.reportId = this.reportIdList[0].id;
+                            this.onReportChange(this.reportId);
+                        }
+		            } else {
+			            this.reportIdList = response.json().allreportId;
+			            this.displaymode  = false;
+		            }
+	            },( error: Response ) => {
+		            this.reportIdList = error.json().allreportId;
+		            this.displaymode  = false;
+	            }
+            );
+    }
+
 	
 	/** Function to create report */
 	onSubmit() {
@@ -1103,6 +1232,10 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 		}
 		
 	}
+
+    onReportChange( reportId: number ) {
+        this.router.navigate( [ 'report/view/', reportId ] );
+    }
 	
 	ngOnDestroy() {
 		this.generateReportSubscription.unsubscribe();

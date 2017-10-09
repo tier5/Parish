@@ -332,6 +332,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.viewReport.get'
             ]);
 
+            Route::post('/fetch-report', [
+                'uses' => 'Api\V1\ReportController@fetchParishBasedReport',
+                'as' => 'api.v1.fetchParishBasedReport.post'
+            ]);
+
         });
 
     });
