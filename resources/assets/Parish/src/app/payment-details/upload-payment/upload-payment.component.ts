@@ -116,5 +116,12 @@ export class UploadPaymentComponent {
 			this.length = false;
 		}
 	}
+
+    onReset(uploadPaymentForm: NgForm) {
+        uploadPaymentForm.reset();
+        this.progress   = 0;
+        this.length = false;
+
+	}
 	
 }

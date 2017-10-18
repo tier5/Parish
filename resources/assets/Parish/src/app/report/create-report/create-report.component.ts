@@ -1057,20 +1057,18 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 		);
 
 		/** List all available Parish Id's*/
-		if(this.authService.getToken().user_type !=3 ) {
-			this.pzapService.filterParish({})
-				.subscribe(
-					(response: Response) => {
-						if (response.json().status) {
-							this.displaymode = true;
-							this.parishIdList = response.json().parishes;
-						}
-					},
-					(error: Response) => {
-						console.log(error.json())
-					}
-				);
-		}
+        this.pzapService.filterParish({})
+            .subscribe(
+                ( response: Response ) => {
+                    if(response.json().status) {
+	                    this.displaymode  = true;
+                        this.parishIdList = response.json().parishes;
+                    }
+                },
+                ( error: Response ) => {
+                    console.log(error.json())
+                }
+            );
 	}
 	
 	/** Function to get date while changing dates in date picker */

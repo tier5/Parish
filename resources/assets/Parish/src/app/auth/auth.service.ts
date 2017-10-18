@@ -27,7 +27,7 @@ export class AuthService {
 	removeToken() {
 		localStorage.removeItem('loggedInUserData');
 	}
-	
+
 	isAuthenticated() {
 		const data = this.getToken();
 		if ( data && (data.token !== null) ) {

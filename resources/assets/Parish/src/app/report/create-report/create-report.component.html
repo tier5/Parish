@@ -28,7 +28,7 @@
                             {{ progress_report.account_name }}
                         </span>
                     </p>
-                    <p class="acc-id" *ngIf="parishIdList">Parish Id :
+                    <p class="acc-id">Parish Id :
                         <select *ngIf="parish_id"
                                 #parishidlist
                                 [disabled]="!viewMode"
@@ -40,7 +40,6 @@
 
                         </select>
                     </p>
-                    <p *ngIf="!parishIdList" class="acc-id"> Parish Id : {{parish_id}} </p>
                     <div class="acc-details">
                         <div class="col-sm-6 text-right">
                             <div class="block">

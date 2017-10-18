@@ -5,6 +5,7 @@
 namespace App\Http\Controllers\Api\V1;
 use App\Exceptions\HttpBadRequestException;
 use App\Models\User;
+use App\Models\Subscription;
 use App\Models\PasswordReset;
 use Auth;
 use Crypt;
@@ -18,6 +19,7 @@ use JWTAuthException;
 use Log;
 use Mail;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use \Stripe\Plan;
 
 class AuthController extends Controller {
 
@@ -107,37 +109,84 @@ class AuthController extends Controller {
                 } else {
 
                 $user->uniqueKey = Crypt::encrypt($request->input('password'));
-                $user->save();
 
+                // start stripe payment charge 
+
+                $key  = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                $stripe_token = $request->input('token');
+                $creditCardToken = $stripe_token['id'];
+                $plan_id = $request->input('planId');
+                $plan = \Stripe\Plan::retrieve($plan_id);
+                $amount = $plan->amount;
+                $currency = $plan->currency;
+                
+                $customer = \Stripe\Customer::create(array(
+                  "email" => $request->input('email'),
+                  "source" => $creditCardToken,
+                ));
+
+                
+                    $user->stripe_id = $customer->id;
+                    $user->card_brand = $stripe_token['card']['brand'];
+                    $user->card_last_four = $stripe_token['card']['last4'];
+                    $user->save();
+                    $subscription =\Stripe\Subscription::create(array(
+                      "customer" => $customer->id,
+                      "items" => array(
+                        array(
+                          "plan" => $plan_id,
+                        ),
+                      )
+                    )); 
+
+                    if($subscription->id) {
+                        $subscribe = new Subscription();
+                        $subscribe->user_id = $user->id;
+                        $subscribe->name = $plan->interval;
+                        $subscribe->stripe_id = $subscription->id;
+                        $subscribe->stripe_plan = $plan_id;
+                        $subscribe->quantity = 1;
+                        $subscribe->save();
+
+                        $subscription_ends      = date('m/d/Y',$subscription->current_period_end);
+                        $subscription_starts    = date('m/d/Y',$subscription->current_period_start);
+                        $planAmount             = ($amount/100);
+                         /**
+                         * Fire a mail to user with original subject and message
+                         */
+
+                         Mail::send('emails.registerEmail', [
+                            'firstName'             => $user->first_name,
+                            'lastName'              => $user->last_name,
+                            'email'                 => 'info@parish.com',
+                            'subscription_ends'     => $subscription_ends,
+                            'subscription_starts'   => $subscription_starts,
+                            'amount'                => $planAmount,
+                            'plan'                  => $plan->name,
+                            'interval'              => $plan->interval
+                        ], function ($mail) use ($user) {
+                            /** @noinspection PhpUndefinedMethodInspection */
+                            $mail->from($user->email, 'WEM Registraion');
+                            /** @noinspection PhpUndefinedMethodInspection */
+                            $mail->to($user->email, "Parish")
+                                ->subject('Parish WEM Registraion');
+                        });
+                    }
+
+                    $response = [
+                        'status'    => true,
+                        'message'   => "Message sent successfully."
+                    ];
+
+                    $response = [
+                        'status'    => true,
+                        'message'   => "User signed up successfully."
+                    ];
+                    $responseCode = 201;                                                                                            
                 }
             }
 
-            /**
-             * Fire a mail to user with original subject and message
-             */
-
-             Mail::send('emails.registerEmail', [
-                'firstName'     => $user->first_name,
-                'lastName'      => $user->last_name,
-                'email'         => 'info@parish.com',
-            ], function ($mail) use ($user) {
-                /** @noinspection PhpUndefinedMethodInspection */
-                $mail->from($user->email, 'WEM Registraion');
-                /** @noinspection PhpUndefinedMethodInspection */
-                $mail->to($user->email, "Parish")
-                    ->subject('Parish WEM Registraion');
-            });
-
-            $response = [
-                'status'    => true,
-                'message'   => "Message sent successfully."
-            ];
-
-            $response = [
-                'status'    => true,
-                'message'   => "User signed up successfully."
-            ];
-            $responseCode = 201;
+           
 
         } catch (HttpBadRequestException $httpBadRequestException) {
             $response = [
@@ -193,6 +242,96 @@ class AuthController extends Controller {
 
             unset($user);
         }
+
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Function to get all plans from stripe
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws HttpBadRequestException
+     */
+
+    public function listPlan(Request $request) {
+        try {
+
+            $key = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $getAllPlans = \Stripe\Plan::all();
+            $plans = [];
+            if($getAllPlans && $getAllPlans->data) {
+                foreach($getAllPlans->data as $key=>$value) {
+                    $plans[$key]['id'] = $value->id;
+                    $plans[$key]['name'] = $value->name;
+                    $plans[$key]['amount'] = $value->amount;
+                    $plans[$key]['currency'] = $value->currency;
+                    $plans[$key]['interval'] = $value->interval;
+                    $plans[$key]['trial_period_days'] = $value->trial_period_days;
+                    $plans[$key]['statement_descriptor'] = $value->statement_descriptor;
+                    $plans[$key]['created'] = $value->created;
+                }
+                $response = [
+                    'status'    => true,
+                    'message'   => 'Fetched all plans Successfully.',
+                    'plans'     =>  $plans
+                ];
+                $responseCode = 200;
+            } else {
+                 $response = [
+                    'status'    => true,
+                    'message'   => 'No plans found.',
+                    'plans'     => $plans
+                ];
+                $responseCode = 200;
+            }
+        } catch (HttpBadRequestException $httpBadRequestException) {
+
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } 
+
+        return response()->json($response, $responseCode);
+    }
+
+ 
+    /**
+     * Function to validate email
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws HttpBadRequestException
+     */
+
+    public function validationEmail(Request $request) {
+        try {
+            $email       = $request->input('email');
+            $emailExists = User::where('email',$email)->count();
+            if($emailExists > 0){
+                $response = [
+                'status'      => false,
+                'message'     => 'Email already exists.'
+                ];
+                $responseCode = 200;  
+            } else {
+                $response = [
+                'status'      => true,
+                'message'     => 'Email is available.'
+                ];
+                $responseCode = 200;   
+            }
+            
+        } catch (HttpBadRequestException $httpBadRequestException) {
+
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } 
 
         return response()->json($response, $responseCode);
     }

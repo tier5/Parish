@@ -3,9 +3,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { NgModule } from '@angular/core';
 
-import { RegisterComponent} from "./register.component";
+import { RegisterComponent } from "./register.component";
 import { RegisterRoutingModule } from "./register-routing.module";
-import { RegisterService} from "./register.service";
+import { RegisterService } from "./register.service";
+import { SubscriptionModule } from "../../subscription/subscription.module";
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { RegisterService} from "./register.service";
     RegisterRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    SubscriptionModule
   ],
   declarations: [ RegisterComponent],
   providers: [ RegisterService ]

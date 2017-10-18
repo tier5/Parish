@@ -39,9 +39,21 @@ Route::group(['prefix' => 'v1'], function() {
     ]);
 
     Route::post('reset-password', [
-                'uses' => 'Api\V1\AuthController@resetPassword',
-                'as' => 'api.v1.resetPassword.post'
-            ]);
+        'uses' => 'Api\V1\AuthController@resetPassword',
+        'as' => 'api.v1.resetPassword.post'
+    ]);
+
+    Route::get('list-plan', [
+        'uses' => 'Api\V1\AuthController@listPlan',
+        'as' => 'api.v1.listPlan.get'
+    ]);
+    
+    Route::post('validate-email',[
+        'uses' => 'Api\V1\AuthController@validationEmail',
+        'as'   => 'api.v1.validationEmail.post'
+    ]);
+
+
     /**
      * Route for Authenticated user
      */
@@ -246,7 +258,6 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses' => 'Api\V1\UserController@updateUserDetail',
                 'as' => 'api.v1.updateUserDetail.patch'
             ]);
-
         });
 
     /*
