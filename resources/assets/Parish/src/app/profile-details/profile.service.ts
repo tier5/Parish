@@ -50,5 +50,10 @@ export class ProfileService {
 		const user_id = this.authService.getToken().user_id;
 		return this.http.get( environment.API_URL + 'user/password-reset/' + user_id, { headers: this.headers } );
 	}
-	
+
+	/** Call to reset password for logged in user */
+	resetUsername( body: any ): Observable<any> {
+		const user_id   = this.authService.getToken().user_id;
+		return this.http.post( environment.API_URL + 'user/username-reset/' + user_id , body, { headers: this.headers } );
+	}
 }

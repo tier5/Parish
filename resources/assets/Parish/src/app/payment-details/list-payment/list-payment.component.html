@@ -192,7 +192,7 @@
                                     <span class="glyphicon glyphicon-upload"></span> Upload
                                 </button>
 
-                                <div class="progress" *ngIf="showUploadButton == payment.id">
+                                <div class="progress" *ngIf="showUploadButton == payment.id && showProgressbar">
                                     <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress  + '%' }"></div>
                                 </div>
 

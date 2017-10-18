@@ -1,7 +1,10 @@
-<div class="row">
+<div class="row" [hidden]="!planSelected">
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
-            <div class="panel-heading"><strong>Register</strong></div>
+            <div class="panel-heading">
+                <i class="fa fa-angle-double-left fa-pull-right" aria-hidden="true" (click)="onUndoSubscription()"></i>
+                <strong>Register</strong>
+            </div>
             <div class="panel-body">
                 <form [formGroup]="formRegister" (ngSubmit)="onSubmit()">
                     <div *ngIf="!userRegisterStatus && responseReceived" class="alert alert-danger">
@@ -55,6 +58,9 @@
                                 <div *ngIf="formRegister.get('email').hasError('email')">
                                     Enter a Proper Email!
                                 </div>
+                                <div *ngIf="formRegister.get('email').hasError('emailTaken')">
+                                    Email has already been taken!
+                                </div>
                             </div>
                         </div>
 
@@ -88,8 +94,23 @@
                                     Confirm password is Required!
                                 </div>
                                 <div *ngIf="formRegister.get('confirm_password').hasError('confirmPassword')">
-                                    Confirm Password didnot Match!
+                                    Confirm Password did not Match!
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- Stripe Custom Form -->
+                        <div class="form-group">
+                            <div class="form-row">
+                                <label for="card-element">
+                                    Credit or debit card
+                                </label>
+                                <div id="card-element">
+                                    <!-- a Stripe Element will be inserted here. -->
+                                </div>
+
+                                <!-- Used to display form errors -->
+                                <div id="card-errors" role="alert"></div>
                             </div>
                         </div>
 
@@ -98,6 +119,7 @@
                             Register
                         </button>
                         <button type="reset" class="btn btn-default" [disabled]="userRegisterRequested" (click)="onReset()">Reset</button>
+                    <!--    <app-subscription></app-subscription> -->
                         <button type="button" class="btn btn-primary pull-right" [disabled]="userRegisterRequested" (click)="onNavigate()">Login</button>
                     </fieldset>
                 </form>
@@ -105,3 +127,48 @@
         </div>
     </div><!-- /.col-->
 </div><!-- /.row -->
+<div class="container content" *ngIf="!planSelected">
+    <div class="row">
+        <!-- Pricing -->
+        <div class="col-md-3" *ngFor="let plan of planList">
+            <div class="pricing hover-effect">
+                <div class="pricing-head">
+                    <h3>
+                        {{ plan.name }}
+                        <span></span>
+                    </h3>
+                    <h4>
+                        <i>$</i> <i>{{ plan.amount/100 }}</i>
+                        <span>Per Month</span>
+                    </h4>
+                </div>
+                <ul class="pricing-content list-unstyled">
+                    <li>
+                        At vero eos
+                    </li>
+                    <li>
+                        No Support
+                    </li>
+                    <li>
+                        Fusce condimentum
+                    </li>
+                    <li>
+                        Ut non libero
+                    </li>
+                    <li>
+                        Consecte adiping elit
+                    </li>
+                </ul>
+                <div class="pricing-footer">
+                    <p>
+                        {{ plan.statement_descriptor }}
+                    </p>
+                    <a href="javascript:;" class="btn yellow-crusta" (click)="onSelectSubscription(plan.id)">
+                        Sign Up
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--//End Pricing -->
+    </div>
+</div>

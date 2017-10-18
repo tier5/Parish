@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Provience;
 use App\Models\Zone;
 use App\Models\User;
+use App\Models\Area;
 use App\Models\Payment;
 use App\Helpers;
 use Crypt;
@@ -512,82 +513,62 @@ class ZoneController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
    
-    public function deleteZone(Request $request, $user_id, $zone_id)
-    {
+     public function deleteZone(Request $request, $user_id, $zone_id){
         try {
             DB::beginTransaction();
+            $province = Zone::findOrFail($zone_id)->delete();
 
-            $areas=Area::where('zone_id',$zone->id)->get();
-
-            if($areas) {
-
-                $areaArray =[];
-
-                foreach($areas as $key=>$area) {
-
-                    $paymentArea = Payment::where('created_by',$area->user_id)->delete();
-
+               if($province) {  
+                    $response = [
+                        'status' => true,
+                        'message' => "Zone Pastor deleted successfully."
+                        ];
+                    $responseCode = 200;
                 }
-
-            }
-
-            $zone = Zone::findOrFail($zone_id)->delete();
-
-            if($zone) {
-
-                $payment = Payment::where('created_by',$user_id)->delete();
+                else {
+                    $response = [
+                    'status' => true,
+                    'error' => "No zone has been found."
+                    ];
+                    $responseCode = 200;  
+                }
+            } catch (HttpBadRequestException $httpBadRequestException) {
+                $response = [
+                    'status' => false,
+                    'error' => $httpBadRequestException->getMessage()
+                ];
+                $responseCode = 400;
+            } catch (ClientException $clientException) {
+                DB::rollBack();
 
                 $response = [
-                    'status'    => true,
-                    'message'   => "Zone Pastor deleted successfully."
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $clientException->getMessage()
                 ];
-                $responseCode = 200;
-            }
-            else
-            {
+                $responseCode = 500;
+            } catch (Exception $exception) {
+                DB::rollBack();
+
+                Log::error($exception->getMessage());
+
                 $response = [
-                    'status'    => true,
-                    'error'     => "No zone has been found."
+                    'status' => false,
+                    'error' => "Internal server error.",
+                    'error_info' => $exception->getMessage()
                 ];
-                $responseCode = 200;  
+
+                $responseCode = 500;
+            } finally {
+                DB::commit();
+
+                unset($user);
+                unset($area);
             }
-           
-        } catch (HttpBadRequestException $httpBadRequestException) {
-            $response = [
-                'status'    => false,
-                'error'     => $httpBadRequestException->getMessage()
-            ];
-            $responseCode = 400;
-        } catch (ClientException $clientException) {
-            DB::rollBack();
-
-            $response = [
-                'status'        => false,
-                'error'         => "Internal server error.",
-                'error_info'    => $clientException->getMessage()
-            ];
-            $responseCode = 500;
-        } catch (Exception $exception) {
-            DB::rollBack();
-
-            Log::error($exception->getMessage());
-
-            $response = [
-                'status'        => false,
-                'error'         => "Internal server error.",
-                'error_info'    => $exception->getMessage()
-            ];
-
-            $responseCode = 500;
-        } finally {
-            DB::commit();
-
-            unset($user);
-            unset($zone);
-        }
 
         return response()->json($response, $responseCode);
     }
+
 
     /**
     * Filter Zone using Province id

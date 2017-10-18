@@ -74,13 +74,13 @@
                                         ng2FileSelect [uploader]="uploader"
                                         accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"
                                         (change)="checkUploadedFileType($event)"
-                                >
+                                > (.pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG only accepted)
                             </div>
                         </div>
 
 
                         <div class="col-md-6">
-                            <div class="form-group" *ngIf="uploader?.queue?.length">
+                            <div class="form-group" *ngIf="uploader?.queue?.length && length">
                                 <label></label>
                                 <div class="progress">
                                     <div data-percentage="0%" [ngStyle]="{ 'width': progress  + '%' }" class="progress-bar progress-bar-blue" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>

@@ -216,4 +216,63 @@ class UserController extends Controller {
 
         return response()->json($response, $responseCode);
     }
+
+    /**
+     * Reset username poster Detail
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function resetUsername(Request $request, $userId) {
+
+        try {
+            
+            DB::beginTransaction();
+
+            $user=User::findOrFail($userId);
+            if ($request->has('username')) {
+              $userCount = User::where('parish_id',$request->input('username'))
+                                ->where('id','!=',$userId)
+                                ->count(); 
+              if($userCount == 0) {
+                $user->parish_id = $request->input('username');
+                $user->save();
+
+                $response = [
+                    'status'    => true,
+                    'usename'  => $request->input('username'),
+                    'message'   => "Username updated successfully."
+                            ];
+                $responseCode = 200;   
+              } else {
+
+                $response = [
+                    'status'    => false,
+                    'error'   => "Username not avilable"
+                            ];
+                $responseCode = 200;
+              }                 
+            } else {
+              throw new HttpBadRequestException("Username is required.");  
+            }  
+        }
+        catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
 }

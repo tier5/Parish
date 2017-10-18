@@ -1,8 +1,5 @@
 <?php
-/**
-* Zone Model for WEM and Pastor with soft delete
-* @param Request $request
-*/
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -20,14 +17,16 @@ class Zone extends Model
      */
     protected $fillable = [
 
-        'name', 'provience_id', 'user_id', 'created_by'
+        'name', 'provience_id', 'user_id'
     ];
 
-    /**
-     * The attributes that are mass assignable.
+
+   /**
+     * The attributes that should be mutated to dates.
      *
      * @var array
      */
+
     protected $dates = ['deleted_at'];
 
     protected $softDelete = true;
@@ -39,33 +38,19 @@ class Zone extends Model
      */ 
 
     public function areas() {
-
-        return $this->hasMany('App\Models\Area');
-
+    return $this->hasMany('App\Models\Area');
     }
 
     public function areaDel() {
-
         return $this->hasMany('App\Models\Area','zone_id');
-
     }
 
     public function proviences() {
-
-    return $this->belongsTo('App\Models\Provience', 'provience_id');
-
+        return $this->belongsTo('App\Models\Provience', 'provience_id');
     } 
 
     public function users() {
-
-    return $this->belongsTo('App\Models\User','user_id');
-
-    }
-
-    public function parishes() {
-
-    return $this->hasManyThrough('App\Models\Parish', 'App\Models\Area');
-
+        return $this->belongsTo('App\Models\User','user_id');
     }
 
     /**
@@ -73,7 +58,6 @@ class Zone extends Model
      */
     
     protected static function boot() {
-
         parent::boot();
 
         static::deleting(function($zone) {
@@ -84,7 +68,6 @@ class Zone extends Model
                     $item->delete();
                 }
             }
-            
             $zone->users()->delete();
             
         });

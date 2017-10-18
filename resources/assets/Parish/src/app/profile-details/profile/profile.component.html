@@ -77,16 +77,34 @@
                                 <label for="pasword">Password</label>
                                 <input
                                         id="pasword"
-                                        class="form-control col-sm-9"
+                                        class="form-control col-md-9"
                                         name="uniqueKey"
                                         required
                                         [ngModel]="profileData.uniqueKey"
                                         #uniqueKey="ngModel" readonly>
                                 <button (click)="onResetPassword()" type="button"
-                                        class="btn btn-default col-sm-3">Reset Password
+                                        class="btn btn-default col-md-3">Reset Password
                                 </button>
+
                             </div>
 
+                        </div>
+                    </div>
+                    <div class="row passwordDiv" *ngIf="!isAdmin">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input
+                                        id="username"
+                                        class="form-control col-md-9"
+                                        name="parish_id"
+                                        required
+                                        [ngModel]="profileData.parish_id"
+                                        #parish_id="ngModel">
+                                <button (click)="onResetUsername(updateProfileForm)" type="button"
+                                        class="btn btn-default col-md-3" [disabled] = "!updateProfileForm.value.parish_id || !activateReset">Reset Username
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row">

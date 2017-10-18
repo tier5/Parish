@@ -22,14 +22,35 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	generateReportSubscription     : Subscription;
 	editMode                       : boolean             = false;
     viewMode                       : boolean             = false;
+    createMode                       : boolean             = false;
     displaymode                    : boolean             = true;
 	responseMsg                    : string              = '';
 	responseStatus                 : boolean             = false;
 	responseReceived               : boolean             = false;
 	parish_id                      : number;
+	child_sunday_service           : number;
+	child_sunday                   : number;
+	women_sunday_service           : number;
+	women_sunday                   : number;
+	men_sunday_service             : number;
+	men_sunday                     : number;
+	midWeek_men                    : number;
+	midWeek_women                  : number;
+	midWeek_child                  : number;
 	parishIdList                   : any;
 	reportId                       : number;
 	reportIdList                   : any;
+	parishShow                     : boolean = false;
+	sundaychild:{};
+	sundayServicechild:{};
+	sundaywomen:{};
+	sundayServicewomen:{};
+	sundaymen:{};
+	sundayServicemen:{};
+	midWeekmen:{};
+	midWeekwomen:{};
+	midWeekchild:{};
+	
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
@@ -74,8 +95,15 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 		'zonal_pastor': '',
 		'province_pastor': '',
 		'crucial_date': '',
+		'parish_start_date':'',
+		'area_dues':0,
 		'month': '',
 		'year': '',
+		'no_of_birth':0,
+		'no_of_death' :0,
+		'no_of_marrg' :0,
+		'no_of_new_workers' :0,
+		'no_of_souls_saved' :0,
 		'report': {
 			'monthly_total': {
 				'attendance': {
@@ -103,7 +131,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 							'men': null,
 							'women': null,
 							'children': null,
-							'total': null
+							'total': null,
 						},
 						'monetary': {
 							'offering': null,
@@ -829,13 +857,22 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 						'men': 0,
 						'women': 0,
 						'children': 0,
-						'total': 0
+						'total': 0,
+						'sunday_child':0,
+						'sunday_service_child':0,
+						'sunday_women':0,
+						'sunday_service_women':0,
+						'sunday_men':0,
+						'sunday_service_men':0,
+						'mid_week_men':0,
+						'mid_week_women':0,
+						'mid_week_child':0,
 					},
 					'monetary': {
 						'offering': 0,
 						'tithe': {
 							'pastor': 0,
-							'general': 0
+							'general': 0,
 							
 						},
 						'f_fruit': 0,
@@ -844,6 +881,16 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 					}
 				};
 				
+				this.sundaychild = [];
+				this.sundayServicechild = [];
+				this.sundaywomen = [];
+				this.sundayServicewomen = [];
+				this.sundaymen = [];
+				this.sundayServicemen = [];
+				this.midWeekmen = [];
+				this.midWeekwomen = [];
+				this.midWeekchild = [];
+				
 				for( let i = 0; i < this.progress_report.report.weekly.length; i++ ) {
 					
 					let weeklyTemp = {
@@ -851,7 +898,16 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 							'men': 0,
 							'women': 0,
 							'children': 0,
-							'total': 0
+							'total': 0,
+							'sunday_child':0,
+							'sunday_service_child':0,
+							'sunday_women':0,
+							'sunday_service_women':0,
+							'sunday_men':0,
+							'sunday_service_men':0,
+							'mid_week_men':0,
+							'mid_week_women':0,
+							'mid_week_child':0,
 						},
 						'monetary': {
 							'offering': 0,
@@ -866,7 +922,9 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 						}
 					};
 					
+					
 					for( let j = 0; j < this.progress_report.report.weekly[i].days.length; j++ ) {
+						
 						/** Calculating and saving daily attendance */
 						this.progress_report.report.weekly[i].days[j].attendance.total = this.progress_report.report.weekly[i].days[j].attendance.men + this.progress_report.report.weekly[i].days[j].attendance.women + this.progress_report.report.weekly[i].days[j].attendance.children;
 						
@@ -878,7 +936,23 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 						weeklyTemp.attendance.women += this.progress_report.report.weekly[i].days[j].attendance.women;
 						weeklyTemp.attendance.children += this.progress_report.report.weekly[i].days[j].attendance.children;
 						weeklyTemp.attendance.total += this.progress_report.report.weekly[i].days[j].attendance.total;
+						if(this.progress_report.report.weekly[i].days[j].programmes == 'Sunday School') {
+							weeklyTemp.attendance.sunday_child += this.progress_report.report.weekly[i].days[j].attendance.children;
+							weeklyTemp.attendance.sunday_women += this.progress_report.report.weekly[i].days[j].attendance.women;
+							weeklyTemp.attendance.sunday_men   += this.progress_report.report.weekly[i].days[j].attendance.men;
+						}
 						
+						if(this.progress_report.report.weekly[i].days[j].programmes == 'Sunday Service') {
+							weeklyTemp.attendance.sunday_service_child += this.progress_report.report.weekly[i].days[j].attendance.children;
+							weeklyTemp.attendance.sunday_service_women += this.progress_report.report.weekly[i].days[j].attendance.women;
+							weeklyTemp.attendance.sunday_service_men   += this.progress_report.report.weekly[i].days[j].attendance.men;
+						}
+						
+						if(this.progress_report.report.weekly[i].days[j].programmes != 'Sunday Service' && this.progress_report.report.weekly[i].days[j].programmes != 'Sunday School') {
+							weeklyTemp.attendance.mid_week_men += this.progress_report.report.weekly[i].days[j].attendance.men;
+							weeklyTemp.attendance.mid_week_women += this.progress_report.report.weekly[i].days[j].attendance.women;
+							weeklyTemp.attendance.mid_week_child   += this.progress_report.report.weekly[i].days[j].attendance.children;
+						}
 						/** Calculating weekly monetary */
 						weeklyTemp.monetary.offering += this.progress_report.report.weekly[i].days[j].monetary.offering;
 						weeklyTemp.monetary.tithe.pastor += this.progress_report.report.weekly[i].days[j].monetary.tithe.pastor;
@@ -895,6 +969,16 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 					this.progress_report.report.weekly[i].weekly_total.attendance.children = weeklyTemp.attendance.children;
 					this.progress_report.report.weekly[i].weekly_total.attendance.total = weeklyTemp.attendance.total;
 					
+					this.sundaychild[i] = weeklyTemp.attendance.sunday_child;
+					this.sundayServicechild[i] = weeklyTemp.attendance.sunday_service_child;
+					this.sundaywomen[i] = weeklyTemp.attendance.sunday_women;
+					this.sundayServicewomen[i] = weeklyTemp.attendance.sunday_service_women;
+					this.sundaymen[i] = weeklyTemp.attendance.sunday_men;
+					this.sundayServicemen[i] = weeklyTemp.attendance.sunday_service_men;
+					this.midWeekmen[i] = weeklyTemp.attendance.mid_week_men;
+					this.midWeekwomen[i] = weeklyTemp.attendance.mid_week_women;
+					this.midWeekchild[i] = weeklyTemp.attendance.mid_week_child;
+					
 					/** Saving weekly monetary */
 					this.progress_report.report.weekly[i].weekly_total.monetary.offering = weeklyTemp.monetary.offering;
 					this.progress_report.report.weekly[i].weekly_total.monetary.tithe.pastor = weeklyTemp.monetary.tithe.pastor;
@@ -908,6 +992,15 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 					monthTemp.attendance.women += this.progress_report.report.weekly[i].weekly_total.attendance.women;
 					monthTemp.attendance.children += this.progress_report.report.weekly[i].weekly_total.attendance.children;
 					monthTemp.attendance.total += this.progress_report.report.weekly[i].weekly_total.attendance.total;
+					monthTemp.attendance.sunday_child += this.sundaychild[i];
+					monthTemp.attendance.sunday_service_child += this.sundayServicechild[i];
+					monthTemp.attendance.sunday_women += this.sundaywomen[i];
+					monthTemp.attendance.sunday_service_women += this.sundayServicewomen[i];
+					monthTemp.attendance.sunday_men += this.sundaymen[i];
+					monthTemp.attendance.sunday_service_men += this.sundayServicemen[i];
+					monthTemp.attendance.mid_week_men += this.midWeekmen[i];
+					monthTemp.attendance.mid_week_women += this.midWeekwomen[i];
+					monthTemp.attendance.mid_week_child += this.midWeekchild[i];
 					
 					/** Calculating monthly monetary */
 					monthTemp.monetary.offering += this.progress_report.report.weekly[i].weekly_total.monetary.offering;
@@ -916,7 +1009,6 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 					monthTemp.monetary.f_fruit += this.progress_report.report.weekly[i].weekly_total.monetary.f_fruit;
 					monthTemp.monetary.t_giving += this.progress_report.report.weekly[i].weekly_total.monetary.t_giving;
 					monthTemp.monetary.total += this.progress_report.report.weekly[i].weekly_total.monetary.total;
-					
 				}
 				
 				/** Saving weekly attendance */
@@ -924,6 +1016,15 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				this.progress_report.report.monthly_total.attendance.women = monthTemp.attendance.women;
 				this.progress_report.report.monthly_total.attendance.children = monthTemp.attendance.children;
 				this.progress_report.report.monthly_total.attendance.total = monthTemp.attendance.total;
+				this.child_sunday         = monthTemp.attendance.sunday_child;
+				this.child_sunday_service = monthTemp.attendance.sunday_service_child;
+				this.women_sunday         = monthTemp.attendance.sunday_women;
+				this.women_sunday_service = monthTemp.attendance.sunday_service_women;
+				this.men_sunday         = monthTemp.attendance.sunday_men;
+				this.men_sunday_service = monthTemp.attendance.sunday_service_men;
+				this.midWeek_men = monthTemp.attendance.mid_week_men;
+				this.midWeek_women = monthTemp.attendance.mid_week_women;
+				this.midWeek_child = monthTemp.attendance.mid_week_child;
 				
 				/** Saving weekly monetary */
 				this.progress_report.report.monthly_total.monetary.offering = monthTemp.monetary.offering;
@@ -933,9 +1034,33 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				this.progress_report.report.monthly_total.monetary.t_giving = monthTemp.monetary.t_giving;
 				this.progress_report.report.monthly_total.monetary.total = monthTemp.monetary.total;
 				
+				
+				
 				/** Calculating wem's share */
 				this.progress_report.wem_share =  this.progress_report.report.monthly_total.monetary.total * ( this.progress_report.wem_percentage/100 );
 				
+				var date = new Date(this.progress_report.parish_start_date);
+				var parish_start_year   = date.getFullYear();
+				var parish_start_month  = date.getMonth()+1;
+				var c_date = new Date(this.progress_report.crucial_date);
+				var crucial_date_year   = c_date.getFullYear();
+				var crucial_date_month  = c_date.getMonth()+1;
+				
+				var parish_age_in_months = ((crucial_date_year - parish_start_year)*12)+(crucial_date_month-parish_start_month);
+				var tithe_offering_index = (parish_age_in_months < 25)?.1:(parish_age_in_months < 37)?.15:.20;
+				var thanksgiving_index   = .10;
+				var monthly_tithe        = this.progress_report.report.monthly_total.monetary.offering;
+				var monthly_offering     = this.progress_report.report.monthly_total.monetary.tithe.general;
+				var monthly_thanksgiving = this.progress_report.report.monthly_total.monetary.t_giving;
+				var monthly_wem_thankgiving = (monthly_thanksgiving*0.3);
+				var wem_income  = (monthly_tithe + monthly_offering + monthly_wem_thankgiving);
+				var wem_tithe_offering = (monthly_tithe + monthly_offering)*tithe_offering_index;
+				var wem_thanks = (monthly_thanksgiving * .3 * thanksgiving_index);
+				var wem_total = (wem_tithe_offering + wem_thanks);
+				var area_dues = (wem_income - wem_total)*.05;
+				
+				this.progress_report.area_dues = area_dues;
+				this.progress_report.wem_share = wem_total;
 			},
             (error:Response) => {
                 if ( error.status === 401 ) {
@@ -991,13 +1116,14 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 								this.progress_report = response.json().progress_report[(response.json().progress_report).length - 1].progress_report;
 								this.progress_report.crucial_date = crucial_date;
 								this.parish_id = this.progress_report.parish_id;
+								
 							},
 							(error: Response) => {
-                                if ( error.status === 401 ) {
+								if ( error.status === 401 ) {
                                     this.authService.removeToken();
                                     this.router.navigate( [ '/login' ] );
                                 }
-							}
+                            }
 						);
 				}
 			}
@@ -1052,24 +1178,33 @@ export class CreateReportComponent implements OnInit, OnDestroy {
                         );
 
                     }
+                    
+                    if(!this.editMode && !this.viewMode){
+                    	this.createMode = true;
+                    }
 
                 }
 		);
-
+		
 		/** List all available Parish Id's*/
-		if(this.authService.getToken().user_type !=3 ) {
+		
+		const user_type = this.authService.getToken().user_type;
+		if(user_type !=3) {
+			this.parishShow = true;
 			this.pzapService.filterParish({})
 				.subscribe(
-					(response: Response) => {
-						if (response.json().status) {
-							this.displaymode = true;
+					( response: Response ) => {
+						if(response.json().status) {
+							this.displaymode  = true;
 							this.parishIdList = response.json().parishes;
 						}
 					},
-					(error: Response) => {
+					( error: Response ) => {
 						console.log(error.json())
 					}
 				);
+			} else {
+			this.parishShow = false;
 		}
 	}
 	
@@ -1148,7 +1283,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 			            this.displaymode  = false;
 		            }
 	            },( error: Response ) => {
-		            this.reportIdList = error.json().allreportId;
+	            	this.reportIdList = error.json().allreportId;
 		            this.displaymode  = false;
 	            }
             );
@@ -1200,6 +1335,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				report_year: this.timeInfo.report_year,
 				progress_report: this.progress_report
 			};
+			
 			this.reportService.sendReport( obj )
 			.subscribe(
 
