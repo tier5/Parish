@@ -247,6 +247,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.updateUserDetail.patch'
             ]);
 
+            Route::post('/username-reset/{user_id}',[
+                'uses'  => 'Api\V1\UserController@resetUsername',
+                'as'    => 'api.v1.resetUsername.post'
+            ]);
+
         });
 
     /*

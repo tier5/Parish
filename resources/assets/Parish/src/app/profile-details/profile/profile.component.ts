@@ -23,11 +23,13 @@ export class ProfileComponent{
 		user_id     : 0,
 		last_name   : '',
 		uniqueKey   : '',
-		first_name  : ''
+		first_name  : '',
+		parish_id   : ''
 	};
 	
 	responseReceived    : boolean = false;
 	responseStatus      : boolean = false;
+	activateReset       : boolean = true;
 	responseMsg         : string  = '';
 	
 	showLoader          : boolean = false;
@@ -141,6 +143,37 @@ export class ProfileComponent{
 					}
 					this.responseStatus = false;
 					this.responseMsg = error.json().error;
+				}
+			);
+	}
+
+	/** Function call to reset username */
+	onResetUsername(updateProfileForm){
+		this.activateReset  = false;
+		const formData      = new FormData();
+		formData.append("username",updateProfileForm.value.parish_id);
+
+		this.profileService.resetUsername(formData)
+			.subscribe(
+				(response: Response) => {
+					this.responseStatus = response.json().status;
+					if ( response.json().status ) {
+						this.activateReset  	= true;
+						this.responseMsg 		= response.json().message;
+						this.responseReceived 	= true;
+					} else {
+						this.responseMsg 	= '';
+						this.activateReset 	=  true;
+					}
+				},
+				(error: Response) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
+					this.activateReset  = true;
+					this.responseStatus = false;
+					this.responseMsg 	= error.json().error;
 				}
 			);
 	}
