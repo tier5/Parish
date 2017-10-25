@@ -102,7 +102,16 @@ export class UploadPaymentComponent {
 					this.responseStatus     = false;
 					this.responseReceived   = true;
 					this.responseMsg        = error.json().error;
-				}
+				},
+			 	() => {
+                        
+                        setTimeout( () => {
+                            this.progress           = 0;
+                            this.responseReceived   = false;
+                            this.showLoader    		= false;
+                            uploadPaymentForm.reset();
+                        }, 3000);
+                    }
 			);
 	}
 	
@@ -115,6 +124,14 @@ export class UploadPaymentComponent {
 		}else{
 			this.length = false;
 		}
+	}
+
+	/** function to reset upload payment form */
+	onReset(uploadPaymentForm: NgForm) {
+        uploadPaymentForm.reset();
+        this.progress   = 0;
+        this.length 	= false;
+        this.showLoader = false;
 	}
 	
 }

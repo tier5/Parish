@@ -28,7 +28,8 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 	responseStatus                      = false;
 	responseReceived                    = false;
 	responseMsg         : string        = '';
-	public ifNoData     : boolean       = false;
+    public ifNoData     : boolean       = false;
+	public showProgressbar     : boolean       = false;
 
 	selectionYear       : number        = 0;
     selectionMonth      : number        = 0;
@@ -336,8 +337,9 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 	/** Upload doc Function */
 	upload(payment) {
 		
-		this.progress       = 10;
-		const user_id       = this.authService.getToken().user_id;
+        this.progress           = 10;
+		this.showProgressbar    = true;
+		const user_id           = this.authService.getToken().user_id;
 		
 		const formData      = new FormData();
 		formData.append("name", this.files[0]);
@@ -368,7 +370,15 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 					this.responseStatus     = false;
 					this.responseReceived   = true;
 					this.responseMsg        = error.json().error;
-				}
+				},
+                () => {
+                        
+                        setTimeout( () => {
+                            this.progress           = 0;
+                            this.responseReceived   = false;
+                            this.showProgressbar    = false;
+                        }, 3000);
+                    }
 			);
 		
 	}
@@ -378,6 +388,7 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 		this.showUploadButton   = payment.id;
 		this.files              = event.target.files;
 		this.progress           = 10;
+        this.showProgressbar   = true;
 	}
 
 	/** Change status of Payment **/

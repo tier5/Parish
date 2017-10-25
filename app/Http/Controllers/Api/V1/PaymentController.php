@@ -393,7 +393,7 @@ class PaymentController extends Controller {
                 
                 $getFileExtension=$request->name->getClientOriginalExtension();
 
-                $allowedExts = array("jpg","pdf","jpeg", "doc","docx");
+                $allowedExts = array("pdf","doc","docx","jpeg","jpg","PDF","DOC","DOCX","JPEG","JPG");
 
                     if(in_array($getFileExtension, $allowedExts)) {
 
