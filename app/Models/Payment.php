@@ -41,10 +41,11 @@ class Payment extends Model
      * @param $wem_id
      */ 
 
-	public function users() {
+	public function parish() {
 
-        return $this->belongsTo('App\Models\User','created_by');
-	}
+        return $this->belongsTo('App\Models\Parish','user_id');
+    }
+
 
     public function proviences() {
 
@@ -64,13 +65,8 @@ class Payment extends Model
 
     }
 
-    protected static function boot() {
+    public function user() {
 
-        parent::boot();
-
-        static::deleting(function($payment) {
-
-            $payment->users()->delete();
-        });
+        return $this->belongsTo('App\Models\User');
     }
 }

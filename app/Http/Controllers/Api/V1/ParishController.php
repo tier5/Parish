@@ -14,6 +14,7 @@ use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
 use App\Models\Parish;
+use App\Models\Payment;
 use App\Helpers;
 use Crypt;
 use DB;
@@ -130,8 +131,7 @@ class ParishController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function createParish(Request $request)
-    {
+    public function createParish(Request $request) {
         try {
 
             DB::beginTransaction();
@@ -350,8 +350,12 @@ class ParishController extends Controller {
 
         try {
             DB::beginTransaction();
-
+            /*$paymentdel = Payment::findOrFail(48)->delete();
+            dd($paymentdel);*/
+            $parishInfo = Parish::find($parish_id);
+            $paymentdel = Payment::where('created_by',$parishInfo->user_id)->delete();
             $parish = Parish::findOrFail($parish_id)->delete();
+
 
             if($parish)
             {

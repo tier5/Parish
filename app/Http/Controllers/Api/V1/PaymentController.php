@@ -137,6 +137,7 @@ class PaymentController extends Controller {
                         $payments = $payments->get();
                     }
                 } else {
+
                     $payments = Payment::whereNull('deleted_at')
                                        ->where('wem_id',$userId)
                                        ->get();
@@ -278,7 +279,6 @@ class PaymentController extends Controller {
                 $paymentArray = [];
                 foreach ($payments as $key => $payment) {
                         $parishDetails = Parish::where('user_id',$payment->created_by)->first();
-
                         $paymentArray[$key]['id']                     = $payment->id;
                         $paymentArray[$key]['wem_id']                 = $payment->wem_id;
                         $paymentArray[$key]['file_name']              = $payment->file_name;

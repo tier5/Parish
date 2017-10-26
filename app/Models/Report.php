@@ -22,7 +22,7 @@ class Report extends Model
      */
     protected $fillable = [
 
-        'report_month', 'report_year', 'progress_report'
+        'report_month', 'report_year', 'progress_report','parish_id'
     ];
 
     public $timestamps = true;
@@ -35,10 +35,14 @@ class Report extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function parish() {
+
+        return $this->belongsTo('App\Models\Parish');
+    }
+
     /**
      * Bind user model field with bcrypt encryption
      *
      * @param $wem_id
      */ 
-
 }

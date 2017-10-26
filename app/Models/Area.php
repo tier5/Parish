@@ -63,21 +63,23 @@ class Area extends Model
 
     }
 
+    
+
+   
     protected static function boot() {
 
         parent::boot();
 
         static::deleting(function($area) {
-            foreach(['parishDel'] as $relation)
-            {
-                foreach($area->{$relation} as $item)
-                {
+
+            foreach(['parishDel'] as $relation){
+
+                foreach($area->{$relation} as $item){
                     $item->delete();
                 }
             }
-            
+
             $area->users()->delete();
-            
         });
     }
 }

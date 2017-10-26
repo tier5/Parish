@@ -50,9 +50,12 @@ class Zone extends Model
     } 
 
     public function users() {
-        return $this->belongsTo('App\Models\User','user_id');
+
+    return $this->belongsTo('App\Models\User','user_id');
+
     }
 
+    
     /**
      * Delete functionality bewteen related models
      */
@@ -68,6 +71,7 @@ class Zone extends Model
                     $item->delete();
                 }
             }
+           
             $zone->users()->delete();
             
         });

@@ -9,6 +9,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Payment;
 
 class Parish extends Model
 {
@@ -50,13 +51,31 @@ class Parish extends Model
 
         return $this->belongsTo('App\Models\User','user_id');
 	}
-    
+
+    public function reportDel() {
+
+        return $this->hasMany('App\Models\Report');
+    }
+
+
+    public function payments() {
+
+        return $this->hasMany('App\Models\Payment','created_by', 'user_id');
+    }
+
     protected static function boot() {
 
         parent::boot();
-
+        
         static::deleting(function($parish) {
+            foreach(['users'] as $relation){
+              $payment = Payment::where('created_by',$parish->user_id)->get();
+                foreach($payment as $item) {
+                     $item->delete();
+                }
+            }
 
+            $parish->reportDel()->delete();
             $parish->users()->delete();
         });
     }

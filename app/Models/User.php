@@ -53,4 +53,19 @@ class User extends Authenticatable{
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+    public function payments() {
+
+        return $this->hasMany('App\Models\Payment','created_by');
+    }
+
+    protected static function boot() {
+
+        parent::boot();
+
+        static::deleting(function($user) {
+            $user->payments()->delete();
+            
+        });
+    }
 }
