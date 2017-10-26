@@ -48,7 +48,6 @@ class UserController extends Controller {
             DB::beginTransaction();
 
             $user=User::find($userId);
-
             $noOfUser =count($user);
 
             if($noOfUser){
@@ -110,7 +109,7 @@ class UserController extends Controller {
             DB::beginTransaction();
 
             $user = User::find($userId);
-
+            
             /**
              * Validate mandatory fields
              */
