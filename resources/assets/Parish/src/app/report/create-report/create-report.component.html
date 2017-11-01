@@ -528,11 +528,11 @@
                                             <td><span>Men</span></td>
                                             <td><span>Total</span></td>
                                             <td colspan="4">
-                                                <strong>Parish Start Date: <span class="date">23/11/2003</span></strong>
+                                                <strong>Parish Start Date: <span class="date">{{ progress_report.parish_start_date }}</span></strong>
                                             </td>
                                             <td><span>Area Contrib.</span></td>
                                             <td>
-                                                <b><input type="text" class="form-control highlight" value="93.79"></b>
+                                                <b><input type="text" class="form-control highlight" value="{{ progress_report.area_dues }}"></b>
                                             </td>
                                             <td><span>WEM</span></td>
                                             <td>
@@ -554,17 +554,17 @@
                                         <tr>
                                             <td colspan="2"><span>Sunday School</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="47">
+                                                <input type="text" class="form-control highlight-light" value="{{ child_sunday }}">
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="37">
+                                                <input type="text" class="form-control highlight-light" value="{{ women_sunday }}">
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="11">
+                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday }}">
                                             </td>
                                             <td class="highlight-light">
                                                 <b><input type="text" class="form-control highlight-light"
-                                                          value="95"></b>
+                                                          value="{{ child_sunday + women_sunday + men_sunday }}"></b>
                                             </td>
                                             <td colspan="2">
                                                 <strong>Adults only: </strong>
@@ -579,22 +579,22 @@
                                         <tr>
                                             <td colspan="2"><span>Sunday</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="116">
+                                                <input type="text" class="form-control highlight-light" value="{{ child_sunday_service }}">
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="67">
+                                                <input type="text" class="form-control highlight-light" value="{{ women_sunday_service }}">
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="39">
+                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday_service }}">
                                             </td>
                                             <td class="highlight-light">
-                                                <b><input type="text" class="form-control highlight-light" value="222"></b>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ child_sunday_service + women_sunday_service + men_sunday_service }}"></b>
                                             </td>
                                             <td>
                                                 <span>Sunday</span>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="106">
+                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday_service + women_sunday_service }}">
                                             </td>
                                             <td colspan="2" style="border-bottom: 0;">
                                                 <input type="text" class="form-control" value="">
@@ -608,29 +608,29 @@
                                         <tr>
                                             <td colspan="2"><span>Mid Week</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="16">
+                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_child }}">
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="10">
+                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_women }}">
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="4">
+                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_men }}">
                                             </td>
                                             <td class="highlight-light">
                                                 <b><input type="text" class="form-control highlight-light"
-                                                          value="31"></b>
+                                                          value="{{ midWeek_child + midWeek_men + midWeek_women }}"></b>
                                             </td>
                                             <td>
                                                 <span>Mid Week</span>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="14">
+                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_men + midWeek_women }}">
                                             </td>
                                             <td colspan="2" style="border-top: 0;" class="highlight">
-                                                <b><input type="text" class="form-control highlight" value="120"></b>
+                                                <b><input type="text" class="form-control highlight" value="{{ midWeek_men + midWeek_women + men_sunday_service + women_sunday_service }}"></b>
                                             </td>
                                             <td colspan="4" style="border-top: 0;">
-                                                <b><input type="text" class="form-control" value="144"></b>
+                                                <b><input type="text" class="form-control" value="{{ (midWeek_men + midWeek_women + men_sunday_service + women_sunday_service) +((midWeek_men + midWeek_women + men_sunday_service + women_sunday_service )*.02)}}"></b>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -640,27 +640,27 @@
                                             <td><span>Number of Births</span></td>
                                             <td class="sea-green">
                                                 <b class="sea-green"><input type="text" class="form-control sea-green"
-                                                                            value="0"></b>
+                                                                            value="{{ progress_report.no_of_birth }}" [(ngModel)]="progress_report.no_of_birth" name="no_of_birth"></b>
                                             </td>
                                             <td><span>Number of Deaths</span></td>
                                             <td class="sea-green">
                                                 <b class="sea-green"><input type="text" class="form-control sea-green"
-                                                                            value="0"></b>
+                                                                            value="{{ progress_report.no_of_death }}" [(ngModel)]="progress_report.no_of_death" name="no_of_death"></b>
                                             </td>
                                             <td colspan="2"><span>Number of Marriages</span></td>
                                             <td class="sea-green">
                                                 <b class="sea-green"><input type="text" class="form-control sea-green"
-                                                                            value="0"></b>
+                                                                            value="{{ progress_report.no_of_marrg }}" [(ngModel)]="progress_report.no_of_marrg" name="no_of_marrg"></b>
                                             </td>
                                             <td><span>Number of Souls Saved</span></td>
                                             <td class="sea-green">
                                                 <b class="sea-green"><input type="text" class="form-control sea-green"
-                                                                            value="2"></b>
+                                                                            value="{{ progress_report.no_of_souls_saved }}" [(ngModel)]="progress_report.no_of_souls_saved" name="no_of_souls_saved"></b>
                                             </td>
                                             <td colspan="2"><span>Number of New Workers</span></td>
                                             <td class="sea-green">
-                                                <b class="sea-green"><input type="text" class="form-control sea-green"
-                                                                            value="3"></b>
+                                                <b class="sea-green"><input type="text" class="form-control sea-green" name ="no_of_new_workers" [(ngModel)]="progress_report.no_of_new_workers"
+                                                                            value="{{ progress_report.no_of_new_workers }}"></b>
                                             </td>
                                         </tr>
                                         </tbody>
