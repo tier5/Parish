@@ -1,5 +1,5 @@
-<h3 class="page-header">{{ title }}</h3>
-<h5 class="page-header" *ngIf="!editMode">( Pick a date to create report )</h5>
+<h3 class="page-header">{{ title }} <span *ngIf="!editMode">( Pick a date to create report )</span></h3>
+
 
 <div class="row">
     <div class="col-lg-12">
@@ -22,27 +22,29 @@
                     <h4 class="text-center">
                         monthly progress report dashboard
                     </h4>
-                    <p class="acc-name">
-                        Account Name :
-                        <span>
-                            {{ progress_report.account_name }}
-                        </span>
-                    </p>
-                    <p class="acc-id" *ngIf="parishIdList">Parish Id :
-                        <select *ngIf="parish_id"
-                                #parishidlist
-                                [disabled]="!viewMode"
-                                (change)="onParishIdChange(parishidlist.value)"
-                                [ngModel]="parish_id"
-                                name="parishIdDropDown"
-                        >
-                            <option [value]="parish.id" *ngFor="let parish of parishIdList">ROI{{ parish.id }}</option>
+                    <div class="col-sm-12">
+                        <p *ngIf="!parishIdList" class="acc-id"> Parish Id : {{parish_id}} </p>
+                        <p class="acc-name">
+                            Account Name :
+                            <span>
+                                {{ progress_report.account_name }}
+                            </span>
+                        </p>
+                        <p class="acc-id" *ngIf="parishIdList">Parish Id :
+                            <select *ngIf="parish_id"
+                                    #parishidlist
+                                    [disabled]="!viewMode"
+                                    (change)="onParishIdChange(parishidlist.value)"
+                                    [ngModel]="parish_id"
+                                    name="parishIdDropDown"
+                            >
+                                <option [value]="parish.id" *ngFor="let parish of parishIdList">ROI{{ parish.id }}</option>
 
-                        </select>
-                    </p>
-                    <p *ngIf="!parishIdList" class="acc-id"> Parish Id : {{parish_id}} </p>
+                            </select>
+                        </p>
+                    </div>
                     <div class="acc-details">
-                        <div class="col-sm-6 text-right">
+                        <div class="col-sm-6">
                             <div class="block">
                                 <label>Month: </label>
                                 <span>{{ progress_report.month }}</span>

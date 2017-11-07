@@ -5,20 +5,33 @@
 @import "assets/css/font-awesome.min.css";
 
 .datepicker table{
-  width: 100% !important;
+  	width: 100% !important;
 }
 
 table tr td, table th{
-  font-size:1.2rem !important;
+  	font-size:1.2rem !important;
 }
 
 .sidebar ul.nav ul.children li a.active {
-  color: #ececec !important;
+  	color: #ececec !important;
 }
 
 .todo-list-item{
-  list-style: none;
+  	list-style: none;
 }
 .text-white{
-  color:white !important;
+  	color:white !important;
+}
+body{
+  	background: #215c7e;
+}
+h3.page-header{
+  	color: #fff;
+}
+.breadcrumb {
+	background: none !important;
+	box-shadow: none !important;
+}
+.breadcrumb a{
+    color: #fff !important;
 }
