@@ -13,9 +13,9 @@ h4{
     display:         flex;
 }
 .acc-name, .acc-id{
-    text-align: center;
     color: #000;
     font-size: 16px;
+    margin: 10px 0;
 }
 .acc-name span, .acc-id select{
     color: #0600ff;
@@ -173,6 +173,10 @@ table tr td input.highlight-light{
 .monthly-growth span{
     font-size: 20px !important;
     margin-top: 10px;
+}
+h3.page-header span{
+    color: #fff;
+    font-size: 16px;
 }
 
 @media screen and (max-width: 991px){

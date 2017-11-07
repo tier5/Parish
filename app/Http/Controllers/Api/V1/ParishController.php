@@ -167,6 +167,12 @@ class ParishController extends Controller {
             else
                 throw new HttpBadRequestException("Last name is required.");
 
+            if ($request->has('start_date'))
+
+                $parish->start_date = $request->input('start_date');
+            else
+                throw new HttpBadRequestException("Start Date is required.");
+
             $this->randomUsername = Helpers::generateNumber();
 
             $this->randomPassword = Helpers::generateNumber();
@@ -283,9 +289,11 @@ class ParishController extends Controller {
             else
                 throw new HttpBadRequestException("Last name is required.");
             
-            $user->first_name   = $request->input('first_name');
+            if ($request->has('start_date'))
 
-            $user->last_name    = $request->input('last_name');
+                $parish->start_date = $request->input('start_date');
+            else
+                throw new HttpBadRequestException("Start Date is required.");
             
             $user->save();
 
@@ -506,11 +514,9 @@ class ParishController extends Controller {
                 }
             }
             
-            if(count($parishes) >0 )
-            {
+            if(count($parishes) >0 ){
                 $parishArray    = [];
                 $noOfParishes   = count($parishes);
-
                 foreach ($parishes as $key=>$parish) {
                     
                     $parishArray[$key]['id']                    = $parish->id;
@@ -530,7 +536,6 @@ class ParishController extends Controller {
                     $parishArray[$key]['first_name']            = $parish->users->first_name;
                     $parishArray[$key]['last_name']             = $parish->users->last_name;
                 }
-                
                 $response = [
                 'status'        => true,
                 'message'       => $noOfParishes . ($noOfParishes > 1 ? " parishes have " : " parish has ") . "been found.",
@@ -617,6 +622,7 @@ class ParishController extends Controller {
                 $parishArray['password']                = $parish->users->uniqueKey;
                 $parishArray['first_name']              = $parish->users->first_name;
                 $parishArray['last_name']               = $parish->users->last_name;
+                $parishArray['start_date']              = Date('m-d-Y',strtotime($parish->start_date));
 
                     $response = [
                         'status'    => true,

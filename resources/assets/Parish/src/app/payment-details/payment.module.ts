@@ -7,6 +7,7 @@ import { PaymentRoutingModule } from "./payment-routing.module";
 import { FileSelectDirective, FileUploadModule } from "ng2-file-upload";
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { ListPaymentComponent } from "./list-payment/list-payment.component";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
 	declarations: [
@@ -18,7 +19,8 @@ import { ListPaymentComponent } from "./list-payment/list-payment.component";
 		FormsModule,
 		PaymentRoutingModule,
 		FileUploadModule,
-		DpDatePickerModule
+		DpDatePickerModule,
+		SharedModule
 	],
 	providers: [],
 	exports: [],

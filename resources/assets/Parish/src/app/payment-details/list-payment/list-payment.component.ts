@@ -52,7 +52,8 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
     isZonePastor: boolean = false;
     isAreaPastor: boolean = false;
     isParishPastor: boolean = false;
-
+	showDeletePrompt    : boolean   = false;
+	toDeletePayment     : any;
 	
 	paymentDetails                  = [];
 	uploader                        = new FileUploader({});
@@ -61,12 +62,16 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
     refreshZoneListSubscription  : Subscription;
     refreshAreaListSubscription  : Subscription;
     refreshParishListSubscription  : Subscription;
+	
+	closePromptEventSubscription     : Subscription;
+	deletePaymentEventSubscription   : Subscription;
 
 	showUploadButton                : number        =  0 ;
 	progress                        : number        =  0 ;
 	files                           : FileList;
 	base_url                        : string        = environment.base_url;
 	months 							= Array();
+
 
 	/** Injecting services to be used in this component */
 	constructor( private paymentService: PaymentService,
@@ -75,8 +80,8 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
                  private pzapService: ProvinceZoneAreaParishService ) { }
 	
 	ngOnInit() {
-
-        /** Setting user type */
+		
+		/** Setting user type */
         if( this.authService.getToken().user_type === 1 ) {
             this.showParishIdList = true;
             this.isWEM = true;
@@ -330,6 +335,49 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 				}
 			);
 		
+		/** Subscribe to event to close the delete prompt */
+		this.closePromptEventSubscription = this.pzapService.closePromptEvent
+			.subscribe(
+				() => {
+					this.showDeletePrompt = false;
+				}
+			);
+		
+		/** Subscribe to event to delete an Payment */
+		
+		this.deletePaymentEventSubscription = this.paymentService.deleteEvent
+			.subscribe(
+				(id: number) => {
+					this.showDeletePrompt = false;
+					this.paymentService.deletePayment( id ).subscribe(
+						(response: Response) => {
+							this.responseReceived   = true;
+							this.responseStatus     = response.json().status;
+							
+							if( response.json().status ) {
+								this.responseMsg = response.json().message;
+								this.paymentService.refreshList.next( {} );
+							} else {
+								this.areaList       = [];
+								this.responseMsg    = response.json().message;
+							}
+							setTimeout( () => {
+								this.responseReceived = false;
+							}, 3000 )
+						},
+						(error: Response) => {
+							if( error.status === 401) {
+								this.authService.removeToken();
+								this.router.navigate( ['/login'] );
+							}
+							this.responseStatus = false;
+							this.responseReceived = true;
+							this.responseMsg = error.json().error;
+						}
+					);
+				}
+			);
+		
 		/** Emitting event which will refresh the payment list */
 		this.paymentService.refreshList.next();
 	}
@@ -513,6 +561,39 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
             parish_id: this.selectionParish > 0 ? this.selectionParish : ''
         }
     }
+	
+	/** Function call to show delete prompt */
+	showPrompt(obj: any) {
+		this.showDeletePrompt = true;
+		this.toDeletePayment = obj;
+	}
+    
+    /** Function to delete a payment */
+    OnClickDelete(payment) {
+	    console.log('delete');
+    	/*this.paymentService.deletePayment(payment.id)
+		    .subscribe(
+			    (response: Response) => {
+				    this.responseReceived   = true;
+				    this.responseStatus = response.json().status;
+				    if ( response.json().status ) {
+					    this.responseMsg = response.json().message;
+				    } else {
+					    this.responseMsg = '';
+				    }
+				    this.paymentService.refreshList.next();
+			    },
+			    (error: Response) => {
+				    if( error.status === 401) {
+					    this.authService.removeToken();
+					    this.router.navigate( ['/login'] );
+				    }
+				    this.responseStatus = false;
+				    this.responseReceived = true;
+				    this.responseMsg = error.json().error;
+			    }
+		    );*/
+    }
 
     /** Un-subscribing from all custom made events when component is destroyed */
     ngOnDestroy() {
@@ -520,6 +601,7 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
         this.refreshZoneListSubscription.unsubscribe();
         this.refreshAreaListSubscription.unsubscribe();
         this.refreshParishListSubscription.unsubscribe();
+        this.deletePaymentEventSubscription.unsubscribe();
     }
 
 }

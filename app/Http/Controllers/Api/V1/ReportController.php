@@ -102,6 +102,11 @@ class ReportController extends Controller {
                 }        */               
                 
                 $report->parish_id  = $parish->id;
+                if($request->input('status') == "save"){
+                    $report->status  = 'submitted';
+                }else {
+                    $report->status  = 'draft';
+                }
                 $report->save(); 
             } else {
                 throw new HttpBadRequestException("Parish not found.");
@@ -237,7 +242,11 @@ class ReportController extends Controller {
                     $report_set['no_of_souls_saved']   = 0;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
                     $report_set["parish_id"]        = $parish->id;
                     $report_set["account_name"]     = $parish->name;
-                    $report_set["parish_start_date"]= date('m/d/Y',strtotime($parish->created_at));
+                    if($parish->start_date) {
+                        $report_set["parish_start_date"]= date('m/d/Y',strtotime($parish->start_date));
+                    } else {
+                        $report_set["parish_start_date"]= date('m/d/Y',strtotime($parish->created_at));
+                    }
                     $report_set["parish_pastor"]    = $parish->users->first_name." ".$parish->users->last_name;
                     $report_set["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
                     $report_set["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
@@ -303,7 +312,12 @@ class ReportController extends Controller {
                     $report_set['no_of_souls_saved']   = 0;
 
                     $report_set["parish_id"]        = $parish->id;
-                    $report_set["parish_start_date"]= date('m/d/Y',strtotime($parish->created_at));
+                    $report_set["account_name"]     = $parish->name;
+                    if($parish->start_date) {
+                        $report_set["parish_start_date"]= date('m/d/Y',strtotime($parish->start_date));
+                    } else {
+                        $report_set["parish_start_date"]= date('m/d/Y',strtotime($parish->created_at));
+                    }
                     $report_set["parish_pastor"]    = $parish->users->first_name." ".$parish->users->last_name;
                     $report_set["area_pastor"]      = $parish->areas->users->first_name." ".$parish->areas->users->last_name;
                     $report_set["zonal_pastor"]     = $parish->areas->zones->users->first_name." ".$parish->areas->zones->users->last_name;
@@ -496,6 +510,11 @@ class ReportController extends Controller {
 
                 if($report) {
                     $report->progress_report    = $progress_report;
+                    if($request->input('status') == "save"){
+                        $report->status  = 'submitted';
+                    }else {
+                        $report->status  = 'draft';
+                    }
                     $report->save();
                 } else {
                    throw new HttpBadRequestException("Report not found."); 

@@ -9,7 +9,9 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 List Payment
+                <button (click)="onResetFilters()" class="filter">Reset Filter</button>
             </div>
+
             <div class="panel-body overflowFix">
 
                 <!-- Error or Success Message -->
@@ -30,8 +32,8 @@
                 <!-- Reset Filter - Month - Year -->
                 <div class="row">
                     <div class="col-md-3">
-                        <p></p>
-                        <button (click)="onResetFilters()">Reset Filter</button>
+                       <!-- <p></p>
+                        <button (click)="onResetFilters()">Reset Filter</button>-->
                     </div>
 
                     <div class="col-md-3 col-md-offset-3">
@@ -168,15 +170,30 @@
                                 <!-- Appear Only in Admin Section -->
                                 <span *ngIf="payment.hold">
                                     <button
-                                            class="btn btn-warning btn-xs"
+                                            class="btn btn-success btn-xs"
                                             type="button" *ngIf="isWEM" (click)="OnChangeStatus(payment,0)"> Accept
                                     </button>
                                     <button
-                                            class="btn btn-warning btn-xs"
+                                            class="btn btn-danger btn-xs"
                                             type="button" *ngIf="isWEM" (click)="OnChangeStatus(payment,1)"> Reject
                                     </button>
+
                                 </span>
                                 <!-- End appear in admin section -->
+                                <button
+                                        class="btn btn-active btn-xs"
+                                        type="button" *ngIf="isWEM">
+                                    <i class="fa fa-eye fa-fw"></i><a target="_blank" class="btn btn-active btn-xs" [href]="base_url+'/paymentReceipt/'+payment.file_name" *ngIf="isWEM">View</a>
+
+                                </button>
+
+
+                                <button
+                                        class="btn btn-active btn-xs"
+                                        type="button" *ngIf="isWEM && payment.reject">
+                                    <i class="fa fa-trash fa-fw"></i><a (click)="showPrompt(payment)">Delete</a>
+
+                                </button>
 
                                 <button
                                         class="btn btn-active btn-xs"
@@ -209,4 +226,10 @@
         </div>
     </div>
 </div><!--/.row-->
+
+<app-prompt
+        *ngIf="showDeletePrompt"
+        [calledFrom]="'Payment'"
+        [itemInfo]="toDeletePayment"
+></app-prompt>
 

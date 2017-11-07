@@ -274,7 +274,6 @@ class PaymentController extends Controller {
 
             $noOfPayment = count($payments);
             if($noOfPayment > 0){
-
                 $paymentArray = [];
                 foreach ($payments as $key => $payment) {
                         $parishDetails = Parish::where('user_id',$payment->created_by)->first();
@@ -671,5 +670,76 @@ class PaymentController extends Controller {
         }
 
         return response()->json($response, $responseCode);
-     }
+    }
+
+    /**
+     * Delete an existing payment
+     *
+     * @param Request $request
+     * @param $listId
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function deletePayment($payment_id) {
+
+        try {
+            DB::beginTransaction();
+
+            $payment = Payment::findOrFail($payment_id)->delete();
+
+            if($payment)
+            {
+
+            $response = [
+                'status'    => true,
+                'message'   => "Payment deleted successfully."
+                ];
+                $responseCode = 200;
+            }
+            else
+            {
+
+               $response = [
+                'status'    => true,
+                'message'   => "No payment has been found."
+                ];
+                $responseCode = 404;  
+            }
+           
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+
+            unset($user);
+            unset($area);
+        }
+
+        return response()->json($response, $responseCode);
+    }
 }

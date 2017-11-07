@@ -67,10 +67,5 @@ class Payment extends Model
     protected static function boot() {
 
         parent::boot();
-
-        static::deleting(function($payment) {
-
-            $payment->users()->delete();
-        });
     }
 }

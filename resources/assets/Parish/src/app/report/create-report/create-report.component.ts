@@ -1085,11 +1085,13 @@ export class CreateReportComponent implements OnInit, OnDestroy {
                                 this.reportService.reportToEdit(this.reportId)
                                     .subscribe(
                                         (response: Response) => {
-
-                                            this.progress_report = response.json().report.progress_report;
+                                        
+											this.progress_report = response.json().report.progress_report;
+                                            this.progress_report.account_name = response.json().report.account_name;
                                             this.parish_id = response.json().report.parish_id;
                                             let tempDate = moment(this.progress_report.crucial_date);
                                             this.progress_report.crucial_date = tempDate;
+	                                        this.progress_report.account_name = response.json().report.account_name;
                                         },
                                         (error: Response) => {
                                             if ( error.status === 401 ) {
@@ -1137,9 +1139,9 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 
                     this.editMode = data['editMode'];
                     this.viewMode = data['viewMode'];
-
+	                
                     if( this.editMode ) {
-                        this.reportService.generateReport.next({});
+	                    this.reportService.generateReport.next({});
                     }
 
                     if( this.viewMode ) {
@@ -1156,12 +1158,13 @@ export class CreateReportComponent implements OnInit, OnDestroy {
                                         this.reportService.viewReport( this.reportId )
                                             .subscribe(
                                                 (response: Response) => {
-                                                    this.reportIdList = response.json().allreportId;
+                                                	this.reportIdList = response.json().allreportId;
                                                     this.parish_id = response.json().report.parish_id;
                                                     this.progress_report = response.json().report.progress_report;
                                                     let tmpDate = moment(this.progress_report.crucial_date);
                                                     const date = new Date( this.progress_report.crucial_date );
                                                     this.progress_report.crucial_date = tmpDate;
+                                                    this.progress_report.account_name = response.json().report.account_name;
                                                     this.timeInfo = {
                                                         report_month: date.getMonth() + 1,
                                                         report_year: date.getFullYear()
@@ -1291,11 +1294,11 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 
 	
 	/** Function to create report */
-	onSubmit() {
-
+	onSubmit(submit_status) {
 		if( this.editMode ) {
 			const obj = {
-				progress_report: this.progress_report
+				progress_report: this.progress_report,
+				status:submit_status
 			};
 			this.reportService.updateReport( obj, this.reportId )
 				.subscribe(
@@ -1333,7 +1336,8 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 			const obj = {
 				report_month: this.timeInfo.report_month,
 				report_year: this.timeInfo.report_year,
-				progress_report: this.progress_report
+				progress_report: this.progress_report,
+				status:submit_status
 			};
 			
 			this.reportService.sendReport( obj )

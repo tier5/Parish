@@ -14,6 +14,7 @@ export class FullLayoutComponent {
 	public toggleBarIcon: boolean = true;
 	public showSidebar: boolean = true;
 	paymentOption: boolean = false;
+	userInformation:{};
 	constructor (
 		private authService: AuthService,
 		private router: Router
@@ -21,6 +22,7 @@ export class FullLayoutComponent {
 	
 	ngOnInit() {
 		const user_type = this.authService.getToken().user_type;
+		this.userInformation = this.authService.getToken();
 		if(user_type != 1){
 			this.showSidebar = false;
 			if(user_type == 3){

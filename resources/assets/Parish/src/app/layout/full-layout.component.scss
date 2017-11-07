@@ -20,3 +20,29 @@
 a {
   cursor: pointer;
 }
+.sidebar {
+  background-color: #252525;
+}
+.nav > li > a{
+  color: #fff;
+}
+.navbar-inverse {
+  background: #1c1c1c;
+}
+.main .breadcrumb {
+  background: none;
+  box-shadow: none;
+}
+.fa-fw {
+  font-size: 20px;
+}
+.sidebar ul.nav a:hover, .sidebar ul.nav li.parent ul li a:hover, .nav > li > a:hover, .nav > li > a:focus{
+  background: #1c1c1c;
+}
+
+@media only screen and (max-width: 767px){
+  .nav {
+    overflow-y: auto;
+    max-height: 420px;
+  }
+}

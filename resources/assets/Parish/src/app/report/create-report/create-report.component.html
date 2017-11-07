@@ -1,5 +1,5 @@
-<h3 class="page-header">{{ title }}</h3>
-<h5 class="page-header" *ngIf="this.createMode">( Pick a date to create report )</h5>
+<h3 class="page-header">{{ title }} <span *ngIf="createMode">( Pick a date to create report )</span></h3>
+
 
 <div class="row">
     <div class="col-lg-12">
@@ -14,13 +14,13 @@
     </div>
 </div>
 
-<form #prForm="ngForm" (submit)="onSubmit()">
+<form #prForm="ngForm">
     <div class="col-md-12">
         <div class="row row-eq-height">
             <div class="col-md-12 border-black">
                 <div class="row">
                     <h4 class="text-center">
-                        monthly progress report dashboard
+                        monthly progress report
                     </h4>
                     <p class="acc-name">
                         Account Name :
@@ -42,8 +42,9 @@
                     </p>
 
                     <p class="acc-id" *ngIf="!parishShow">Parish Id : ROI{{ parish_id }}</p>
+
                     <div class="acc-details">
-                        <div class="col-sm-6 text-right">
+                        <div class="col-sm-6">
                             <div class="block">
                                 <label>Month: </label>
                                 <span>{{ progress_report.month }}</span>
@@ -94,7 +95,7 @@
                                         <tbody>
                                         <tr>
                                             <td colspan="2">
-                                                <span class="highlight">Crucial Date</span>
+                                                <span class="highlight">Progress Report For </span>
                                             </td>
                                             <td>
 
@@ -676,9 +677,18 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-primary form-control"
-            *ngIf="progress_report.crucial_date != undefined && !viewMode"
-    >
-        Submit
-    </button>
+    <div class="col-md-6">
+        <button class="btn btn-primary form-control"
+                *ngIf="progress_report.crucial_date != undefined && !viewMode"
+                (click)="onSubmit('save')">
+            Submit
+        </button>
+    </div>
+    <div class="col-md-6">
+        <button class="btn btn-primary form-control"
+                *ngIf="progress_report.crucial_date != undefined && !viewMode"
+                (click)="onSubmit('draft')">
+            Draft
+        </button>
+    </div>
 </form>

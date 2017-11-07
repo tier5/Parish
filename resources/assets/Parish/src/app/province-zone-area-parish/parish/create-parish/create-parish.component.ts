@@ -8,6 +8,8 @@ import { Response } from '@angular/http';
 
 import { AuthService } from '../../../auth/auth.service';
 import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.service';
+import { IDatePickerConfig } from "ng2-date-picker";
+import * as moment from "moment";
 
 @Component({
 	selector    : 'app-create-parish',
@@ -34,8 +36,8 @@ export class CreateParishComponent {
 		zone_name       : '',
 		area_name       : '',
 		parish_name     : '',
-		province_name   : ''
-		
+		province_name   : '',
+		start_date      : null
 	};
 	
 	default = {
@@ -56,6 +58,41 @@ export class CreateParishComponent {
 	title           : string    = 'Parish - Create';
 	showLoader      : boolean   = false;
 	responseStatus  : boolean   = false;
+	
+	config                         : IDatePickerConfig   = {
+		firstDayOfWeek: 'su',
+		format:'MM-DD-YYYY',
+		monthFormat: 'MMM, YYYY',
+		disableKeypress: false,
+		allowMultiSelect: false,
+		closeOnSelect: undefined,
+		closeOnSelectDelay: 100,
+		onOpenDelay: 0,
+		weekDayFormat: 'ddd',
+		appendTo: document.body,
+		drops: 'down',
+		opens: 'right',
+		showNearMonthDays: false,
+		showWeekNumbers: false,
+		enableMonthSelector: true,
+		yearFormat: 'YYYY',
+		showGoToCurrent: true,
+		dayBtnFormat: 'DD',
+		monthBtnFormat: 'MMM',
+		hours12Format: 'hh',
+		hours24Format: 'HH',
+		meridiemFormat: 'A',
+		minutesFormat: 'mm',
+		minutesInterval: 1,
+		secondsFormat: 'ss',
+		secondsInterval: 1,
+		showSeconds: false,
+		showTwentyFourHours: false,
+		timeSeparator: ':',
+		multipleYearsNavigateBy: 10,
+		showMultipleYearsNavigation: false,
+		locale: 'en'
+	};
 	
 	
 	/** Injecting services to be used in this component */
@@ -100,6 +137,9 @@ export class CreateParishComponent {
 									.subscribe(
 										(response: Response) => {
 											this.parishData = response.json().parish;
+											let tmpDate = moment(this.parishData.start_date);
+                                            this.parishData.start_date = tmpDate;
+											
 											this.pzapService.filterZone( { province_id: this.parishData.province_id } )
 											.subscribe(
 												(response: Response) => {
@@ -247,6 +287,13 @@ export class CreateParishComponent {
 
 			const area_id: number = this.parishData.id;
 			const pastor_id:number = this.parishData.user_id;
+			var start_date    = new Date(createParishForm.value.start_date);
+			const year     = start_date.getFullYear().toString();
+			const month    = (start_date.getMonth()+1).toString();
+			const day      = start_date.getDate().toString();
+			const date     = year+"-"+month+"-"+day;
+			
+			createParishForm.value.start_date = date;
 
 			this.pzapService.editParish( area_id, pastor_id, createParishForm.value )
 			.subscribe(
@@ -283,6 +330,14 @@ export class CreateParishComponent {
 				}
 			);
 		} else {
+			
+			var start_date    = new Date(createParishForm.value.start_date);
+			const year     = start_date.getFullYear().toString();
+			const month    = (start_date.getMonth()+1).toString();
+			const day      = start_date.getDate().toString();
+			const date     = year+"-"+month+"-"+day;
+			
+			createParishForm.value.start_date = date;
 			this.pzapService.createParish( createParishForm.value )
 			.subscribe(
 				( response: Response ) => {

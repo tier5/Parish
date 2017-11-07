@@ -155,9 +155,36 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label> Choose Start Date </label>
+                                <dp-date-picker id="start_date"
+                                                name="start_date"
+                                                #datePicker
+                                                [(ngModel)]="parishData.start_date"
+                                                [mode]="'day'"
+                                                [placeholder]="'Pick Date'"
+                                                [config]="config"
+                                                [theme]="'dp-material'"
+                                                #startDate="ngModel"
+                                                required
+                                >
+                                </dp-date-picker>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="startDate.invalid && startDate.touched">
+                                Start Date is Required!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <button
                                     class="btn btn-primary"
-                                    [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected || ( createParishForm.invalid && createParishForm.touched )">
+                                    [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected || ( createParishForm.invalid && createParishForm.touched ) || !parishData.start_date">
                                 <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                 Submit
                             </button>

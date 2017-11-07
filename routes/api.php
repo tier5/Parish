@@ -305,6 +305,10 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.filterPayment.post'
             ]);            
 
+            Route::delete('/delete/{payment_id}', [
+                'uses' => 'Api\V1\PaymentController@deletePayment',
+                'as' => 'api.v1.deletePayment.delete'
+            ]);
         });
 
     /*

@@ -20,7 +20,8 @@ export class PaymentService {
 	}
 	
 	/** Initializing custom Observables */
-	
+	closePromptEvent = new Subject();
+	deleteEvent = new Subject();
 	refreshList = new Subject();
 	
 	/** Initializing the different headers to be passed with each api call */
@@ -53,5 +54,11 @@ export class PaymentService {
 		const headers = this.headers;
 		headers.delete('Content-Type');
 		return this.http.put( environment.API_URL + 'payment/update-payment-status' + '/' +body.id, body, { headers: this.headers } );
+	}
+	/** Function to delete an existing payment */
+	deletePayment( payment_id: number) : Observable<any> {
+		const wem_id = this.authService.getToken().user_id;
+		const api_url = environment.API_URL + 'payment/delete/' + payment_id;
+		return this.http.delete( api_url, { headers: this.headers } );
 	}
 }

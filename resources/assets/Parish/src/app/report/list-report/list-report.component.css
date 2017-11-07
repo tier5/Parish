@@ -82,3 +82,17 @@
 .alert-middle.closebtn:hover {
     color: #fd7c02;
 }
+.filter {
+    float: right;
+}
+@media screen and (max-width: 991px){
+    .table-responsive{
+        margin-top: 20px;
+    }
+    select{
+        margin-bottom: 10px;
+    }
+    label{
+        margin-top: 10px;
+    }
+}
