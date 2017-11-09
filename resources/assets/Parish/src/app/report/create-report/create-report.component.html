@@ -22,26 +22,28 @@
                     <h4 class="text-center">
                         monthly progress report
                     </h4>
-                    <p class="acc-name">
-                        Account Name :
-                        <span>
-                            {{ progress_report.account_name }}
-                        </span>
-                    </p>
-                    <p class="acc-id" *ngIf="parishShow">Parish Id :
-                        <select *ngIf="parish_id"
-                                #parishidlist
-                                [disabled]="!viewMode"
-                                (change)="onParishIdChange(parishidlist.value)"
-                                [ngModel]="parish_id"
-                                name="parishIdDropDown"
-                        >
-                            <option [value]="parish.id" *ngFor="let parish of parishIdList">ROI{{ parish.id }}</option>
+                    <div class="col-sm-12">
+                        <p class="acc-id" *ngIf="parishShow">Parish Id :
+                            <select *ngIf="parish_id"
+                                    #parishidlist
+                                    [disabled]="!viewMode"
+                                    (change)="onParishIdChange(parishidlist.value)"
+                                    [ngModel]="parish_id"
+                                    name="parishIdDropDown"
+                            >
+                                <option [value]="parish.id" *ngFor="let parish of parishIdList">ROI{{ parish.id }}</option>
 
-                        </select>
-                    </p>
+                            </select>
+                        </p>
+                        <p class="acc-id" *ngIf="!parishShow">Parish Id : ROI{{ parish_id }}</p>
+                        <p class="acc-name">
+                            Account Name :
+                            <span>
+                                {{ progress_report.account_name }}
+                            </span>
+                        </p>
+                    </div>
 
-                    <p class="acc-id" *ngIf="!parishShow">Parish Id : ROI{{ parish_id }}</p>
 
                     <div class="acc-details">
                         <div class="col-sm-6">

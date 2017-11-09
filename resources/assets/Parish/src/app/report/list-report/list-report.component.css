@@ -82,7 +82,7 @@
 .alert-middle.closebtn:hover {
     color: #fd7c02;
 }
-.filter {
+.resetfilter {
     float: right;
 }
 @media screen and (max-width: 991px){

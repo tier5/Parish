@@ -23,10 +23,6 @@ input.ng-invalid.ng-touched {
 .StripeElement--webkit-autofill {
     background-color: #fefde5 !important;
 }
-
-
-
-
 .content {
     padding-top: 30px;
     padding-bottom: 30px;
@@ -75,18 +71,16 @@ Pricing table
 .pricing-head h3 {
     font-weight: 300;
     color: #fafafa;
-    padding: 12px 0;
-    font-size: 27px;
-    background: #30A5FF;
-    /*  border-bottom: solid 1px #fff;*/
+    padding: 10px 0;
+    font-size: 20px;
+    background: #1c1c1c;
 }
 
 .pricing-head h4 {
     color: #fff;
     padding: 5px 0;
-    font-size: 54px;
     font-weight: 300;
-    background: #30A5FF;
+    background: #1c1c1c;
     border-bottom: solid 1px #f5f9e7;
 }
 
@@ -108,6 +102,18 @@ Pricing table
     position: relative;
 }
 
+.back-btn{
+    display: inline-block;
+    color: #fff;
+    font-size: 15px;
+    background: #30a5ff;
+    padding: 5px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px #333;
+    text-decoration: none;
+}
+
 /*Pricing Content*/
 .pricing-content li {
     color: #888;
@@ -115,14 +121,26 @@ Pricing table
     padding: 7px 15px;
     border-bottom: solid 1px #f5f9e7;
 }
+.pricing-content{
+    background: #fff;
+    margin: 0;
+}
+
 
 /*Pricing Footer*/
 .pricing-footer {
-    color: #777;
     font-size: 11px;
     line-height: 17px;
     text-align: center;
     padding: 0 20px 19px;
+    background: #1c1c1c;
+    display: inline-block;
+    width: 100%;
+}
+.pricing-footer p{
+    color: #fff;
+    margin: 10px 0;
+    font-size: 15px;
 }
 
 /*Priceing Active*/
