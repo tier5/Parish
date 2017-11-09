@@ -157,7 +157,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="border: 1px solid #000;border-left: 0;border-bottom: 0;">
-                                                            <input value="Pastor"></td>
+                                                            <input value="Pastor" disabled></td>
                                                         <td><input value="General" disabled></td>
                                                     </tr>
                                                 </table>
@@ -536,7 +536,7 @@
                                             </td>
                                             <td><span>Area Contrib.</span></td>
                                             <td>
-                                                <b><input type="text" class="form-control highlight" value="{{ progress_report.area_dues }}"></b>
+                                                <b><input type="text" class="form-control highlight" value="{{ progress_report.area_dues }}" disabled></b>
                                             </td>
                                             <td><span>WEM</span></td>
                                             <td>
@@ -558,17 +558,17 @@
                                         <tr>
                                             <td colspan="2"><span>Sunday School</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ child_sunday }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ child_sunday }}" disabled>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ women_sunday }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ women_sunday }}" disabled>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday }}" disabled>
                                             </td>
                                             <td class="highlight-light">
                                                 <b><input type="text" class="form-control highlight-light"
-                                                          value="{{ child_sunday + women_sunday + men_sunday }}"></b>
+                                                          value="{{ child_sunday + women_sunday + men_sunday }}" disabled></b>
                                             </td>
                                             <td colspan="2">
                                                 <strong>Adults only: </strong>
@@ -583,28 +583,28 @@
                                         <tr>
                                             <td colspan="2"><span>Sunday</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ child_sunday_service }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ child_sunday_service }}" disabled>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ women_sunday_service }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ women_sunday_service }}" disabled>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday_service }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday_service }}" disabled>
                                             </td>
                                             <td class="highlight-light">
-                                                <b><input type="text" class="form-control highlight-light" value="{{ child_sunday_service + women_sunday_service + men_sunday_service }}"></b>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ child_sunday_service + women_sunday_service + men_sunday_service }}" disabled></b>
                                             </td>
                                             <td>
                                                 <span>Sunday</span>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday_service + women_sunday_service }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday_service + women_sunday_service }}" disabled>
                                             </td>
                                             <td colspan="2" style="border-bottom: 0;">
-                                                <input type="text" class="form-control" value="">
+                                                <input type="text" class="form-control" value="" disabled>
                                             </td>
                                             <td colspan="4" style="border-bottom: 0;">
-                                                <input type="text" class="form-control" value="">
+                                                <input type="text" class="form-control" value="" disabled>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -612,29 +612,29 @@
                                         <tr>
                                             <td colspan="2"><span>Mid Week</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_child }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_child }}" disabled>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_women }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_women }}" disabled>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_men }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_men }}" disabled>
                                             </td>
                                             <td class="highlight-light">
                                                 <b><input type="text" class="form-control highlight-light"
-                                                          value="{{ midWeek_child + midWeek_men + midWeek_women }}"></b>
+                                                          value="{{ midWeek_child + midWeek_men + midWeek_women }}" disabled></b>
                                             </td>
                                             <td>
                                                 <span>Mid Week</span>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_men + midWeek_women }}">
+                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_men + midWeek_women }}" disabled>
                                             </td>
                                             <td colspan="2" style="border-top: 0;" class="highlight">
-                                                <b><input type="text" class="form-control highlight" value="{{ midWeek_men + midWeek_women + men_sunday_service + women_sunday_service }}"></b>
+                                                <b><input type="text" class="form-control highlight" value="{{ midWeek_men + midWeek_women + men_sunday_service + women_sunday_service }}" disabled></b>
                                             </td>
                                             <td colspan="4" style="border-top: 0;">
-                                                <b><input type="text" class="form-control" value="{{ (midWeek_men + midWeek_women + men_sunday_service + women_sunday_service) +((midWeek_men + midWeek_women + men_sunday_service + women_sunday_service )*.02)}}"></b>
+                                                <b><input type="text" class="form-control" value="{{ (midWeek_men + midWeek_women + men_sunday_service + women_sunday_service) +((midWeek_men + midWeek_women + men_sunday_service + women_sunday_service )*.02)}}" disabled></b>
                                             </td>
                                         </tr>
                                         </tbody>

@@ -50,6 +50,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	midWeekmen:{};
 	midWeekwomen:{};
 	midWeekchild:{};
+	count   : number = 0;
 	
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
@@ -1077,38 +1078,42 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				if( this.editMode ) {
 					this.displaymode  = true;
 				    this.title = "Update Report";
-					/** Checking route params to get id of province to edit */
-					this.activatedRoute.params
-                        .subscribe(
-                            (params: Params) => {
-                                this.reportId = params['id'];
-                                this.reportService.reportToEdit(this.reportId)
-                                    .subscribe(
-                                        (response: Response) => {
-                                        
-											this.progress_report = response.json().report.progress_report;
-                                            this.progress_report.account_name = response.json().report.account_name;
-                                            this.parish_id = response.json().report.parish_id;
-                                            let tempDate = moment(this.progress_report.crucial_date);
-                                            this.progress_report.crucial_date = tempDate;
-	                                        this.progress_report.account_name = response.json().report.account_name;
-                                        },
-                                        (error: Response) => {
-                                            if ( error.status === 401 ) {
-                                                this.authService.removeToken();
-                                                this.router.navigate( [ '/login' ] );
-                                            }
-                                        }
-                                    );
-
-                            },
-                            (error: Response) => {
-                                if ( error.status === 401 ) {
-                                    this.authService.removeToken();
-                                    this.router.navigate( [ '/login' ] );
-                                }
-                            }
-					);
+				    if(this.count == 0 ) {
+					    this.count = 1;
+					    /** Checking route params to get id of province to edit */
+					    this.activatedRoute.params
+						    .subscribe(
+							    (params: Params) => {
+								    this.reportId = params['id'];
+								    this.reportService.reportToEdit(this.reportId)
+									    .subscribe(
+										    (response: Response) => {
+											
+											    this.progress_report = response.json().report.progress_report;
+											    this.progress_report.account_name = response.json().report.account_name;
+											    this.parish_id = response.json().report.parish_id;
+											    let tempDate = moment(this.progress_report.crucial_date);
+											    this.progress_report.crucial_date = tempDate;
+											    this.progress_report.account_name = response.json().report.account_name;
+										    },
+										    (error: Response) => {
+											    if ( error.status === 401 ) {
+												    this.authService.removeToken();
+												    this.router.navigate( [ '/login' ] );
+											    }
+										    }
+									    );
+								
+							    },
+							    (error: Response) => {
+								    if ( error.status === 401 ) {
+									    this.authService.removeToken();
+									    this.router.navigate( [ '/login' ] );
+								    }
+							    }
+						    );
+					
+				    }
 					
 				} else {
                    this.reportService.getReportBP(body)
@@ -1141,7 +1146,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
                     this.viewMode = data['viewMode'];
 	                
                     if( this.editMode ) {
-	                    this.reportService.generateReport.next({});
+                    	this.reportService.generateReport.next({});
                     }
 
                     if( this.viewMode ) {

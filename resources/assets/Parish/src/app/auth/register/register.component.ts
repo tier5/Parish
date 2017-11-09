@@ -144,6 +144,7 @@ export class RegisterComponent {
                 			this.card.clear();
                 			this.userRegisteredMsg = response.json().message;
                 			this.userRegisterRequested = false;
+			                this.router.navigate( [ '/login' ] );
                 		} else {
                 			this.userRegisterStatus = false;
                 			this.userRegisteredMsg = response.json().error;
