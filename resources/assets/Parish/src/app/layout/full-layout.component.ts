@@ -3,6 +3,7 @@ import { Response } from '@angular/http';
 
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { environment } from "../../environments/environment.prod";
 
 @Component( {
 	selector: 'app-dashboard',
@@ -15,6 +16,8 @@ export class FullLayoutComponent {
 	public showSidebar: boolean = true;
 	paymentOption: boolean = false;
 	userInformation:{};
+	base_url                        : string        = environment.base_url;
+	
 	constructor (
 		private authService: AuthService,
 		private router: Router
