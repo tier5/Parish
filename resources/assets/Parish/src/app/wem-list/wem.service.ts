@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../auth/auth.service';
 import { environment } from '../../environments/environment.prod';
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class WemService {
@@ -17,8 +18,8 @@ export class WemService {
             this.refreshHeader();
         }
     }
-
-
+	
+	refreshList = new Subject();
     /** Initializing the different headers to be passed with each api call */
 
     headers = new Headers( {
@@ -28,5 +29,18 @@ export class WemService {
     /** Refreshing the header for authenticated users */
     refreshHeader() {
         this.headers.set('Authorization', 'Bearer ' + this.authService.getToken().token);
+    }
+
+    /** Get List of all WEM */
+    listWEM(): Observable<any> {
+        const user_id = this.authService.getToken().user_id;
+        return this.http.get( environment.API_URL + 'user/wem-list/' + user_id, { headers: this.headers } );
+    }
+
+    /** Change status of WEM */
+    changeStatus( body: any ) : Observable<any> {
+        const super_admin_id = this.authService.getToken().user_id;
+        const api_url = environment.API_URL + 'user/change-status/' + super_admin_id;
+        return this.http.post( api_url, body, { headers: this.headers } );
     }
 }

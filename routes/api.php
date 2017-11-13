@@ -268,6 +268,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses'  => 'Api\V1\UserController@getWemList',
                 'as'    => 'api.v1.getWemList.post'
             ]);
+
+            Route::post('/change-status/{user_id}',[
+                'uses'  => 'Api\V1\UserController@changeWemStatus',
+                'as'    => 'api.v1.changeWemStatus.post'
+            ]);
         });
 
     /*

@@ -338,4 +338,63 @@ class UserController extends Controller {
 
         return response()->json($response, $responseCode);
     }
+
+    /**
+     * Change status of WEM
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function changeWemStatus(Request $request, $userId) {
+        try {
+            
+            DB::beginTransaction();
+
+            $user=User::findOrFail($userId);
+            if ($user->user_type == 0) {
+              $wem = User::findOrFail($request->input('id'));
+              if($wem->user_status == 1) {
+                $wem->user_status = 0;
+              } else {
+                $wem->user_status = 1;
+              }
+              
+              $save = $wem->save();
+            if($save) {
+                $response = [
+                    'status'    => true,
+                    'wem'       => $user->user_status
+                ];
+                $responseCode = 200;   
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'       => 'User status changed failed'
+                ];
+                $responseCode = 400;   
+            }
+                            
+            } else {
+              throw new HttpBadRequestException("User is not a Superadmin.");  
+            }  
+        }
+        catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
 }

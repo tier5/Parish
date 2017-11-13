@@ -7,6 +7,7 @@ import {Response} from "@angular/http";
 import { AuthService } from "../../auth/auth.service";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { WemService } from "../wem.service";
+import {Subscription} from "rxjs/Subscription";
 
 
 @Component({
@@ -17,15 +18,7 @@ import { WemService } from "../wem.service";
 
 export class WemComponent{
 
-    profileData = {
-
-        id          : 0,
-        user_id     : 0,
-        last_name   : '',
-        uniqueKey   : '',
-        first_name  : '',
-        parish_id   : ''
-    };
+    wemData = [];
 
     responseReceived    : boolean = false;
     responseStatus      : boolean = false;
@@ -34,6 +27,7 @@ export class WemComponent{
 
     showLoader          : boolean = false;
     isAdmin             : boolean = false;
+	refreshWemListSubscription  : Subscription;
 
     /** Injecting services to be used in this component */
     constructor( private wemService: WemService,
@@ -48,25 +42,59 @@ export class WemComponent{
         if(user_type ==1){
             this.isAdmin = true;
         }
+        /** Subscribe to event to refresh wem list */
 
-        this.activatedRoute.params.subscribe(
-            (params: Params) => {
-                // this.wemService.profileToEdit()
-                //     .subscribe(
-                //         (response: Response) => {
-                //             this.profileData = response.json().userDetail;
-                //         }
-                //     );
+	
+	    this.refreshWemListSubscription = this.wemService.refreshList
+		    .subscribe(
+			    () => {
+				    this.wemService.listWEM()
+					    .subscribe(
+						    (response: Response) => {
+							    this.wemData = response.json().wem;
+							    this.wemData .forEach(item => {
+								    let user_status = (item.status == 0)?'On Hold':'On Exemption';
+								    item.status_user = user_status;
+								    item.hold   = (item.status == 0)?false:true;
+							    });
+							},
+						    (error: Response) => {
+								    if ( error.status === 401 ) {
+									    this.authService.removeToken();
+									    this.router.navigate( [ '/login' ] );
+								    }
+								    this.responseStatus     = false;
+								    this.responseReceived   = true;
+								    this.wemData            = [];
+								    this.responseMsg        = error.json().error;
+				            }
+					    );
+			    }
+		    );
+	    /** Emitting event which will refresh the payment list */
+	    this.wemService.refreshList.next();
+    }
+
+    changeUserStatus(wem){
+        this.wemService.changeStatus(wem)
+        .subscribe(
+            (response: Response) => {
+	            this.responseMsg = response.json().message;
+	            this.wemService.refreshList.next( {} );
             },
-            (error: Response) => {
-                if( error.status === 401) {
-                    this.authService.removeToken();
-                    this.router.navigate( ['/login'] );
-                }
-                this.responseStatus = false;
-                this.responseMsg = error.json().error;
-            },
-            () => { }
+	        (error: Response) => {
+		        if ( error.status === 401 ) {
+			        this.authService.removeToken();
+			        this.router.navigate( [ '/login' ] );
+		        }
+		        this.responseStatus     = false;
+		        this.responseReceived   = true;
+		    }
         );
     }
+	
+	/** Un-subscribing from all custom made events when component is destroyed */
+	ngOnDestroy() {
+		this.refreshWemListSubscription.unsubscribe();
+	}
 }
