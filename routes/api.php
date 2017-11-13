@@ -263,6 +263,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses'  => 'Api\V1\UserController@resetUsername',
                 'as'    => 'api.v1.resetUsername.post'
             ]);
+
+            Route::get('/wem-list/{user_id}',[
+                'uses'  => 'Api\V1\UserController@getWemList',
+                'as'    => 'api.v1.getWemList.post'
+            ]);
         });
 
     /*

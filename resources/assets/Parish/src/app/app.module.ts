@@ -16,6 +16,7 @@ import { SharedModule } from './shared/shared.module';
 import { ProfileService } from "./profile-details/profile.service";
 import { PaymentService } from "./payment-details/payment.service"
 import { ReportService } from './report/report.service';
+import { WemService } from "./wem-list/wem.service";
 
 
 @NgModule( {
@@ -39,7 +40,8 @@ import { ReportService } from './report/report.service';
 		ProvinceZoneAreaParishService,
 		ProfileService,
 		PaymentService,
-		ReportService
+		ReportService,
+        WemService
 	],
 	bootstrap: [ AppComponent ]
 } )

@@ -120,7 +120,7 @@
         <!-- <li role="presentation" class="divider" *ngIf="showSidebar"></li> -->
 
         <!-- Payment Section -->
-        <li class="parent">
+        <li class="parent" *ngIf="!superAdmin">
             <a data-toggle="collapse" href="#payment-section">
                 <img src="{{ base_url }}/images/payment-icon.png"> Payment
             </a>
@@ -139,7 +139,7 @@
         </li>
 
         <!-- Report Section -->
-        <li class="parent">
+        <li class="parent" *ngIf="showSidebar">
             <a data-toggle="collapse" href="#report-section">
                 <img src="{{ base_url }}/images/report-icon.png">  Report
             </a>
@@ -160,31 +160,19 @@
         <!-- <li role="presentation" class="divider" *ngIf="showSidebar"></li> -->
 
 
-        <!--<li><a routerLinkActive="active" [routerLink]="['/form']"><i class="fa fa-list fa-fw"></i> Form</a></li>
-
-        <li class="parent ">
-            <a data-toggle="collapse" href="#sub-item-4">
-                <i class="fa fa-fw fa-chevron-circle-down"></i> Widgets
+        <!-- WEM Section -->
+        <li class="parent">
+            <a data-toggle="collapse" href="#wem-section">
+                <img src="{{ base_url }}/images/report-icon.png">  Wem
             </a>
-            <ul class="children collapse" id="sub-item-4">
+            <ul class="children collapse" id="wem-section">
                 <li>
-                    <a routerLinkActive="active" [routerLink]="['/widget/main']">
-                        <i class="fa fa-fw fa-cogs"></i> Main
-                    </a>
-                </li>
-                <li>
-                    <a routerLinkActive="active" [routerLink]="['/widget/table']">
-                        <i class="fa fa-fw fa-table"></i> Table
-                    </a>
-                </li>
-                <li>
-                    <a routerLinkActive="active" [routerLink]="['/widget/chart']">
-                        <i class="fa fa-fw fa-bar-chart"></i> Charts
+                    <a routerLinkActive="active" [routerLink]="['/wem/list']">
+                        <i class="fa fa-fw fa-th-list"></i> List
                     </a>
                 </li>
             </ul>
         </li>
-        <li role="presentation" class="divider"></li>-->
 
     </ul>
 </div><!--/.sidebar-->

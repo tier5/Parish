@@ -275,4 +275,67 @@ class UserController extends Controller {
 
         return response()->json($response, $responseCode);
     }
+
+    /**
+     * List of WEM for SuperAdmin
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function getWemList(Request $request, $userId) {
+
+        try {
+            
+            DB::beginTransaction();
+
+            $user=User::findOrFail($userId);
+            if ($user->user_type == 0) {
+              $getWEM = User::where('user_type',1)->get(); 
+              if(count($getWEM) >0) {
+                $wemArray = [];
+
+                foreach ($getWEM as $key => $user) {
+
+                    $wemArray[$key]['id']           = $user->id;
+                    $wemArray[$key]['first_name']   = $user->first_name;
+                    $wemArray[$key]['last_name']    = $user->last_name;
+                    $wemArray[$key]['email']        = $user->email;
+                    $wemArray[$key]['status']       = $user->user_status;
+                }
+                    $response = [
+                        'status'    => true,
+                        'wem'       => $wemArray
+                    ];
+                    $responseCode = 200;
+              } else {
+
+                $response = [
+                    'status'    => false,
+                    'error'   => "No data found"
+                            ];
+                $responseCode = 200;
+              }                 
+            } else {
+              throw new HttpBadRequestException("User is not a Superadmin.");  
+            }  
+        }
+        catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
 }

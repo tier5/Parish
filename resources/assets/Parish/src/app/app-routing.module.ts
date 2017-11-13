@@ -27,7 +27,8 @@ const appRoutes: Routes = [
 		{ path: 'parish', loadChildren: './province-zone-area-parish/parish/parish.module#ParishModule' },
 		{ path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' },
 		{ path: 'report', loadChildren: './report/report.module#ReportModule' },
-		{ path: 'payment', loadChildren: './payment-details/payment.module#PaymentModule'}
+		{ path: 'payment', loadChildren: './payment-details/payment.module#PaymentModule'},
+        { path: 'wem', loadChildren: './wem-list/wem.module#WemModule'}
 	] },
     { path: '**', redirectTo: 'login' }
 ];

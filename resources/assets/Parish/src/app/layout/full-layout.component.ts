@@ -15,6 +15,7 @@ export class FullLayoutComponent {
 	public toggleBarIcon: boolean = true;
 	public showSidebar: boolean = true;
 	paymentOption: boolean = false;
+	superAdmin: boolean = false;
 	userInformation:{};
 	base_url                        : string        = environment.base_url;
 	
@@ -24,12 +25,18 @@ export class FullLayoutComponent {
 	) { }
 	
 	ngOnInit() {
+	console.log(this.authService.getToken().token);
 		const user_type = this.authService.getToken().user_type;
 		this.userInformation = this.authService.getToken();
 		if(user_type != 1){
 			this.showSidebar = false;
 			if(user_type == 3){
-				this.paymentOption = true;
+				this.paymentOption 	= true;
+				this.superAdmin 	= false;
+			} else if(user_type == 0){
+				this.superAdmin = true;
+			} else {
+				this.superAdmin = false;
 			}
 		}
 	}
