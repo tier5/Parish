@@ -273,6 +273,16 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses'  => 'Api\V1\UserController@changeWemStatus',
                 'as'    => 'api.v1.changeWemStatus.post'
             ]);
+
+             Route::put('/wem-percentage-update/{user_id}', [
+                'uses' => 'Api\V1\UserController@updateWemPercentage',
+                'as' => 'api.v1.updateWemPercentage.put'
+            ]);
+
+            Route::patch('/wem-percentage-update/{user_id}', [
+                'uses' => 'Api\V1\UserController@updateWemPercentage',
+                'as' => 'api.v1.updateWemPercentage.patch'
+            ]);
         });
 
     /*

@@ -302,6 +302,7 @@ class UserController extends Controller {
                     $wemArray[$key]['last_name']    = $user->last_name;
                     $wemArray[$key]['email']        = $user->email;
                     $wemArray[$key]['status']       = $user->user_status;
+                    $wemArray[$key]['percentage']   = $user->percentage;
                 }
                     $response = [
                         'status'    => true,
@@ -364,13 +365,13 @@ class UserController extends Controller {
             if($save) {
                 $response = [
                     'status'    => true,
-                    'wem'       => $user->user_status
+                    'message'       => 'Wem status changed successfully'
                 ];
                 $responseCode = 200;   
             } else {
                 $response = [
                     'status'    => false,
-                    'error'       => 'User status changed failed'
+                    'error'       => 'Wem status changed failed'
                 ];
                 $responseCode = 400;   
             }
@@ -393,6 +394,81 @@ class UserController extends Controller {
             $responseCode = 500;
         } finally {
             DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Update WEM Percentage
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function updateWemPercentage(Request $request, $userId)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = User::find($userId);
+            if ($user->user_type == 0) {
+                $wem = User::find($request->input('id'));
+
+                if ($request->has('percentage'))
+
+                $wem->percentage = $request->input('percentage');
+                else
+
+                throw new HttpBadRequestException("Percentage is required.");
+
+                $wem->save();
+                $response = [
+                    'status'    => true,
+                    'message'       => 'Wem updated successfully'
+                ];
+                $responseCode = 200;   
+                $responseCode = 200;   
+
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'       => 'User is not a Super Admin'
+                ];
+                $responseCode = 400;   
+            }
+           
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+
+            unset($user);
         }
 
         return response()->json($response, $responseCode);

@@ -53,11 +53,11 @@ export class WemComponent{
 						    (response: Response) => {
 							    this.wemData = response.json().wem;
 							    this.wemData .forEach(item => {
-								    let user_status = (item.status == 0)?'On Hold':'On Exemption';
+								    let user_status = (item.status == 0) ? 'On Hold' : 'On Exemption';
 								    item.status_user = user_status;
-								    item.hold   = (item.status == 0)?false:true;
+								    item.hold   = (item.status == 0) ? false : true;
 							    });
-							},
+						    },
 						    (error: Response) => {
 								    if ( error.status === 401 ) {
 									    this.authService.removeToken();
@@ -74,11 +74,13 @@ export class WemComponent{
 	    /** Emitting event which will refresh the payment list */
 	    this.wemService.refreshList.next();
     }
-
+	
+	/** Function to change status of WEM by superadmin */
     changeUserStatus(wem){
         this.wemService.changeStatus(wem)
         .subscribe(
             (response: Response) => {
+	            this.responseStatus = response.json().status;
 	            this.responseMsg = response.json().message;
 	            this.wemService.refreshList.next( {} );
             },
@@ -92,6 +94,42 @@ export class WemComponent{
 		    }
         );
     }
+	
+	/** Function to add percentage for WEM by superadmin */
+	updatePercentage(wem){
+		this.wemService.editWemPercentage( wem )
+			.subscribe(
+				( response: Response ) => {
+					this.responseStatus = response.json().status;
+					
+					if ( response.json().status ) {
+						this.responseStatus = true;
+						this.responseMsg = response.json().message;
+					} else {
+						this.responseMsg = '';
+					}
+				},
+				( error: Response ) => {
+					if( error.status === 401) {
+						this.authService.removeToken();
+						this.router.navigate( ['/login'] );
+					}
+					
+					this.responseStatus = false;
+					this.responseReceived = true;
+					this.responseMsg = error.json().error;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				},
+				() => {
+					this.responseReceived = true;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				}
+			);
+	}
 	
 	/** Un-subscribing from all custom made events when component is destroyed */
 	ngOnDestroy() {

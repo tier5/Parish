@@ -43,4 +43,11 @@ export class WemService {
         const api_url = environment.API_URL + 'user/change-status/' + super_admin_id;
         return this.http.post( api_url, body, { headers: this.headers } );
     }
+	
+	/** Update Wem Percentage */
+	editWemPercentage(body: { percentage: string} ): Observable<any> {
+		const user_id = this.authService.getToken().user_id;
+		const api_url = environment.API_URL + 'user/wem-percentage-update/' + user_id;
+		return this.http.put( api_url, body , { headers: this.headers } );
+	}
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateUserAddColumnPastorType extends Migration
+class AddPercentageToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,7 @@ class UpdateUserAddColumnPastorType extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('pastor_type')
-                ->comment('0 => NONE, 1 => PROVINCE, 2 => AREA, 3 => ZONE')
-                ->default('0')
-                ->after('user_type');
+           $table->decimal('percentage', 8, 2)->default(0);
         });
     }
 
@@ -28,6 +25,8 @@ class UpdateUserAddColumnPastorType extends Migration
      */
     public function down()
     {
-        $table->dropColumn('pastor_type');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('percentage');
+        });
     }
 }

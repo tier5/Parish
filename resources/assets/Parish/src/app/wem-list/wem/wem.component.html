@@ -34,6 +34,7 @@
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Status</th>
+                            <th>Percentage</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -43,6 +44,12 @@
                             <td>{{ wem.last_name }}</td>
                             <td>{{ wem.email }}</td>
                             <td>{{ wem.status_user }}</td>
+                            <td><input type="text" name="percentage" value="{{ wem.percentage }}" [(ngModel)]="wem.percentage">
+                                <button
+                                    class="btn btn-warning btn-xs"
+                                    type="button" (click)="updatePercentage(wem)" >
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </button></td>
                             <td>
                                 <button
                                         class="btn btn-warning btn-xs"
@@ -68,32 +75,3 @@
         </div>
     </div>
 </div><!--/.row-->
-
-<!-- Pop Up -->
-<div class="row" *ngIf="prompt">
-
-    <div class="col-md-6">
-
-        <!-- Popup -->
-        <div class="alert-middle">
-
-            <div class="alert-middle-main">
-
-                <h4>
-                    Are you sure you want to delete this<br/>
-                    <strong>Report</strong>?
-                </h4>
-
-                <span class="close-btn" (click)="hidePrompt()">&times;</span>
-                <div class=btn-confirm>
-                    <button class="btn btn-primary" (click)="deletePrompt()">Confirm</button>
-                    <button class="btn btn-danger" (click)="hidePrompt()">Cancel</button>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
