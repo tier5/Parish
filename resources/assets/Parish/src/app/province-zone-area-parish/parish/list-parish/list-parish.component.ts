@@ -55,32 +55,37 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	this.refreshParishListSubscription = this.pzapService.refreshList
 		.subscribe(
 			( body ) => {
-				this.pzapService.filterParish( body ).subscribe(
-					( response: Response ) => {
-						this.responseStatus = response.json().status;
-						
-						if( response.json().status ) {
-							this.parishList       = response.json().parishes;
-							this.responseNoRecord = response.json().noData;
-						} else {
+				const user_type = this.authService.getToken().user_type;
+				if(user_type != 0) {
+					this.pzapService.filterParish( body ).subscribe(
+						( response: Response ) => {
+							this.responseStatus = response.json().status;
+							
+							if( response.json().status ) {
+								this.parishList       = response.json().parishes;
+								this.responseNoRecord = response.json().noData;
+							} else {
+								this.parishList         = [];
+								this.selectionProvince  = null;
+								this.selectionZone      = null;
+								this.responseMsg        = response.json().message;
+								this.responseNoRecord   = response.json().noData;
+							}
+						},
+						( error: Response ) => {
+							if ( error.status === 401 ) {
+								this.authService.removeToken();
+								this.router.navigate( [ '/login' ] );
+							}
+							this.responseStatus     = false;
+							this.responseReceived   = true;
 							this.parishList         = [];
-							this.selectionProvince  = null;
-							this.selectionZone      = null;
-							this.responseMsg        = response.json().message;
-							this.responseNoRecord   = response.json().noData;
+							this.responseMsg        = error.json().error;
 						}
-					},
-					( error: Response ) => {
-						if ( error.status === 401 ) {
-							this.authService.removeToken();
-							this.router.navigate( [ '/login' ] );
-						}
-						this.responseStatus     = false;
-						this.responseReceived   = true;
-						this.parishList         = [];
-						this.responseMsg        = error.json().error;
-					}
-				);
+					);
+				} else {
+					this.parishList         = [];
+				}
 			}
 		);
 		

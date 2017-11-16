@@ -161,7 +161,7 @@
 
 
         <!-- WEM Section -->
-<!--        <li class="parent" *ngIf="this.superAdmin">
+        <li class="parent" *ngIf="this.superAdmin">
             <a data-toggle="collapse" href="#wem-section">
                 <img src="{{ base_url }}/images/report-icon.png">  Wem
             </a>
@@ -171,8 +171,13 @@
                         <i class="fa fa-fw fa-th-list"></i> List
                     </a>
                 </li>
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/parish/list']">
+                        <i class="fa fa-fw fa-th-list"></i> Parish List
+                    </a>
+                </li>
             </ul>
-        </li>-->
+        </li>
 
     </ul>
 </div><!--/.sidebar-->
