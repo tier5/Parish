@@ -152,6 +152,7 @@
                             <th>Parish Name</th>
                             <th>Province / Zone / Area / Parish</th>
                             <th>Payment Month / Year</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -161,6 +162,7 @@
                             <td>{{ report.parish_name }}</td>
                             <td>{{ report.province_name }} / {{ report.zone_name }} / {{ report.area_name }} / {{ report.parish_name }}</td>
                             <td>{{ months[report.report_month - 1].name }} / {{ report.report_year}}</td>
+                            <td> {{ report.status }} </td>
                             <td>
                                 <button
                                         class="btn btn-warning btn-xs"

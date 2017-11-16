@@ -836,6 +836,7 @@ class ReportController extends Controller {
                         $reportArray[$key]['area_id']                = $parishDetails->areas->id;
                         $reportArray[$key]['first_name']             = $parishDetails->users->first_name;
                         $reportArray[$key]['last_name']              = $parishDetails->users->last_name;
+                        $reportArray[$key]['status']                 = $reportKey->status;
                 }
                 $response = [
                     'status'        => true,

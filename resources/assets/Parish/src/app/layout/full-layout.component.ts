@@ -25,7 +25,6 @@ export class FullLayoutComponent {
 	) { }
 	
 	ngOnInit() {
-	console.log(this.authService.getToken().token);
 		const user_type = this.authService.getToken().user_type;
 		this.userInformation = this.authService.getToken();
 		if(user_type != 1){
