@@ -558,13 +558,13 @@
                                         <tr>
                                             <td colspan="2"><span>Sunday School</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ child_sunday }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ child_sunday }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ women_sunday }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ women_sunday }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ men_sunday }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
                                                 <b><input type="text" class="form-control highlight-light"
@@ -583,13 +583,13 @@
                                         <tr>
                                             <td colspan="2"><span>Sunday</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ child_sunday_service }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ child_sunday_service }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ women_sunday_service }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ women_sunday_service }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ men_sunday_service }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ men_sunday_service }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
                                                 <b><input type="text" class="form-control highlight-light" value="{{ child_sunday_service + women_sunday_service + men_sunday_service }}" disabled></b>
@@ -612,13 +612,13 @@
                                         <tr>
                                             <td colspan="2"><span>Mid Week</span></td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_child }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ midWeek_child }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_women }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ midWeek_women }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_men }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ midWeek_men }}" disabled></b>
                                             </td>
                                             <td class="highlight-light">
                                                 <b><input type="text" class="form-control highlight-light"
@@ -628,12 +628,12 @@
                                                 <span>Mid Week</span>
                                             </td>
                                             <td class="highlight-light">
-                                                <input type="text" class="form-control highlight-light" value="{{ midWeek_men + midWeek_women }}" disabled>
+                                                <b><input type="text" class="form-control highlight-light" value="{{ midWeek_men + midWeek_women }}" disabled></b>
                                             </td>
                                             <td colspan="2" style="border-top: 0;" class="highlight">
                                                 <b><input type="text" class="form-control highlight" value="{{ midWeek_men + midWeek_women + men_sunday_service + women_sunday_service }}" disabled></b>
                                             </td>
-                                            <td colspan="4" style="border-top: 0;">
+                                            <td colspan="4" style="border-top: 0;" class="highlight">
                                                 <b><input type="text" class="form-control" value="{{ (midWeek_men + midWeek_women + men_sunday_service + women_sunday_service) +((midWeek_men + midWeek_women + men_sunday_service + women_sunday_service )*.02)}}" disabled></b>
                                             </td>
                                         </tr>
@@ -643,27 +643,27 @@
                                             <td colspan="2" class="monthly-growth"><span>Monthly Growth</span></td>
                                             <td><span>Number of Births</span></td>
                                             <td class="sea-green">
-                                                <b class="sea-green"><input type="text" class="form-control sea-green"
+                                                <b><input type="text" class="form-control sea-green"
                                                                             value="{{ progress_report.no_of_birth }}" [(ngModel)]="progress_report.no_of_birth" name="no_of_birth"></b>
                                             </td>
                                             <td><span>Number of Deaths</span></td>
                                             <td class="sea-green">
-                                                <b class="sea-green"><input type="text" class="form-control sea-green"
+                                                <b><input type="text" class="form-control sea-green"
                                                                             value="{{ progress_report.no_of_death }}" [(ngModel)]="progress_report.no_of_death" name="no_of_death"></b>
                                             </td>
                                             <td colspan="2"><span>Number of Marriages</span></td>
                                             <td class="sea-green">
-                                                <b class="sea-green"><input type="text" class="form-control sea-green"
+                                                <b><input type="text" class="form-control sea-green"
                                                                             value="{{ progress_report.no_of_marrg }}" [(ngModel)]="progress_report.no_of_marrg" name="no_of_marrg"></b>
                                             </td>
                                             <td><span>Number of Souls Saved</span></td>
                                             <td class="sea-green">
-                                                <b class="sea-green"><input type="text" class="form-control sea-green"
+                                                <b><input type="text" class="form-control sea-green"
                                                                             value="{{ progress_report.no_of_souls_saved }}" [(ngModel)]="progress_report.no_of_souls_saved" name="no_of_souls_saved"></b>
                                             </td>
                                             <td colspan="2"><span>Number of New Workers</span></td>
                                             <td class="sea-green">
-                                                <b class="sea-green"><input type="text" class="form-control sea-green" name ="no_of_new_workers" [(ngModel)]="progress_report.no_of_new_workers"
+                                                <b><input type="text" class="form-control sea-green" name ="no_of_new_workers" [(ngModel)]="progress_report.no_of_new_workers"
                                                                             value="{{ progress_report.no_of_new_workers }}"></b>
                                             </td>
                                         </tr>
@@ -679,18 +679,20 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <button class="btn btn-primary form-control"
-                *ngIf="progress_report.crucial_date != undefined && !viewMode"
-                (click)="onSubmit('save')">
-            Submit
-        </button>
-    </div>
-    <div class="col-md-6">
-        <button class="btn btn-primary form-control"
-                *ngIf="progress_report.crucial_date != undefined && !viewMode"
-                (click)="onSubmit('draft')">
-            Draft
-        </button>
+    <div class="row submit-btns">
+        <div class="col-md-6">
+            <button class="btn btn-primary form-control"
+                    *ngIf="progress_report.crucial_date != undefined && !viewMode"
+                    (click)="onSubmit('save')">
+                Submit
+            </button>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary form-control"
+                    *ngIf="progress_report.crucial_date != undefined && !viewMode"
+                    (click)="onSubmit('draft')">
+                Draft
+            </button>
+        </div>
     </div>
 </form>

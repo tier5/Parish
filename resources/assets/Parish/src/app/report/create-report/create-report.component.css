@@ -77,13 +77,28 @@ table th{
     color: #0600ff !important;
     text-transform: uppercase;
 }
+.highlight b{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #eee;
+}
+.highlight-light b{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #e8f5ff;
+    font-weight: normal;
+}
 .bg-pink{
     background: #ffcece;
     color: #fff;
 }
-.sea-green{
-    background: #98faee;
-}
+
 table tr th span{
     display: block;
     padding: 5px;
@@ -145,24 +160,23 @@ table tr td span.maa{
     display: inline-block;
     width: auto;
 }
-/*table tr td b{
-    height: 100%;
+table tr td.sea-green b{
     position: absolute;
-    width: 100%;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    background: #fff;
-}*/
-table tr td b.sea-green{
     background: #98faee;
+}
+table tr td input.sea-green{
+    background: #98faee;
+}
+table tr td .highlight-light{
+    width: 80px;
 }
 table tr td input.highlight-light{
     background: #e8f5ff;
-}
-.highlight-light{
-    background: #e8f5ff;
+    width: 100%;
 }
 
 .monthly-growth{
@@ -179,34 +193,62 @@ h3.page-header span{
     font-size: 16px;
 }
 
+.submit-btns button{
+    margin-bottom: 20px;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+}
+@media screen and (max-width: 1199px){
+    td strong {
+        font-size: 10px;
+        line-height: 14px;
+    }
+    table tr p {
+        font-size: 12px;
+    }
+    .table > tbody > tr > td, .monthly-growth span{
+        font-size: 10px !important;
+    }
+    table tr td span {
+        font-size: 10px;
+        line-height: 15px;
+    }
+
+    table tr td .highlight-light {
+        width: auto;
+    }
+}
 @media screen and (max-width: 991px){
     .row-eq-height{
         display: block;
+    }
+    .form-control{
+        font-size: 10px !important;
     }
 }
 @media screen and (max-width: 767px){
     .acc-details div{
         text-align: center;
     }
+    table tr td b input {
+        font-size: 10px;
+    }
+    table tr td span {
+        line-height: 35px;
+    }
 }
-
-
 .no-margin{margin: 0 !important;}
-
-
 .width48{width: 48%;}
 .width4{width: 4%;}
-
 .no-margin{margin: 0;}
-/*    .width48{width: 48%;}
-.width4{width: 4%;}*/
-
 select{width: 100%; background: #fff; border: 1px solid #ccc; padding: 3px;}
-.table-responsive{width: 100%; overflow-y: auto;}
 .sky-blue, .disabled_input td, .disabled_input td input{background: #cde9ff;}
-.disabled_input td input{
-    font-weight: bold;
-}
+.disabled_input td input{ font-weight: bold; }
 .dp-date-picker.dp-material .dp-picker-input{width: 105px !important;}
 
 
