@@ -837,6 +837,7 @@ class ReportController extends Controller {
                         $reportArray[$key]['first_name']             = $parishDetails->users->first_name;
                         $reportArray[$key]['last_name']              = $parishDetails->users->last_name;
                         $reportArray[$key]['status']                 = $reportKey->status;
+                        $reportArray[$key]['compliance']             = $reportKey->compliance;
                 }
                 $response = [
                     'status'        => true,
@@ -1055,4 +1056,82 @@ class ReportController extends Controller {
         }
         return response()->json($response, $responseCode);
     }
+
+    /**
+     * Accept or reject Report
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function acceptReport(Request $request, $report_id) {
+        try {
+
+            DB::beginTransaction();
+            
+             /*
+             * Validate mandatory fields
+             */
+            if ($report_id)
+
+                $report = Report::find($report_id);
+            else
+                throw new HttpBadRequestException("Report Id is required."); 
+
+            if($report) {
+                if($report->compliance==1){
+                    $message               = "Report rejected successfully.";
+                    $report->compliance    = 0;
+                }
+                else {
+                    $message               = "Report accepted successfully.";
+                    $report->compliance    = 1;
+                }
+                $report->save();
+            } else {
+                throw new HttpBadRequestException("Report not found."); 
+            }
+
+            $response = [
+                'status'        => true,
+                'message'       => $message
+            ];
+            $responseCode = 201;
+           
+        } catch (HttpBadRequestException $httpBadRequestException) {
+                $response = [
+                    'status'    => false,
+                    'error'     => $httpBadRequestException->getMessage()
+                ];
+                $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+
+            unset($user);
+            unset($provience);
+        }
+
+        return response()->json($response, $responseCode);
+    } 
 }

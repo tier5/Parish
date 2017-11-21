@@ -192,7 +192,7 @@ export class ListReportComponent implements OnInit, OnDestroy {
                 () => {
 
                     if( this.isWEM || this.isProvincePastor || this.isZonePastor ) {
-
+	                    
                         this.pzapService.filterArea( this.getCurrentSelectedFilters() )
                             .subscribe(
                                 (response: Response) => {
@@ -436,6 +436,43 @@ export class ListReportComponent implements OnInit, OnDestroy {
             parish_id: this.selectionParish > 0 ? this.selectionParish : ''
         }
     }
+	
+    /** Function to accept or reject the report */
+	onAccept(report:any){
+		this.reportService.acceptReport( report )
+			.subscribe(
+				( response: Response ) => {
+					this.responseStatus = response.json().status;
+
+					if ( response.json().status ) {
+						this.responseStatus = true;
+						this.reportService.refreshReportList.next({});
+						this.responseMsg = response.json().message;
+					} else {
+						this.responseMsg = '';
+					}
+				},
+				( error: Response ) => {
+					if( error.status === 401) {
+						this.authService.removeToken();
+						this.router.navigate( ['/login'] );
+					}
+
+					this.responseStatus = false;
+					this.responseReceived = true;
+					this.responseMsg = error.json().error;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				},
+				() => {
+					this.responseReceived = true;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				}
+			);
+	}
 
     /** Un-subscribing from all custom made events when component is destroyed */
     ngOnDestroy() {

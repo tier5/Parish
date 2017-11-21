@@ -377,6 +377,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.fetchParishBasedReport.post'
             ]);
 
+            Route::put('/accept-report/{report_id}', [
+                'uses' => 'Api\V1\ReportController@acceptReport',
+                'as' => 'api.v1.acceptReport.put'
+            ]);
+
         });
 
     });

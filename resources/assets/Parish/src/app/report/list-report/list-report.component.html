@@ -153,17 +153,34 @@
                             <th>Province / Zone / Area / Parish</th>
                             <th>Payment Month / Year</th>
                             <th>Status</th>
+                            <th>Accept/Reject</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr *ngFor="let report of reportList">
-                            <td>ROI{{ report.parish_id }}</td>
-                            <td>{{ report.parish_name }}</td>
-                            <td>{{ report.province_name }} / {{ report.zone_name }} / {{ report.area_name }} / {{ report.parish_name }}</td>
-                            <td>{{ months[report.report_month - 1].name }} / {{ report.report_year}}</td>
-                            <td> {{ report.status }} </td>
-                            <td>
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'">ROI{{ report.parish_id }}</td>
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ report.parish_name }}</td>
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ report.province_name }} / {{ report.zone_name }} / {{ report.area_name }} / {{ report.parish_name }}</td>
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ months[report.report_month - 1].name }} / {{ report.report_year}}</td>
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'"> {{ report.status }} </td>
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'">
+                                <button
+                                        class="btn btn-success btn-xs"
+                                        type="button"
+                                        (click)="onAccept(report)"
+                                        *ngIf="report.compliance===0">Accept
+                                    <i class="fa fa-pencil fa-fw"></i>
+                                </button>
+                                <button
+                                        class="btn btn-danger btn-xs"
+                                        type="button"
+                                        (click)="onAccept(report)"
+                                        *ngIf="report.compliance===1">Reject
+                                    <i class="fa fa-pencil fa-fw"></i>
+                                </button>
+                            </td>
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'">
                                 <button
                                         class="btn btn-warning btn-xs"
                                         type="button"

@@ -4,6 +4,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { NgForm } from '@angular/forms';
 
 import { ProvinceListModel } from '../../province/province-list.model';
 import { ZoneListModel } from '../../zone/zone-list.model';
@@ -403,6 +404,11 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			this.areaSelected = false;
 			this.pzapService.refreshList.next( { zone_id: this.zoneID } );
 		}
+	}
+	
+	/** Function call for adding due date  */
+	onAddDueDate( addDueDate: NgForm) {
+		console.log(addDueDate);
 	}
 	
 	/** Un-subscribing from all custom made events when component is destroyed */

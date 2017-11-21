@@ -90,5 +90,14 @@ export class ReportService {
         const api_url = environment.API_URL + 'report/delete/' + report_id;
         return this.http.delete( api_url, { headers: this.headers } );
     }
+	
+	/** Accept or reject an existing report */
+	acceptReport( body: any ) : Observable<any> {
+		const obj = {
+			user_id: this.authService.getToken().user_id
+		};
+		const api_url = environment.API_URL + 'report/accept-report/'+body.id ;
+		return this.http.put( api_url, Object.assign( body, obj ), { headers: this.headers } );
+	}
 
 }
