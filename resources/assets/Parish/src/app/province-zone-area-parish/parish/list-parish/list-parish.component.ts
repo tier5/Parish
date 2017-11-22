@@ -5,6 +5,8 @@ import { Response } from '@angular/http';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { NgForm } from '@angular/forms';
+import { IDatePickerConfig } from "ng2-date-picker";
+import * as moment from 'moment';
 
 import { ProvinceListModel } from '../../province/province-list.model';
 import { ZoneListModel } from '../../zone/zone-list.model';
@@ -44,7 +46,55 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	refreshParishListSubscription   : Subscription;
 	closePromptEventSubscription    : Subscription;
 	deleteParishEventSubscription   : Subscription;
-	
+
+	selectDate			: boolean 	= false;
+	showLoader      	: boolean   = false;
+
+	config                         : IDatePickerConfig   = {
+		firstDayOfWeek: 'su',
+		format:'YYYY-MM-DD',
+		monthFormat: 'MMM, YYYY',
+		max:null,
+		min:null,
+		disableKeypress: false,
+		allowMultiSelect: false,
+		closeOnSelect: undefined,
+		closeOnSelectDelay: 100,
+		onOpenDelay: 0,
+		weekDayFormat: 'ddd',
+		appendTo: document.body,
+		drops: 'down',
+		opens: 'right',
+		showNearMonthDays: false,
+		showWeekNumbers: false,
+		enableMonthSelector: false,
+		yearFormat: 'YYYY',
+		showGoToCurrent: true,
+		dayBtnFormat: 'DD',
+		monthBtnFormat: 'MMM',
+		hours12Format: 'hh',
+		hours24Format: 'HH',
+		meridiemFormat: 'A',
+		minutesFormat: 'mm',
+		minutesInterval: 1,
+		secondsFormat: 'ss',
+		secondsInterval: 1,
+		showSeconds: false,
+		showTwentyFourHours: false,
+		timeSeparator: ':',
+		multipleYearsNavigateBy: 10,
+		showMultipleYearsNavigation: false,
+		locale: 'en'
+	};
+
+	maxDate : any;
+	minDate : any;
+
+	formData = {
+		due_date : null
+	};
+
+
 	/** Injecting services to be used in this component */
 	constructor( private router: Router,
 	             private pzapService: ProvinceZoneAreaParishService,
@@ -63,8 +113,29 @@ export class ListParishComponent implements OnInit, OnDestroy {
 							this.responseStatus = response.json().status;
 							
 							if( response.json().status ) {
-								this.parishList       = response.json().parishes;
-								this.responseNoRecord = response.json().noData;
+								this.parishList         = response.json().parishes;
+
+								var date = new Date();
+
+								var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+								var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+								var year     = firstDay.getFullYear().toString();
+								var month    = (firstDay.getMonth()+1).toString();
+								var day      = firstDay.getDate().toString();
+								var minDate1     = year+"-"+month+"-"+day;
+
+								var year     = lastDay.getFullYear().toString();
+								var month    = (lastDay.getMonth()+1).toString();
+								var day      = lastDay.getDate().toString();
+								var maxDate1     = year+"-"+month+"-"+day;
+
+								this.config.min = moment(minDate1);
+								this.config.max = moment(maxDate1);
+
+
+								this.formData.due_date  = response.json().due_date;
+								this.responseNoRecord   = response.json().noData;
 							} else {
 								this.parishList         = [];
 								this.selectionProvince  = null;
@@ -407,10 +478,93 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	}
 	
 	/** Function call for adding due date  */
-	onAddDueDate( addDueDate: NgForm) {
-		console.log(addDueDate);
+	onAddDueDate() {
+		if(this.selectDate) {
+			this.selectDate   = false;
+			this.pzapService.refreshList.next( {} );
+		}
+		else {
+			this.selectDate = true;
+		}
+
+
 	}
-	
+
+	/** On submission of due date for the month */
+	onSubmit( addDueDate: NgForm) {
+		this.selectDate = true;
+		this.showLoader = true;
+		var due_date    = new Date(addDueDate.value.due_date);
+		const year     = due_date.getFullYear().toString();
+		const month    = (due_date.getMonth()+1).toString();
+		const day      = due_date.getDate().toString();
+		const date     = year+"-"+month+"-"+day;
+
+		addDueDate.value.due_date = date;
+
+		this.pzapService.addDueDate( addDueDate.value )
+			.subscribe(
+				( response: Response ) => {
+					this.showLoader = false;
+					this.responseStatus = response.json().status;
+
+					if ( response.json().status ) {
+						this.responseMsg = response.json().message;
+						this.selectDate  = false;
+					} else {
+						this.responseMsg = '';
+					}
+				},
+				( error: Response ) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
+
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				},
+				() => {
+					//createAreaForm.reset();
+					this.responseReceived = true;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				}
+			);
+	}
+
+
+	/** Function call to reset form */
+	onReset(addDueDate: NgForm) {
+
+		if ( !this.selectDate ) {
+			this.pzapService.addDueDate( addDueDate.value )
+				.subscribe(
+					(response: Response) => {
+						this.selectDate   = true;
+
+					},
+					(error: Response) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
+					}
+				);
+		} else {
+			addDueDate.form.patchValue( {
+				due_date : this.formData.due_date
+			});
+			addDueDate.reset();
+		}
+	}
+
 	/** Un-subscribing from all custom made events when component is destroyed */
 	ngOnDestroy() {
 		this.refreshParishListSubscription.unsubscribe();

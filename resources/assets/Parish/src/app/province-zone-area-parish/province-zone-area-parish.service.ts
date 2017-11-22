@@ -183,5 +183,14 @@ export class ProvinceZoneAreaParishService {
 		const api_url = environment.API_URL + 'parish/delete/' + parish_id;
 		return this.http.delete( api_url, { headers: this.headers } );
 	}
+
+	/**Add due date for the current month */
+	addDueDate(body: any ): Observable<any> {
+		const obj = {
+			user_id: this.authService.getToken().user_id
+		};
+		const user_id = this.authService.getToken().user_id;
+		return this.http.post( environment.API_URL + 'parish/add-duedate/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
+	}
 	
 }

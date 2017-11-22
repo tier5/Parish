@@ -516,6 +516,7 @@ class ParishController extends Controller {
             
             if(count($parishes) >0 ){
                 $parishArray    = [];
+                $due_date       = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->due_date;
                 $noOfParishes   = count($parishes);
                 foreach ($parishes as $key=>$parish) {
                     
@@ -539,7 +540,8 @@ class ParishController extends Controller {
                 $response = [
                 'status'        => true,
                 'message'       => $noOfParishes . ($noOfParishes > 1 ? " parishes have " : " parish has ") . "been found.",
-                'parishes'      => $parishArray
+                'parishes'      => $parishArray,
+                'due_date'      => $due_date
                 ];
                 $responseCode = 200;
             }
@@ -637,6 +639,61 @@ class ParishController extends Controller {
                     ];
                     $responseCode = 200;
                 }
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Add due date for all parishes
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function addDueDate(Request $request, $user_id) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $parishes = Parish::where('created_by',$user_id)->whereNull('deleted_at')->get();
+            $noOfParish = count($parishes);
+
+            if($parishes){
+                $parishArray = [];
+
+                foreach ($parishes as  $parish) {
+
+                    $parish->due_date = $request->input('due_date');
+                    $parish->save();
+                }
+                $response = [
+                    'status'    => true,
+                    'message'   => 'Due date for the current month added successfully.'
+                ];
+                $responseCode = 200;
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "Due date not added."
+                ];
+                $responseCode = 200;
+            }
         } catch (Exception $exception) {
             DB::rollBack();
 

@@ -233,6 +233,12 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses' => 'Api\V1\ParishController@getParishDetail',
                 'as' => 'api.v1.getParishDetail.get'
             ]);
+
+            Route::post('/add-duedate/{user_id}', [
+                'uses' => 'Api\V1\ParishController@addDueDate',
+                'as'   => 'api.v1.addDueDate.post'
+            ]);
+
         });
     /*
      * User Group Operation

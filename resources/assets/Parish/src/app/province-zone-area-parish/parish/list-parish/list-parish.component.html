@@ -4,22 +4,74 @@
     </div>
 </div><!--/.row-->
 
+<!-- To add due date -->
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-lg-6">
         <button
                 type="button"
-                (click)="onAddDueDate()">Add Due Date
+                (click)="onAddDueDate()"
+                *ngIf="!selectDate">Add Due Date
         </button>
         <p></p>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label> Choose Start Date </label>
-
+        <div class="row" *ngIf="selectDate">
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form
+                                #addDueDate="ngForm"
+                                (submit)="onSubmit(addDueDate)"
+                                >
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label > Choose Due Date </label>
+                                        <dp-date-picker id="due_date"
+                                                        name="due_date"
+                                                        #datePicker
+                                                        [(ngModel)]="formData.due_date"
+                                                        [mode]="'day'"
+                                                        [placeholder]="'Pick Due Date'"
+                                                        [config]="config"
+                                                        [theme]="'dp-material'"
+                                                        #dueDate="ngModel"
+                                                        required>
+                                        </dp-date-picker>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                             class="col-md-6"
+                                             class="alert alert-danger"
+                                             *ngIf="dueDate.invalid && dueDate.touched">
+                                            Due Date is Required!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <button
+                                            class="btn btn-primary"
+                                            [disabled]=" ( addDueDate.invalid && addDueDate.touched ) || !formData.due_date">
+                                        <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                                        Save
+                                    </button>
+                                    <button
+                                            type="button"
+                                            class="btn btn-default"
+                                            (click)="onReset(addDueDate)"
+                                    >Reset
+                                    </button>
+                                    <button
+                                            type="button"
+                                            class="btn btn-default"
+                                            (click)="onAddDueDate()"
+                                    >Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                
             </div>
         </div>
     </div>
