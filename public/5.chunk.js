@@ -1,1096 +1,13 @@
 webpackJsonp([5],{
 
-/***/ "../../../../../src/app/report/create-report/create-report.component.css":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "h4{\n    background: #30a5ff;\n    color: #fff;\n    text-transform: uppercase;\n    padding: 10px;\n    margin: 0;\n    border-bottom: 1px solid #000;\n}\n.row-eq-height {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display:         flex;\n}\n.acc-name, .acc-id{\n    text-align: center;\n    color: #000;\n    font-size: 16px;\n}\n.acc-name span, .acc-id select{\n    color: #0600ff;\n    text-decoration: underline;\n    font-size: 20px;\n    text-transform: uppercase;\n}\n.acc-id select{\n    text-decoration: none;\n    font-size: 16px;\n    background: #fff;\n    width: 90px;\n    padding: 5px;\n}\n.border-black{\n    border: 2px solid #000;\n    background: #fff;\n}\n.no-right-border{\n    border-right: 0;\n}\n.no-left-border{\n    border-left: 0;\n}\nlabel{\n    font-weight: normal;\n}\n.acc-details span{\n    color: #000;\n    font-weight: bold;\n}\ntable th{\n    text-align: center;\n}\n.table-bordered, .table>thead>tr>th, .table>thead>tr>td {\n    border: 1px solid #000;\n    color: #000;\n    background: #cde9ff;\n}\n.table>thead>tr>th{\n    font-size: 14px !important;\n    padding: 0;\n    height: auto;\n}\n.table>thead>tr>th.blank, .table>tbody>tr>td.blank{\n    border: none;\n    background: #fff;\n    padding: 5px;\n}\n.spacer{\n    background: #000;\n    height: 5px;\n    padding: 0;\n    border: 1px solid #000;\n    border-top: 0;\n    border-bottom: 0;\n}\n.highlight{\n    color: #0600ff !important;\n    text-transform: uppercase;\n}\n.bg-pink{\n    background: #ffcece;\n    color: #fff;\n}\n.sea-green{\n    background: #98faee;\n}\ntable tr th span{\n    display: block;\n    padding: 5px;\n}\n.table>tbody>tr>td{\n    font-size: 14px !important;\n    padding: 0;\n    height: auto;\n    border: 1px solid #000;\n    position: relative;\n}\n\ntable tr td input{\n    display: block;\n    width: 100%;\n    padding: 5px 1px;\n    border: none;\n    color: #000;\n    text-align: center;\n    border-radius: 0;\n}\ntd strong{\n    font-size: 13px;\n    line-height: 35px;\n    padding-right: 3px;\n    background: #f6f4de;\n    display: block;\n    text-align: right;\n    height: 100%;\n    position: absolute;\n    width: 100%;\n    left: 0;\n    right: 0;\n    top: 0;\n    bottom: 0;\n}\ntable tr td b input{\n    font-size: 14px;\n}\ntable tr p{\n    text-align: center;\n    color: #000;\n    margin: 0;\n    font-size: 20px;\n    font-weight: bold;\n}\ntable tr td span{\n    text-align: center;\n    display: inline-block;\n    width: 100%;\n    font-weight: bold;\n    font-size: 14px;\n    line-height: 30px;\n}\ntable tr td span.date{\n    width: auto;\n}\ntable tr td span.maa{\n    display: inline-block;\n    width: auto;\n}\n/*table tr td b{\n    height: 100%;\n    position: absolute;\n    width: 100%;\n    left: 0;\n    right: 0;\n    top: 0;\n    bottom: 0;\n    background: #fff;\n}*/\ntable tr td b.sea-green{\n    background: #98faee;\n}\ntable tr td input.highlight-light{\n    background: #e8f5ff;\n}\n.highlight-light{\n    background: #e8f5ff;\n}\n\n.monthly-growth{\n    background: #000;\n    color: #fff;\n}\n\n.monthly-growth span{\n    font-size: 20px !important;\n    margin-top: 10px;\n}\n\n@media screen and (max-width: 991px){\n    .row-eq-height{\n        display: block;\n    }\n}\n@media screen and (max-width: 767px){\n    .acc-details div{\n        text-align: center;\n    }\n}\n\n\n.no-margin{margin: 0 !important;}\n\n\n.width48{width: 48%;}\n.width4{width: 4%;}\n\n.no-margin{margin: 0;}\n/*    .width48{width: 48%;}\n.width4{width: 4%;}*/\n\nselect{width: 100%; background: #fff; border: 1px solid #ccc; padding: 3px;}\n.table-responsive{width: 100%; overflow-y: auto;}\n.sky-blue, .disabled_input td, .disabled_input td input{background: #cde9ff;}\n.disabled_input td input{\n    font-weight: bold;\n}\n.dp-date-picker.dp-material .dp-picker-input{width: 105px !important;}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/report/create-report/create-report.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<h3 class=\"page-header\">Create Report </h3>\n<h5 class=\"page-header\">( Pick a date to create report )</h5>\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n            <strong>{{ responseMsg }}</strong>\n        </div>\n    </div>\n    <div class=\"col-lg-12\">\n        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n            <strong>{{ responseMsg }}</strong>\n        </div>\n    </div>\n</div>\n\n<form #prForm=\"ngForm\" (submit)=\"onSubmit()\">\n    <div class=\"col-md-12\">\n        <div class=\"row row-eq-height\">\n            <div class=\"col-md-12 border-black\">\n                <div class=\"row\">\n                    <h4 class=\"text-center\">\n                        monthly progress report dashboard\n                    </h4>\n                    <p class=\"acc-name\">\n                        Account Name :\n                        <span>\n                            {{ progress_report.account_name }}\n                        </span>\n                    </p>\n                    <p class=\"acc-id\">Parish Id :\n                        <select *ngIf=\"parish_id\">\n                            <option>{{parish_id}}</option>\n\n                        </select>\n                    </p>\n                    <div class=\"acc-details\">\n                        <div class=\"col-sm-6 text-right\">\n                            <div class=\"block\">\n                                <label>Month: </label>\n                                <span>{{ progress_report.month }}</span>\n                            </div>\n                            <div class=\"block\">\n                                <label>Parish Pastor: </label>\n                                <span>{{ progress_report.parish_pastor }}</span>\n                            </div>\n                            <div class=\"block\">\n                                <label>Zonal Pastor: </label>\n                                <span>{{ progress_report.zonal_pastor }}</span>\n                            </div>\n                        </div>\n                        <div class=\"col-sm-6\">\n                            <div class=\"block\">\n                                <label>Year: </label>\n                                <span>{{ progress_report.year }}</span>\n                            </div>\n                            <div class=\"block\">\n                                <label>Area Pastor: </label>\n                                <span>{{ progress_report.area_pastor }}</span>\n                            </div>\n                            <div class=\"block\">\n                                <label>Provincial Pastor: </label>\n                                <span>{{ progress_report.province_pastor }}</span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <div class=\"row\">\n                    <div class=\"spacer\"></div>\n                </div>\n            </div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-md-12\">\n            <div class=\"row\">\n              <div class=\"table-responsive\">\n                <table class=\"table table-bordered\">\n                    <tbody >\n                        <tr>\n                            <td colspan=\"14\">\n                                <table class=\"table no-margin\">\n                                    <tbody>\n                                        <tr>\n                                            <td colspan=\"2\">\n                                                <span class=\"highlight\">Crucial Date</span>\n                                            </td>\n                                            <td>\n                                                <span class=\"sea-green\">\n                                                  <dp-date-picker id=\"daytimePicker\"\n                                                                  name=\"daytimePicker\"\n                                                                  #datePicker\n                                                                  #daytimePicker=\"ngModel\"\n                                                                  [(ngModel)]=\"progress_report.crucial_date\"\n                                                                  (ngModelChange)=\"log($event)\"\n                                                                  [mode]=\"'month'\"\n                                                                  [placeholder]=\"'Pick Month & Year'\"\n                                                                  [config]=\"config\"\n                                                                  [theme]=\"'dp-material'\">\n                                                  </dp-date-picker>\n                                                  <!--<select>\n                                                      <option>select</option>\n                                                      <option>1</option>\n                                                      <option>2</option>\n                                                      <option>3</option>\n                                                  </select>-->\n                                                </span>\n                                            </td>\n                                            <td colspan=\"4\"><span>Attendance</span></td>\n                                            <td class=\"blank\"><span></span></td>\n                                            <td colspan=\"6\"><span>Monetary</span></td>\n                                        </tr>\n                                    </tbody>\n                                </table>\n                            </td>\n                        </tr>\n                      <!-- First section start -->\n                      <tr  *ngIf=\"progress_report.crucial_date != undefined\">\n                          <td colspan=\"14\">\n                              <table class=\"table no-margin\">\n                                  <tbody>\n                                  <tr class=\"sky-blue disabled_input\">\n                                      <td><input value=\"Date\" disabled=\"disabled\"></td>\n                                      <td><input value=\"Day\" disabled></td>\n                                      <td><input value=\"Programmes\" disabled></td>\n                                      <td><input value=\"Men\" disabled></td>\n                                      <td><input value=\"Women\" disabled></td>\n                                      <td><input value=\"Children\" disabled></td>\n                                      <td><input value=\"Total\" disabled></td>\n                                      <td style=\"width: 1.8%\">&nbsp;</td>\n                                      <td><input value=\"Offering\" disabled></td>\n                                      <td colspan=\"2\">\n                                          <table class=\"table no-margin sky-blue\">\n                                              <tr>\n                                                  <td colspan=\"2\"><input value=\"Tithe\" disabled></td>\n                                              </tr>\n                                              <tr>\n                                                  <td style=\"border: 1px solid #000;border-left: 0;border-bottom: 0;\"><input value=\"Pastor\"></td>\n                                                  <td><input value=\"General\" disabled></td>\n                                              </tr>\n                                          </table>\n\n                                      </td>\n                                      <td><input value=\"F/Fruit\" disabled></td>\n                                      <td><input value=\"T/Giving\" disabled></td>\n                                      <td><input value=\"Total\" disabled></td>\n                                  </tr>\n                                  </tbody>\n                              </table>\n\n                              <!-- Week Generating Section Start -->\n                              <table class=\"table no-margin\"\n                                     *ngFor=\"let weekly of progress_report.report.weekly; let i = index\">\n                                  <tbody *ngFor=\"let week of weekly.days; let j = index\">\n                                      <tr *ngIf=\"week.day === 'Sunday'\">\n                                        <td>\n                                            <input type=\"text\"\n                                                   [name]=\"'week' + i + 'date' + j\"\n                                                   [(ngModel)]=\"week.date\"\n                                                   class=\"form-control bg-pink\"\n                                                   disabled\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"text\"\n                                                   [name]=\"'week' + i + 'day' + j\"\n                                                   [(ngModel)]=\"week.day\"\n                                                   class=\"form-control\"\n                                                   disabled\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"text\"\n                                                   [name]=\"'week' + i + 'programmes' + j\"\n                                                   [(ngModel)]=\"week.programmes\"\n                                                   class=\"form-control bg-pink\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'men' + j\"\n                                                   [(ngModel)]=\"week.attendance.men\"\n                                                   min=\"0\"\n                                                   step=\"1\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'women' + j\"\n                                                   [(ngModel)]=\"week.attendance.women\"\n                                                   min=\"0\"\n                                                   step=\"1\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'children' + j\"\n                                                   [(ngModel)]=\"week.attendance.children\"\n                                                   min=\"0\"\n                                                   step=\"1\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'a_total' + j\"\n                                                   [(ngModel)]=\"week.attendance.total\"\n                                                   min=\"0\"\n                                                   step=\"1\"\n                                                   class=\"form-control\"\n                                                   disabled\n                                            >\n                                        </td>\n                                        <td class=\"blank\"  style=\"width: 1%\">&nbsp;</td>\n                                        <td colspan=\"6\">&nbsp;</td>\n                                      </tr>\n                                      <tr *ngIf=\"week.day !== 'Sunday'\">\n                                        <td>\n                                            <input type=\"text\"\n                                                   [name]=\"'week' + i + 'date' + j\"\n                                                   [(ngModel)]=\"week.date\"\n                                                   class=\"form-control bg-pink\"\n                                                   disabled\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"text\"\n                                                   [name]=\"'week' + i + 'day' + j\"\n                                                   [(ngModel)]=\"week.day\"\n                                                   class=\"form-control\"\n                                                   disabled\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"text\"\n                                                   [name]=\"'week' + i + 'programmes' + j\"\n                                                   [(ngModel)]=\"week.programmes\"\n                                                   class=\"form-control bg-pink\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'men' + j\"\n                                                   [(ngModel)]=\"week.attendance.men\"\n                                                   min=\"0\"\n                                                   step=\"1\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'women' + j\"\n                                                   [(ngModel)]=\"week.attendance.women\"\n                                                   min=\"0\"\n                                                   step=\"1\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'children' + j\"\n                                                   [(ngModel)]=\"week.attendance.children\"\n                                                   min=\"0\"\n                                                   step=\"1\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'a_total' + j\"\n                                                   [(ngModel)]=\"week.attendance.total\"\n                                                   min=\"0\"\n                                                   step=\"1\"\n                                                   class=\"form-control\"\n                                                   disabled\n                                            >\n                                        </td>\n                                        <td class=\"blank\" style=\"width: 1%\">&nbsp;</td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'offering' + j\"\n                                                   [(ngModel)]=\"week.monetary.offering\"\n                                                   min=\"0\"\n                                                   step=\"0.01\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'pastor' + j\"\n                                                   [(ngModel)]=\"week.monetary.tithe.pastor\"\n                                                   min=\"0\"\n                                                   step=\"0.01\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'general' + j\"\n                                                   [(ngModel)]=\"week.monetary.tithe.general\"\n                                                   min=\"0\"\n                                                   step=\"0.01\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'f_fruit' + j\"\n                                                   [(ngModel)]=\"week.monetary.f_fruit\"\n                                                   min=\"0\"\n                                                   step=\"0.01\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 't_giving' + j\"\n                                                   [(ngModel)]=\"week.monetary.t_giving\"\n                                                   min=\"0\"\n                                                   step=\"0.01\"\n                                                   class=\"form-control sea-green\"\n                                            >\n                                        </td>\n                                        <td>\n                                            <input type=\"number\"\n                                                   [name]=\"'week' + i + 'm_total' + j\"\n                                                   [(ngModel)]=\"week.monetary.total\"\n                                                   min=\"0\"\n                                                   step=\"0.01\"\n                                                   class=\"form-control\"\n                                                   disabled\n                                            >\n                                        </td>\n                                      </tr>\n                                  </tbody>\n                                  <tbody>\n                                    <tr>\n                                      <td class=\"blank\" colspan=\"6\">&nbsp;</td>\n                                      <td colspan=\"2\">\n                                          <strong>Weekly Total</strong>\n                                      </td>\n                                      <td>\n                                          <b>\n                                              <input type=\"number\"\n                                                     [name]=\"'weekly_total' + i + 'offering'\"\n                                                     [(ngModel)]=\"progress_report.report.weekly[i].weekly_total.monetary.offering\"\n                                                     min=\"0\"\n                                                     step=\"1\"\n                                                     class=\"form-control\"\n                                                     disabled\n                                              >\n                                          </b>\n                                      </td>\n                                      <td>\n                                          <input type=\"number\"\n                                                 [name]=\"'weekly_total' + i + 'pastor'\"\n                                                 [(ngModel)]=\"progress_report.report.weekly[i].weekly_total.monetary.tithe.pastor\"\n                                                 min=\"0\"\n                                                 step=\"1\"\n                                                 class=\"form-control\"\n                                                 disabled\n                                          >\n                                      </td>\n                                      <td>\n                                          <b>\n                                              <input type=\"number\"\n                                                     [name]=\"'weekly_total' + i + 'general'\"\n                                                     [(ngModel)]=\"progress_report.report.weekly[i].weekly_total.monetary.tithe.general\"\n                                                     min=\"0\"\n                                                     step=\"1\"\n                                                     class=\"form-control\"\n                                                     disabled\n                                              >\n                                          </b>\n                                      </td>\n                                      <td>\n                                          <input type=\"number\"\n                                                 [name]=\"'weekly_total' + i + 'f_fruit'\"\n                                                 [(ngModel)]=\"progress_report.report.weekly[i].weekly_total.monetary.f_fruit\"\n                                                 min=\"0\"\n                                                 step=\"1\"\n                                                 class=\"form-control\"\n                                                 disabled\n                                          >\n                                      </td>\n                                      <td>\n                                          <b>\n                                              <input type=\"number\"\n                                                     [name]=\"'weekly_total' + i + 't_giving'\"\n                                                     [(ngModel)]=\"progress_report.report.weekly[i].weekly_total.monetary.t_giving\"\n                                                     min=\"0\"\n                                                     step=\"1\"\n                                                     class=\"form-control\"\n                                                     disabled\n                                              >\n                                          </b>\n                                      </td>\n                                      <td>\n                                          <b>\n                                              <input type=\"number\"\n                                                     [name]=\"'weekly_total' + i + 'total'\"\n                                                     [(ngModel)]=\"progress_report.report.weekly[i].weekly_total.monetary.total\"\n                                                     min=\"0\"\n                                                     step=\"1\"\n                                                     class=\"form-control\"\n                                                     disabled\n                                              >\n                                          </b>\n                                      </td>\n                                    </tr>\n                                  </tbody>\n                              </table>\n                              <!-- Week Generating Section End -->\n\n                          </td>\n                      </tr>\n                      <!-- First section end -->\n\n                      <!-- Last section start -->\n                      <tr *ngIf=\"progress_report.crucial_date != undefined\">\n                        <td colspan=\"14\">\n                          <table class=\"table\" style=\"margin-bottom: 0;\">\n                            <tbody>\n                              <tr>\n                                  <td colspan=\"6\">\n                                      <p>Monthly Average Attendance(MAA)</p>\n                                  </td>\n                                  <td colspan=\"2\">\n                                      <strong>Monthly Total</strong>\n                                  </td>\n                                  <td>\n                                      <b>\n                                          <input  type=\"number\"\n                                                  [name]=\"'monthly_total' +  'offering'\"\n                                                  [(ngModel)]=\"progress_report.report.monthly_total.monetary.offering\"\n                                                  min=\"0\"\n                                                  step=\"1\"\n                                                  class=\"form-control\"\n                                                  disabled\n                                          >\n                                      </b>\n                                  </td>\n                                  <td>\n                                      <b>\n                                          <input type=\"number\"\n                                                 [name]=\"'monthly_total' +  'pastor'\"\n                                                 [(ngModel)]=\"progress_report.report.monthly_total.monetary.tithe.pastor\"\n                                                 min=\"0\"\n                                                 step=\"1\"\n                                                 class=\"form-control\"\n                                                 disabled\n                                          >\n                                      </b>\n                                  </td>\n                                  <td>\n                                      <b>\n                                          <input type=\"number\"\n                                                 [name]=\"'monthly_total' +  'general'\"\n                                                 [(ngModel)]=\"progress_report.report.monthly_total.monetary.tithe.general\"\n                                                 min=\"0\"\n                                                 step=\"1\"\n                                                 class=\"form-control\"\n                                                 disabled\n                                          >\n                                      </b>\n                                  </td>\n                                  <td>\n                                      <input type=\"number\"\n                                             [name]=\"'monthly_total' +  'f_fruit'\"\n                                             [(ngModel)]=\"progress_report.report.monthly_total.monetary.f_fruit\"\n                                             min=\"0\"\n                                             step=\"1\"\n                                             class=\"form-control\"\n                                             disabled\n                                      >\n                                  </td>\n                                  <td>\n                                      <b>\n                                          <input type=\"number\"\n                                                 [name]=\"'monthly_total' +  't_giving'\"\n                                                 [(ngModel)]=\"progress_report.report.monthly_total.monetary.t_giving\"\n                                                 min=\"0\"\n                                                 step=\"1\"\n                                                 class=\"form-control\"\n                                                 disabled\n                                          >\n                                      </b>\n                                  </td>\n                                  <td>\n                                      <b>\n                                          <input type=\"number\"\n                                                 [name]=\"'monthly_total' +  'm_total'\"\n                                                 [(ngModel)]=\"progress_report.report.monthly_total.monetary.total\"\n                                                 min=\"0\"\n                                                 step=\"1\"\n                                                 class=\"form-control\"\n                                                 disabled\n                                          >\n                                      </b>\n                                  </td>\n                              </tr>\n                            </tbody>\n                            <tbody>\n                              <tr>\n                                  <td colspan=\"2\"><span>Services</span></td>\n                                  <td><span>Children</span></td>\n                                  <td><span>Women</span></td>\n                                  <td><span>Men</span></td>\n                                  <td><span>Total</span></td>\n                                  <td colspan=\"4\">\n                                      <strong>Parish Start Date: <span class=\"date\">23/11/2003</span></strong>\n                                  </td>\n                                  <td><span>Area Contrib.</span></td>\n                                  <td>\n                                      <b><input type=\"text\" class=\"form-control highlight\" value=\"93.79\"></b>\n                                  </td>\n                                  <td><span>WEM</span></td>\n                                  <td>\n                                      <b>\n\n                                          <input type=\"number\"\n                                                [name]=\"'monthly_total' +  'wemshare'\"\n                                                [(ngModel)]=\"progress_report.wem_share\"\n                                                min=\"0\"\n                                                step=\"1\"\n                                                class=\"form-control\"\n                                                disabled\n                                          >\n                                      </b>\n                                  </td>\n                              </tr>\n                            </tbody>\n                            <tbody>\n                              <tr>\n                                  <td colspan=\"2\"><span>Sunday School</span></td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"47\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"37\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"11\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <b><input type=\"text\" class=\"form-control highlight-light\" value=\"95\"></b>\n                                  </td>\n                                  <td colspan=\"2\">\n                                      <strong>Adults only: </strong>\n                                  </td>\n                                  <td colspan=\"2\" class=\"highlight\">\n                                      <strong><span class=\"highlight maa\">MAA(Adults Only)</span></strong>\n                                  </td>\n                                  <td colspan=\"4\"><span>Projected Parish Numerical Strength</span></td>\n                              </tr>\n                            </tbody>\n                            <tbody>\n                              <tr>\n                                  <td colspan=\"2\"><span>Sunday</span></td>\n                                  <td  class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"116\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"67\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"39\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <b><input type=\"text\" class=\"form-control highlight-light\" value=\"222\"></b>\n                                  </td>\n                                  <td>\n                                      <span>Sunday</span>\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"106\">\n                                  </td>\n                                  <td colspan=\"2\" style=\"border-bottom: 0;\">\n                                      <input type=\"text\" class=\"form-control\" value=\"\">\n                                  </td>\n                                  <td colspan=\"4\" style=\"border-bottom: 0;\">\n                                      <input type=\"text\" class=\"form-control\" value=\"\">\n                                  </td>\n                              </tr>\n                            </tbody>\n                            <tbody>\n                              <tr>\n                                  <td colspan=\"2\"><span>Mid Week</span></td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"16\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"10\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"4\">\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <b><input type=\"text\" class=\"form-control highlight-light\" value=\"31\"></b>\n                                  </td>\n                                  <td>\n                                      <span>Mid Week</span>\n                                  </td>\n                                  <td class=\"highlight-light\">\n                                      <input type=\"text\" class=\"form-control highlight-light\" value=\"14\">\n                                  </td>\n                                  <td colspan=\"2\" style=\"border-top: 0;\" class=\"highlight\">\n                                      <b><input type=\"text\" class=\"form-control highlight\" value=\"120\"></b>\n                                  </td>\n                                  <td colspan=\"4\" style=\"border-top: 0;\">\n                                      <b><input type=\"text\" class=\"form-control\" value=\"144\"></b>\n                                  </td>\n                              </tr>\n                            </tbody>\n                            <tbody>\n                              <tr>\n                                  <td colspan=\"2\" class=\"monthly-growth\"><span>Monthly Growth</span></td>\n                                  <td><span>Number of Births</span></td>\n                                  <td class=\"sea-green\">\n                                      <b class=\"sea-green\"><input type=\"text\" class=\"form-control sea-green\" value=\"0\"></b>\n                                  </td>\n                                  <td><span>Number of Deaths</span></td>\n                                  <td class=\"sea-green\">\n                                      <b class=\"sea-green\"><input type=\"text\" class=\"form-control sea-green\" value=\"0\"></b>\n                                  </td>\n                                  <td colspan=\"2\"><span>Number of Marriages</span></td>\n                                  <td class=\"sea-green\">\n                                      <b class=\"sea-green\"><input type=\"text\" class=\"form-control sea-green\" value=\"0\"></b>\n                                  </td>\n                                  <td><span>Number of Souls Saved</span></td>\n                                  <td class=\"sea-green\">\n                                      <b class=\"sea-green\"><input type=\"text\" class=\"form-control sea-green\" value=\"2\"></b>\n                                  </td>\n                                  <td colspan=\"2\"><span>Number of New Workers</span></td>\n                                  <td class=\"sea-green\">\n                                      <b class=\"sea-green\"><input type=\"text\" class=\"form-control sea-green\" value=\"3\"></b>\n                                  </td>\n                              </tr>\n                            </tbody>        \n                          </table>\n                        </td>\n                      </tr>\n                      <!-- Last section end -->\n                  </tbody>\n                </table>\n              </div>\n            </div>\n          </div>\n        </div>\n    </div>\n    <button class=\"btn btn-primary form-control\"\n            *ngIf=\"progress_report.crucial_date != undefined\"\n    >\n        Submit\n    </button>\n</form>\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/report/create-report/create-report.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__report_service__ = __webpack_require__("../../../../../src/app/report/report.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CreateReportComponent; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var CreateReportComponent = (function () {
-    function CreateReportComponent(reportService, activatedRoute) {
-        this.reportService = reportService;
-        this.activatedRoute = activatedRoute;
-        this.editMode = false;
-        this.responseMsg = '';
-        this.responseStatus = false;
-        this.responseReceived = false;
-        this.config = {
-            firstDayOfWeek: 'su',
-            monthFormat: 'MMM, YYYY',
-            disableKeypress: false,
-            allowMultiSelect: false,
-            closeOnSelect: undefined,
-            closeOnSelectDelay: 100,
-            onOpenDelay: 0,
-            weekDayFormat: 'ddd',
-            appendTo: document.body,
-            drops: 'down',
-            opens: 'right',
-            showNearMonthDays: false,
-            showWeekNumbers: false,
-            enableMonthSelector: true,
-            yearFormat: 'YYYY',
-            showGoToCurrent: true,
-            dayBtnFormat: 'DD',
-            monthBtnFormat: 'MMM',
-            hours12Format: 'hh',
-            hours24Format: 'HH',
-            meridiemFormat: 'A',
-            minutesFormat: 'mm',
-            minutesInterval: 1,
-            secondsFormat: 'ss',
-            secondsInterval: 1,
-            showSeconds: false,
-            showTwentyFourHours: false,
-            timeSeparator: ':',
-            multipleYearsNavigateBy: 10,
-            showMultipleYearsNavigation: false,
-            locale: 'en'
-        };
-        this.temp_report = {
-            'wem_percentage': 0,
-            'wem_share': 0,
-            'account_name': '',
-            'parish_id': 0,
-            'parish_pastor': '',
-            'area_pastor': '',
-            'zonal_pastor': '',
-            'province_pastor': '',
-            'crucial_date': '',
-            'month': '',
-            'year': '',
-            'report': {
-                'monthly_total': {
-                    'attendance': {
-                        'men': null,
-                        'women': null,
-                        'children': null,
-                        'total': null
-                    },
-                    'monetary': {
-                        'offering': null,
-                        'tithe': {
-                            'pastor': null,
-                            'general': null
-                        },
-                        'f_fruit': null,
-                        't_giving': null,
-                        'total': null
-                    }
-                },
-                'weekly': [
-                    {
-                        'weekly_total': {
-                            'attendance': {
-                                'men': null,
-                                'women': null,
-                                'children': null,
-                                'total': null
-                            },
-                            'monetary': {
-                                'offering': null,
-                                'tithe': {
-                                    'pastor': null,
-                                    'general': null
-                                },
-                                'f_fruit': null,
-                                't_giving': null,
-                                'total': null
-                            }
-                        },
-                        'days': [
-                            {
-                                'date': 'Sunday',
-                                'day': '1',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Monday',
-                                'day': '2',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Tuesday',
-                                'day': '3',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Wednesday',
-                                'day': '4',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Thursday',
-                                'day': '5',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Friday',
-                                'day': '6',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Saturday',
-                                'day': '7',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        'weekly_total': {
-                            'attendance': {
-                                'men': null,
-                                'women': null,
-                                'children': null,
-                                'total': null
-                            },
-                            'monetary': {
-                                'offering': null,
-                                'tithe': {
-                                    'pastor': null,
-                                    'general': null
-                                },
-                                'f_fruit': null,
-                                't_giving': null,
-                                'total': null
-                            }
-                        },
-                        'days': [
-                            {
-                                'date': 'Sunday',
-                                'day': '8',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Monday',
-                                'day': '9',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Tuesday',
-                                'day': '10',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Wednesday',
-                                'day': '11',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Thursday',
-                                'day': '12',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Friday',
-                                'day': '13',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Saturday',
-                                'day': '14',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        'weekly_total': {
-                            'attendance': {
-                                'men': null,
-                                'women': null,
-                                'children': null,
-                                'total': null
-                            },
-                            'monetary': {
-                                'offering': null,
-                                'tithe': {
-                                    'pastor': null,
-                                    'general': null
-                                },
-                                'f_fruit': null,
-                                't_giving': null,
-                                'total': null
-                            }
-                        },
-                        'days': [
-                            {
-                                'date': 'Sunday',
-                                'day': '15',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Monday',
-                                'day': '16',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Tuesday',
-                                'day': '17',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Wednesday',
-                                'day': '18',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Thursday',
-                                'day': '19',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Friday',
-                                'day': '20',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Saturday',
-                                'day': '21',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        'weekly_total': {
-                            'attendance': {
-                                'men': null,
-                                'women': null,
-                                'children': null,
-                                'total': null
-                            },
-                            'monetary': {
-                                'offering': null,
-                                'tithe': {
-                                    'pastor': null,
-                                    'general': null
-                                },
-                                'f_fruit': null,
-                                't_giving': null,
-                                'total': null
-                            }
-                        },
-                        'days': [
-                            {
-                                'date': 'Sunday',
-                                'day': '22',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Monday',
-                                'day': '23',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Tuesday',
-                                'day': '24',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Wednesday',
-                                'day': '25',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Thursday',
-                                'day': '26',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Friday',
-                                'day': '27',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            },
-                            {
-                                'date': 'Saturday',
-                                'day': '28',
-                                'programmes': '',
-                                'attendance': {
-                                    'men': null,
-                                    'women': null,
-                                    'children': null,
-                                    'total': null
-                                },
-                                'monetary': {
-                                    'offering': null,
-                                    'tithe': {
-                                        'pastor': null,
-                                        'general': null
-                                    },
-                                    'f_fruit': null,
-                                    't_giving': null,
-                                    'total': null
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        };
-        this.progress_report = this.temp_report;
-    }
-    CreateReportComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.prForm.valueChanges
-            .subscribe(function (response) {
-            var monthTemp = {
-                'attendance': {
-                    'men': 0,
-                    'women': 0,
-                    'children': 0,
-                    'total': 0
-                },
-                'monetary': {
-                    'offering': 0,
-                    'tithe': {
-                        'pastor': 0,
-                        'general': 0
-                    },
-                    'f_fruit': 0,
-                    't_giving': 0,
-                    'total': 0
-                }
-            };
-            for (var i = 0; i < _this.progress_report.report.weekly.length; i++) {
-                var weeklyTemp = {
-                    'attendance': {
-                        'men': 0,
-                        'women': 0,
-                        'children': 0,
-                        'total': 0
-                    },
-                    'monetary': {
-                        'offering': 0,
-                        'tithe': {
-                            'pastor': 0,
-                            'general': 0
-                        },
-                        'f_fruit': 0,
-                        't_giving': 0,
-                        'total': 0
-                    }
-                };
-                for (var j = 0; j < _this.progress_report.report.weekly[i].days.length; j++) {
-                    /** Calculating and saving daily attendance */
-                    _this.progress_report.report.weekly[i].days[j].attendance.total = _this.progress_report.report.weekly[i].days[j].attendance.men + _this.progress_report.report.weekly[i].days[j].attendance.women + _this.progress_report.report.weekly[i].days[j].attendance.children;
-                    /** Calculating and saving daily monetary */
-                    _this.progress_report.report.weekly[i].days[j].monetary.total = _this.progress_report.report.weekly[i].days[j].monetary.offering + _this.progress_report.report.weekly[i].days[j].monetary.tithe.general + _this.progress_report.report.weekly[i].days[j].monetary.tithe.pastor + _this.progress_report.report.weekly[i].days[j].monetary.f_fruit + _this.progress_report.report.weekly[i].days[j].monetary.t_giving;
-                    /** Calculating weekly attendance */
-                    weeklyTemp.attendance.men += _this.progress_report.report.weekly[i].days[j].attendance.men;
-                    weeklyTemp.attendance.women += _this.progress_report.report.weekly[i].days[j].attendance.women;
-                    weeklyTemp.attendance.children += _this.progress_report.report.weekly[i].days[j].attendance.children;
-                    weeklyTemp.attendance.total += _this.progress_report.report.weekly[i].days[j].attendance.total;
-                    /** Calculating weekly monetary */
-                    weeklyTemp.monetary.offering += _this.progress_report.report.weekly[i].days[j].monetary.offering;
-                    weeklyTemp.monetary.tithe.pastor += _this.progress_report.report.weekly[i].days[j].monetary.tithe.pastor;
-                    weeklyTemp.monetary.tithe.general += _this.progress_report.report.weekly[i].days[j].monetary.tithe.general;
-                    weeklyTemp.monetary.f_fruit += _this.progress_report.report.weekly[i].days[j].monetary.f_fruit;
-                    weeklyTemp.monetary.t_giving += _this.progress_report.report.weekly[i].days[j].monetary.t_giving;
-                    weeklyTemp.monetary.total += _this.progress_report.report.weekly[i].days[j].monetary.total;
-                }
-                /** Saving weekly attendance */
-                _this.progress_report.report.weekly[i].weekly_total.attendance.men = weeklyTemp.attendance.men;
-                _this.progress_report.report.weekly[i].weekly_total.attendance.women = weeklyTemp.attendance.women;
-                _this.progress_report.report.weekly[i].weekly_total.attendance.children = weeklyTemp.attendance.children;
-                _this.progress_report.report.weekly[i].weekly_total.attendance.total = weeklyTemp.attendance.total;
-                /** Saving weekly monetary */
-                _this.progress_report.report.weekly[i].weekly_total.monetary.offering = weeklyTemp.monetary.offering;
-                _this.progress_report.report.weekly[i].weekly_total.monetary.tithe.pastor = weeklyTemp.monetary.tithe.pastor;
-                _this.progress_report.report.weekly[i].weekly_total.monetary.tithe.general = weeklyTemp.monetary.tithe.general;
-                _this.progress_report.report.weekly[i].weekly_total.monetary.f_fruit = weeklyTemp.monetary.f_fruit;
-                _this.progress_report.report.weekly[i].weekly_total.monetary.t_giving = weeklyTemp.monetary.t_giving;
-                _this.progress_report.report.weekly[i].weekly_total.monetary.total = weeklyTemp.monetary.total;
-                /** Calculating monthly attendance */
-                monthTemp.attendance.men += _this.progress_report.report.weekly[i].weekly_total.attendance.men;
-                monthTemp.attendance.women += _this.progress_report.report.weekly[i].weekly_total.attendance.women;
-                monthTemp.attendance.children += _this.progress_report.report.weekly[i].weekly_total.attendance.children;
-                monthTemp.attendance.total += _this.progress_report.report.weekly[i].weekly_total.attendance.total;
-                /** Calculating monthly monetary */
-                monthTemp.monetary.offering += _this.progress_report.report.weekly[i].weekly_total.monetary.offering;
-                monthTemp.monetary.tithe.pastor += _this.progress_report.report.weekly[i].weekly_total.monetary.tithe.pastor;
-                monthTemp.monetary.tithe.general += _this.progress_report.report.weekly[i].weekly_total.monetary.tithe.general;
-                monthTemp.monetary.f_fruit += _this.progress_report.report.weekly[i].weekly_total.monetary.f_fruit;
-                monthTemp.monetary.t_giving += _this.progress_report.report.weekly[i].weekly_total.monetary.t_giving;
-                monthTemp.monetary.total += _this.progress_report.report.weekly[i].weekly_total.monetary.total;
-            }
-            /** Saving weekly attendance */
-            _this.progress_report.report.monthly_total.attendance.men = monthTemp.attendance.men;
-            _this.progress_report.report.monthly_total.attendance.women = monthTemp.attendance.women;
-            _this.progress_report.report.monthly_total.attendance.children = monthTemp.attendance.children;
-            _this.progress_report.report.monthly_total.attendance.total = monthTemp.attendance.total;
-            /** Saving weekly monetary */
-            _this.progress_report.report.monthly_total.monetary.offering = monthTemp.monetary.offering;
-            _this.progress_report.report.monthly_total.monetary.tithe.pastor = monthTemp.monetary.tithe.pastor;
-            _this.progress_report.report.monthly_total.monetary.tithe.general = monthTemp.monetary.tithe.general;
-            _this.progress_report.report.monthly_total.monetary.f_fruit = monthTemp.monetary.f_fruit;
-            _this.progress_report.report.monthly_total.monetary.t_giving = monthTemp.monetary.t_giving;
-            _this.progress_report.report.monthly_total.monetary.total = monthTemp.monetary.total;
-            /** Calculating wem's share */
-            _this.progress_report.wem_share = _this.progress_report.report.monthly_total.monetary.total * (_this.progress_report.wem_percentage / 100);
-        });
-        this.generateReportSubscription = this.reportService.generateReport
-            .subscribe(function (body) {
-            _this.reportService.getReportBP(body)
-                .subscribe(function (response) {
-                if (_this.editMode) {
-                }
-                else {
-                    var crucial_date = _this.progress_report.crucial_date;
-                    _this.progress_report = response.json().progress_report[(response.json().progress_report).length - 1].progress_report;
-                    _this.progress_report.crucial_date = crucial_date;
-                    _this.parish_id = _this.progress_report.parish_id;
-                }
-            }, function (error) { console.log(error.json()); });
-        });
-        /** Checking route params to get present mode */
-        this.activatedRoute.data.subscribe(function (data) {
-            _this.editMode = data['editMode'];
-        });
-    };
-    /** Function to get date while changing dates in date picker */
-    CreateReportComponent.prototype.log = function (event) {
-        if (event) {
-            var date = new Date(event);
-            if (this.editMode) {
-            }
-            else {
-                this.timeInfo = {
-                    report_month: date.getMonth() + 1,
-                    report_year: date.getFullYear()
-                };
-            }
-            this.reportService.generateReport.next(this.timeInfo);
-        }
-    };
-    /** Function to create report */
-    CreateReportComponent.prototype.onSubmit = function () {
-        var _this = this;
-        if (this.editMode) {
-        }
-        else {
-            var obj = {
-                report_month: this.timeInfo.report_month,
-                report_year: this.timeInfo.report_year,
-                progress_report: this.progress_report
-            };
-            this.reportService.sendReport(obj)
-                .subscribe(function (response) {
-                _this.responseStatus = response.json().status;
-                _this.responseMsg = response.json().message;
-                _this.responseReceived = true;
-            }, function (error) {
-                _this.responseStatus = false;
-                _this.responseReceived = true;
-                _this.responseMsg = error.json().error;
-                setTimeout(function () {
-                    _this.responseReceived = false;
-                }, 5000);
-            }, function () {
-                _this.progress_report = _this.temp_report;
-                _this.progress_report.crucial_date = undefined;
-                setTimeout(function () {
-                    _this.responseReceived = false;
-                }, 5000);
-            });
-        }
-    };
-    CreateReportComponent.prototype.ngOnDestroy = function () {
-        this.generateReportSubscription.unsubscribe();
-    };
-    return CreateReportComponent;
-}());
-__decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["ViewChild"])('prForm'),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["NgForm"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["NgForm"]) === "function" && _a || Object)
-], CreateReportComponent.prototype, "prForm", void 0);
-CreateReportComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
-        selector: 'app-create-report',
-        template: __webpack_require__("../../../../../src/app/report/create-report/create-report.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/report/create-report/create-report.component.css")]
-    }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__report_service__["a" /* ReportService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__report_service__["a" /* ReportService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* ActivatedRoute */]) === "function" && _c || Object])
-], CreateReportComponent);
-
-var _a, _b, _c;
-//# sourceMappingURL=create-report.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/report/list-report/list-report.component.css":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
-// imports
-
-
-// module
-exports.push([module.i, "h4{\n    background: #30a5ff;\n    color: #fff;\n    text-transform: uppercase;\n    padding: 10px;\n    margin: 0;\n    border-bottom: 1px solid #000;\n}\n.row-eq-height {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display:         flex;\n}\n.acc-name, .acc-id{\n    text-align: center;\n    color: #000;\n    font-size: 16px;\n}\n.acc-name span, .acc-id select{\n    color: #0600ff;\n    text-decoration: underline;\n    font-size: 20px;\n    text-transform: uppercase;\n}\n.acc-id select{\n    text-decoration: none;\n    font-size: 16px;\n    background: #fff;\n    width: 90px;\n    padding: 5px;\n}\n.border-black{\n    border: 2px solid #000;\n    background: #fff;\n}\n.no-right-border{\n    border-right: 0;\n}\n.no-left-border{\n    border-left: 0;\n}\nlabel{\n    font-weight: normal;\n}\n.acc-details span{\n    color: #000;\n    font-weight: bold;\n}\ntable th{\n    text-align: center;\n}\n.table-bordered, .table>thead>tr>th, .table>thead>tr>td {\n    border: 1px solid #000;\n    color: #000;\n    background: #cde9ff;\n}\n.table>thead>tr>th{\n    font-size: 14px !important;\n    padding: 0;\n    height: auto;\n}\n.table>thead>tr>th.blank, .table>tbody>tr>td.blank{\n    border: none;\n    background: #fff;\n    padding: 5px;\n}\n.spacer{\n    background: #000;\n    height: 5px;\n    padding: 0;\n    border: 1px solid #000;\n    border-top: 0;\n    border-bottom: 0;\n}\n.highlight{\n    color: #0600ff !important;\n    text-transform: uppercase;\n}\n.bg-pink{\n    background: #ffcece;\n    color: #fff;\n}\n.sea-green{\n    background: #98faee;\n}\ntable tr th span{\n    display: block;\n    padding: 5px;\n}\n.table>tbody>tr>td{\n    font-size: 14px !important;\n    padding: 0;\n    height: auto;\n    border: 1px solid #000;\n    position: relative;\n}\ntable tr td input{\n    display: block;\n    width: 100%;\n    padding: 5px 1px;\n    border: none;\n    color: #000;\n    font-size: 13px;\n    text-align: center;\n    border-radius: 0;\n}\ntd strong{\n    font-size: 13px;\n    line-height: 35px;\n    padding-right: 3px;\n    background: #f6f4de;\n    display: block;\n    text-align: right;\n    height: 100%;\n    position: absolute;\n    width: 100%;\n    left: 0;\n    right: 0;\n    top: 0;\n    bottom: 0;\n}\ntable tr td b input{\n    font-size: 14px;\n}\ntable tr p{\n    text-align: center;\n    color: #000;\n    margin: 0;\n    font-size: 20px;\n    font-weight: bold;\n}\ntable tr td span{\n    text-align: center;\n    display: inline-block;\n    width: 100%;\n    font-weight: bold;\n    font-size: 14px;\n    line-height: 30px;\n}\ntable tr td span.date{\n    width: auto;\n}\ntable tr td span.maa{\n    display: inline-block;\n    width: auto;\n}\ntable tr td b{\n    height: 100%;\n    position: absolute;\n    width: 100%;\n    left: 0;\n    right: 0;\n    top: 0;\n    bottom: 0;\n    background: #fff;\n}\ntable tr td b.sea-green{\n    background: #98faee;\n}\ntable tr td input.highlight-light{\n    background: #e8f5ff;\n}\n\n.monthly-growth{\n    background: #000;\n    color: #fff;\n}\n\n.monthly-growth span{\n    font-size: 20px !important;\n    margin-top: 10px;\n}\n\n@media screen and (max-width: 991px){\n    .row-eq-height{\n        display: block;\n    }\n}\n@media screen and (max-width: 767px){\n    .acc-details div{\n        text-align: center;\n    }\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ "../../../../../src/app/report/list-report/list-report.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Report - List</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                Report List\n            </div>\n            <div class=\"panel-body overflowFix\">\n\n                <!-- Message Section -->\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"row\">\n                    <div class=\"col-md-3\">\n                        <p></p>\n                        <button (click)=\"onResetFilters()\">Reset Filter</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <!--<label>Filter Parish Id:</label>-->\n                        <!--<select-->\n                                <!--#selectedParish-->\n                                <!--name=\"province_id\"-->\n                                <!--class=\"form-control\"-->\n                                <!--[(ngModel)]=\"selectionParish\"-->\n                                <!--(change)=\"onSelectProvince(selectedParish.value)\">-->\n                            <!--<option value=\"0\" selected>Choose...</option>-->\n                            <!--<option-->\n                                    <!--*ngFor=\"let report of reportList\"-->\n                                    <!--[value]=\"report.id\">-->\n                                <!--{{ report.report_name }}-->\n                            <!--</option>-->\n                        <!--</select>-->\n\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <label>Filter Month:</label>\n                        <select\n                                #selectedMonth\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionMonth\"\n                                (change)=\"onSelectMonth(selectedMonth.value)\">\n                            <option value=\"1\" [disabled]=\"1>=currentMonth\">January</option>\n                            <option value=\"2\" [disabled]=\"2>=currentMonth\">February</option>\n                            <option value=\"3\" [disabled]=\"3>=currentMonth\">March</option>\n                            <option value=\"4\" [disabled]=\"4>=currentMonth\">April</option>\n                            <option value=\"5\" [disabled]=\"5>=currentMonth\">May</option>\n                            <option value=\"6\" [disabled]=\"6>=currentMonth\">June</option>\n                            <option value=\"7\" [disabled]=\"7>=currentMonth\">July</option>\n                            <option value=\"8\" [disabled]=\"8>=currentMonth\">August</option>\n                            <option value=\"9\" [disabled]=\"9>=currentMonth\">September</option>\n                            <option value=\"10\" [disabled]=\"10>=currentMonth\">October</option>\n                            <option value=\"11\" [disabled]=\"11>=currentMonth\">November</option>\n                            <option value=\"12\" [disabled]=\"12>=currentMonth\">December</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <label>Filter Year:</label>\n                        <select\n                                #selectedYear\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionYear\"\n                                (change)=\"onSelectYear(selectedYear.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let year of currentYearList\"\n                                    [value]=\"year\">\n                                {{ year }}\n                            </option>\n                        </select>\n                    </div>\n\n                </div>\n                <div class=\"table-responsive\">\n                    <table class=\"table table-hover table-condensed\">\n                        <thead>\n                        <tr>\n                            <th>Parish ID</th>\n                            <th>Month</th>\n                            <th>Year</th>\n                            <th>Actions</th>\n                        </tr>\n                        </thead>\n                        <tbody>\n                        <tr *ngFor=\"let report of reportList\">\n                            <td>{{ report.parish_id }}</td>\n                            <td>{{ report.report_month }}</td>\n                            <td>{{ report.report_year}}</td>\n                            <td>\n                                <button\n                                        class=\"btn btn-warning btn-xs\"\n                                        type=\"button\"\n                                        (click)=\"onEdit(report)\">\n                                    <i class=\"fa fa-pencil fa-fw\"></i>\n                                </button>\n                                <button\n                                        class=\"btn btn-danger btn-xs\"\n                                        type=\"button\"\n                                        (click)=\"showPrompt(report)\">\n                                    <i class=\"fa fa-trash fa-fw\"></i>\n                                </button>\n                            </td>\n                        </tr>\n                        <tr *ngIf=\"!reportList\">\n                            {{ 'No Reports Found!' }}\n                        </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div><!--/.row-->\n\n<!--<app-prompt-->\n        <!--*ngIf=\"showDeletePrompt\"-->\n        <!--[calledFrom]=\"'Parish'\"-->\n        <!--[itemInfo]=\"toDeleteParish\"-->\n<!--&gt;</app-prompt>-->\n"
-
-/***/ }),
-
-/***/ "../../../../../src/app/report/list-report/list-report.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__report_service__ = __webpack_require__("../../../../../src/app/report/report.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListReportComponent; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var ListReportComponent = (function () {
-    function ListReportComponent(router, reportService) {
-        this.router = router;
-        this.reportService = reportService;
-        this.currentYear = (new Date()).getFullYear();
-        this.currentMonth = ((new Date()).getMonth()) + 1;
-        this.currentYearList = [];
-    }
-    ListReportComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        /** Subscribing to refreshReportList Event */
-        this.refreshReportListSubscription = this.reportService.refreshReportList
-            .subscribe(function (data) {
-            _this.reportService.getReports(data)
-                .subscribe(function (response) {
-                console.log(response.json());
-                _this.reportList = response.json().report;
-            });
-        });
-        this.reportService.refreshReportList.next({});
-        for (var i = 2010; i <= this.currentYear; i++) {
-            this.currentYearList.push(i);
-        }
-    };
-    ListReportComponent.prototype.onSelectYear = function (year) {
-    };
-    ListReportComponent.prototype.onSelectMonth = function (month) {
-    };
-    ListReportComponent.prototype.onEdit = function (report) {
-        var report_id = report.id;
-        this.router.navigate(['report/edit/', report_id]);
-    };
-    return ListReportComponent;
-}());
-ListReportComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        selector: 'app-list-report',
-        template: __webpack_require__("../../../../../src/app/report/list-report/list-report.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/report/list-report/list-report.component.css")]
-    }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__report_service__["a" /* ReportService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__report_service__["a" /* ReportService */]) === "function" && _b || Object])
-], ListReportComponent);
-
-var _a, _b;
-//# sourceMappingURL=list-report.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/report/report-routing.module.ts":
+/***/ "../../../../../src/app/auth/register/register-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create_report_create_report_component__ = __webpack_require__("../../../../../src/app/report/create-report/create-report.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__list_report_list_report_component__ = __webpack_require__("../../../../../src/app/report/list-report/list-report.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__register_component__ = __webpack_require__("../../../../../src/app/auth/register/register.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1100,42 +17,272 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-
-var reportRoutes = [
-    { path: 'create', component: __WEBPACK_IMPORTED_MODULE_2__create_report_create_report_component__["a" /* CreateReportComponent */], data: { editMode: false } },
-    { path: 'list', component: __WEBPACK_IMPORTED_MODULE_3__list_report_list_report_component__["a" /* ListReportComponent */] },
-    { path: 'edit/:id', component: __WEBPACK_IMPORTED_MODULE_2__create_report_create_report_component__["a" /* CreateReportComponent */], data: { editMode: true } },
-];
-var ReportRoutingModule = (function () {
-    function ReportRoutingModule() {
+var routes = [
+    {
+        path: '',
+        component: __WEBPACK_IMPORTED_MODULE_2__register_component__["a" /* RegisterComponent */],
+        data: {
+            title: 'Register'
+        }
     }
-    return ReportRoutingModule;
+];
+var RegisterRoutingModule = (function () {
+    function RegisterRoutingModule() {
+    }
+    return RegisterRoutingModule;
 }());
-ReportRoutingModule = __decorate([
+RegisterRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(reportRoutes)],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], ReportRoutingModule);
+], RegisterRoutingModule);
 
-//# sourceMappingURL=report-routing.module.js.map
+//# sourceMappingURL=register-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/report/report.module.ts":
+/***/ "../../../../../src/app/auth/register/register.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "input.ng-invalid.ng-touched {\n    border: 2px solid #a94442;\n}\n\n.StripeElement {\n    background-color: white;\n    padding: 8px 12px;\n    border-radius: 4px;\n    border: 1px solid #eeeeee;\n    box-shadow: 0 1px 3px 0 #e6ebf1;\n    transition: box-shadow 150ms ease;\n}\n\n.StripeElement--focus {\n    box-shadow: 0 1px 3px 0 #cfd7df;\n}\n\n.StripeElement--invalid {\n    border-color: #fa755a;\n}\n\n.StripeElement--webkit-autofill {\n    background-color: #fefde5 !important;\n}\n.content {\n    padding-top: 30px;\n    padding-bottom: 30px;\n}\n\n/***\nPricing table\n***/\n.pricing {\n    position: relative;\n    margin-bottom: 15px;\n    border: 3px solid #eee;\n}\n\n.pricing-active {\n    border: 3px solid #30A5FF;\n    margin-top: -10px;\n}\n\n.pricing:hover {\n    border: 3px solid #30A5FF;\n}\n\n.pricing:hover h4 {\n    color: #fff;\n}\n\n.pricing-head {\n    text-align: center;\n}\n\n.pricing-head h3,\n.pricing-head h4 {\n    margin: 0;\n    line-height: normal;\n}\n\n.pricing-head h3 span,\n.pricing-head h4 span {\n    display: block;\n    margin-top: 5px;\n    font-size: 14px;\n    font-style: italic;\n}\n\n.pricing-head h3 {\n    font-weight: 300;\n    color: #fafafa;\n    padding: 10px 0;\n    font-size: 20px;\n    background: #1c1c1c;\n}\n\n.pricing-head h4 {\n    color: #fff;\n    padding: 5px 0;\n    font-weight: 300;\n    background: #1c1c1c;\n    border-bottom: solid 1px #f5f9e7;\n}\n\n.pricing-head-active h4 {\n    color: #fff;\n}\n\n.pricing-head h4 i {\n    top: -8px;\n    font-size: 28px;\n    font-style: normal;\n    position: relative;\n}\n\n.pricing-head h4 span {\n    top: -10px;\n    font-size: 14px;\n    font-style: normal;\n    position: relative;\n}\n\n.back-btn{\n    display: inline-block;\n    color: #fff;\n    font-size: 15px;\n    background: #30a5ff;\n    padding: 5px 20px;\n    margin-bottom: 10px;\n    border-radius: 5px;\n    box-shadow: 1px 1px 1px 1px #333;\n    text-decoration: none;\n}\n\n/*Pricing Content*/\n.pricing-content li {\n    color: #888;\n    font-size: 12px;\n    padding: 7px 15px;\n    border-bottom: solid 1px #f5f9e7;\n}\n.pricing-content{\n    background: #fff;\n    margin: 0;\n}\n\n\n/*Pricing Footer*/\n.pricing-footer {\n    font-size: 11px;\n    line-height: 17px;\n    text-align: center;\n    padding: 0 20px 19px;\n    background: #1c1c1c;\n    display: inline-block;\n    width: 100%;\n}\n.pricing-footer p{\n    color: #fff;\n    margin: 10px 0;\n    font-size: 15px;\n}\n\n/*Priceing Active*/\n.price-active,\n.pricing:hover {\n    z-index: 9;\n}\n\n.price-active h4 {\n    color: #36d7ac;\n}\n\n.no-space-pricing .pricing:hover {\n    transition: box-shadow 0.2s ease-in-out;\n}\n\n.no-space-pricing .price-active .pricing-head h4,\n.no-space-pricing .pricing:hover .pricing-head h4 {\n    color: #36d7ac;\n    padding: 15px 0;\n    font-size: 80px;\n    transition: color 0.5s ease-in-out;\n}\n\n.yellow-crusta.btn {\n    color: #FFFFFF;\n    background-color: #30A5FF;\n}\n.yellow-crusta.btn:hover,\n.yellow-crusta.btn:focus,\n.yellow-crusta.btn:active,\n.yellow-crusta.btn.active {\n    color: #FFFFFF;\n    background-color: #1d86d6;\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/auth/register/register.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\" [hidden]=\"!planSelected\">\n    <div class=\"col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4\">\n        <div class=\"login-panel panel panel-default\">\n            <div class=\"panel-heading\">\n                <i class=\"fa fa-angle-double-left fa-pull-right\" aria-hidden=\"true\" (click)=\"onUndoSubscription()\"></i>\n                <strong>Register</strong>\n            </div>\n            <div class=\"panel-body\">\n                <form [formGroup]=\"formRegister\" (ngSubmit)=\"onSubmit()\">\n                    <div *ngIf=\"!userRegisterStatus && responseReceived\" class=\"alert alert-danger\">\n                        <strong>{{ userRegisteredMsg }}</strong>\n                    </div>\n                    <div *ngIf=\"userRegisterStatus && responseReceived\" class=\"alert alert-success\">\n                        <strong>{{ userRegisteredMsg }}</strong>\n                    </div>\n                    <fieldset>\n                        <!-- First Name -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"first_name\"\n                                placeholder=\"First Name\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('first_name').invalid && formRegister.get('first_name').touched\">\n                            <div class=\"alert alert-danger\" *ngIf=\"formRegister.get('first_name').hasError('required')\">\n                                Your First Name is Required!\n                            </div>\n                        </div>\n\n                        <!-- Last Name -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"last_name\"\n                                placeholder=\"Last Name\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('last_name').invalid && formRegister.get('last_name').touched\">\n                            <div class=\"alert alert-danger\" *ngIf=\"formRegister.get('last_name').hasError('required')\">\n                                Your Last Name is Required!\n                            </div>\n                        </div>\n\n                        <!-- Email -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"email\"\n                                placeholder=\"Email Address\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('email').invalid && formRegister.get('email').touched\">\n                            <div class=\"alert alert-danger\">\n                                <div *ngIf=\"formRegister.get('email').hasError('required')\">\n                                   Your Email is Required!\n                                </div>\n                                <div *ngIf=\"formRegister.get('email').hasError('email')\">\n                                    Enter a Proper Email!\n                                </div>\n                                <div *ngIf=\"formRegister.get('email').hasError('emailTaken')\">\n                                    Email has already been taken!\n                                </div>\n                            </div>\n                        </div>\n\n                        <!-- Password -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"password\"\n                                type=\"password\"\n                                placeholder=\"Password\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('password').invalid && formRegister.get('password').touched\">\n                            <div class=\"alert alert-danger\" *ngIf=\"formRegister.get('password').hasError('required')\">\n                                Your Password is Required!\n                            </div>\n                        </div>\n\n                        <!-- Confirm Password -->\n                        <div class=\"form-group\">\n                            <input\n                                class=\"form-control\"\n                                formControlName=\"confirm_password\"\n                                type=\"password\"\n                                placeholder=\"Confirm Password\"\n                            >\n                        </div>\n                        <div *ngIf=\"formRegister.get('confirm_password').invalid && formRegister.get('confirm_password').touched\">\n                            <div class=\"alert alert-danger\" >\n                                <div *ngIf=\"formRegister.get('confirm_password').hasError('required')\">\n                                    Confirm password is Required!\n                                </div>\n                                <div *ngIf=\"formRegister.get('confirm_password').hasError('confirmPassword')\">\n                                    Confirm Password did not Match!\n                                </div>\n                            </div>\n                        </div>\n\n                        <!-- Stripe Custom Form -->\n                        <div class=\"form-group\">\n                            <div class=\"form-row\">\n                                <label for=\"card-element\">\n                                    Credit or debit card\n                                </label>\n                                <div id=\"card-element\">\n                                    <!-- a Stripe Element will be inserted here. -->\n                                </div>\n\n                                <!-- Used to display form errors -->\n                                <div id=\"card-errors\" role=\"alert\"></div>\n                            </div>\n                        </div>\n\n                        <button class=\"btn btn-primary\" [disabled]=\"formRegister.invalid || userRegisterRequested\">\n                            <i *ngIf=\"userRegisterRequested\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                            Register\n                        </button>\n                        <button type=\"reset\" class=\"btn btn-default\" [disabled]=\"userRegisterRequested\" (click)=\"onReset()\">Reset</button>\n                    <!--    <app-subscription></app-subscription> -->\n                        <button type=\"button\" class=\"btn btn-primary pull-right\" [disabled]=\"userRegisterRequested\" (click)=\"onNavigate()\">Login</button>\n                    </fieldset>\n                </form>\n            </div>\n        </div>\n    </div><!-- /.col-->\n</div><!-- /.row -->\n<div class=\"container content\" *ngIf=\"!planSelected\">\n    <div class=\"row\">\n        <div class=\"col-md-12\">\n            <a href=\"/\" class=\"back-btn\">< Back</a>\n        </div>\n    </div>\n    <div class=\"row\">\n        <!-- Pricing -->\n        <div class=\"col-md-3\" *ngFor=\"let plan of planList\">\n            <div class=\"pricing hover-effect\">\n                <div class=\"pricing-head\">\n                    <h3>\n                        {{ plan.name }}\n                        <span></span>\n                    </h3>\n                    <h4>\n                        <i>$</i> <i>{{ plan.amount/100 }}</i>\n                        <span>Per Month</span>\n                    </h4>\n                </div>\n                <ul class=\"pricing-content list-unstyled\">\n                    <li>\n                        At vero eos\n                    </li>\n                    <li>\n                        No Support\n                    </li>\n                    <li>\n                        Fusce condimentum\n                    </li>\n                    <li>\n                        Ut non libero\n                    </li>\n                    <li>\n                        Consecte adiping elit\n                    </li>\n                </ul>\n                <div class=\"pricing-footer\">\n                    <p>\n                        {{ plan.statement_descriptor }}\n                    </p>\n                    <a href=\"javascript:;\" class=\"btn yellow-crusta\" (click)=\"onSelectSubscription(plan.id)\">\n                        Sign Up\n                    </a>\n                </div>\n            </div>\n        </div>\n        <!--//End Pricing -->\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/auth/register/register.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__register_service__ = __webpack_require__("../../../../../src/app/auth/register/register.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterComponent; });
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var RegisterComponent = (function () {
+    /** Service injection */
+    function RegisterComponent(registerService, router, formBuilder) {
+        this.registerService = registerService;
+        this.router = router;
+        this.formBuilder = formBuilder;
+        this.responseReceived = false;
+        this.userRegisterStatus = false;
+        this.userRegisterRequested = false;
+        this.planId = 1;
+        this.planSelected = false;
+        /** Custom confirm password validator */
+        this.confirmPassword = function (control) {
+            var pass = control.get('password');
+            var cnfPass = control.get('confirm_password');
+            if (!pass || !cnfPass) {
+                return null;
+            }
+            if (pass.value === cnfPass.value) {
+                return null;
+            }
+            else {
+                control.get('confirm_password').setErrors({ confirmPassword: true });
+                return { confirmPassword: true };
+            }
+        };
+    }
+    /** Function to be executed when component initializes */
+    RegisterComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.stripe = Stripe('pk_test_SIRpnt5y8OAGeLprrzbQKrKd');
+        this.elements = this.stripe.elements();
+        // Custom styling can be passed to options when creating an Element.
+        this.style = {
+            base: {
+                // Add your base input styles here. For example:
+                fontSize: '16px',
+                lineHeight: '24px',
+            },
+        };
+        // Create an instance of the card Element
+        this.card = this.elements.create('card', { style: this.style });
+        // Add an instance of the card Element into the `card-element` <div>
+        this.card.mount('#card-element');
+        this.card.addEventListener('change', function (_a) {
+            var error = _a.error;
+            var displayError = document.getElementById('card-errors');
+            if (error) {
+                displayError.textContent = error.message;
+            }
+            else {
+                displayError.textContent = '';
+            }
+        });
+        /** Function to get plan list */
+        this.registerService.listPlans()
+            .subscribe(function (response) {
+            if (response.json().status) {
+                _this.planList = response.json().plans;
+            }
+        }, function (error) {
+            console.log(error.json());
+        });
+        /** Form Initialization */
+        this.formRegister = this.formBuilder.group({
+            'first_name': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required),
+            'last_name': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required),
+            'email': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"](null, [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].email], this.validateEmail.bind(this)),
+            'password': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required),
+            'confirm_password': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormControl"](null, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["Validators"].required)
+        }, { validator: this.confirmPassword });
+    };
+    /** Function to validate email*/
+    RegisterComponent.prototype.validateEmail = function (control) {
+        var _this = this;
+        var promise = new Promise(function (resolve, reject) {
+            _this.registerService.validateEmail({ email: control.value })
+                .subscribe(function (response) {
+                if (response.json().status) {
+                    resolve(null);
+                }
+                else {
+                    resolve({ emailTaken: true });
+                }
+            });
+        });
+        return promise;
+    };
+    /** Function call on submit */
+    RegisterComponent.prototype.onSubmit = function () {
+        var _this = this;
+        var body = this.formRegister.value;
+        this.stripe.createToken(this.card).then(function (result) {
+            if (result.error) {
+                // Inform the user if there was an error
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            }
+            else {
+                // Send the token to your server
+                _this.userRegisterRequested = true;
+                _this.registerService.register(__assign({}, body, { token: result.token, planId: _this.planId }))
+                    .subscribe(function (response) {
+                    if (response.json().status) {
+                        _this.userRegisterStatus = true;
+                        _this.card.clear();
+                        _this.userRegisteredMsg = response.json().message;
+                        _this.userRegisterRequested = false;
+                        setTimeout(function () {
+                            _this.router.navigate(['/login']);
+                        }, 5000);
+                    }
+                    else {
+                        _this.userRegisterStatus = false;
+                        _this.userRegisteredMsg = response.json().error;
+                        _this.userRegisterRequested = false;
+                    }
+                }, function (error) {
+                    _this.userRegisterStatus = false;
+                    _this.userRegisteredMsg = error.json().error;
+                    _this.responseReceived = true;
+                    _this.userRegisterRequested = false;
+                    setTimeout(function () {
+                        _this.responseReceived = false;
+                    }, 5000);
+                }, function () {
+                    _this.formRegister.reset();
+                    _this.responseReceived = true;
+                    _this.userRegisterRequested = false;
+                    setTimeout(function () {
+                        _this.responseReceived = false;
+                    }, 5000);
+                });
+            }
+        });
+    };
+    /** Function to choose subscription*/
+    RegisterComponent.prototype.onSelectSubscription = function (id) {
+        this.planId = id;
+        this.planSelected = true;
+    };
+    /** Function to undo subscription*/
+    RegisterComponent.prototype.onUndoSubscription = function () {
+        this.planId = 0;
+        this.planSelected = false;
+        this.formRegister.reset();
+        this.card.clear();
+    };
+    /** Function call to reset form */
+    RegisterComponent.prototype.onReset = function () {
+        this.formRegister.reset();
+    };
+    /** Function call to navigate to login page */
+    RegisterComponent.prototype.onNavigate = function () {
+        this.router.navigate(['/login']);
+    };
+    return RegisterComponent;
+}());
+RegisterComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'register',
+        template: __webpack_require__("../../../../../src/app/auth/register/register.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/auth/register/register.component.css")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__register_service__["a" /* RegisterService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__register_service__["a" /* RegisterService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormBuilder"]) === "function" && _c || Object])
+], RegisterComponent);
+
+var _a, _b, _c;
+//# sourceMappingURL=register.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/auth/register/register.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_date_picker__ = __webpack_require__("../../../../ng2-date-picker/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_date_picker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng2_date_picker__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__create_report_create_report_component__ = __webpack_require__("../../../../../src/app/report/create-report/create-report.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__list_report_list_report_component__ = __webpack_require__("../../../../../src/app/report/list-report/list-report.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__report_routing_module__ = __webpack_require__("../../../../../src/app/report/report-routing.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ReportModule", function() { return ReportModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__register_component__ = __webpack_require__("../../../../../src/app/auth/register/register.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__register_routing_module__ = __webpack_require__("../../../../../src/app/auth/register/register-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__register_service__ = __webpack_require__("../../../../../src/app/auth/register/register.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__subscription_subscription_module__ = __webpack_require__("../../../../../src/app/subscription/subscription.module.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterModule", function() { return RegisterModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1149,28 +296,270 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ReportModule = (function () {
-    function ReportModule() {
+
+var RegisterModule = (function () {
+    function RegisterModule() {
     }
-    return ReportModule;
+    return RegisterModule;
 }());
-ReportModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
-        declarations: [
-            __WEBPACK_IMPORTED_MODULE_4__create_report_create_report_component__["a" /* CreateReportComponent */],
-            __WEBPACK_IMPORTED_MODULE_5__list_report_list_report_component__["a" /* ListReportComponent */]
-        ],
+RegisterModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_1_ng2_date_picker__["DpDatePickerModule"],
-            __WEBPACK_IMPORTED_MODULE_3__angular_forms__["FormsModule"],
-            __WEBPACK_IMPORTED_MODULE_6__report_routing_module__["a" /* ReportRoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_5__register_routing_module__["a" /* RegisterRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["ReactiveFormsModule"],
+            __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_7__subscription_subscription_module__["a" /* SubscriptionModule */]
         ],
-        providers: []
+        declarations: [__WEBPACK_IMPORTED_MODULE_4__register_component__["a" /* RegisterComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_6__register_service__["a" /* RegisterService */]]
     })
-], ReportModule);
+], RegisterModule);
 
-//# sourceMappingURL=report.module.js.map
+//# sourceMappingURL=register.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/auth/register/register.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var RegisterService = (function () {
+    /** Service injection */
+    function RegisterService(http) {
+        this.http = http;
+    }
+    /** Function call for registration */
+    RegisterService.prototype.register = function (body) {
+        var header = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({ 'X-Requested-With': 'XMLHttpRequest' });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__["a" /* environment */].API_URL + 'sign-up', body, { headers: header });
+    };
+    /** Function to validate requested email */
+    RegisterService.prototype.validateEmail = function (body) {
+        var header = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({ 'X-Requested-With': 'XMLHttpRequest' });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__["a" /* environment */].API_URL + 'validate-email', body, { headers: header });
+    };
+    /** Function to list plans */
+    RegisterService.prototype.listPlans = function () {
+        var header = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({ 'X-Requested-With': 'XMLHttpRequest' });
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__["a" /* environment */].API_URL + 'list-plan', { headers: header });
+    };
+    return RegisterService;
+}());
+RegisterService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object])
+], RegisterService);
+
+var _a;
+//# sourceMappingURL=register.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/subscription/subscription.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/subscription/subscription.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<button type=\"button\" (click)=\"handlePayment()\">\n  Add Credits to your Account\n</button>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/subscription/subscription.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__subscription_service__ = __webpack_require__("../../../../../src/app/subscription/subscription.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SubscriptionComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SubscriptionComponent = (function () {
+    function SubscriptionComponent(subscriptionService) {
+        this.subscriptionService = subscriptionService;
+        this.amount = 500;
+    }
+    SubscriptionComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.handler = StripeCheckout.configure({
+            key: __WEBPACK_IMPORTED_MODULE_1__environments_environment_prod__["a" /* environment */].stripeKey,
+            image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+            locale: 'auto',
+            token: function (token) {
+                _this.subscriptionService.processPayment(token, _this.amount);
+            }
+        });
+    };
+    SubscriptionComponent.prototype.handlePayment = function () {
+        this.handler.open({
+            name: 'FireStarter',
+            excerpt: 'Deposit Funds to Account',
+            amount: this.amount
+        });
+    };
+    SubscriptionComponent.prototype.onPopstate = function () {
+        this.handler.close();
+    };
+    return SubscriptionComponent;
+}());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["HostListener"])('window:popstate'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], SubscriptionComponent.prototype, "onPopstate", null);
+SubscriptionComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'app-subscription',
+        template: __webpack_require__("../../../../../src/app/subscription/subscription.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/subscription/subscription.component.css")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__subscription_service__["a" /* SubscriptionService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__subscription_service__["a" /* SubscriptionService */]) === "function" && _a || Object])
+], SubscriptionComponent);
+
+var _a;
+//# sourceMappingURL=subscription.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/subscription/subscription.module.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__subscription_component__ = __webpack_require__("../../../../../src/app/subscription/subscription.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__subscription_service__ = __webpack_require__("../../../../../src/app/subscription/subscription.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SubscriptionModule; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var SubscriptionModule = (function () {
+    function SubscriptionModule() {
+    }
+    return SubscriptionModule;
+}());
+SubscriptionModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
+            __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */]
+        ],
+        exports: [__WEBPACK_IMPORTED_MODULE_3__subscription_component__["a" /* SubscriptionComponent */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_3__subscription_component__["a" /* SubscriptionComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_4__subscription_service__["a" /* SubscriptionService */]]
+    })
+], SubscriptionModule);
+
+//# sourceMappingURL=subscription.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/subscription/subscription.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SubscriptionService; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var SubscriptionService = (function () {
+    /** Injecting services to be used in this component */
+    function SubscriptionService(http, authService) {
+        this.http = http;
+        this.authService = authService;
+        /** Initializing the different headers to be passed with each api call */
+        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({
+            'X-Requested-With': 'XMLHttpRequest'
+        });
+        if (this.authService.isAuthenticated()) {
+            this.refreshHeader();
+        }
+    }
+    /** Refreshing the header for authenticated users */
+    SubscriptionService.prototype.refreshHeader = function () {
+        this.headers.set('Authorization', 'Bearer ' + this.authService.getToken().token);
+    };
+    SubscriptionService.prototype.processPayment = function (token, amount) {
+        var payment = { token: token, amount: amount };
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__["a" /* environment */].API_URL + 'report/all-report', payment, { headers: this.headers });
+    };
+    return SubscriptionService;
+}());
+SubscriptionService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+], SubscriptionService);
+
+var _a, _b;
+//# sourceMappingURL=subscription.service.js.map
 
 /***/ })
 

@@ -1,6 +1,6 @@
 webpackJsonp([8],{
 
-/***/ "../../../../../src/app/province-zone-area-parish/parish/create-parish/create-parish.component.css":
+/***/ "../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "input.ng-invalid.ng-touched {\n    border: 1px solid #a94442;\n}\n\nbutton {\n    margin-top: 15px;\n}\n\n", ""]);
 
 // exports
 
@@ -18,14 +18,14 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/parish/create-parish/create-parish.component.html":
+/***/ "../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">{{ title }}</h3>\n     </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">{{ heading }} Parish</div>\n            <div class=\"panel-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <form\n                        #createParishForm=\"ngForm\"\n                        (submit)=\"onSubmit(createParishForm)\">\n                    <div class=\"row\">\n                        <div class=\"col-md-4\">\n                            <div class=\"form-group\">\n                                <label>Select Province</label>\n                                <select\n                                        #selectedProvince\n                                        name=\"provience_id\"\n                                        [ngModel]=\"parishData.province_id\"\n                                        class=\"form-control\"\n                                        (change)=\"onSelectProvince(selectedProvince.value)\">\n                                    <option value=\"0\" selected>Choose...</option>\n                                    <option\n                                            *ngFor=\"let province of provinceList\"\n                                            [value]=\"province.id\">\n                                        {{province.province_name}}\n                                    </option>\n                                </select>\n                            </div>\n                        </div>\n                        <div class=\"col-md-4\" *ngIf=\"provinceSelected\">\n                            <div class=\"form-group\">\n                                <label>Select Zone</label>\n                                <select\n                                        #selectedZone\n                                        name=\"zone_id\"\n                                        [ngModel]=\"parishData.zone_id\"\n                                        class=\"form-control\"\n                                        [disabled]=\"!provinceList || !provinceSelected\"\n                                        (change)=\"onSelectZone(selectedZone.value)\">\n                                    <option value=\"0\" selected>Choose...</option>\n                                    <option\n                                            *ngFor=\"let zone of zoneList\"\n                                            [value]=\"zone.id\">\n                                        {{zone.zone_name}}\n                                    </option>\n                                </select>\n                            </div>\n\n                        </div>\n                        <div class=\"col-md-4\" *ngIf=\"provinceSelected && zoneSelected\">\n                            <div class=\"form-group\">\n                                <label>Select Area</label>\n                                <select\n                                        #selectedArea\n                                        name=\"area_id\"\n                                        [ngModel]=\"parishData.area_id\"\n                                        class=\"form-control\"\n                                        [disabled]=\"!provinceList|| !zoneList|| !provinceSelected || !zoneSelected\"\n                                        (change)=\"onSelectArea(selectedArea.value)\">\n                                    <option value=\"0\" selected>Choose...</option>\n                                    <option\n                                            *ngFor=\"let area of areaList\"\n                                            [value]=\"area.id\">\n                                        {{area.area_name}}\n                                    </option>\n                                </select>\n                            </div>\n\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pname\">Parish Name</label>\n                                <input\n                                        id=\"pname\"\n                                        class=\"form-control\"\n                                        placeholder=\"Enter...\"\n                                        [disabled]=\"!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected\"\n                                        name=\"parish_name\"\n                                        required\n                                        [ngModel]=\"parishData.parish_name\"\n                                        #parishName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div\n                                    class=\"alert alert-danger\"\n                                    *ngIf=\"parishName.invalid && parishName.touched\">\n                                Parish Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"fname\">Pastor's First Name</label>\n                                <input\n                                        id=\"fname\"\n                                        class=\"form-control\"\n                                        placeholder=\"Enter...\"\n                                        [disabled]=\"!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected\"\n                                        name=\"first_name\"\n                                        required\n                                        [ngModel]=\"parishData.first_name\"\n                                        #firstName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div\n                                    class=\"alert alert-danger\"\n                                    *ngIf=\"firstName.invalid && firstName.touched\">\n                                First Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"lname\">Pastor's Last Name</label>\n                                <input\n                                        id=\"lname\"\n                                        class=\"form-control\"\n                                        placeholder=\"Enter...\"\n                                        [disabled]=\"!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected\"\n                                        name=\"last_name\"\n                                        required\n                                        [ngModel]=\"parishData.last_name\"\n                                        #lastName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div\n                                    class=\"alert alert-danger\"\n                                    *ngIf=\"lastName.invalid && lastName.touched\">\n                                Last Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <button\n                                    class=\"btn btn-primary\"\n                                    [disabled]=\"!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected || ( createParishForm.invalid && createParishForm.touched )\">\n                                <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                                Submit\n                            </button>\n                            <button\n                                    type=\"button\"\n                                    class=\"btn btn-default\"\n                                    (click)=\"onReset(createParishForm)\"\n                            >Reset\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">{{ title }}</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">{{ heading }} Province</div>\n            <div class=\"panel-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <form #createProvinceForm=\"ngForm\" (submit)=\"onSubmit(createProvinceForm)\">\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pname\">Province Name</label>\n                                <input\n                                        id=\"pname\"\n                                        class=\"form-control\"\n                                        name=\"province_name\"\n                                        required\n                                        [ngModel]=\"provinceData.province_name\"\n                                        #provinceName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"provinceName.invalid && provinceName.touched\">\n                                Province Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"fname\">Pastor's First Name</label>\n                                <input\n                                        id=\"fname\"\n                                        class=\"form-control\"\n                                        name=\"first_name\"\n                                        required\n                                        [ngModel]=\"provinceData.first_name\"\n                                        #firstName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"firstName.invalid && firstName.touched\">\n                                First Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"lname\">Pastor's Last Name</label>\n                                <input\n                                        id=\"lname\"\n                                        class=\"form-control\"\n                                        name=\"last_name\"\n                                        required\n                                        [ngModel]=\"provinceData.last_name\"\n                                        #lastName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"lastName.invalid && lastName.touched\">\n                                Last Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <button class=\"btn btn-primary\" [disabled]=\"createProvinceForm.invalid || showLoader\">\n                                <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                                Submit\n                            </button>\n                            <button\n                                    type=\"button\"\n                                    class=\"btn btn-default\"\n                                    [disabled]=\"showLoader\"\n                                    (click)=\"onReset(createProvinceForm)\">Reset\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n\n\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/parish/create-parish/create-parish.component.ts":
+/***/ "../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33,9 +33,8 @@ module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CreateParishComponent; });
-///<reference path="../../../../../node_modules/@angular/core/src/metadata/directives.d.ts"/>
-/** Component to create and edit Parish */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CreateProvinceComponent; });
+/** Component to handle create and edit Province */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -49,205 +48,63 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var CreateParishComponent = (function () {
+var CreateProvinceComponent = (function () {
     /** Injecting services to be used in this component */
-    function CreateParishComponent(pzapService, authService, activatedRoute, router) {
+    function CreateProvinceComponent(pzapService, authService, activatedRoute, router) {
         this.pzapService = pzapService;
         this.authService = authService;
         this.activatedRoute = activatedRoute;
         this.router = router;
-        this.parishId = 0;
-        this.editMode = false;
-        this.parishData = {
+        this.editMode = false; // Initializing edit mode for this component
+        this.provinceData = {
             id: 0,
             user_id: 0,
             parish_id: 0,
             first_name: '',
             last_name: '',
             password: '',
-            zone_id: 0,
-            area_id: 0,
-            province_id: 0,
-            zone_name: '',
-            area_name: '',
-            parish_name: '',
             province_name: ''
         };
-        this.default = {
-            province: 0,
-            zone: 0,
-            area: 0
-        };
-        this.provinceList = [];
-        this.zoneList = [];
-        this.areaList = [];
+        this.showLoader = false;
+        this.responseStatus = false;
         this.responseReceived = false;
         this.responseMsg = '';
         this.heading = 'Create New';
-        this.title = 'Parish - Create';
-        this.showLoader = false;
-        this.responseStatus = false;
+        this.title = 'Province - Create';
     }
-    CreateParishComponent.prototype.ngOnInit = function () {
+    CreateProvinceComponent.prototype.ngOnInit = function () {
         var _this = this;
-        /** Service call to get list of all available province */
-        this.pzapService.listProvince()
-            .subscribe(function (response) {
-            _this.responseStatus = response.json().status;
-            if (response.json().status) {
-                _this.provinceList = response.json().provinces;
-            }
-            else {
-                _this.provinceList = [];
-                _this.responseMsg = response.json().message;
-            }
-            /** Checking route params to get present mode */
-            _this.activatedRoute.data.subscribe(function (data) {
-                _this.editMode = data['editMode'];
-                /** Perform operation is present mode is edit mode */
-                if (_this.editMode) {
-                    _this.provinceSelected = true;
-                    _this.zoneSelected = true;
-                    _this.areaSelected = true;
-                    _this.heading = 'Update';
-                    _this.title = 'Parish - Update';
-                    /** Checking route params to get id of area to edit */
-                    _this.activatedRoute.params.subscribe(function (params) {
-                        _this.parishId = params['id'];
-                        _this.pzapService.parishToEdit(_this.parishId)
-                            .subscribe(function (response) {
-                            _this.parishData = response.json().parish;
-                            _this.pzapService.filterZone({ province_id: _this.parishData.province_id })
-                                .subscribe(function (response) {
-                                _this.zoneList = response.json().zones;
-                                _this.pzapService.filterArea({ zone_id: _this.parishData.zone_id })
-                                    .subscribe(function (response) {
-                                    _this.areaList = response.json().areas;
-                                });
-                            }, function (error) {
-                                if (error.status === 401) {
-                                    _this.authService.removeToken();
-                                    _this.router.navigate(['/login']);
-                                }
-                            });
-                        });
-                    }, function (error) {
-                        if (error.status === 401) {
-                            _this.authService.removeToken();
-                            _this.router.navigate(['/login']);
-                        }
-                    }, function () { });
-                }
-                else {
-                    _this.provinceSelected = false;
-                    _this.zoneSelected = false;
-                    _this.areaSelected = false;
+        /** Checking route params to get present mode */
+        this.activatedRoute.data.subscribe(function (data) {
+            _this.editMode = data['editMode'];
+        });
+        /** Perform operation is present mode is edit mode */
+        if (this.editMode) {
+            this.title = 'Province - Update';
+            this.heading = 'Update';
+            /** Checking route params to get id of province to edit */
+            this.activatedRoute.params.subscribe(function (params) {
+                _this.provinceId = params['id'];
+                _this.pzapService.provinceToEdit(_this.provinceId)
+                    .subscribe(function (response) {
+                    _this.provinceData = response.json().provinces;
+                });
+            }, function (error) {
+                if (error.status === 401) {
+                    _this.authService.removeToken();
+                    _this.router.navigate(['/login']);
                 }
             });
-        }, function (error) {
-            if (error.status === 401) {
-                _this.authService.removeToken();
-                _this.router.navigate(['/login']);
-            }
-            _this.responseStatus = false;
-            _this.responseReceived = true;
-            _this.provinceList = [];
-            _this.responseMsg = error.json().error;
-        });
-    };
-    /** Function call when province selected */
-    CreateParishComponent.prototype.onSelectProvince = function (id) {
-        var _this = this;
-        if (id > 0) {
-            this.zoneSelected = false;
-            this.areaSelected = false;
-            if (id > 0) {
-                this.provinceId = id;
-                this.provinceSelected = true;
-                this.pzapService.filterZone({ province_id: id })
-                    .subscribe(function (response) {
-                    _this.responseStatus = response.json().status;
-                    if (response.json().status) {
-                        _this.zoneList = response.json().zones;
-                        _this.areaList = [];
-                    }
-                    else {
-                        _this.zoneList = [];
-                        _this.areaList = [];
-                        _this.responseMsg = response.json().message;
-                    }
-                }, function (error) {
-                    if (error.status === 401) {
-                        _this.authService.removeToken();
-                        _this.router.navigate(['/login']);
-                    }
-                    _this.responseStatus = false;
-                    _this.responseReceived = true;
-                    _this.zoneList = [];
-                    _this.areaList = [];
-                    _this.responseMsg = error.json().error;
-                });
-            }
-            else {
-                this.provinceSelected = false;
-            }
-        }
-    };
-    /** Function call when zone selected */
-    CreateParishComponent.prototype.onSelectZone = function (id) {
-        var _this = this;
-        if (id > 0) {
-            this.areaSelected = false;
-            if (id > 0) {
-                this.zoneId = id;
-                this.zoneSelected = true;
-                // const body = {
-                // 	provience_id: this.provinceId,
-                // 	zone_id: id
-                // };
-                this.pzapService.filterArea({ zone_id: id })
-                    .subscribe(function (response) {
-                    _this.responseStatus = response.json().status;
-                    if (response.json().status) {
-                        _this.areaList = response.json().areas;
-                    }
-                    else {
-                        _this.areaList = [];
-                        _this.responseMsg = response.json().message;
-                    }
-                }, function (error) {
-                    if (error.status === 401) {
-                        _this.authService.removeToken();
-                        _this.router.navigate(['/login']);
-                    }
-                    _this.responseStatus = false;
-                    _this.responseReceived = true;
-                    _this.zoneList = [];
-                    _this.responseMsg = error.json().error;
-                });
-            }
-            else {
-                this.zoneSelected = false;
-            }
-        }
-    };
-    /** Function call when area selected */
-    CreateParishComponent.prototype.onSelectArea = function (id) {
-        if (id > 0) {
-            this.areaSelected = true;
-        }
-        else {
-            this.areaSelected = false;
         }
     };
     /** Function call when form is submitted */
-    CreateParishComponent.prototype.onSubmit = function (createParishForm) {
+    CreateProvinceComponent.prototype.onSubmit = function (createProvinceForm) {
         var _this = this;
         this.showLoader = true;
         if (this.editMode) {
-            var area_id = this.parishData.id;
-            var pastor_id = this.parishData.user_id;
-            this.pzapService.editParish(area_id, pastor_id, createParishForm.value)
+            var province_id = this.provinceData.id;
+            var pastor_id = this.provinceData.user_id;
+            this.pzapService.editProvince(province_id, pastor_id, createProvinceForm.value)
                 .subscribe(function (response) {
                 _this.showLoader = false;
                 _this.responseStatus = response.json().status;
@@ -270,7 +127,7 @@ var CreateParishComponent = (function () {
                     _this.responseReceived = false;
                 }, 3000);
             }, function () {
-                //createAreaForm.reset();
+                //createProvinceForm.reset();
                 _this.responseReceived = true;
                 setTimeout(function () {
                     _this.responseReceived = false;
@@ -278,15 +135,15 @@ var CreateParishComponent = (function () {
             });
         }
         else {
-            this.pzapService.createParish(createParishForm.value)
+            this.pzapService.createProvince(createProvinceForm.value)
                 .subscribe(function (response) {
                 _this.showLoader = false;
+                _this.responseStatus = response.json().status;
                 if (response.json().status) {
-                    _this.responseStatus = true;
                     _this.responseMsg = response.json().message;
                 }
                 else {
-                    _this.responseStatus = false;
+                    _this.responseMsg = '';
                 }
             }, function (error) {
                 if (error.status === 401) {
@@ -301,10 +158,8 @@ var CreateParishComponent = (function () {
                     _this.responseReceived = false;
                 }, 3000);
             }, function () {
+                createProvinceForm.reset();
                 _this.responseReceived = true;
-                createParishForm.reset();
-                _this.provinceSelected = false;
-                _this.zoneSelected = false;
                 setTimeout(function () {
                     _this.responseReceived = false;
                 }, 3000);
@@ -312,25 +167,16 @@ var CreateParishComponent = (function () {
         }
     };
     /** Function call to reset form */
-    CreateParishComponent.prototype.onReset = function (createParishForm) {
+    CreateProvinceComponent.prototype.onReset = function (createProvinceForm) {
         var _this = this;
         if (this.editMode) {
-            this.pzapService.parishToEdit(this.parishId)
+            this.pzapService.provinceToEdit(this.provinceId)
                 .subscribe(function (response) {
-                _this.provinceSelected = true;
-                _this.parishData = response.json().parish;
-                _this.onSelectProvince(_this.parishData.province_id);
-                _this.onSelectZone(_this.parishData.zone_id);
-                _this.zoneSelected = true;
-                _this.onSelectArea(_this.parishData.area_id);
-                _this.areaSelected = true;
-                createParishForm.form.patchValue({
-                    first_name: _this.parishData.first_name,
-                    last_name: _this.parishData.last_name,
-                    province_id: _this.parishData.province_id,
-                    zone_id: _this.parishData.zone_id,
-                    area_id: _this.parishData.area_id,
-                    parish_name: _this.parishData.parish_name
+                _this.provinceData = response.json().provinces;
+                createProvinceForm.form.patchValue({
+                    first_name: _this.provinceData.first_name,
+                    last_name: _this.provinceData.last_name,
+                    province_name: _this.provinceData.province_name
                 });
             }, function (error) {
                 if (error.status === 401) {
@@ -340,34 +186,26 @@ var CreateParishComponent = (function () {
             });
         }
         else {
-            createParishForm.reset();
-            this.provinceSelected = false;
-            this.zoneSelected = false;
-            this.areaSelected = false;
-            createParishForm.form.patchValue({
-                province_id: 0,
-                zone_id: 0,
-                area_is: 0
-            });
+            createProvinceForm.reset();
         }
     };
-    return CreateParishComponent;
+    return CreateProvinceComponent;
 }());
-CreateParishComponent = __decorate([
+CreateProvinceComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
-        selector: 'app-create-parish',
-        template: __webpack_require__("../../../../../src/app/province-zone-area-parish/parish/create-parish/create-parish.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/province-zone-area-parish/parish/create-parish/create-parish.component.css")]
+        selector: 'app-create-province',
+        template: __webpack_require__("../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _d || Object])
-], CreateParishComponent);
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */]) === "function" && _d || Object])
+], CreateProvinceComponent);
 
 var _a, _b, _c, _d;
-//# sourceMappingURL=create-parish.component.js.map
+//# sourceMappingURL=create-province.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/parish/list-parish/list-parish.component.css":
+/***/ "../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -385,14 +223,14 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/parish/list-parish/list-parish.component.html":
+/***/ "../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Parish - List</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                Parish List\n            </div>\n            <div class=\"panel-body overflowFix\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"row\">\n                    <div class=\"col-md-3\">\n                        <p></p>\n                        <button (click)=\"onResetFilters()\">Reset Filter</button>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <label>Filter Province:</label>\n                        <select\n                                #selectedProvince\n                                name=\"province_id\"\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionProvince\"\n                                (change)=\"onSelectProvince(selectedProvince.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let province of provinceList\"\n                                    [value]=\"province.id\">\n                                {{ province.province_name }}\n                            </option>\n                        </select>\n\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <label>Filter Zone:</label>\n                        <select\n                                #selectedZone\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionZone\"\n                                (change)=\"onSelectZone(selectedZone.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let zone of zoneList\"\n                                    [value]=\"zone.id\">\n                                {{zone.zone_name}}\n                            </option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <label>Filter Area:</label>\n                        <select\n                                #selectedArea\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionArea\"\n                                (change)=\"onSelectArea(selectedArea.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let area of areaList\"\n                                    [value]=\"area.id\">\n                                {{area.area_name}}\n                            </option>\n                        </select>\n                    </div>\n\n                </div>\n                <div class=\"table-responsive\">\n                    <table class=\"table table-hover table-condensed\">\n                        <thead>\n                        <tr>\n                            <th>Parish Name</th>\n                            <th>First Name</th>\n                            <th>Last Name</th>\n                            <th>Province/Zone/Area</th>\n                            <th>Username</th>\n                            <th>Password</th>\n                            <th>Actions</th>\n                        </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let parish of parishList\">\n                                <td>{{ parish.parish_name }}</td>\n                                <td>{{ parish.first_name }}</td>\n                                <td>{{ parish.last_name }}</td>\n                                <td>{{ parish.province_name }}&nbsp;=>&nbsp;{{ parish.zone_name }}&nbsp;=>&nbsp;{{\n                                    parish.area_name }}\n                                </td>\n                                <td>{{ parish.parish_id }}</td>\n                                <td>{{ parish.password}}</td>\n                                <td>\n                                <button\n                                        class=\"btn btn-warning btn-xs\"\n                                        type=\"button\"\n                                        (click)=\"onEdit(parish)\">\n                                    <i class=\"fa fa-pencil fa-fw\"></i>\n                                </button>\n                                <button\n                                        class=\"btn btn-danger btn-xs\"\n                                        type=\"button\"\n                                        (click)=\"showPrompt(parish)\">\n                                    <i class=\"fa fa-trash fa-fw\"></i>\n                                </button>\n                            </td>\n                        </tr>\n                        <tr *ngIf=\"!parishList\">\n                            {{responseNoRecord}}\n                        </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div><!--/.row-->\n\n<app-prompt\n        *ngIf=\"showDeletePrompt\"\n        [calledFrom]=\"'Parish'\"\n        [itemInfo]=\"toDeleteParish\"\n></app-prompt>"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Province - List</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                List Provinces\n            </div>\n            <div class=\"panel-body overflowFix\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"table-responsive\">\n                    <table class=\"table table-hover table-condensed\">\n                        <thead>\n                            <tr>\n                                <th>First Name</th>\n                                <th>Last Name</th>\n                                <th>Province</th>\n                                <th>Username</th>\n                                <th>Password</th>\n                                <th>Actions</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let province of provinceList\">\n                                <td>{{ province.first_name }}</td>\n                                <td>{{ province.last_name }}</td>\n                                <td>{{ province.province_name }}</td>\n                                <td>{{ province.parish_id }}</td>\n                                <td>{{ province.password}}</td>\n                                <td>\n                                    <button\n                                            class=\"btn btn-warning btn-xs\"\n                                            type=\"button\"\n                                            (click)=\"onEdit(province)\"\n                                    >\n                                        <i class=\"fa fa-pencil fa-fw\"></i>\n                                    </button>\n                                    <button\n                                            class=\"btn btn-danger btn-xs\"\n                                            type=\"button\"\n                                            (click)=\"showPrompt(province)\">\n                                        <i class=\"fa fa-trash fa-fw\"></i>\n                                    </button>\n                                </td>\n                            </tr>\n                            <tr *ngIf=\"!provinceList\" colspan=\"6\">\n                                <td>{{ responseNoRecord }}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div><!--/.row-->\n\n<app-prompt\n        *ngIf=\"showDeletePrompt\"\n        [calledFrom]=\"'Province'\"\n        [itemInfo]=\"toDeleteProvince\"\n></app-prompt>"
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/parish/list-parish/list-parish.component.ts":
+/***/ "../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -400,8 +238,8 @@ module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListParishComponent; });
-/** Component to list and filter Parish */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListProvinceComponent; });
+/** Component to handle list of Provice */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -415,39 +253,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ListParishComponent = (function () {
+var ListProvinceComponent = (function () {
     /** Injecting services to be used in this component */
-    function ListParishComponent(router, pzapService, authService) {
-        this.router = router;
+    function ListProvinceComponent(pzapService, router, authService) {
         this.pzapService = pzapService;
+        this.router = router;
         this.authService = authService;
         this.responseMsg = '';
-        this.responseNoRecord = '';
         this.responseStatus = false;
+        this.responseNoRecord = '';
         this.responseReceived = false;
         this.showDeletePrompt = false;
-        this.zoneSelected = false;
-        this.areaSelected = false;
-        this.provinceSelected = false;
-        this.selectionProvince = 0;
-        this.selectionZone = 0;
-        this.selectionArea = 0;
     }
-    ListParishComponent.prototype.ngOnInit = function () {
+    ListProvinceComponent.prototype.ngOnInit = function () {
         var _this = this;
-        /** Subscribe to event to refresh parish list */
-        this.refreshParishListSubscription = this.pzapService.refreshList
-            .subscribe(function (body) {
-            _this.pzapService.filterParish(body).subscribe(function (response) {
+        /** Subscribe to event to refresh province list */
+        this.refreshProvinceListSubscription = this.pzapService.refreshList
+            .subscribe(function () {
+            _this.pzapService.listProvince().subscribe(function (response) {
                 _this.responseStatus = response.json().status;
                 if (response.json().status) {
-                    _this.parishList = response.json().parishes;
+                    _this.provinceList = response.json().provinces;
                     _this.responseNoRecord = response.json().noData;
                 }
                 else {
-                    _this.parishList = [];
-                    _this.selectionProvince = null;
-                    _this.selectionZone = null;
+                    _this.provinceList = [];
                     _this.responseMsg = response.json().message;
                     _this.responseNoRecord = response.json().noData;
                 }
@@ -458,30 +288,30 @@ var ListParishComponent = (function () {
                 }
                 _this.responseStatus = false;
                 _this.responseReceived = true;
-                _this.parishList = [];
+                _this.provinceList = [];
                 _this.responseMsg = error.json().error;
             });
         });
-        /** Emitting event which will refresh the parish list */
-        this.pzapService.refreshList.next({});
+        /** Emitting event which will refresh the province list */
+        this.pzapService.refreshList.next();
         /** Subscribe to event to close the delete prompt */
         this.closePromptEventSubscription = this.pzapService.closePromptEvent
             .subscribe(function () {
             _this.showDeletePrompt = false;
         });
-        /** Subscribe to event to delete an parish */
-        this.deleteParishEventSubscription = this.pzapService.deleteEvent
+        /** Subscribe to event to delete a province */
+        this.deleteProvinceEventSubscription = this.pzapService.deleteEvent
             .subscribe(function (id) {
             _this.showDeletePrompt = false;
-            _this.pzapService.deleteParish(id).subscribe(function (response) {
+            _this.pzapService.deleteProvince(id).subscribe(function (response) {
                 _this.responseReceived = true;
                 _this.responseStatus = response.json().status;
                 if (response.json().status) {
                     _this.responseMsg = response.json().message;
-                    _this.pzapService.refreshList.next({});
+                    _this.pzapService.refreshList.next();
                 }
                 else {
-                    _this.areaList = [];
+                    _this.provinceList = [];
                     _this.responseMsg = response.json().message;
                 }
                 setTimeout(function () {
@@ -494,285 +324,55 @@ var ListParishComponent = (function () {
                 }
                 _this.responseStatus = false;
                 _this.responseReceived = true;
-                _this.areaList = [];
+                _this.provinceList = [];
                 _this.responseMsg = error.json().error;
                 setTimeout(function () {
                     _this.responseReceived = false;
                 }, 3000);
             });
         });
-        /** Service call to get list of all available province */
-        this.pzapService.listProvince()
-            .subscribe(function (response) {
-            _this.responseStatus = response.json().status;
-            if (response.json().status) {
-                _this.provinceList = response.json().provinces;
-            }
-            else {
-                _this.provinceList = [];
-                _this.responseMsg = response.json().message;
-            }
-        }, function (error) {
-            if (error.status === 401) {
-                _this.authService.removeToken();
-                _this.router.navigate(['/login']);
-            }
-            _this.responseStatus = false;
-            _this.responseReceived = true;
-            _this.provinceList = [];
-            _this.responseMsg = error.json().error;
-        });
-        /** Service call to get list of all available zones */
-        this.pzapService.filterZone({})
-            .subscribe(function (response) {
-            _this.responseStatus = response.json().status;
-            if (response.json().status) {
-                _this.zoneList = response.json().zones;
-            }
-            else {
-                _this.zoneList = [];
-                _this.responseMsg = response.json().message;
-            }
-        }, function (error) {
-            if (error.status === 401) {
-                _this.authService.removeToken();
-                _this.router.navigate(['/login']);
-            }
-            _this.responseStatus = false;
-            _this.responseReceived = true;
-            _this.zoneList = [];
-            _this.responseMsg = error.json().error;
-        });
-        /** Service call to get list of all available areas */
-        this.pzapService.filterArea({})
-            .subscribe(function (response) {
-            _this.responseStatus = response.json().status;
-            if (response.json().status) {
-                _this.areaList = response.json().areas;
-            }
-            else {
-                _this.areaList = [];
-                _this.responseMsg = response.json().message;
-            }
-        }, function (error) {
-            if (error.status === 401) {
-                _this.authService.removeToken();
-                _this.router.navigate(['/login']);
-            }
-            _this.responseStatus = false;
-            _this.responseReceived = true;
-            _this.areaList = [];
-            _this.responseMsg = error.json().error;
-        });
-    };
-    /** Function to reset all filter value and reset list */
-    ListParishComponent.prototype.onResetFilters = function () {
-        this.selectionProvince = null;
-        this.selectionZone = null;
-        this.selectionArea = null;
-        this.pzapService.refreshList.next({});
     };
     /** Function call on update button click */
-    ListParishComponent.prototype.onEdit = function (obj) {
-        var parish_id = obj.id;
-        this.router.navigate(['parish/edit/', parish_id]);
+    ListProvinceComponent.prototype.onEdit = function (obj) {
+        var province_id = obj.id;
+        this.router.navigate(['province/edit/', province_id]);
     };
     /** Function call to show delete prompt */
-    ListParishComponent.prototype.showPrompt = function (obj) {
+    ListProvinceComponent.prototype.showPrompt = function (obj) {
         this.showDeletePrompt = true;
-        this.toDeleteParish = obj;
+        this.toDeleteProvince = obj;
     };
-    /** Function call on selection of province from filters */
-    ListParishComponent.prototype.onSelectProvince = function (id) {
-        var _this = this;
-        if (id > 0) {
-            this.provID = id;
-            this.pzapService.refreshList.next({ province_id: id });
-            this.pzapService.filterZone({ province_id: id })
-                .subscribe(function (response) {
-                _this.responseStatus = response.json().status;
-                if (response.json().status) {
-                    if (response.json().zones != undefined) {
-                        _this.zoneList = response.json().zones;
-                        _this.selectionArea = null;
-                        if (_this.zoneList != undefined && _this.zoneList.length == 1) {
-                            _this.selectionZone = _this.zoneList[0]['id'];
-                            _this.onSelectZone(_this.zoneList[0]['id']);
-                        }
-                        else {
-                            _this.selectionZone = 0;
-                            _this.pzapService.filterArea({ province_id: id })
-                                .subscribe(function (response) {
-                                _this.responseStatus = response.json().status;
-                                if (response.json().status) {
-                                    if (response.json().areas != undefined) {
-                                        _this.areaList = response.json().areas;
-                                        _this.selectionArea = 0;
-                                    }
-                                }
-                                else {
-                                    _this.responseMsg = '';
-                                }
-                            }, function (error) {
-                                if (error.status === 401) {
-                                    _this.authService.removeToken();
-                                    _this.router.navigate(['/login']);
-                                }
-                                _this.responseStatus = false;
-                                _this.responseReceived = true;
-                                _this.zoneList = [];
-                                _this.areaList = [];
-                            });
-                        }
-                    }
-                    else {
-                        _this.responseStatus = false;
-                        _this.zoneList = [];
-                        _this.areaList = [];
-                        _this.responseMsg = response.json().message;
-                        _this.selectionZone = 0;
-                        _this.selectionArea = 0;
-                    }
-                }
-                else {
-                    _this.zoneList = [];
-                    _this.areaList = [];
-                    _this.responseMsg = response.json().message;
-                    _this.selectionZone = 0;
-                    _this.selectionArea = 0;
-                }
-            }, function (error) {
-                if (error.status === 401) {
-                    _this.authService.removeToken();
-                    _this.router.navigate(['/login']);
-                }
-                _this.responseStatus = false;
-                _this.responseReceived = true;
-                _this.zoneList = [];
-                _this.responseMsg = error.json().error;
-            });
-        }
-        else {
-            this.responseStatus = false;
-            this.selectionProvince = null;
-            this.selectionZone = null;
-            this.selectionArea = null;
-            this.provID = id;
-            this.pzapService.refreshList.next({});
-        }
-    };
-    /** Function call on selection of zone from filters */
-    ListParishComponent.prototype.onSelectZone = function (id) {
-        var _this = this;
-        if (id > 0) {
-            this.zoneSelected = true;
-            this.zoneID = id;
-            this.pzapService.refreshList.next({ zone_id: id });
-            this.pzapService.filterArea({ zone_id: id })
-                .subscribe(function (response) {
-                _this.responseStatus = response.json().status;
-                if (response.json().status) {
-                    _this.areaList = response.json().areas;
-                    _this.selectionArea = null;
-                    if (_this.areaList != undefined && _this.areaList.length == 1) {
-                        _this.selectionArea = _this.areaList[0]['id'];
-                        _this.selectionProvince = _this.areaList[0]['province_id'];
-                    }
-                    else {
-                        if (_this.areaList != undefined) {
-                            _this.selectionProvince = _this.areaList[0]['province_id'];
-                        }
-                        _this.selectionArea = null;
-                    }
-                }
-                else {
-                    _this.selectionArea = null;
-                    _this.areaList = [];
-                    _this.responseMsg = response.json().message;
-                }
-            }, function (error) {
-                if (error.status === 401) {
-                    _this.authService.removeToken();
-                    _this.router.navigate(['/login']);
-                }
-                _this.responseStatus = false;
-                _this.responseReceived = true;
-                _this.areaList = [];
-                _this.responseMsg = error.json().error;
-            });
-        }
-        else {
-            this.responseStatus = false;
-            this.selectionProvince = 0;
-            this.selectionZone = 0;
-            this.selectionArea = 0;
-            this.provID = id;
-            this.pzapService.refreshList.next({});
-        }
-    };
-    /** Function call on selection of area from filters */
-    ListParishComponent.prototype.onSelectArea = function (id) {
-        var _this = this;
-        if (id > 0) {
-            this.areaSelected = true;
-            this.pzapService.refreshList.next({ area_id: id });
-            /** get province and area id **/
-            this.pzapService.filterParish({ area_id: id }).subscribe(function (response) {
-                if (response.json().status) {
-                    if (response.json().parishes != undefined) {
-                        _this.selectionProvince = response.json().parishes[0]['province_id'];
-                        _this.selectionZone = response.json().parishes[0]['zone_id'];
-                    }
-                }
-                else {
-                    _this.selectionProvince = null;
-                    _this.selectionZone = null;
-                }
-            }, function (error) {
-                if (error.status === 401) {
-                    _this.authService.removeToken();
-                    _this.router.navigate(['/login']);
-                }
-                _this.selectionProvince = null;
-                _this.selectionZone = null;
-            });
-        }
-        else {
-            this.areaSelected = false;
-            this.pzapService.refreshList.next({ zone_id: this.zoneID });
-        }
-    };
-    /** Un-subscribing from all custom made events when component is destroyed */
-    ListParishComponent.prototype.ngOnDestroy = function () {
-        this.refreshParishListSubscription.unsubscribe();
+    /** Unsubscribing from all custom made events when component is destroyed */
+    ListProvinceComponent.prototype.ngOnDestroy = function () {
+        this.refreshProvinceListSubscription.unsubscribe();
         this.closePromptEventSubscription.unsubscribe();
-        this.deleteParishEventSubscription.unsubscribe();
+        this.deleteProvinceEventSubscription.unsubscribe();
     };
-    return ListParishComponent;
+    return ListProvinceComponent;
 }());
-ListParishComponent = __decorate([
+ListProvinceComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        selector: 'app-list-parish',
-        template: __webpack_require__("../../../../../src/app/province-zone-area-parish/parish/list-parish/list-parish.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/province-zone-area-parish/parish/list-parish/list-parish.component.css")]
+        selector: 'app-list-province',
+        template: __webpack_require__("../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _c || Object])
-], ListParishComponent);
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _c || Object])
+], ListProvinceComponent);
 
 var _a, _b, _c;
-//# sourceMappingURL=list-parish.component.js.map
+//# sourceMappingURL=list-province.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/parish/parish-routing.module.ts":
+/***/ "../../../../../src/app/province-zone-area-parish/province/province-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create_parish_create_parish_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/parish/create-parish/create-parish.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__list_parish_list_parish_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/parish/list-parish/list-parish.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ParishRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create_province_create_province_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__list_province_list_province_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProvinceRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -783,28 +383,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var parishPoutes = [
-    { path: 'create', component: __WEBPACK_IMPORTED_MODULE_2__create_parish_create_parish_component__["a" /* CreateParishComponent */], data: { editMode: false } },
-    { path: 'list', component: __WEBPACK_IMPORTED_MODULE_3__list_parish_list_parish_component__["a" /* ListParishComponent */] },
-    { path: 'edit/:id', component: __WEBPACK_IMPORTED_MODULE_2__create_parish_create_parish_component__["a" /* CreateParishComponent */], data: { editMode: true } }
+var provinceRoutes = [
+    { path: 'create', component: __WEBPACK_IMPORTED_MODULE_2__create_province_create_province_component__["a" /* CreateProvinceComponent */], data: { editMode: false } },
+    { path: 'list', component: __WEBPACK_IMPORTED_MODULE_3__list_province_list_province_component__["a" /* ListProvinceComponent */] },
+    { path: 'edit/:id', component: __WEBPACK_IMPORTED_MODULE_2__create_province_create_province_component__["a" /* CreateProvinceComponent */], data: { editMode: true } }
 ];
-var ParishRoutingModule = (function () {
-    function ParishRoutingModule() {
+var ProvinceRoutingModule = (function () {
+    function ProvinceRoutingModule() {
     }
-    return ParishRoutingModule;
+    return ProvinceRoutingModule;
 }());
-ParishRoutingModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(parishPoutes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
+ProvinceRoutingModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* RouterModule */].forChild(provinceRoutes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* RouterModule */]]
     })
-], ParishRoutingModule);
+], ProvinceRoutingModule);
 
-//# sourceMappingURL=parish-routing.module.js.map
+//# sourceMappingURL=province-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/parish/parish.module.ts":
+/***/ "../../../../../src/app/province-zone-area-parish/province/province.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -812,11 +412,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__create_parish_create_parish_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/parish/create-parish/create-parish.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__list_parish_list_parish_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/parish/list-parish/list-parish.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__parish_routing_module__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/parish/parish-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__create_province_create_province_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__list_province_list_province_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__province_routing_module__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/province-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ParishModule", function() { return ParishModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProvinceModule", function() { return ProvinceModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -830,28 +430,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ParishModule = (function () {
-    function ParishModule() {
+var ProvinceModule = (function () {
+    function ProvinceModule() {
     }
-    return ParishModule;
+    return ProvinceModule;
 }());
-ParishModule = __decorate([
+ProvinceModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_3__create_parish_create_parish_component__["a" /* CreateParishComponent */],
-            __WEBPACK_IMPORTED_MODULE_4__list_parish_list_parish_component__["a" /* ListParishComponent */]
+            __WEBPACK_IMPORTED_MODULE_3__create_province_create_province_component__["a" /* CreateProvinceComponent */],
+            __WEBPACK_IMPORTED_MODULE_4__list_province_list_province_component__["a" /* ListProvinceComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
-            __WEBPACK_IMPORTED_MODULE_5__parish_routing_module__["a" /* ParishRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_5__province_routing_module__["a" /* ProvinceRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_6__shared_shared_module__["a" /* SharedModule */]
         ],
-        providers: []
+        providers: [],
+        exports: [],
     })
-], ParishModule);
+], ProvinceModule);
 
-//# sourceMappingURL=parish.module.js.map
+//# sourceMappingURL=province.module.js.map
 
 /***/ })
 

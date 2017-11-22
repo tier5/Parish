@@ -1,4 +1,4 @@
-webpackJsonp([17],{
+webpackJsonp([20],{
 
 /***/ "../../../../../src/assets/fonts/fontawesome-webfont.eot":
 /***/ (function(module, exports, __webpack_require__) {
@@ -140,7 +140,7 @@ exports.i(__webpack_require__("../../../../css-loader/index.js?{\"sourceMap\":fa
 exports.i(__webpack_require__("../../../../css-loader/index.js?{\"sourceMap\":false,\"importLoaders\":1}!../../../../postcss-loader/index.js?{\"ident\":\"postcss\"}!../../../../../src/assets/css/font-awesome.min.css"), "");
 
 // module
-exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\n.datepicker table{\n  width: 100% !important;\n}\n\ntable tr td, table th{\n  font-size:1.2rem !important;\n}\n\n.sidebar ul.nav ul.children li a.active {\n  color: #ececec !important;\n}\n\n.todo-list-item{\n  list-style: none;\n}\n.text-white{\n  color:white !important;\n}\n", ""]);
+exports.push([module.i, "/* You can add global styles to this file, and also import other style files */\n\n.datepicker table{\n  \twidth: 100% !important;\n}\n\ntable tr td, table th{\n  \tfont-size:1.2rem !important;\n}\n\n.sidebar ul.nav ul.children li a.active {\n  \tcolor: #ececec !important;\n}\n\n.todo-list-item{\n  \tlist-style: none;\n}\n.text-white{\n  \tcolor:white !important;\n}\nbody{\n  \tbackground: #215c7e;\n}\nh3.page-header{\n  \tcolor: #fff;\n}\n.breadcrumb {\n\tbackground: none !important;\n\tbox-shadow: none !important;\n}\n.breadcrumb a{\n    color: #fff !important;\n}", ""]);
 
 // exports
 

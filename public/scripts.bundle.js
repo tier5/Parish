@@ -1,4 +1,4 @@
-webpackJsonp([18],{
+webpackJsonp([21],{
 
 /***/ "../../../../raw-loader/index.js!../../../../source-map-loader/index.js!../../../../../src/assets/js/Chart.min.js":
 /***/ (function(module, exports) {
@@ -36,17 +36,10 @@ module.exports = "/*! jQuery v1.11.1 | (c) 2005, 2014 jQuery Foundation, Inc. | 
 	Author Tobias Koppers @sokra
 */
 module.exports = function(src) {
-	try {
-		if (typeof eval !== "undefined") {
-			eval.call(null, src);
-		} else if (typeof execScript !== "undefined") {
-			execScript(src);
-		} else {
-			console.error("[Script Loader] EvalError: No eval function available");
-		}
-	} catch (error) {
-		console.error("[Script Loader] ", error.message);
-	}
+	if (typeof execScript !== "undefined")
+		execScript(src);
+	else
+		eval.call(null, src);
 }
 
 

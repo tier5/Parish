@@ -53,6 +53,10 @@ class Zone extends Model
         return $this->belongsTo('App\Models\User','user_id');
     }
 
+    public function parishes() {
+        return $this->hasManyThrough('App\Models\Parish', 'App\Models\Area');
+    }
+
     /**
      * Delete functionality bewteen related models
      */

@@ -8,7 +8,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".progress {\n    margin-bottom: 0;\n}\n.upload_file{\n    display: inline-block;\n    margin-left: 10px;\n    margin-bottom: 10px;\n}", ""]);
+exports.push([module.i, ".progress {\n    margin-bottom: 0;\n}\n.upload_file{\n    display: inline-block;\n    margin-left: 10px;\n    margin-bottom: 10px;\n}\n.resetfilter {\n    float: right;\n}", ""]);
 
 // exports
 
@@ -21,7 +21,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/payment-details/list-payment/list-payment.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Payment - List</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                List Payment\n            </div>\n            <div class=\"panel-body overflowFix\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"table-responsive\">\n                    <table class=\"table table-hover table-condensed\">\n                        <thead>\n                        <tr>\n                            <th>Serial</th>\n                            <th>Description</th>\n                            <th>Payment Date</th>\n                            <th>File</th>\n                            <th>Status</th>\n                            <th>Actions</th>\n                        </tr>\n                        </thead>\n                        <tbody>\n                        <tr *ngFor=\"let payment of paymentDetails\">\n                            <td>{{ payment.id }}</td>\n                            <td>{{ payment.payment_description }}</td>\n                            <td>{{ payment.upload_month }} / {{ payment.upload_year }}</td>\n                            <td>{{ payment.file_name }}</td>\n                            <td>{{ payment.pay_status }}\n\n                            </td>\n                            <td>\n                                <!-- Appear Only in Admin Section -->\n                                <span *ngIf=\"payment.hold\">\n                                    <button\n                                            class=\"btn btn-warning btn-xs\"\n                                            type=\"button\" *ngIf=\"isAdmin\" (click)=\"OnChangeStatus(payment,0)\"> Accept\n                                    </button>\n                                    <button\n                                            class=\"btn btn-warning btn-xs\"\n                                            type=\"button\" *ngIf=\"isAdmin\" (click)=\"OnChangeStatus(payment,1)\"> Reject\n                                    </button>\n                                </span>\n                                <!-- End appear in admin section -->\n\n                                <button\n                                        class=\"btn btn-active btn-xs\"\n                                        type=\"button\" *ngIf=\"payment.accept\">\n                                    <i class=\"fa fa-download fa-fw\"></i><a [href]=\"base_url+'/paymentReceipt/'+payment.file_name\" [download]=\"payment.file_name\">Download</a>\n\n                                </button>\n\n                                <input type=\"file\" ng2FileSelect [uploader]=\"uploader\" class=\"upload_file\" *ngIf=\"isParish && payment.payment_status == 1 \" (change)=\"showUploader(payment,$event)\" accept=\".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG\"/>\n\n                                <button type=\"button\" class=\"btn btn-success btn-xs\"\n                                        (click)=\"upload(payment)\" *ngIf=\"showUploadButton == payment.id\">\n                                    <span class=\"glyphicon glyphicon-upload\"></span> Upload\n                                </button>\n\n                                <div class=\"progress\" *ngIf=\"showUploadButton == payment.id\">\n                                    <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': progress  + '%' }\"></div>\n                                </div>\n\n                            </td>\n                        </tr>\n                        <tr *ngIf=\"ifNoData\" >\n                            <td> No record found </td>\n                        </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div><!--/.row-->\n\n"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Payment - List</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                List Payment\n                <button (click)=\"onResetFilters()\" class=\"resetfilter btn btn-default\">Reset Filter</button>\n            </div>\n\n            <div class=\"panel-body overflowFix\">\n\n                <!-- Error or Success Message -->\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n\n                <!-- Reset Filter - Month - Year -->\n                <div class=\"row\">\n                    <div class=\"col-md-3\">\n                       <!-- <p></p>\n                        <button (click)=\"onResetFilters()\">Reset Filter</button>-->\n                    </div>\n\n                    <div class=\"col-md-3 col-md-offset-3\">\n                        <label>Filter Month:</label>\n                        <select\n                                #selectedMonth\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionMonth\"\n                                (change)=\"onSelectMonth(selectedMonth.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option [value]=\"month.number\" *ngFor=\"let month of months;\">{{ month.name }}</option>\n                        </select>\n                    </div>\n\n                    <div class=\"col-md-3\">\n                        <label>Filter Year:</label>\n                        <select\n                                #selectedYear\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionYear\"\n                                (change)=\"onSelectYear(selectedYear.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let year of currentYearList\"\n                                    [value]=\"year\">\n                                {{ year }}\n                            </option>\n                        </select>\n                    </div>\n\n                </div>\n\n                <br>\n\n                <!-- Province - Zone - Area - Parish -->\n                <div class=\"row\">\n\n                    <!-- Province -->\n                    <div class=\"col-md-3\" *ngIf=\"isWEM\">\n                        <label>Filter Province:</label>\n                        <select\n                                #selectedProvince\n                                name=\"province_id\"\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionProvince\"\n                                (change)=\"onSelectProvince(selectedProvince.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let province of provinceList\"\n                                    [value]=\"province.id\">\n                                {{ province.province_name }}\n                            </option>\n                        </select>\n\n                    </div>\n\n                    <!-- Zone -->\n                    <div class=\"col-md-3\" *ngIf=\"isWEM || isProvincePastor\">\n                        <label>Filter Zone:</label>\n                        <select\n                                #selectedZone\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionZone\"\n                                (change)=\"onSelectZone(selectedZone.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let zone of zoneList\"\n                                    [value]=\"zone.id\">\n                                {{zone.zone_name}}\n                            </option>\n                        </select>\n                    </div>\n\n                    <!-- Area -->\n                    <div class=\"col-md-3\" *ngIf=\"isWEM || isProvincePastor || isZonePastor\">\n                        <label>Filter Area:</label>\n                        <select\n                                #selectedArea\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionArea\"\n                                (change)=\"onSelectArea(selectedArea.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let area of areaList\"\n                                    [value]=\"area.id\">\n                                {{area.area_name}}\n                            </option>\n                        </select>\n                    </div>\n\n                    <!-- Parish -->\n                    <div class=\"col-md-3\" *ngIf=\"isWEM || isProvincePastor || isZonePastor || isAreaPastor\">\n                        <label>Filter Parish:</label>\n                        <select\n                                #selectedParish\n                                name=\"parish_id\"\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectionParish\"\n                                (change)=\"onSelectParish(selectedParish.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let parish of parishList\"\n                                    [value]=\"parish.id\">\n                                {{ parish.parish_name }}\n                            </option>\n                        </select>\n\n                    </div>\n\n                </div>\n\n                <div class=\"table-responsive\">\n                    <table class=\"table table-hover table-condensed\">\n                        <thead>\n                        <tr>\n                            <th>Parish Id</th>\n                            <th>Province / Zone / Area / Parish</th>\n                            <th>Description</th>\n                            <th>Payment Month / Year</th>\n                            <th>File</th>\n                            <th>Status</th>\n                            <th *ngIf=\"!isProvincePastor && !isZonePastor && !isAreaPastor\">Actions</th>\n                        </tr>\n                        </thead>\n                        <tbody>\n                        <tr *ngFor=\"let payment of paymentDetails\">\n                            <td>ROI{{ payment.parish_id }}</td>\n                            <td>{{ payment.province_name }} / {{ payment.zone_name }} / {{ payment.area_name }} / {{ payment.parish_name }}</td>\n                            <td>{{ payment.payment_description }}</td>\n                            <td>{{ months[payment.upload_month - 1].name }} / {{ payment.upload_year }}</td>\n                            <td>{{ payment.file_name }}</td>\n                            <td>{{ payment.pay_status }}</td>\n                            <td *ngIf=\"!isProvincePastor && !isZonePastor && !isAreaPastor\">\n                                <!-- Appear Only in Admin Section -->\n                                <span *ngIf=\"payment.hold\">\n                                    <button\n                                            class=\"btn btn-success btn-xs\"\n                                            type=\"button\" *ngIf=\"isWEM\" (click)=\"OnChangeStatus(payment,0)\"> Accept\n                                    </button>\n                                    <button\n                                            class=\"btn btn-danger btn-xs\"\n                                            type=\"button\" *ngIf=\"isWEM\" (click)=\"OnChangeStatus(payment,1)\"> Reject\n                                    </button>\n\n                                </span>\n                                <!-- End appear in admin section -->\n                                <button\n                                        class=\"btn btn-active btn-xs\"\n                                        type=\"button\" *ngIf=\"isWEM\">\n                                    <i class=\"fa fa-eye fa-fw\"></i><a target=\"_blank\" class=\"btn btn-active btn-xs\" [href]=\"base_url+'/paymentReceipt/'+payment.file_name\" *ngIf=\"isWEM\">View</a>\n\n                                </button>\n\n\n                                <button\n                                        class=\"btn btn-active btn-xs\"\n                                        type=\"button\" *ngIf=\"isWEM && payment.reject\">\n                                    <i class=\"fa fa-trash fa-fw\"></i><a (click)=\"showPrompt(payment)\">Delete</a>\n\n                                </button>\n\n                                <button\n                                        class=\"btn btn-active btn-xs\"\n                                        type=\"button\" *ngIf=\"isWEM || (!isWEM && payment.accept)\">\n                                    <i class=\"fa fa-download fa-fw\"></i><a [href]=\"base_url+'/paymentReceipt/'+payment.file_name\" [download]=\"payment.file_name\">Download</a>\n\n                                </button>\n\n                                <input type=\"file\" ng2FileSelect [uploader]=\"uploader\" class=\"upload_file\" *ngIf=\"isParishPastor && payment.payment_status == 1 \" (change)=\"showUploader(payment,$event)\" accept=\".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG\"/>\n\n                                <button type=\"button\" class=\"btn btn-success btn-xs\"\n                                        (click)=\"upload(payment)\" *ngIf=\"showUploadButton == payment.id\">\n                                    <span class=\"glyphicon glyphicon-upload\"></span> Upload\n                                </button>\n\n                                <div class=\"progress\" *ngIf=\"showUploadButton == payment.id && showProgressbar\">\n                                    <div class=\"progress-bar\" role=\"progressbar\" [ngStyle]=\"{ 'width': progress  + '%' }\"></div>\n                                </div>\n\n                            </td>\n                        </tr>\n                        <tr *ngIf=\"ifNoData\" >\n                            <td> No record found </td>\n                        </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div><!--/.row-->\n\n<app-prompt\n        *ngIf=\"showDeletePrompt\"\n        [calledFrom]=\"'Payment'\"\n        [itemInfo]=\"toDeletePayment\"\n></app-prompt>\n\n"
 
 /***/ }),
 
@@ -30,12 +30,13 @@ module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__payment_service__ = __webpack_require__("../../../../../src/app/payment-details/payment.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_file_upload__ = __webpack_require__("../../../../ng2-file-upload/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng2_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__payment_service__ = __webpack_require__("../../../../../src/app/payment-details/payment.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__province_zone_area_parish_province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListPaymentComponent; });
 /** Component to handle list of payment */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -53,42 +54,216 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ListPaymentComponent = (function () {
     /** Injecting services to be used in this component */
-    function ListPaymentComponent(payservice, router, authService) {
-        this.payservice = payservice;
+    function ListPaymentComponent(paymentService, router, authService, pzapService) {
+        this.paymentService = paymentService;
         this.router = router;
         this.authService = authService;
+        this.pzapService = pzapService;
         this.responseStatus = false;
         this.responseReceived = false;
         this.responseMsg = '';
-        this.isAdmin = false;
-        this.isParish = false;
         this.ifNoData = false;
+        this.showProgressbar = false;
+        this.selectionYear = 0;
+        this.selectionMonth = 0;
+        this.selectionProvince = 0;
+        this.selectionZone = 0;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+        this.showParishIdList = false;
+        this.currentYear = (new Date()).getFullYear();
+        this.currentMonth = ((new Date()).getMonth()) + 1;
+        this.currentYearList = [];
+        this.isWEM = false;
+        this.isProvincePastor = false;
+        this.isZonePastor = false;
+        this.isAreaPastor = false;
+        this.isParishPastor = false;
+        this.showDeletePrompt = false;
         this.paymentDetails = [];
-        this.uploader = new __WEBPACK_IMPORTED_MODULE_4_ng2_file_upload__["FileUploader"]({});
+        this.uploader = new __WEBPACK_IMPORTED_MODULE_1_ng2_file_upload__["FileUploader"]({});
         this.showUploadButton = 0;
         this.progress = 0;
         this.base_url = __WEBPACK_IMPORTED_MODULE_5__environments_environment_prod__["a" /* environment */].base_url;
+        this.months = Array();
     }
     ListPaymentComponent.prototype.ngOnInit = function () {
         var _this = this;
-        /** Subscribe to event to refresh province list */
-        this.refreshPaymentListSubscription = this.payservice.refreshList
+        /** Setting user type */
+        if (this.authService.getToken().user_type === 1) {
+            this.showParishIdList = true;
+            this.isWEM = true;
+        }
+        else {
+            if (this.authService.getToken().pastor_type === 1) {
+                this.isProvincePastor = true;
+                this.isZonePastor = false;
+                this.isAreaPastor = false;
+                this.isParishPastor = false;
+            }
+            else if (this.authService.getToken().pastor_type === 2) {
+                this.isProvincePastor = false;
+                this.isZonePastor = true;
+                this.isAreaPastor = false;
+                this.isParishPastor = false;
+            }
+            else if (this.authService.getToken().pastor_type === 3) {
+                this.isProvincePastor = false;
+                this.isZonePastor = false;
+                this.isAreaPastor = true;
+                this.isParishPastor = false;
+            }
+            else {
+                this.isProvincePastor = false;
+                this.isZonePastor = false;
+                this.isAreaPastor = false;
+                this.isParishPastor = true;
+            }
+            this.showParishIdList = false;
+            this.isWEM = false;
+        }
+        /** Populating the year array */
+        for (var i = 2010; i <= this.currentYear; i++) {
+            this.currentYearList.push(i);
+        }
+        /** Initializing month array */
+        this.months[0] = { name: "January", number: 1 };
+        this.months[1] = { name: "February", number: 2 };
+        this.months[2] = { name: "March", number: 3 };
+        this.months[3] = { name: "April", number: 4 };
+        this.months[4] = { name: "May", number: 5 };
+        this.months[5] = { name: "June", number: 6 };
+        this.months[6] = { name: "July", number: 7 };
+        this.months[7] = { name: "August", number: 8 };
+        this.months[8] = { name: "September", number: 9 };
+        this.months[9] = { name: "October", number: 10 };
+        this.months[10] = { name: "November", number: 11 };
+        this.months[11] = { name: "December", number: 12 };
+        /** Service call to get list of all available province */
+        this.pzapService.listProvince()
+            .subscribe(function (response) {
+            _this.responseStatus = response.json().status;
+            if (response.json().status) {
+                _this.provinceList = response.json().provinces;
+            }
+            else {
+                _this.provinceList = [];
+                _this.responseMsg = response.json().message;
+            }
+        }, function (error) {
+            if (error.status === 401) {
+                _this.authService.removeToken();
+                _this.router.navigate(['/login']);
+            }
+            _this.responseStatus = false;
+            _this.responseReceived = true;
+            _this.provinceList = [];
+            _this.responseMsg = error.json().error;
+        });
+        /** Subscribe to event to refresh zone list */
+        this.refreshZoneListSubscription = this.paymentService.refreshList
             .subscribe(function () {
-            _this.payservice.listPayment().subscribe(function (response) {
-                _this.responseStatus = response.json().status;
-                if (response.json().status) {
-                    var user_type = _this.authService.getToken().user_type;
-                    if (user_type == 1) {
-                        _this.isAdmin = true;
-                    }
-                    else if (user_type == 3) {
-                        _this.isParish = true;
+            if (_this.isWEM || _this.isProvincePastor) {
+                _this.pzapService.filterZone(_this.getCurrentSelectedFilters())
+                    .subscribe(function (response) {
+                    _this.responseStatus = response.json().status;
+                    if (response.json().status) {
+                        _this.zoneList = response.json().zones;
+                        if (_this.zoneList && _this.zoneList.length == 1) {
+                            _this.selectionZone = _this.zoneList[0].id;
+                        }
                     }
                     else {
-                        _this.isParish = false;
+                        _this.zoneList = [];
+                        _this.responseMsg = response.json().message;
+                        // this.responseNoRecord   = response.json().noData;
                     }
+                }, function (error) {
+                    if (error.status === 401) {
+                        _this.authService.removeToken();
+                        _this.router.navigate(['/login']);
+                    }
+                    _this.responseStatus = false;
+                    _this.responseReceived = true;
+                    _this.zoneList = [];
+                    _this.responseMsg = error.json().error;
+                });
+            }
+        });
+        /** Subscribe to event to refresh area list */
+        this.refreshAreaListSubscription = this.paymentService.refreshList
+            .subscribe(function () {
+            if (_this.isWEM || _this.isProvincePastor || _this.isZonePastor) {
+                _this.pzapService.filterArea(_this.getCurrentSelectedFilters())
+                    .subscribe(function (response) {
+                    _this.responseStatus = response.json().status;
+                    if (response.json().status) {
+                        _this.areaList = response.json().areas;
+                        if (_this.areaList && _this.areaList.length == 1) {
+                            _this.selectionArea = _this.areaList[0].id;
+                        }
+                        // this.responseNoRecord   = response.json().noData;
+                    }
+                    else {
+                        _this.areaList = [];
+                        _this.responseMsg = response.json().message;
+                        // this.responseNoRecord   = response.json().noData;
+                    }
+                }, function (error) {
+                    if (error.status === 401) {
+                        _this.authService.removeToken();
+                        _this.router.navigate(['/login']);
+                    }
+                    _this.responseStatus = false;
+                    _this.responseReceived = true;
+                    _this.areaList = [];
+                    _this.responseMsg = error.json().error;
+                });
+            }
+        });
+        /** Subscribe to event to refresh parish list */
+        this.refreshParishListSubscription = this.paymentService.refreshList
+            .subscribe(function () {
+            if (_this.isWEM || _this.isProvincePastor || _this.isZonePastor || _this.isAreaPastor) {
+                _this.pzapService.filterParish(_this.getCurrentSelectedFilters())
+                    .subscribe(function (response) {
+                    _this.responseStatus = response.json().status;
+                    if (response.json().status) {
+                        _this.parishList = response.json().parishes;
+                        if (_this.parishList && _this.parishList.length == 1) {
+                            _this.selectionParish = _this.parishList[0].id;
+                        }
+                    }
+                    else {
+                        _this.parishList = [];
+                        _this.selectionProvince = null;
+                        _this.selectionZone = null;
+                        _this.responseMsg = response.json().message;
+                        // this.responseNoRecord   = response.json().noData;
+                    }
+                }, function (error) {
+                    if (error.status === 401) {
+                        _this.authService.removeToken();
+                        _this.router.navigate(['/login']);
+                    }
+                    _this.responseStatus = false;
+                    _this.responseReceived = true;
+                    _this.parishList = [];
+                    _this.responseMsg = error.json().error;
+                });
+            }
+        });
+        /** Subscribe to event to refresh payment list */
+        this.refreshPaymentListSubscription = this.paymentService.refreshList
+            .subscribe(function () {
+            _this.paymentService.listPayment(_this.getCurrentSelectedFilters())
+                .subscribe(function (response) {
+                _this.responseStatus = response.json().status;
+                _this.ifNoData = false;
+                if (response.json().status) {
                     _this.paymentDetails = response.json().paymentDetail;
                     _this.paymentDetails.forEach(function (item) {
                         var pay_status = (item.payment_status == 3) ? 'On Hold' : (item.payment_status == 0) ? 'Accepted' : 'Rejected';
@@ -97,7 +272,6 @@ var ListPaymentComponent = (function () {
                             item.hold = true;
                             item.accept = false;
                             item.reject = false;
-                            item.image = "<img src='http://localhost:4200/paymentReceipt/" + item.file_name + "'>";
                         }
                         else if (item.payment_status == 1) {
                             item.hold = false;
@@ -114,6 +288,7 @@ var ListPaymentComponent = (function () {
                 else {
                     _this.ifNoData = true;
                     _this.responseMsg = response.json().message;
+                    _this.paymentDetails = response.json().paymentDetail;
                 }
             }, function (error) {
                 if (error.status === 401) {
@@ -126,13 +301,47 @@ var ListPaymentComponent = (function () {
                 _this.responseMsg = error.json().error;
             });
         });
-        /** Emitting event which will refresh the province list */
-        this.payservice.refreshList.next();
+        /** Subscribe to event to close the delete prompt */
+        this.closePromptEventSubscription = this.pzapService.closePromptEvent
+            .subscribe(function () {
+            _this.showDeletePrompt = false;
+        });
+        /** Subscribe to event to delete an Payment */
+        this.deletePaymentEventSubscription = this.paymentService.deleteEvent
+            .subscribe(function (id) {
+            _this.showDeletePrompt = false;
+            _this.paymentService.deletePayment(id).subscribe(function (response) {
+                _this.responseReceived = true;
+                _this.responseStatus = response.json().status;
+                if (response.json().status) {
+                    _this.responseMsg = response.json().message;
+                    _this.paymentService.refreshList.next({});
+                }
+                else {
+                    _this.areaList = [];
+                    _this.responseMsg = response.json().message;
+                }
+                setTimeout(function () {
+                    _this.responseReceived = false;
+                }, 3000);
+            }, function (error) {
+                if (error.status === 401) {
+                    _this.authService.removeToken();
+                    _this.router.navigate(['/login']);
+                }
+                _this.responseStatus = false;
+                _this.responseReceived = true;
+                _this.responseMsg = error.json().error;
+            });
+        });
+        /** Emitting event which will refresh the payment list */
+        this.paymentService.refreshList.next();
     };
-    /** upload doc Function */
+    /** Upload doc Function */
     ListPaymentComponent.prototype.upload = function (payment) {
         var _this = this;
         this.progress = 10;
+        this.showProgressbar = true;
         var user_id = this.authService.getToken().user_id;
         var formData = new FormData();
         formData.append("name", this.files[0]);
@@ -140,7 +349,7 @@ var ListPaymentComponent = (function () {
         formData.append('upload_year', payment.upload_year);
         formData.append("payment_description", payment.payment_description);
         formData.append("user_id", user_id);
-        this.payservice.paymentCreate(formData)
+        this.paymentService.paymentCreate(formData)
             .subscribe(function (response) {
             _this.responseStatus = response.json().status;
             if (response.json().status) {
@@ -151,7 +360,7 @@ var ListPaymentComponent = (function () {
             else {
                 _this.responseMsg = '';
             }
-            _this.payservice.refreshList.next();
+            _this.paymentService.refreshList.next();
         }, function (error) {
             if (error.status === 401) {
                 _this.authService.removeToken();
@@ -161,6 +370,12 @@ var ListPaymentComponent = (function () {
             _this.responseStatus = false;
             _this.responseReceived = true;
             _this.responseMsg = error.json().error;
+        }, function () {
+            setTimeout(function () {
+                _this.progress = 0;
+                _this.responseReceived = false;
+                _this.showProgressbar = false;
+            }, 3000);
         });
     };
     /** Show upload button when try to upload any doc */
@@ -168,6 +383,7 @@ var ListPaymentComponent = (function () {
         this.showUploadButton = payment.id;
         this.files = event.target.files;
         this.progress = 10;
+        this.showProgressbar = true;
     };
     /** Change status of Payment **/
     ListPaymentComponent.prototype.OnChangeStatus = function (payment, status) {
@@ -175,7 +391,7 @@ var ListPaymentComponent = (function () {
         var setpaymentArray = [
             { id: payment.id, payment_status: status }
         ];
-        this.payservice.paymentChangeStatus(setpaymentArray[0])
+        this.paymentService.paymentChangeStatus(setpaymentArray[0])
             .subscribe(function (response) {
             _this.responseReceived = true;
             _this.responseStatus = response.json().status;
@@ -185,7 +401,7 @@ var ListPaymentComponent = (function () {
             else {
                 _this.responseMsg = '';
             }
-            _this.payservice.refreshList.next();
+            _this.paymentService.refreshList.next();
         }, function (error) {
             if (error.status === 401) {
                 _this.authService.removeToken();
@@ -196,6 +412,135 @@ var ListPaymentComponent = (function () {
             _this.responseMsg = error.json().error;
         });
     };
+    /** Function call when month selected */
+    ListPaymentComponent.prototype.onSelectMonth = function (month) {
+        this.selectionMonth = month;
+        this.paymentService.refreshList.next();
+    };
+    /** Function call when year selected */
+    ListPaymentComponent.prototype.onSelectYear = function (year) {
+        this.selectionYear = year;
+        this.paymentService.refreshList.next();
+    };
+    /** Function call to refresh payment list on select of province */
+    ListPaymentComponent.prototype.onSelectProvince = function (provinceId) {
+        this.selectionProvince = provinceId;
+        this.selectionZone = 0;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+        this.paymentService.refreshList.next();
+    };
+    /** Function call to refresh payment list on select of province */
+    ListPaymentComponent.prototype.onSelectZone = function (zoneId) {
+        var _this = this;
+        this.selectionZone = zoneId;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+        if (zoneId > 0) {
+            var selected = this.zoneList.find(function (item) {
+                return item.id == _this.selectionZone;
+            });
+            this.selectionProvince = selected.province_id;
+        }
+        else {
+            this.zoneList = [];
+        }
+        this.paymentService.refreshList.next();
+    };
+    /** Function call to refresh payment list on select of province */
+    ListPaymentComponent.prototype.onSelectArea = function (areaId) {
+        var _this = this;
+        this.selectionArea = areaId;
+        this.selectionParish = 0;
+        if (areaId > 0) {
+            var selected = this.areaList.find(function (item) {
+                return item.id == _this.selectionArea;
+            });
+            this.selectionProvince = selected.province_id;
+            this.selectionZone = selected.zone_id;
+        }
+        else {
+            this.areaList = [];
+        }
+        this.paymentService.refreshList.next();
+    };
+    /** Function call when month selected */
+    ListPaymentComponent.prototype.onSelectParish = function (parishId) {
+        var _this = this;
+        this.selectionParish = parishId;
+        if (parishId > 0) {
+            var selected = this.parishList.find(function (item) {
+                return item.id == _this.selectionParish;
+            });
+            this.selectionProvince = selected.province_id;
+            this.selectionZone = selected.zone_id;
+            this.selectionArea = selected.area_id;
+        }
+        else {
+            this.areaList = [];
+        }
+        this.paymentService.refreshList.next();
+    };
+    /** Function call to reset filters */
+    ListPaymentComponent.prototype.onResetFilters = function () {
+        this.selectionMonth = 0;
+        this.selectionYear = 0;
+        this.selectionProvince = 0;
+        this.selectionZone = 0;
+        this.selectionArea = 0;
+        this.selectionParish = 0;
+        this.paymentService.refreshList.next();
+    };
+    /** Function that returns current selected filters */
+    ListPaymentComponent.prototype.getCurrentSelectedFilters = function () {
+        return {
+            request_year: this.selectionYear > 0 ? this.selectionYear : '',
+            request_month: this.selectionMonth > 0 ? this.selectionMonth : '',
+            province_id: this.selectionProvince > 0 ? this.selectionProvince : '',
+            zone_id: this.selectionZone > 0 ? this.selectionZone : '',
+            area_id: this.selectionArea > 0 ? this.selectionArea : '',
+            parish_id: this.selectionParish > 0 ? this.selectionParish : ''
+        };
+    };
+    /** Function call to show delete prompt */
+    ListPaymentComponent.prototype.showPrompt = function (obj) {
+        this.showDeletePrompt = true;
+        this.toDeletePayment = obj;
+    };
+    /** Function to delete a payment */
+    ListPaymentComponent.prototype.OnClickDelete = function (payment) {
+        console.log('delete');
+        /*this.paymentService.deletePayment(payment.id)
+            .subscribe(
+                (response: Response) => {
+                    this.responseReceived   = true;
+                    this.responseStatus = response.json().status;
+                    if ( response.json().status ) {
+                        this.responseMsg = response.json().message;
+                    } else {
+                        this.responseMsg = '';
+                    }
+                    this.paymentService.refreshList.next();
+                },
+                (error: Response) => {
+                    if( error.status === 401) {
+                        this.authService.removeToken();
+                        this.router.navigate( ['/login'] );
+                    }
+                    this.responseStatus = false;
+                    this.responseReceived = true;
+                    this.responseMsg = error.json().error;
+                }
+            );*/
+    };
+    /** Un-subscribing from all custom made events when component is destroyed */
+    ListPaymentComponent.prototype.ngOnDestroy = function () {
+        this.refreshPaymentListSubscription.unsubscribe();
+        this.refreshZoneListSubscription.unsubscribe();
+        this.refreshAreaListSubscription.unsubscribe();
+        this.refreshParishListSubscription.unsubscribe();
+        this.deletePaymentEventSubscription.unsubscribe();
+    };
     return ListPaymentComponent;
 }());
 ListPaymentComponent = __decorate([
@@ -204,10 +549,10 @@ ListPaymentComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/payment-details/list-payment/list-payment.component.html"),
         styles: [__webpack_require__("../../../../../src/app/payment-details/list-payment/list-payment.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__payment_service__["a" /* PaymentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__payment_service__["a" /* PaymentService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__payment_service__["a" /* PaymentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__payment_service__["a" /* PaymentService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__auth_auth_service__["a" /* AuthService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__province_zone_area_parish_province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__province_zone_area_parish_province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _d || Object])
 ], ListPaymentComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=list-payment.component.js.map
 
 /***/ }),
@@ -266,6 +611,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_date_picker__ = __webpack_require__("../../../../ng2-date-picker/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_date_picker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_date_picker__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__list_payment_list_payment_component__ = __webpack_require__("../../../../../src/app/payment-details/list-payment/list-payment.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PaymentModule", function() { return PaymentModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -273,6 +619,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -297,7 +644,8 @@ PaymentModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
             __WEBPACK_IMPORTED_MODULE_4__payment_routing_module__["a" /* PaymentRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_5_ng2_file_upload__["FileUploadModule"],
-            __WEBPACK_IMPORTED_MODULE_6_ng2_date_picker__["DpDatePickerModule"]
+            __WEBPACK_IMPORTED_MODULE_6_ng2_date_picker__["DpDatePickerModule"],
+            __WEBPACK_IMPORTED_MODULE_8__shared_shared_module__["a" /* SharedModule */]
         ],
         providers: [],
         exports: [],
@@ -329,7 +677,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/payment-details/upload-payment/upload-payment.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Payment</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">Upload Payment</div>\n            <div class=\"panel-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <form #uploadPaymentForm=\"ngForm\" (submit)=\"onSubmit(uploadPaymentForm)\" enctype=\"multipart/form-data\">\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label >Choose Year & Month (*)</label>\n                                <!--<dp-month-calendar  [config]=\"config\" [(ngModel)]=\"paymentDate.payment_date\"  name=\"payment_date\" datestyle=\"yyyy/MM\"></dp-month-calendar>-->\n                                <dp-date-picker id=\"paymentDate\"\n                                                name=\"payment_date\"\n                                                #datePicker\n                                                #paymentDate=\"ngModel\"\n                                                [(ngModel)]=\"paymentDate.payment_date\"\n\n                                                [mode]=\"'month'\"\n                                                [placeholder]=\"'Pick Month & Year'\"\n                                                [config]=\"config\"\n                                                [theme]=\"'dp-material'\">\n                                </dp-date-picker>\n\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"paymentDate.invalid && paymentDate.touched\">\n                                Payment Date is Required!\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pdescription\">Payment Description</label>\n                                <textarea class=\"form-control\" rows=\"3\" id=\"pdescription\" [(ngModel)]=\"paymentDate.payment_description\"  name=\"payment_description\"></textarea>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pfile\">Upload File (*)</label>\n                                <input\n                                        id=\"pfile\"\n                                        class=\"form-control\"\n                                        name=\"uploadfile\"\n                                        required\n                                        [ngModel]=\"paymentDate.uploadfile\"\n                                        #uploadFile=\"ngModel\"\n                                        type=\"file\"\n                                        ng2FileSelect [uploader]=\"uploader\"\n                                        accept=\".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG\"\n                                        (change)=\"checkUploadedFileType($event)\"\n                                >\n                            </div>\n                        </div>\n\n\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\" *ngIf=\"uploader?.queue?.length\">\n                                <label></label>\n                                <div class=\"progress\">\n                                    <div data-percentage=\"0%\" [ngStyle]=\"{ 'width': progress  + '%' }\" class=\"progress-bar progress-bar-blue\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n                                </div>\n                            </div>\n\n                            <div class=\"alert alert-danger\" *ngIf=\"uploader?.queue?.length == 0 && uploadFile.touched\">\n                                File is Required!\n                            </div>\n                        </div>\n\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <button class=\"btn btn-primary\" [disabled]=\"uploader?.queue?.length == 0 || !length || paymentDate.invalid || !paymentDate.payment_date || showLoader\">\n                                <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                                Submit\n                            </button>\n\n                           <button\n                                    type=\"button\"\n                                    class=\"btn btn-default\"\n                                    [disabled]=\"showLoader\"\n                                    (click)=\"onReset(uploadPaymentForm)\">Reset\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n\n\n\n"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Payment</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">Upload Payment</div>\n            <div class=\"panel-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <form #uploadPaymentForm=\"ngForm\" (submit)=\"onSubmit(uploadPaymentForm)\" enctype=\"multipart/form-data\">\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label >Choose Year & Month (*)</label>\n                                <!--<dp-month-calendar  [config]=\"config\" [(ngModel)]=\"paymentDate.payment_date\"  name=\"payment_date\" datestyle=\"yyyy/MM\"></dp-month-calendar>-->\n                                <dp-date-picker id=\"paymentDate\"\n                                                name=\"payment_date\"\n                                                #datePicker\n                                                #paymentDate=\"ngModel\"\n                                                [(ngModel)]=\"paymentDate.payment_date\"\n\n                                                [mode]=\"'month'\"\n                                                [placeholder]=\"'Pick Month & Year'\"\n                                                [config]=\"config\"\n                                                [theme]=\"'dp-material'\">\n                                </dp-date-picker>\n\n                            </div>\n                        </div>\n\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"paymentDate.invalid && paymentDate.touched\">\n                                Payment Date is Required!\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pdescription\">Payment Description</label>\n                                <textarea class=\"form-control\" rows=\"3\" id=\"pdescription\" [(ngModel)]=\"paymentDate.payment_description\"  name=\"payment_description\"></textarea>\n                            </div>\n                        </div>\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pfile\">Upload File (*)</label>\n                                <input\n                                        id=\"pfile\"\n                                        class=\"form-control\"\n                                        name=\"uploadfile\"\n                                        required\n                                        [ngModel]=\"paymentDate.uploadfile\"\n                                        #uploadFile=\"ngModel\"\n                                        type=\"file\"\n                                        ng2FileSelect [uploader]=\"uploader\"\n                                        accept=\".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG\"\n                                        (change)=\"checkUploadedFileType($event)\"\n                                > (.pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG only accepted)\n                            </div>\n                        </div>\n\n\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\" *ngIf=\"uploader?.queue?.length && length\">\n                                <label></label>\n                                <div class=\"progress\">\n                                    <div data-percentage=\"0%\" [ngStyle]=\"{ 'width': progress  + '%' }\" class=\"progress-bar progress-bar-blue\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\n                                </div>\n                            </div>\n\n                            <div class=\"alert alert-danger\" *ngIf=\"uploader?.queue?.length == 0 && uploadFile.touched\">\n                                File is Required!\n                            </div>\n                        </div>\n\n                    </div>\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <button class=\"btn btn-primary\" [disabled]=\"uploader?.queue?.length == 0 || !length || paymentDate.invalid || !paymentDate.payment_date || showLoader\">\n                                <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                                Submit\n                            </button>\n\n                           <button\n                                    type=\"button\"\n                                    class=\"btn btn-default\"\n                                    [disabled]=\"showLoader\"\n                                    (click)=\"onReset(uploadPaymentForm)\">Reset\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n\n\n\n"
 
 /***/ }),
 
@@ -434,6 +782,13 @@ var UploadPaymentComponent = (function () {
             _this.responseStatus = false;
             _this.responseReceived = true;
             _this.responseMsg = error.json().error;
+        }, function () {
+            setTimeout(function () {
+                _this.progress = 0;
+                _this.responseReceived = false;
+                _this.showLoader = false;
+                uploadPaymentForm.reset();
+            }, 3000);
         });
     };
     /** function to set files to be uploaded and increase progressbar */
@@ -446,6 +801,13 @@ var UploadPaymentComponent = (function () {
         else {
             this.length = false;
         }
+    };
+    /** function to reset upload payment form */
+    UploadPaymentComponent.prototype.onReset = function (uploadPaymentForm) {
+        uploadPaymentForm.reset();
+        this.progress = 0;
+        this.length = false;
+        this.showLoader = false;
     };
     return UploadPaymentComponent;
 }());

@@ -1,148 +1,120 @@
 webpackJsonp([15],{
 
-/***/ "../../../../../src/app/form/form-routing.ts":
+/***/ "../../../../../src/app/profile-details/profile-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_component__ = __webpack_require__("../../../../../src/app/form/form.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile-details/profile/profile.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
 
 
-var routes = [
-    {
-        path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__form_component__["a" /* FormComponent */],
-        data: {
-            title: 'Form'
-        }
-    }
+var profileRoutes = [
+    { path: '', component: __WEBPACK_IMPORTED_MODULE_2__profile_profile_component__["a" /* ProfileComponent */] }
 ];
-var FormRoutingModule = (function () {
-    function FormRoutingModule() {
+var ProfileRoutingModule = (function () {
+    function ProfileRoutingModule() {
     }
-    return FormRoutingModule;
+    return ProfileRoutingModule;
 }());
-FormRoutingModule = __decorate([
+ProfileRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(profileRoutes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], FormRoutingModule);
+], ProfileRoutingModule);
 
-//# sourceMappingURL=form-routing.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/form/form.component.html":
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <h1 class=\"page-header\">Form</h1>\n  </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">Form Elements</div>\n      <div class=\"panel-body\">\n        <form role=\"form\">\n          <div class=\"col-md-6\">\n\n\n            <div class=\"form-group\">\n              <label>Text Input</label>\n              <input class=\"form-control\" placeholder=\"Placeholder\">\n            </div>\n\n            <div class=\"form-group\">\n              <label>Password</label>\n              <input type=\"password\" class=\"form-control\">\n            </div>\n\n            <div class=\"form-group checkbox\">\n              <label>\n                <input type=\"checkbox\">Remember me</label>\n            </div>\n\n            <div class=\"form-group\">\n              <label>File input</label>\n              <input type=\"file\">\n              <p class=\"help-block\">Example block-level help text here.</p>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Text area</label>\n              <textarea class=\"form-control\" rows=\"3\"></textarea>\n            </div>\n\n            <label>Validation</label>\n            <div class=\"form-group has-success\">\n              <input class=\"form-control\" placeholder=\"Success\">\n            </div>\n            <div class=\"form-group has-warning\">\n              <input class=\"form-control\" placeholder=\"Warning\">\n            </div>\n            <div class=\"form-group has-error\">\n              <input class=\"form-control\" placeholder=\"Error\">\n            </div>\n          </div>\n\n          <div class=\"col-md-6\">\n\n            <div class=\"form-group\">\n              <label>Checkboxes</label>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 1\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 2\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 3\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 4\n                </label>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Radio Buttons</label>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios1\" value=\"option1\" checked>Radio Button 1\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios2\" value=\"option2\">Radio Button 2\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios3\" value=\"option3\">Radio Button 3\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios4\" value=\"option4\">Radio Button 4\n                </label>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Selects</label>\n              <select class=\"form-control\">\n                <option>Option 1</option>\n                <option>Option 2</option>\n                <option>Option 3</option>\n                <option>Option 4</option>\n              </select>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Multiple Selects</label>\n              <select multiple class=\"form-control\">\n                <option>Option 1</option>\n                <option>Option 2</option>\n                <option>Option 3</option>\n                <option>Option 4</option>\n              </select>\n            </div>\n\n            <button type=\"submit\" class=\"btn btn-primary\">Submit Button</button>\n            <button type=\"reset\" class=\"btn btn-default\">Reset Button</button>\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-lg-8\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\"><svg class=\"glyph stroked email\"><use xlink:href=\"#stroked-email\"></use></svg> Contact Form</div>\n      <div class=\"panel-body\">\n        <form class=\"form-horizontal\" action=\"\" method=\"post\">\n          <fieldset>\n            <!-- Name input-->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"name\">Name</label>\n              <div class=\"col-md-9\">\n                <input id=\"name\" name=\"name\" type=\"text\" placeholder=\"Your name\" class=\"form-control\">\n              </div>\n            </div>\n\n            <!-- Email input-->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"email\">Your E-mail</label>\n              <div class=\"col-md-9\">\n                <input id=\"email\" name=\"email\" type=\"text\" placeholder=\"Your email\" class=\"form-control\">\n              </div>\n            </div>\n\n            <!-- Message body -->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"message\">Your message</label>\n              <div class=\"col-md-9\">\n                <textarea class=\"form-control\" id=\"message\" name=\"message\" placeholder=\"Please enter your message here...\" rows=\"5\"></textarea>\n              </div>\n            </div>\n\n            <!-- Form actions -->\n            <div class=\"form-group\">\n              <div class=\"col-md-12 widget-right\">\n                <button type=\"submit\" class=\"btn btn-default btn-md pull-right\">Submit</button>\n              </div>\n            </div>\n          </fieldset>\n        </form>\n      </div>\n    </div>\n\n  </div>\n</div>\n"
+//# sourceMappingURL=profile-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.component.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormComponent; });
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-/**
- * Created by mohma on 7/26/2017.
- */
-
-var FormComponent = (function () {
-    function FormComponent() {
-    }
-    return FormComponent;
-}());
-FormComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/form/form.component.html"),
-        selector: 'formPage'
-    }),
-    __metadata("design:paramtypes", [])
-], FormComponent);
-
-//# sourceMappingURL=form.component.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/form/form.module.ts":
+/***/ "../../../../../src/app/profile-details/profile.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_component__ = __webpack_require__("../../../../../src/app/form/form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_service__ = __webpack_require__("../../../../../src/app/form/form.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__form_routing__ = __webpack_require__("../../../../../src/app/form/form-routing.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormModule", function() { return FormModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__profile_profile_component__ = __webpack_require__("../../../../../src/app/profile-details/profile/profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__profile_routing_module__ = __webpack_require__("../../../../../src/app/profile-details/profile-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProfileModule", function() { return ProfileModule; });
+/** module to load component and route for show and edit profile **/
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
 
 
 
 
-
-var FormModule = (function () {
-    function FormModule() {
+var ProfileModule = (function () {
+    function ProfileModule() {
     }
-    return FormModule;
+    return ProfileModule;
 }());
-FormModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+ProfileModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__profile_profile_component__["a" /* ProfileComponent */]],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_5__form_routing__["a" /* FormRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["ReactiveFormsModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */]
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
+            __WEBPACK_IMPORTED_MODULE_4__angular_forms__["FormsModule"],
+            __WEBPACK_IMPORTED_MODULE_3__profile_routing_module__["a" /* ProfileRoutingModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__form_component__["a" /* FormComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_4__form_service__["a" /* FormService */]]
+        providers: []
     })
-], FormModule);
+], ProfileModule);
 
-//# sourceMappingURL=form.module.js.map
+//# sourceMappingURL=profile.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.service.ts":
+/***/ "../../../../../src/app/profile-details/profile/profile.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".passwordDiv .form-group {\n\tdisplay: inline-block;\n\twidth: 100%;\n}\n.passwordDiv .form-group label{\n    display: block;\n}\n.passwordDiv .form-group input {\n    width: 72%;\n    margin-right: 18px;\n    margin-bottom: 20px;\n}\n\n.btn-default {\n\twidth: auto;\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/profile-details/profile/profile.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Profile - Update</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">Profile</div>\n            <div class=\"panel-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <form\n                        #updateProfileForm=\"ngForm\"\n                        (submit)=\"onSubmit(updateProfileForm)\">\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"fname\">First Name</label>\n                                <input\n                                        id=\"fname\"\n                                        class=\"form-control\"\n                                        placeholder=\"Enter...\"\n\n                                        name=\"first_name\"\n                                        required\n                                        [ngModel]=\"profileData.first_name\"\n                                        #firstName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div\n                                    class=\"alert alert-danger\"\n                                    *ngIf=\"firstName.invalid && firstName.touched\">\n                                First Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"lname\">Last Name</label>\n                                <input\n                                        id=\"lname\"\n                                        class=\"form-control\"\n                                        placeholder=\"Enter...\"\n\n                                        name=\"last_name\"\n                                        required\n                                        [ngModel]=\"profileData.last_name\"\n                                        #lastName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div\n                                    class=\"alert alert-danger\"\n                                    *ngIf=\"lastName.invalid && lastName.touched\">\n                                Last Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row passwordDiv\" *ngIf=\"!isAdmin\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pasword\">Password</label>\n                                <input\n                                        id=\"pasword\"\n                                        class=\"form-control col-md-9\"\n                                        name=\"uniqueKey\"\n                                        required\n                                        [ngModel]=\"profileData.uniqueKey\"\n                                        #uniqueKey=\"ngModel\" readonly>\n                                <button (click)=\"onResetPassword()\" type=\"button\"\n                                        class=\"btn btn-default col-md-3\">Reset Password\n                                </button>\n\n                            </div>\n\n                        </div>\n                    </div>\n                    <div class=\"row passwordDiv\" *ngIf=\"!isAdmin\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"username\">Username</label>\n                                <input\n                                        id=\"username\"\n                                        class=\"form-control col-md-9\"\n                                        name=\"parish_id\"\n                                        required\n                                        [ngModel]=\"profileData.parish_id\"\n                                        #parish_id=\"ngModel\">\n                                <button (click)=\"onResetUsername(updateProfileForm)\" type=\"button\"\n                                        class=\"btn btn-default col-md-3\" [disabled] = \"!updateProfileForm.value.parish_id || !activateReset\">Reset Username\n                                </button>\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <button class=\"btn btn-primary\"\n                                    [disabled]=\"( updateProfileForm.invalid && updateProfileForm.touched )\">\n                                <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                                Submit\n                            </button>\n                            <button\n                                    type=\"button\"\n                                    class=\"btn btn-default\"\n                                    (click)=\"onReset(updateProfileForm)\"\n                            >Reset\n                            </button>\n                        </div>\n                    </div>\n                </form>\n\n            </div>\n        </div>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "../../../../../src/app/profile-details/profile/profile.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__profile_service__ = __webpack_require__("../../../../../src/app/profile-details/profile.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileComponent; });
+/** Show and update logged in users profile */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -152,21 +124,161 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
-var FormService = (function () {
-    function FormService() {
+
+
+
+var ProfileComponent = (function () {
+    /** Injecting services to be used in this component */
+    function ProfileComponent(profileService, activatedRoute, authService, router) {
+        this.profileService = profileService;
+        this.activatedRoute = activatedRoute;
+        this.authService = authService;
+        this.router = router;
+        this.profileData = {
+            id: 0,
+            user_id: 0,
+            last_name: '',
+            uniqueKey: '',
+            first_name: '',
+            parish_id: ''
+        };
+        this.responseReceived = false;
+        this.responseStatus = false;
+        this.activateReset = true;
+        this.responseMsg = '';
+        this.showLoader = false;
+        this.isAdmin = false;
     }
-    return FormService;
+    ProfileComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        /** checking for admin */
+        var user_type = this.authService.getToken().user_type;
+        if (user_type == 1) {
+            this.isAdmin = true;
+        }
+        this.activatedRoute.params.subscribe(function (params) {
+            _this.profileService.profileToEdit()
+                .subscribe(function (response) {
+                _this.profileData = response.json().userDetail;
+            });
+        }, function (error) {
+            if (error.status === 401) {
+                _this.authService.removeToken();
+                _this.router.navigate(['/login']);
+            }
+            _this.responseStatus = false;
+            _this.responseMsg = error.json().error;
+        }, function () { });
+    };
+    /** Function call when form is submitted */
+    ProfileComponent.prototype.onSubmit = function (updateProfileForm) {
+        var _this = this;
+        this.showLoader = true;
+        this.profileService.editProfile(updateProfileForm.value)
+            .subscribe(function (response) {
+            _this.showLoader = false;
+            _this.responseStatus = response.json().status;
+            if (response.json().status) {
+                _this.responseStatus = true;
+                _this.responseMsg = response.json().message;
+            }
+            else {
+                _this.responseMsg = '';
+            }
+        }, function (error) {
+            if (error.status === 401) {
+                _this.authService.removeToken();
+                _this.router.navigate(['/login']);
+            }
+            _this.showLoader = false;
+            _this.responseStatus = false;
+            _this.responseReceived = true;
+            _this.responseMsg = error.json().error;
+            setTimeout(function () {
+                _this.responseReceived = false;
+            }, 3000);
+        }, function () {
+            _this.responseReceived = true;
+            setTimeout(function () {
+                _this.responseReceived = false;
+            }, 3000);
+        });
+    };
+    /** Function call to reset form */
+    ProfileComponent.prototype.onReset = function (updateProfileForm) {
+        var _this = this;
+        this.profileService.profileToEdit()
+            .subscribe(function (response) {
+            updateProfileForm.form.patchValue({
+                first_name: _this.profileData.first_name,
+                last_name: _this.profileData.last_name,
+            });
+        });
+    };
+    /** Function call to reset password */
+    ProfileComponent.prototype.onResetPassword = function () {
+        var _this = this;
+        this.profileService.resetPassword()
+            .subscribe(function (response) {
+            _this.responseStatus = response.json().status;
+            if (response.json().status) {
+                _this.responseMsg = response.json().message;
+                _this.profileData.uniqueKey = response.json().password;
+            }
+            else {
+                _this.responseMsg = '';
+            }
+        }, function (error) {
+            if (error.status === 401) {
+                _this.authService.removeToken();
+                _this.router.navigate(['/login']);
+            }
+            _this.responseStatus = false;
+            _this.responseMsg = error.json().error;
+        });
+    };
+    /** Function call to reset username */
+    ProfileComponent.prototype.onResetUsername = function (updateProfileForm) {
+        var _this = this;
+        this.activateReset = false;
+        var formData = new FormData();
+        formData.append("username", updateProfileForm.value.parish_id);
+        this.profileService.resetUsername(formData)
+            .subscribe(function (response) {
+            _this.responseStatus = response.json().status;
+            if (response.json().status) {
+                _this.activateReset = true;
+                _this.responseMsg = response.json().message;
+                _this.responseReceived = true;
+            }
+            else {
+                _this.responseMsg = '';
+                _this.activateReset = true;
+            }
+        }, function (error) {
+            if (error.status === 401) {
+                _this.authService.removeToken();
+                _this.router.navigate(['/login']);
+            }
+            _this.activateReset = true;
+            _this.responseStatus = false;
+            _this.responseMsg = error.json().error;
+        });
+    };
+    return ProfileComponent;
 }());
-FormService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [])
-], FormService);
+ProfileComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'app-profile',
+        template: __webpack_require__("../../../../../src/app/profile-details/profile/profile.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/profile-details/profile/profile.component.css")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__profile_service__["a" /* ProfileService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__profile_service__["a" /* ProfileService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["b" /* ActivatedRoute */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__["a" /* AuthService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* Router */]) === "function" && _d || Object])
+], ProfileComponent);
 
-//# sourceMappingURL=form.service.js.map
+var _a, _b, _c, _d;
+//# sourceMappingURL=profile.component.js.map
 
 /***/ })
 

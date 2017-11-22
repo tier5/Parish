@@ -1,6 +1,6 @@
 webpackJsonp([7],{
 
-/***/ "../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.css":
+/***/ "../../../../../src/app/province-zone-area-parish/zone/create-zone/create-zone.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -18,14 +18,14 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.html":
+/***/ "../../../../../src/app/province-zone-area-parish/zone/create-zone/create-zone.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">{{ title }}</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">{{ heading }} Province</div>\n            <div class=\"panel-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <form #createProvinceForm=\"ngForm\" (submit)=\"onSubmit(createProvinceForm)\">\n\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"pname\">Province Name</label>\n                                <input\n                                        id=\"pname\"\n                                        class=\"form-control\"\n                                        name=\"province_name\"\n                                        required\n                                        [ngModel]=\"provinceData.province_name\"\n                                        #provinceName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"provinceName.invalid && provinceName.touched\">\n                                Province Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"fname\">Pastor's First Name</label>\n                                <input\n                                        id=\"fname\"\n                                        class=\"form-control\"\n                                        name=\"first_name\"\n                                        required\n                                        [ngModel]=\"provinceData.first_name\"\n                                        #firstName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"firstName.invalid && firstName.touched\">\n                                First Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"lname\">Pastor's Last Name</label>\n                                <input\n                                        id=\"lname\"\n                                        class=\"form-control\"\n                                        name=\"last_name\"\n                                        required\n                                        [ngModel]=\"provinceData.last_name\"\n                                        #lastName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div class=\"alert alert-danger\" *ngIf=\"lastName.invalid && lastName.touched\">\n                                Last Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <button class=\"btn btn-primary\" [disabled]=\"createProvinceForm.invalid || showLoader\">\n                                <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                                Submit\n                            </button>\n                            <button\n                                    type=\"button\"\n                                    class=\"btn btn-default\"\n                                    [disabled]=\"showLoader\"\n                                    (click)=\"onReset(createProvinceForm)\">Reset\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n\n\n"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">{{ title }}</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">{{ heading }} Zone</div>\n            <div class=\"panel-body\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <form\n                        #createZoneForm=\"ngForm\"\n                        (submit)=\"onSubmit(createZoneForm)\">\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label>Select Province</label>\n                                <select\n                                        #selected\n                                        name=\"province_id\"\n                                        [ngModel]=\"zoneData.province_id\"\n                                        class=\"form-control\"\n                                        (change)=\"onSelectProvince(selected.value)\">\n                                    <option value=\"0\" selected>Choose...</option>\n                                    <option\n                                            *ngFor=\"let province of provinceList\"\n                                            [value]=\"province.id\">\n                                        {{province.province_name}}\n                                    </option>\n                                </select>\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"zname\">Zone Name</label>\n                                <input\n                                        id=\"zname\"\n                                        class=\"form-control\"\n                                        [disabled]=\"!provinceList || !provinceSelected\"\n                                        name=\"zone_name\"\n                                        required\n                                        [ngModel]=\"zoneData.zone_name\"\n                                        #zoneName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div\n                                    class=\"alert alert-danger\"\n                                    *ngIf=\"zoneName.invalid && zoneName.touched\">\n                                Zone Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"fname\">Pastor's First Name</label>\n                                <input\n                                        id=\"fname\"\n                                        class=\"form-control\"\n                                        [disabled]=\"!provinceList || !provinceSelected\"\n                                        name=\"first_name\"\n                                        required\n                                        [ngModel]=\"zoneData.first_name\"\n                                        #firstName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div\n                                    class=\"alert alert-danger\"\n                                    *ngIf=\"firstName.invalid && firstName.touched\">\n                                First Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <div class=\"form-group\">\n                                <label for=\"lname\">Pastor's Last Name</label>\n                                <input\n                                        id=\"lname\"\n                                        class=\"form-control\"\n                                        [disabled]=\"!provinceList || !provinceSelected\"\n                                        name=\"last_name\"\n                                        required\n                                        [ngModel]=\"zoneData.last_name\"\n                                        #lastName=\"ngModel\">\n                            </div>\n                        </div>\n                        <div class=\"col-md-6\">\n                            <div\n                                    class=\"alert alert-danger\"\n                                    *ngIf=\"lastName.invalid && lastName.touched\">\n                                Last Name is Required!\n                            </div>\n                        </div>\n                    </div>\n                    <div class=\"row\">\n                        <div class=\"col-md-6\">\n                            <button\n                                    class=\"btn btn-primary\"\n                                    [disabled]=\"!provinceList || !provinceSelected || ( createZoneForm.invalid && createZoneForm.touched )\">\n                                <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                                Submit\n                            </button>\n                            <button\n                                    type=\"button\"\n                                    class=\"btn btn-default\"\n                                    (click)=\"onReset(createZoneForm)\">Reset\n                            </button>\n                        </div>\n                    </div>\n                </form>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.ts":
+/***/ "../../../../../src/app/province-zone-area-parish/zone/create-zone/create-zone.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -33,8 +33,8 @@ module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CreateProvinceComponent; });
-/** Component to handle create and edit Province */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CreateZoneComponent; });
+/** Component to handle create and update of Zone */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -48,63 +48,92 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var CreateProvinceComponent = (function () {
+var CreateZoneComponent = (function () {
     /** Injecting services to be used in this component */
-    function CreateProvinceComponent(pzapService, authService, activatedRoute, router) {
+    function CreateZoneComponent(pzapService, authService, activatedRoute) {
         this.pzapService = pzapService;
         this.authService = authService;
         this.activatedRoute = activatedRoute;
-        this.router = router;
-        this.editMode = false; // Initializing edit mode for this component
-        this.provinceData = {
+        this.editMode = false;
+        this.zoneData = {
             id: 0,
             user_id: 0,
-            parish_id: 0,
-            first_name: '',
-            last_name: '',
             password: '',
+            zone_name: '',
+            parish_id: 0,
+            last_name: '',
+            first_name: '',
+            province_id: 0,
             province_name: ''
         };
-        this.showLoader = false;
-        this.responseStatus = false;
-        this.responseReceived = false;
+        this.provinceList = [];
         this.responseMsg = '';
+        this.title = 'Zone - Create';
         this.heading = 'Create New';
-        this.title = 'Province - Create';
+        this.showLoader = false;
+        this.responseReceived = false;
+        this.responseStatus = false;
     }
-    CreateProvinceComponent.prototype.ngOnInit = function () {
+    CreateZoneComponent.prototype.ngOnInit = function () {
         var _this = this;
+        /** Service call to get list of all available province */
+        this.pzapService.listProvince().subscribe(function (response) {
+            _this.responseStatus = response.json().status;
+            if (response.json().status) {
+                _this.provinceList = response.json().provinces;
+            }
+            else {
+                _this.responseStatus = false;
+                _this.provinceList = [];
+                _this.responseMsg = response.json().message;
+            }
+        }, function (error) {
+            _this.responseReceived = true;
+            _this.responseStatus = false;
+            _this.provinceList = [];
+            _this.responseMsg = error.json().error;
+        });
         /** Checking route params to get present mode */
         this.activatedRoute.data.subscribe(function (data) {
             _this.editMode = data['editMode'];
-        });
-        /** Perform operation is present mode is edit mode */
-        if (this.editMode) {
-            this.title = 'Province - Update';
-            this.heading = 'Update';
-            /** Checking route params to get id of province to edit */
-            this.activatedRoute.params.subscribe(function (params) {
-                _this.provinceId = params['id'];
-                _this.pzapService.provinceToEdit(_this.provinceId)
-                    .subscribe(function (response) {
-                    _this.provinceData = response.json().provinces;
+            /** Perform operation is present mode is edit mode */
+            if (_this.editMode) {
+                _this.heading = 'Update';
+                _this.title = 'Zone - Update';
+                _this.provinceSelected = true;
+                /** Checking route params to get id of area to edit */
+                _this.activatedRoute.params.subscribe(function (params) {
+                    _this.zoneId = params['id'];
+                    _this.pzapService.zoneToEdit(_this.zoneId)
+                        .subscribe(function (response) {
+                        _this.zoneData = response.json().zones;
+                    });
+                }, function (error) {
+                    console.log(error);
                 });
-            }, function (error) {
-                if (error.status === 401) {
-                    _this.authService.removeToken();
-                    _this.router.navigate(['/login']);
-                }
-            });
+            }
+            else {
+                _this.provinceSelected = false;
+            }
+        });
+    };
+    /** Function call when province selected */
+    CreateZoneComponent.prototype.onSelectProvince = function (id) {
+        if (id > 0) {
+            this.provinceSelected = true;
+        }
+        else {
+            this.provinceSelected = false;
         }
     };
     /** Function call when form is submitted */
-    CreateProvinceComponent.prototype.onSubmit = function (createProvinceForm) {
+    CreateZoneComponent.prototype.onSubmit = function (createZoneForm) {
         var _this = this;
         this.showLoader = true;
         if (this.editMode) {
-            var province_id = this.provinceData.id;
-            var pastor_id = this.provinceData.user_id;
-            this.pzapService.editProvince(province_id, pastor_id, createProvinceForm.value)
+            var zone_id = this.zoneData.id;
+            var pastor_id = this.zoneData.user_id;
+            this.pzapService.editZone(zone_id, pastor_id, createZoneForm.value)
                 .subscribe(function (response) {
                 _this.showLoader = false;
                 _this.responseStatus = response.json().status;
@@ -117,7 +146,6 @@ var CreateProvinceComponent = (function () {
             }, function (error) {
                 if (error.status === 401) {
                     _this.authService.removeToken();
-                    _this.router.navigate(['/login']);
                 }
                 _this.showLoader = false;
                 _this.responseStatus = false;
@@ -127,7 +155,6 @@ var CreateProvinceComponent = (function () {
                     _this.responseReceived = false;
                 }, 3000);
             }, function () {
-                //createProvinceForm.reset();
                 _this.responseReceived = true;
                 setTimeout(function () {
                     _this.responseReceived = false;
@@ -135,7 +162,7 @@ var CreateProvinceComponent = (function () {
             });
         }
         else {
-            this.pzapService.createProvince(createProvinceForm.value)
+            this.pzapService.createZone(createZoneForm.value)
                 .subscribe(function (response) {
                 _this.showLoader = false;
                 _this.responseStatus = response.json().status;
@@ -146,9 +173,9 @@ var CreateProvinceComponent = (function () {
                     _this.responseMsg = '';
                 }
             }, function (error) {
+                alert('error');
                 if (error.status === 401) {
                     _this.authService.removeToken();
-                    _this.router.navigate(['/login']);
                 }
                 _this.showLoader = false;
                 _this.responseStatus = false;
@@ -158,8 +185,9 @@ var CreateProvinceComponent = (function () {
                     _this.responseReceived = false;
                 }, 3000);
             }, function () {
-                createProvinceForm.reset();
                 _this.responseReceived = true;
+                createZoneForm.reset();
+                _this.provinceSelected = false;
                 setTimeout(function () {
                     _this.responseReceived = false;
                 }, 3000);
@@ -167,45 +195,48 @@ var CreateProvinceComponent = (function () {
         }
     };
     /** Function call to reset form */
-    CreateProvinceComponent.prototype.onReset = function (createProvinceForm) {
+    CreateZoneComponent.prototype.onReset = function (createZoneForm) {
         var _this = this;
         if (this.editMode) {
-            this.pzapService.provinceToEdit(this.provinceId)
+            this.pzapService.zoneToEdit(this.zoneId)
                 .subscribe(function (response) {
-                _this.provinceData = response.json().provinces;
-                createProvinceForm.form.patchValue({
-                    first_name: _this.provinceData.first_name,
-                    last_name: _this.provinceData.last_name,
-                    province_name: _this.provinceData.province_name
+                _this.zoneData = response.json().zones;
+                _this.onSelectProvince(_this.zoneData.id);
+                createZoneForm.form.patchValue({
+                    id: _this.zoneData.id,
+                    user_id: _this.zoneData.user_id,
+                    parish_id: _this.zoneData.parish_id,
+                    first_name: _this.zoneData.first_name,
+                    last_name: _this.zoneData.last_name,
+                    password: _this.zoneData.password,
+                    zone_name: _this.zoneData.zone_name,
+                    province_id: _this.zoneData.province_id,
+                    province_name: _this.zoneData.province_name
                 });
-            }, function (error) {
-                if (error.status === 401) {
-                    _this.authService.removeToken();
-                    _this.router.navigate(['/login']);
-                }
             });
         }
         else {
-            createProvinceForm.reset();
+            createZoneForm.reset();
+            this.provinceSelected = false;
         }
     };
-    return CreateProvinceComponent;
+    return CreateZoneComponent;
 }());
-CreateProvinceComponent = __decorate([
+CreateZoneComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Component"])({
-        selector: 'app-create-province',
-        template: __webpack_require__("../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.css")]
+        selector: 'app-create-zone',
+        template: __webpack_require__("../../../../../src/app/province-zone-area-parish/zone/create-zone/create-zone.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/province-zone-area-parish/zone/create-zone/create-zone.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* ActivatedRoute */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* Router */]) === "function" && _d || Object])
-], CreateProvinceComponent);
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["b" /* ActivatedRoute */]) === "function" && _c || Object])
+], CreateZoneComponent);
 
-var _a, _b, _c, _d;
-//# sourceMappingURL=create-province.component.js.map
+var _a, _b, _c;
+//# sourceMappingURL=create-zone.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.css":
+/***/ "../../../../../src/app/province-zone-area-parish/zone/list-zone/list-zone.component.css":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -223,14 +254,14 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.html":
+/***/ "../../../../../src/app/province-zone-area-parish/zone/list-zone/list-zone.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Province - List</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                List Provinces\n            </div>\n            <div class=\"panel-body overflowFix\">\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"table-responsive\">\n                    <table class=\"table table-hover table-condensed\">\n                        <thead>\n                            <tr>\n                                <th>First Name</th>\n                                <th>Last Name</th>\n                                <th>Province</th>\n                                <th>Username</th>\n                                <th>Password</th>\n                                <th>Actions</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let province of provinceList\">\n                                <td>{{ province.first_name }}</td>\n                                <td>{{ province.last_name }}</td>\n                                <td>{{ province.province_name }}</td>\n                                <td>{{ province.parish_id }}</td>\n                                <td>{{ province.password}}</td>\n                                <td>\n                                    <button\n                                            class=\"btn btn-warning btn-xs\"\n                                            type=\"button\"\n                                            (click)=\"onEdit(province)\"\n                                    >\n                                        <i class=\"fa fa-pencil fa-fw\"></i>\n                                    </button>\n                                    <button\n                                            class=\"btn btn-danger btn-xs\"\n                                            type=\"button\"\n                                            (click)=\"showPrompt(province)\">\n                                        <i class=\"fa fa-trash fa-fw\"></i>\n                                    </button>\n                                </td>\n                            </tr>\n                            <tr *ngIf=\"!provinceList\" colspan=\"6\">\n                                <td>{{ responseNoRecord }}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div><!--/.row-->\n\n<app-prompt\n        *ngIf=\"showDeletePrompt\"\n        [calledFrom]=\"'Province'\"\n        [itemInfo]=\"toDeleteProvince\"\n></app-prompt>"
+module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h3 class=\"page-header\">Zone - List</h3>\n    </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n    <div class=\"col-sm-12\">\n        <div class=\"panel panel-default\">\n            <div class=\"panel-heading\">\n                List Zones\n            </div>\n            <div class=\"panel-body overflowFix\">\n                <!-- show success or error message -->\n                <div class=\"row\">\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"!responseStatus && responseReceived\" class=\"alert alert-danger\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                    <div class=\"col-lg-12\">\n                        <div *ngIf=\"responseStatus && responseReceived\" class=\"alert alert-success\">\n                            <strong>{{ responseMsg }}</strong>\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"row\">\n\n                    <div class=\"col-md-4\">\n                        <p></p>\n                        <button (click)=\"onResetList()\">Reset Filter</button>\n                    </div>\n                    <div class=\"col-md-4 col-md-offset-8\">\n                        <label>Filter Province:</label>\n                        <select\n                                #selected\n                                name=\"province_id\"\n                                class=\"form-control\"\n                                [(ngModel)]=\"selectedProvince\"\n                                (change)=\"onSelectProvince(selected.value)\">\n                            <option value=\"0\" selected>Choose...</option>\n                            <option\n                                    *ngFor=\"let province of provinceList\"\n                                    [value]=\"province.id\">\n                                {{province.province_name}}\n                            </option>\n                        </select>\n                    </div>\n                </div>\n                <div class=\"table-responsive\">\n                    <table class=\"table table-hover table-condensed\">\n                        <thead>\n                            <tr>\n                                <th>First Name</th>\n                                <th>Last Name</th>\n                                <th>Province / Zone</th>\n                                <th>Username</th>\n                                <th>Password</th>\n                                <th>Actions</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr *ngFor=\"let zone of zoneList\">\n                            <td>{{ zone.first_name }}</td>\n                            <td>{{ zone.last_name }}</td>\n                            <td>{{ zone.province_name }}&nbsp;/&nbsp;{{ zone.zone_name }}</td>\n                            <td>{{ zone.parish_id }}</td>\n                            <td>{{ zone.password}}</td>\n                            <td>\n                                <button\n                                        class=\"btn btn-warning btn-xs\"\n                                        type=\"button\"\n                                        (click)=\"onEdit(zone)\">\n                                    <i class=\"fa fa-pencil fa-fw\"></i>\n                                </button>\n                                <button\n                                        class=\"btn btn-danger btn-xs\"\n                                        type=\"button\"\n                                        (click)=\"showPrompt(zone)\">\n                                    <i class=\"fa fa-trash fa-fw\"></i>\n                                </button>\n                            </td>\n                        </tr>\n                            <tr *ngIf=\"!zoneList\" colspan=\"6\">\n                                <td>{{ responseNoRecord }}</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </div>\n\n            </div>\n        </div>\n    </div>\n</div><!--/.row-->\n\n<app-prompt\n        *ngIf=\"showDeletePrompt\"\n        [calledFrom]=\"'Zone'\"\n        [itemInfo]=\"toDeleteZone\"\n></app-prompt>"
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.ts":
+/***/ "../../../../../src/app/province-zone-area-parish/zone/list-zone/list-zone.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -238,8 +269,8 @@ module.exports = "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <h
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListProvinceComponent; });
-/** Component to handle list of Provice */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ListZoneComponent; });
+/** Component to handle list and filter of Zone */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -253,31 +284,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var ListProvinceComponent = (function () {
+var ListZoneComponent = (function () {
     /** Injecting services to be used in this component */
-    function ListProvinceComponent(pzapService, router, authService) {
-        this.pzapService = pzapService;
+    function ListZoneComponent(router, pzapService, authService) {
         this.router = router;
+        this.pzapService = pzapService;
         this.authService = authService;
-        this.responseMsg = '';
         this.responseStatus = false;
-        this.responseNoRecord = '';
         this.responseReceived = false;
         this.showDeletePrompt = false;
+        this.responseNoRecord = '';
+        this.responseMsg = '';
+        this.selectedProvince = 0;
     }
-    ListProvinceComponent.prototype.ngOnInit = function () {
+    ListZoneComponent.prototype.ngOnInit = function () {
         var _this = this;
-        /** Subscribe to event to refresh province list */
-        this.refreshProvinceListSubscription = this.pzapService.refreshList
-            .subscribe(function () {
-            _this.pzapService.listProvince().subscribe(function (response) {
+        /** Subscribe to event to refresh zone list */
+        this.refreshZoneListSubscription = this.pzapService.refreshList
+            .subscribe(function (body) {
+            _this.pzapService.filterZone(body).subscribe(function (response) {
                 _this.responseStatus = response.json().status;
                 if (response.json().status) {
-                    _this.provinceList = response.json().provinces;
+                    _this.zoneList = response.json().zones;
                     _this.responseNoRecord = response.json().noData;
                 }
                 else {
-                    _this.provinceList = [];
+                    _this.zoneList = [];
                     _this.responseMsg = response.json().message;
                     _this.responseNoRecord = response.json().noData;
                 }
@@ -288,30 +320,30 @@ var ListProvinceComponent = (function () {
                 }
                 _this.responseStatus = false;
                 _this.responseReceived = true;
-                _this.provinceList = [];
+                _this.zoneList = [];
                 _this.responseMsg = error.json().error;
             });
         });
-        /** Emitting event which will refresh the province list */
-        this.pzapService.refreshList.next();
+        /** Emitting event which will refresh the zone list */
+        this.pzapService.refreshList.next({});
         /** Subscribe to event to close the delete prompt */
         this.closePromptEventSubscription = this.pzapService.closePromptEvent
             .subscribe(function () {
             _this.showDeletePrompt = false;
         });
-        /** Subscribe to event to delete a province */
-        this.deleteProvinceEventSubscription = this.pzapService.deleteEvent
+        /** Subscribe to event to delete a zone */
+        this.deleteZoneEventSubscription = this.pzapService.deleteEvent
             .subscribe(function (id) {
             _this.showDeletePrompt = false;
-            _this.pzapService.deleteProvince(id).subscribe(function (response) {
+            _this.pzapService.deleteZone(id).subscribe(function (response) {
                 _this.responseReceived = true;
                 _this.responseStatus = response.json().status;
                 if (response.json().status) {
                     _this.responseMsg = response.json().message;
-                    _this.pzapService.refreshList.next();
+                    _this.pzapService.refreshList.next({});
                 }
                 else {
-                    _this.provinceList = [];
+                    _this.zoneList = [];
                     _this.responseMsg = response.json().message;
                 }
                 setTimeout(function () {
@@ -324,55 +356,85 @@ var ListProvinceComponent = (function () {
                 }
                 _this.responseStatus = false;
                 _this.responseReceived = true;
-                _this.provinceList = [];
+                _this.zoneList = [];
                 _this.responseMsg = error.json().error;
                 setTimeout(function () {
                     _this.responseReceived = false;
                 }, 3000);
             });
         });
+        /** Service call to get list of all available province */
+        this.pzapService.listProvince().subscribe(function (response) {
+            _this.responseStatus = response.json().status;
+            if (response.json().status) {
+                _this.provinceList = response.json().provinces;
+            }
+            else {
+                _this.provinceList = [];
+                _this.responseMsg = response.json().message;
+            }
+        }, function (error) {
+            _this.responseStatus = false;
+            _this.responseReceived = true;
+            _this.provinceList = [];
+            _this.responseMsg = error.json().error;
+        });
+    };
+    /** Function to reset filter value and reset list */
+    ListZoneComponent.prototype.onResetList = function () {
+        this.selectedProvince = 0;
+        this.pzapService.refreshList.next({});
     };
     /** Function call on update button click */
-    ListProvinceComponent.prototype.onEdit = function (obj) {
-        var province_id = obj.id;
-        this.router.navigate(['province/edit/', province_id]);
+    ListZoneComponent.prototype.onEdit = function (obj) {
+        var zone_id = obj.id;
+        this.router.navigate(['zone/edit/', zone_id]);
     };
     /** Function call to show delete prompt */
-    ListProvinceComponent.prototype.showPrompt = function (obj) {
+    ListZoneComponent.prototype.showPrompt = function (obj) {
         this.showDeletePrompt = true;
-        this.toDeleteProvince = obj;
+        this.toDeleteZone = obj;
     };
-    /** Unsubscribing from all custom made events when component is destroyed */
-    ListProvinceComponent.prototype.ngOnDestroy = function () {
-        this.refreshProvinceListSubscription.unsubscribe();
+    /** Function call on selection of province from filters */
+    ListZoneComponent.prototype.onSelectProvince = function (id) {
+        if (id > 0) {
+            this.pzapService.refreshList.next({ province_id: id });
+        }
+        else {
+            this.pzapService.refreshList.next({});
+        }
+    };
+    /** Un-subscribing from all custom made events when component is destroyed */
+    ListZoneComponent.prototype.ngOnDestroy = function () {
+        this.refreshZoneListSubscription.unsubscribe();
         this.closePromptEventSubscription.unsubscribe();
-        this.deleteProvinceEventSubscription.unsubscribe();
+        this.deleteZoneEventSubscription.unsubscribe();
     };
-    return ListProvinceComponent;
+    return ListZoneComponent;
 }());
-ListProvinceComponent = __decorate([
+ListZoneComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        selector: 'app-list-province',
-        template: __webpack_require__("../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.css")]
+        selector: 'app-list-zone',
+        template: __webpack_require__("../../../../../src/app/province-zone-area-parish/zone/list-zone/list-zone.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/province-zone-area-parish/zone/list-zone/list-zone.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _c || Object])
-], ListProvinceComponent);
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _c || Object])
+], ListZoneComponent);
 
 var _a, _b, _c;
-//# sourceMappingURL=list-province.component.js.map
+//# sourceMappingURL=list-zone.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/province/province-routing.module.ts":
+/***/ "../../../../../src/app/province-zone-area-parish/zone/zone-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create_province_create_province_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__list_province_list_province_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProvinceRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__create_zone_create_zone_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/zone/create-zone/create-zone.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__list_zone_list_zone_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/zone/list-zone/list-zone.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ZoneRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -384,27 +446,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 var provinceRoutes = [
-    { path: 'create', component: __WEBPACK_IMPORTED_MODULE_2__create_province_create_province_component__["a" /* CreateProvinceComponent */], data: { editMode: false } },
-    { path: 'list', component: __WEBPACK_IMPORTED_MODULE_3__list_province_list_province_component__["a" /* ListProvinceComponent */] },
-    { path: 'edit/:id', component: __WEBPACK_IMPORTED_MODULE_2__create_province_create_province_component__["a" /* CreateProvinceComponent */], data: { editMode: true } }
+    { path: 'create', component: __WEBPACK_IMPORTED_MODULE_2__create_zone_create_zone_component__["a" /* CreateZoneComponent */], data: { editMode: false } },
+    { path: 'list', component: __WEBPACK_IMPORTED_MODULE_3__list_zone_list_zone_component__["a" /* ListZoneComponent */] },
+    { path: 'edit/:id', component: __WEBPACK_IMPORTED_MODULE_2__create_zone_create_zone_component__["a" /* CreateZoneComponent */], data: { editMode: true } }
 ];
-var ProvinceRoutingModule = (function () {
-    function ProvinceRoutingModule() {
+var ZoneRoutingModule = (function () {
+    function ZoneRoutingModule() {
     }
-    return ProvinceRoutingModule;
+    return ZoneRoutingModule;
 }());
-ProvinceRoutingModule = __decorate([
+ZoneRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* RouterModule */].forChild(provinceRoutes)],
         exports: [__WEBPACK_IMPORTED_MODULE_0__angular_router__["a" /* RouterModule */]]
     })
-], ProvinceRoutingModule);
+], ZoneRoutingModule);
 
-//# sourceMappingURL=province-routing.module.js.map
+//# sourceMappingURL=zone-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/province-zone-area-parish/province/province.module.ts":
+/***/ "../../../../../src/app/province-zone-area-parish/zone/zone.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -412,11 +474,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__create_province_create_province_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/create-province/create-province.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__list_province_list_province_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/list-province/list-province.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__province_routing_module__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province/province-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__create_zone_create_zone_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/zone/create-zone/create-zone.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__list_zone_list_zone_component__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/zone/list-zone/list-zone.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__zone_routing_module__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/zone/zone-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProvinceModule", function() { return ProvinceModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ZoneModule", function() { return ZoneModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -430,29 +492,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var ProvinceModule = (function () {
-    function ProvinceModule() {
+var ZoneModule = (function () {
+    function ZoneModule() {
     }
-    return ProvinceModule;
+    return ZoneModule;
 }());
-ProvinceModule = __decorate([
+ZoneModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_3__create_province_create_province_component__["a" /* CreateProvinceComponent */],
-            __WEBPACK_IMPORTED_MODULE_4__list_province_list_province_component__["a" /* ListProvinceComponent */]
+            __WEBPACK_IMPORTED_MODULE_3__create_zone_create_zone_component__["a" /* CreateZoneComponent */],
+            __WEBPACK_IMPORTED_MODULE_4__list_zone_list_zone_component__["a" /* ListZoneComponent */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
-            __WEBPACK_IMPORTED_MODULE_5__province_routing_module__["a" /* ProvinceRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_5__zone_routing_module__["a" /* ZoneRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_6__shared_shared_module__["a" /* SharedModule */]
         ],
         providers: [],
         exports: [],
     })
-], ProvinceModule);
+], ZoneModule);
 
-//# sourceMappingURL=province.module.js.map
+//# sourceMappingURL=zone.module.js.map
 
 /***/ })
 

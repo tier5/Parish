@@ -42,6 +42,9 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	selectionProvince   : number    = 0;
 	selectionZone       : number    = 0;
 	selectionArea       : number    = 0;
+
+	parishSelected      : boolean   = false;
+	selectionParish     : number    = 2;
 	
 	refreshParishListSubscription   : Subscription;
 	closePromptEventSubscription    : Subscription;
@@ -87,9 +90,6 @@ export class ListParishComponent implements OnInit, OnDestroy {
 		locale: 'en'
 	};
 
-	maxDate : any;
-	minDate : any;
-
 	formData = {
 		due_date : null
 	};
@@ -113,6 +113,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 							this.responseStatus = response.json().status;
 							
 							if( response.json().status ) {
+								console.log(response.json());
 								this.parishList         = response.json().parishes;
 
 								var date = new Date();
@@ -133,13 +134,13 @@ export class ListParishComponent implements OnInit, OnDestroy {
 								this.config.min = moment(minDate1);
 								this.config.max = moment(maxDate1);
 
-
 								this.formData.due_date  = response.json().due_date;
 								this.responseNoRecord   = response.json().noData;
 							} else {
 								this.parishList         = [];
 								this.selectionProvince  = null;
 								this.selectionZone      = null;
+								this.selectionParish    = null;
 								this.responseMsg        = response.json().message;
 								this.responseNoRecord   = response.json().noData;
 							}
@@ -293,6 +294,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 		this.selectionProvince  = null;
 		this.selectionZone      = null;
 		this.selectionArea      = null;
+		this.selectionParish    = 2;
 		this.pzapService.refreshList.next( {} );
 	}
 	
@@ -310,6 +312,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	
 	/** Function call on selection of province from filters */
 	onSelectProvince(id: number) {
+		console.log('here');
 		if ( id > 0 ) {
 			this.provID = id;
 			this.pzapService.refreshList.next({province_id: id});
@@ -319,6 +322,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 						this.responseStatus = response.json().status;
 						if (response.json().status) {
 							if(response.json().zones != undefined) {
+								console.log(response.json().zones);
 								this.zoneList = response.json().zones;
 								this.selectionArea = null;
 								if (this.zoneList != undefined && this.zoneList.length == 1) {
@@ -359,6 +363,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 								this.areaList       = [];
 								this.responseMsg    = response.json().message;
 								this.selectionZone  = 0;
+								this.selectionParish  = 2;
 								this.selectionArea  = 0;
 							}
 						} else {
@@ -366,6 +371,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 							this.areaList       = [];
 							this.responseMsg    = response.json().message;
 							this.selectionZone  = 0;
+							this.selectionParish  = 2;
 							this.selectionArea  = 0;
 						}
 					},
@@ -386,6 +392,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			this.selectionProvince  = null;
 			this.selectionZone      = null;
 			this.selectionArea      = null;
+			this.selectionParish    = 2;
 			this.provID = id;
 			this.pzapService.refreshList.next( {} );
 			
@@ -437,6 +444,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			this.selectionProvince  = 0;
 			this.selectionZone      = 0;
 			this.selectionArea      = 0;
+			this.selectionParish    = 2;
 			this.provID = id;
 			this.pzapService.refreshList.next( {} );
 		}
@@ -469,11 +477,28 @@ export class ListParishComponent implements OnInit, OnDestroy {
 						}
 						this.selectionProvince  = null;
 						this.selectionZone      = null;
+						this.selectionParish    = 2;
 					}
 				);
 		} else {
 			this.areaSelected = false;
 			this.pzapService.refreshList.next( { zone_id: this.zoneID } );
+		}
+	}
+
+	/** Function call on selection of compliant parish  from filters */
+	onSelectParish(id: number) {
+		if ( id < 2 ) {
+			this.parishSelected = true;
+			console.log(id);
+
+			this.pzapService.refreshList.next( {compliance: id , province_id: this.selectionProvince, area_id:this.selectionArea, zone_id: this.selectionZone} );
+			/** get province and area id **/
+		
+
+		} else {
+			this.parishSelected = false;
+			this.pzapService.refreshList.next( {} );
 		}
 	}
 	

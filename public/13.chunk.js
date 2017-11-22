@@ -1,63 +1,74 @@
 webpackJsonp([13],{
 
-/***/ "../../../../../src/app/form/form-routing.ts":
+/***/ "../../../../../src/app/auth/forgot-password/forgot-password-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__form_component__ = __webpack_require__("../../../../../src/app/form/form.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormRoutingModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__forgot_password_component__ = __webpack_require__("../../../../../src/app/auth/forgot-password/forgot-password.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgotPasswordRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
 
 
-var routes = [
-    {
-        path: '',
-        component: __WEBPACK_IMPORTED_MODULE_2__form_component__["a" /* FormComponent */],
-        data: {
-            title: 'Form'
-        }
-    }
+var forgotPasswordRoutes = [
+    { path: '', component: __WEBPACK_IMPORTED_MODULE_2__forgot_password_component__["a" /* ForgotPasswordComponent */] }
 ];
-var FormRoutingModule = (function () {
-    function FormRoutingModule() {
+var ForgotPasswordRoutingModule = (function () {
+    function ForgotPasswordRoutingModule() {
     }
-    return FormRoutingModule;
+    return ForgotPasswordRoutingModule;
 }());
-FormRoutingModule = __decorate([
+ForgotPasswordRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(forgotPasswordRoutes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
-], FormRoutingModule);
+], ForgotPasswordRoutingModule);
 
-//# sourceMappingURL=form-routing.js.map
+//# sourceMappingURL=forgot-password-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.component.html":
+/***/ "../../../../../src/app/auth/forgot-password/forgot-password.component.css":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "input.ng-invalid.ng-touched {\n    border: 2px solid #a94442;\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/auth/forgot-password/forgot-password.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <h1 class=\"page-header\">Form</h1>\n  </div>\n</div><!--/.row-->\n\n<div class=\"row\">\n  <div class=\"col-lg-12\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\">Form Elements</div>\n      <div class=\"panel-body\">\n        <form role=\"form\">\n          <div class=\"col-md-6\">\n\n\n            <div class=\"form-group\">\n              <label>Text Input</label>\n              <input class=\"form-control\" placeholder=\"Placeholder\">\n            </div>\n\n            <div class=\"form-group\">\n              <label>Password</label>\n              <input type=\"password\" class=\"form-control\">\n            </div>\n\n            <div class=\"form-group checkbox\">\n              <label>\n                <input type=\"checkbox\">Remember me</label>\n            </div>\n\n            <div class=\"form-group\">\n              <label>File input</label>\n              <input type=\"file\">\n              <p class=\"help-block\">Example block-level help text here.</p>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Text area</label>\n              <textarea class=\"form-control\" rows=\"3\"></textarea>\n            </div>\n\n            <label>Validation</label>\n            <div class=\"form-group has-success\">\n              <input class=\"form-control\" placeholder=\"Success\">\n            </div>\n            <div class=\"form-group has-warning\">\n              <input class=\"form-control\" placeholder=\"Warning\">\n            </div>\n            <div class=\"form-group has-error\">\n              <input class=\"form-control\" placeholder=\"Error\">\n            </div>\n          </div>\n\n          <div class=\"col-md-6\">\n\n            <div class=\"form-group\">\n              <label>Checkboxes</label>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 1\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 2\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 3\n                </label>\n              </div>\n              <div class=\"checkbox\">\n                <label>\n                  <input type=\"checkbox\" value=\"\">Checkbox 4\n                </label>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Radio Buttons</label>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios1\" value=\"option1\" checked>Radio Button 1\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios2\" value=\"option2\">Radio Button 2\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios3\" value=\"option3\">Radio Button 3\n                </label>\n              </div>\n              <div class=\"radio\">\n                <label>\n                  <input type=\"radio\" name=\"optionsRadios\" id=\"optionsRadios4\" value=\"option4\">Radio Button 4\n                </label>\n              </div>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Selects</label>\n              <select class=\"form-control\">\n                <option>Option 1</option>\n                <option>Option 2</option>\n                <option>Option 3</option>\n                <option>Option 4</option>\n              </select>\n            </div>\n\n            <div class=\"form-group\">\n              <label>Multiple Selects</label>\n              <select multiple class=\"form-control\">\n                <option>Option 1</option>\n                <option>Option 2</option>\n                <option>Option 3</option>\n                <option>Option 4</option>\n              </select>\n            </div>\n\n            <button type=\"submit\" class=\"btn btn-primary\">Submit Button</button>\n            <button type=\"reset\" class=\"btn btn-default\">Reset Button</button>\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class=\"row\">\n  <div class=\"col-lg-8\">\n    <div class=\"panel panel-default\">\n      <div class=\"panel-heading\"><svg class=\"glyph stroked email\"><use xlink:href=\"#stroked-email\"></use></svg> Contact Form</div>\n      <div class=\"panel-body\">\n        <form class=\"form-horizontal\" action=\"\" method=\"post\">\n          <fieldset>\n            <!-- Name input-->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"name\">Name</label>\n              <div class=\"col-md-9\">\n                <input id=\"name\" name=\"name\" type=\"text\" placeholder=\"Your name\" class=\"form-control\">\n              </div>\n            </div>\n\n            <!-- Email input-->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"email\">Your E-mail</label>\n              <div class=\"col-md-9\">\n                <input id=\"email\" name=\"email\" type=\"text\" placeholder=\"Your email\" class=\"form-control\">\n              </div>\n            </div>\n\n            <!-- Message body -->\n            <div class=\"form-group\">\n              <label class=\"col-md-3 control-label\" for=\"message\">Your message</label>\n              <div class=\"col-md-9\">\n                <textarea class=\"form-control\" id=\"message\" name=\"message\" placeholder=\"Please enter your message here...\" rows=\"5\"></textarea>\n              </div>\n            </div>\n\n            <!-- Form actions -->\n            <div class=\"form-group\">\n              <div class=\"col-md-12 widget-right\">\n                <button type=\"submit\" class=\"btn btn-default btn-md pull-right\">Submit</button>\n              </div>\n            </div>\n          </fieldset>\n        </form>\n      </div>\n    </div>\n\n  </div>\n</div>\n"
+module.exports = "<div class=\"row\">\n    <div class=\"col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4\">\n        <div class=\"login-panel panel panel-default\">\n            <div class=\"panel-heading\"><strong>Forgot Password</strong></div>\n            <div class=\"panel-body\">\n                <div *ngIf=\"!fpStatus && responseReceived\"\n                     class=\"alert alert-danger\"\n                >\n                    <strong>{{ fpResponseMsg }}</strong>\n                </div>\n                <div *ngIf=\"fpStatus && responseReceived\"\n                     class=\"alert alert-success\"\n                >\n                    <strong>{{ fpResponseMsg }}</strong>\n                </div>\n                <form *ngIf=\"!redirect\" #form=\"ngForm\" (ngSubmit)=\"onSubmit(form)\">\n\n                    <fieldset>\n                        <div class=\"form-group\">\n                            <input\n                                    class=\"form-control\"\n                                    placeholder=\"Please enter your email!\"\n                                    name=\"email\"\n                                    ngModel\n                                    email\n                                    required\n                                    #email=\"ngModel\"\n                            >\n                        </div>\n                        <div class=\"alert alert-danger\"\n                             *ngIf=\"email.invalid && email.touched\"\n                        >\n                            <div *ngIf=\"email.errors.required\">\n                                Email is Required!\n                            </div>\n                            <div *ngIf=\"email.errors.email\">\n                                Email is Not Proper!\n                            </div>\n\n                        </div>\n\n\n                        <button\n                                [disabled]=\"form.invalid || showLoader\"\n                                class=\"btn btn-primary\"\n                        >\n                            <i *ngIf=\"showLoader\" class=\"fa fa-spinner fa-pulse fa-lg fa-fw\"></i>\n                            Forgot Password\n                        </button>\n                        <button type=\"reset\" class=\"btn btn-default\" [disabled]=\"showLoader\" (click)=\"onReset(form)\">Reset</button>\n                        <button type=\"button\" class=\"btn btn-primary pull-right\" [disabled]=\"showLoader\" (click)=\"onNavigate()\">Login</button>\n                    </fieldset>\n                </form>\n                <div class=\"row\" *ngIf=\"redirect\">\n                    <div class=\"col-md-12 col-sm-12 redirect\">\n                        <p>We are <strong>redirecting</strong> you to the Sign In page within <strong>{{ clock }}\n                            seconds</strong>.\n                            <br/>Please wait or <a routerLink=\"/login\">click here</a> to go to <strong>Log In</strong>\n                            page.\n                        </p>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div><!-- /.col-->\n</div><!-- /.row -->\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.component.ts":
+/***/ "../../../../../src/app/auth/forgot-password/forgot-password.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__forgot_password_service__ = __webpack_require__("../../../../../src/app/auth/forgot-password/forgot-password.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgotPasswordComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67,82 +78,136 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
-var FormComponent = (function () {
-    function FormComponent() {
+
+
+var ForgotPasswordComponent = (function () {
+    function ForgotPasswordComponent(forgotPasswordService, router) {
+        this.forgotPasswordService = forgotPasswordService;
+        this.router = router;
+        /** Variable declarations */
+        this.clock = 10;
+        this.redirect = false;
+        this.responseReceived = false; // Track is some response has been recieved or not
+        this.fpStatus = false; // Track response of login request
+        this.showLoader = false; // Track if loader should be shown or not
     }
-    return FormComponent;
+    /** Function call on submit */
+    ForgotPasswordComponent.prototype.onSubmit = function (formForgotPassword) {
+        var _this = this;
+        this.showLoader = true;
+        var body = {
+            email: formForgotPassword.value.email
+        };
+        this.forgotPasswordService.resetPassword(body)
+            .subscribe(function (response) {
+            _this.showLoader = false;
+            _this.responseReceived = true;
+            if (response.json().status) {
+                _this.fpStatus = true;
+                _this.fpResponseMsg = response.json().message;
+            }
+            else {
+                _this.fpStatus = false;
+                _this.fpResponseMsg = response.json().error;
+            }
+        }, function (error) {
+            console.log(error);
+            _this.fpStatus = false;
+            _this.fpResponseMsg = error.json().error;
+            _this.showLoader = false;
+            _this.responseReceived = true;
+            setTimeout(function () {
+                _this.responseReceived = false;
+            }, 3000);
+        }, function () {
+            formForgotPassword.reset();
+            /** Redirecting to login page */
+            _this.redirect = true;
+            setInterval(function () {
+                if (_this.clock-- == 1) {
+                    _this.router.navigate(['/login']);
+                }
+            }, 1000);
+        });
+    };
+    /** Function call to reset form */
+    ForgotPasswordComponent.prototype.onReset = function (formForgotPassword) {
+        formForgotPassword.reset();
+    };
+    /** Function call to navigate to registration page */
+    ForgotPasswordComponent.prototype.onNavigate = function () {
+        this.router.navigate(['/login']);
+    };
+    return ForgotPasswordComponent;
 }());
-FormComponent = __decorate([
+ForgotPasswordComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
-        template: __webpack_require__("../../../../../src/app/form/form.component.html"),
-        selector: 'formPage'
+        selector: 'app-forgot-password',
+        template: __webpack_require__("../../../../../src/app/auth/forgot-password/forgot-password.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/auth/forgot-password/forgot-password.component.css")]
     }),
-    __metadata("design:paramtypes", [])
-], FormComponent);
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__forgot_password_service__["a" /* ForgotPasswordService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__forgot_password_service__["a" /* ForgotPasswordService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _b || Object])
+], ForgotPasswordComponent);
 
-//# sourceMappingURL=form.component.js.map
+var _a, _b;
+//# sourceMappingURL=forgot-password.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.module.ts":
+/***/ "../../../../../src/app/auth/forgot-password/forgot-password.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__form_component__ = __webpack_require__("../../../../../src/app/form/form.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__form_service__ = __webpack_require__("../../../../../src/app/form/form.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__form_routing__ = __webpack_require__("../../../../../src/app/form/form-routing.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FormModule", function() { return FormModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__forgot_password_component__ = __webpack_require__("../../../../../src/app/auth/forgot-password/forgot-password.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__forgot_password_service__ = __webpack_require__("../../../../../src/app/auth/forgot-password/forgot-password.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__forgot_password_routing_module__ = __webpack_require__("../../../../../src/app/auth/forgot-password/forgot-password-routing.module.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ForgotPasswordModule", function() { return ForgotPasswordModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
 
 
 
 
 
-var FormModule = (function () {
-    function FormModule() {
+var ForgotPasswordModule = (function () {
+    function ForgotPasswordModule() {
     }
-    return FormModule;
+    return ForgotPasswordModule;
 }());
-FormModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+ForgotPasswordModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_5__form_routing__["a" /* FormRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["FormsModule"],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["ReactiveFormsModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */]
+            __WEBPACK_IMPORTED_MODULE_5__forgot_password_routing_module__["a" /* ForgotPasswordRoutingModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__form_component__["a" /* FormComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_4__form_service__["a" /* FormService */]]
+        declarations: [__WEBPACK_IMPORTED_MODULE_3__forgot_password_component__["a" /* ForgotPasswordComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_4__forgot_password_service__["a" /* ForgotPasswordService */]]
     })
-], FormModule);
+], ForgotPasswordModule);
 
-//# sourceMappingURL=form.module.js.map
+//# sourceMappingURL=forgot-password.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/form/form.service.ts":
+/***/ "../../../../../src/app/auth/forgot-password/forgot-password.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FormService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ForgotPasswordService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -152,21 +217,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-/**
- * Created by mohma on 7/26/2017.
- */
 
-var FormService = (function () {
-    function FormService() {
+
+
+var ForgotPasswordService = (function () {
+    /** Service injection */
+    function ForgotPasswordService(http) {
+        this.http = http;
     }
-    return FormService;
+    /** Function call for logging in*/
+    ForgotPasswordService.prototype.resetPassword = function (body) {
+        var header = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({ 'X-Requested-With': 'XMLHttpRequest' });
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__["a" /* environment */].API_URL + 'forgot-password', body, { headers: header });
+    };
+    return ForgotPasswordService;
 }());
-FormService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [])
-], FormService);
+ForgotPasswordService = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object])
+], ForgotPasswordService);
 
-//# sourceMappingURL=form.service.js.map
+var _a;
+//# sourceMappingURL=forgot-password.service.js.map
 
 /***/ })
 

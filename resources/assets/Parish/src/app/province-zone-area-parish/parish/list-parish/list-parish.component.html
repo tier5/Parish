@@ -152,6 +152,27 @@
                         </select>
                     </div>
 
+                    <div class="col-md-3">
+                        <label>Filter Parish:</label>
+                        <select
+                                #selectedParish
+                                name="parish"
+                                class="form-control"
+                                [(ngModel)]="selectionParish"
+                                (change)="onSelectParish(selectedParish.value)">
+                            <option value="2" selected>All</option>
+                            <option
+                                    [value]="1">
+                               Compliants
+                            </option>
+                            <option
+                                    [value]="0">
+                                Non-Compliants
+                            </option>
+                        </select>
+
+                    </div>
+
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-condensed">
