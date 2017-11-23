@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { NgForm } from '@angular/forms';
 import { IDatePickerConfig } from "ng2-date-picker";
-import * as moment from 'moment';
 
+import * as moment from 'moment';
 import { ProvinceListModel } from '../../province/province-list.model';
 import { ZoneListModel } from '../../zone/zone-list.model';
 import { AreaListModel } from '../../area/area-list.model';
@@ -20,6 +20,8 @@ import { AuthService } from "../../../auth/auth.service";
 	templateUrl: './list-parish.component.html',
 	styleUrls: [ './list-parish.component.css' ]
 })
+
+
 export class ListParishComponent implements OnInit, OnDestroy {
 	
 	
@@ -101,6 +103,9 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	             private authService: AuthService) { }
 	
 	ngOnInit() {
+
+
+
 	
 	/** Subscribe to event to refresh parish list */
 	this.refreshParishListSubscription = this.pzapService.refreshList
@@ -111,9 +116,8 @@ export class ListParishComponent implements OnInit, OnDestroy {
 					this.pzapService.filterParish( body ).subscribe(
 						( response: Response ) => {
 							this.responseStatus = response.json().status;
-							
+
 							if( response.json().status ) {
-								console.log(response.json());
 								this.parishList         = response.json().parishes;
 
 								var date = new Date();
@@ -156,6 +160,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 							this.responseMsg        = error.json().error;
 						}
 					);
+
 				} else {
 					this.parishList         = [];
 				}
@@ -173,6 +178,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 				this.showDeletePrompt = false;
 			}
 		);
+
 
 		/** Subscribe to event to delete an parish */
 
@@ -237,7 +243,8 @@ export class ListParishComponent implements OnInit, OnDestroy {
 				this.responseMsg        = error.json().error;
 			}
 		);
-		
+
+
 		/** Service call to get list of all available zones */
 		this.pzapService.filterZone( {} )
 		.subscribe(
@@ -588,6 +595,48 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			});
 			addDueDate.reset();
 		}
+	}
+
+	/** Function to update penalty */
+	onUpdatePenalty(parishDetails: ParishListModel) {
+
+		this.pzapService.updatePenalty( parishDetails )
+			.subscribe(
+				( response: Response ) => {
+					this.showLoader = false;
+					this.responseStatus = response.json().status;
+
+					if ( response.json().status ) {
+						this.responseMsg = response.json().message;
+						this.pzapService.refreshList.next( {} );
+						this.selectDate  = false;
+					} else {
+						this.responseMsg = '';
+					}
+				},
+				( error: Response ) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
+
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				},
+				() => {
+					this.responseReceived = true;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				}
+			);
+
+
 	}
 
 	/** Un-subscribing from all custom made events when component is destroyed */

@@ -239,6 +239,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'as'   => 'api.v1.addDueDate.post'
             ]);
 
+            Route::post('/update-penalty/{user_id}', [
+                'uses' => 'Api\V1\ParishController@updateParishPenalty',
+                'as'   => 'api.v1.updateParishPenalty.post'
+            ]);
+
         });
     /*
      * User Group Operation

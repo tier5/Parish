@@ -192,5 +192,14 @@ export class ProvinceZoneAreaParishService {
 		const user_id = this.authService.getToken().user_id;
 		return this.http.post( environment.API_URL + 'parish/add-duedate/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
 	}
+
+	/**Add due date for the current month */
+	updatePenalty(body: any ): Observable<any> {
+		const obj = {
+			user_id: this.authService.getToken().user_id
+		};
+		const user_id = this.authService.getToken().user_id;
+		return this.http.post( environment.API_URL + 'parish/update-penalty/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
+	}
 	
 }

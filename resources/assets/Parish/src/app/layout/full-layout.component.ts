@@ -16,6 +16,7 @@ export class FullLayoutComponent {
 	public showSidebar: boolean = true;
 	paymentOption: boolean = false;
 	superAdmin: boolean = false;
+	paymentStatus: boolean = false;
 	userInformation:{};
 	base_url                        : string        = environment.base_url;
 	
@@ -27,6 +28,10 @@ export class FullLayoutComponent {
 	ngOnInit() {
 		const user_type = this.authService.getToken().user_type;
 		this.userInformation = this.authService.getToken();
+		var parishStatus  = this.authService.getToken().payment_status;
+		if(parishStatus!=1) {
+			this.paymentStatus = true;
+		}
 		if(user_type != 1){
 			this.showSidebar = false;
 			if(user_type == 3){

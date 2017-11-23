@@ -147,7 +147,7 @@ export class ListReportComponent implements OnInit, OnDestroy {
 
         }
 
-
+       
         /** Subscribe to event to refresh zone list */
         this.refreshZoneListSubscription = this.reportService.refreshReportList
             .subscribe(

@@ -10,6 +10,7 @@ import { AuthService } from './auth/auth.service';
 import { FullLayoutComponent } from './layout/full-layout.component';
 import { Ng2AutoBreadCrumb } from 'ng2-auto-breadcrumb';
 import { Ng2NewsListComponent } from './components/ng2-newslist/ng2newslist.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotAuthGuard } from './auth/not-auth.guard';
 import { ProvinceZoneAreaParishService } from './province-zone-area-parish/province-zone-area-parish.service';
 import { SharedModule } from './shared/shared.module';
@@ -27,7 +28,7 @@ import { WemService } from "./wem-list/wem.service";
 		HttpModule,
 		Ng2AutoBreadCrumb,
 		SharedModule,
-		
+		BrowserAnimationsModule
 	],
 	declarations: [
 		FullLayoutComponent,

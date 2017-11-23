@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-
+import { BootstrapSwitchModule } from 'angular2-bootstrap-switch';
 import { CreateParishComponent } from './create-parish/create-parish.component';
 import { ListParishComponent } from './list-parish/list-parish.component';
 import { ParishRoutingModule } from './parish-routing.module';
@@ -18,7 +18,8 @@ import { DpDatePickerModule } from "ng2-date-picker";
 		FormsModule,
 		ParishRoutingModule,
 		SharedModule,
-		DpDatePickerModule
+		DpDatePickerModule,
+		BootstrapSwitchModule.forRoot(),
 	],
 	providers: []
 })

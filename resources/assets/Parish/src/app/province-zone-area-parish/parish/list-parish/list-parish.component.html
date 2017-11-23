@@ -185,21 +185,32 @@
                             <th>Province/Zone/Area</th>
                             <th>Username</th>
                             <th>Password</th>
+                            <th>Penalty</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let parish of parishList">
-                                <td>ROI{{ parish.id }}</td>
-                                <td>{{ parish.parish_name }}</td>
-                                <td>{{ parish.first_name }}</td>
-                                <td>{{ parish.last_name }}</td>
-                                <td>{{ parish.province_name }}&nbsp;=>&nbsp;{{ parish.zone_name }}&nbsp;=>&nbsp;{{
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">ROI{{ parish.id }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.parish_name }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.first_name }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.last_name }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.province_name }}&nbsp;=>&nbsp;{{ parish.zone_name }}&nbsp;=>&nbsp;{{
                                     parish.area_name }}
                                 </td>
-                                <td>{{ parish.parish_id }}</td>
-                                <td>{{ parish.password}}</td>
-                                <td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'"> {{ parish.parish_id }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.password}}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">
+                                    <switch
+                                            [status]="(parish.penalty===1)?'true': 'false'"
+                                            [size]="mini"
+                                            (statusChange)="onUpdatePenalty(parish)"
+                                    >
+
+                                    </switch>
+
+                                </td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">
                                 <button
                                         class="btn btn-warning btn-xs"
                                         type="button"

@@ -10,7 +10,7 @@
             <ul class="user-menu">
                 <li class="dropdown pull-right">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                       {{ userInformation.user_first_name + ' ' + userInformation.user_last_name }}  <span class="caret"></span></a>
+                        {{ userInformation.user_first_name + ' ' + userInformation.user_last_name }}  <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li [routerLink]="['/profile']"><a><i class="fa fa-fw fa-user"></i> Profile</a></li>
                         <li><a><i class="fa fa-fw fa-cogs"></i> Settings</a></li>
@@ -18,6 +18,27 @@
                     </ul>
                 </li>
             </ul>
+            <ul class="user-menu" *ngIf="paymentStatus">
+                <li class="dropdown pull-right">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="label label-warning">1</span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a>
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> You have not yet submitted your payment
+                                    <span class="pull-right text-muted small"></span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="footer" [routerLink]="['/payment/upload']"><a>Click Here for Payment</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+
         </div>
     </div><!-- /.container-fluid -->
 </nav>

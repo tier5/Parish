@@ -153,7 +153,7 @@
                             <th>Province / Zone / Area / Parish</th>
                             <th>Payment Month / Year</th>
                             <th>Status</th>
-                            <th>Accept/Reject</th>
+                            <th *ngIf="isWEM">Accept/Reject</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -164,7 +164,7 @@
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ report.province_name }} / {{ report.zone_name }} / {{ report.area_name }} / {{ report.parish_name }}</td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ months[report.report_month - 1].name }} / {{ report.report_year}}</td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'"> {{ report.status }} </td>
-                            <td [ngClass]="(report.compliance===1)?'success': 'danger'">
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'" *ngIf="isWEM">
                                 <button
                                         class="btn btn-success btn-xs"
                                         type="button"

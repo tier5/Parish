@@ -15,6 +15,7 @@ use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
 use App\Models\Parish;
+use App\Models\Payment;
 use App\Helpers;
 use Crypt;
 use DB;
@@ -89,6 +90,7 @@ class ParishController extends Controller {
                     $parishArray[$key]['password']              = $parish->users->uniqueKey;
                     $parishArray[$key]['first_name']            = $parish->users->first_name;
                     $parishArray[$key]['last_name']             = $parish->users->last_name;
+                    $parishArray[$key]['payment_status']        = $parish->payment_status;
                 }
                     $response = [
                         'status'    => true,
@@ -599,6 +601,8 @@ class ParishController extends Controller {
                     $parishArray[$key]['password']              = $parish->users->uniqueKey;
                     $parishArray[$key]['first_name']            = $parish->users->first_name;
                     $parishArray[$key]['last_name']             = $parish->users->last_name;
+                    $parishArray[$key]['payment_status']        = $parish->payment_status;
+                    $parishArray[$key]['penalty']               = $parish->penalty;
                 }
                 $response = [
                 'status'        => true,
@@ -688,6 +692,7 @@ class ParishController extends Controller {
                 $parishArray['first_name']              = $parish->users->first_name;
                 $parishArray['last_name']               = $parish->users->last_name;
                 $parishArray['start_date']              = Date('m-d-Y',strtotime($parish->start_date));
+                $parishArray['payment_status']          = $parish->payment_status;
 
                     $response = [
                         'status'    => true,
@@ -754,6 +759,212 @@ class ParishController extends Controller {
                 $response = [
                     'status'    => false,
                     'error'     => "Due date not added."
+                ];
+                $responseCode = 200;
+            }
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Update payment status for all parishes
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function updatePaymentStatus() {
+
+        try {
+
+            DB::beginTransaction();
+
+            $parishes = Parish::whereNull('deleted_at')->get();
+            $noOfParish = count($parishes);
+
+            if($parishes){
+
+                foreach ($parishes as  $parish) {
+
+                    $due_date = $parish->due_date;
+                    $month    = date('m');
+                    $payment  = Payment::whereNull('deleted_at')
+                                        ->where('created_by' , $parish->user_id)
+                                        ->where('upload_month', $month)
+                                        ->get();
+
+                    if(count($payment)>0) {
+
+                        $parish->payment_status = 1;
+
+                    } else {
+
+                        $date = date("Y-m-d");
+                        if($date>$due_date) {
+
+                            $parish->payment_status = 2;
+                        }
+                        else {
+                            $parish->payment_status = 0;
+                        }
+                    }
+                    $parish->save();
+                }
+                $response = [
+                    'status'    => true,
+                    'message'   => 'Payment status updated successfully.'
+                ];
+                $responseCode = 200;
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "Payment status not updated."
+                ];
+                $responseCode = 200;
+            }
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Update penalty status for the parish
+     * @param Request $request,,$user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function updateParishPenalty(Request $request, $user_id) {
+
+        try {
+            DB::beginTransaction();
+
+            $parish_id = $request->input('id');
+            $parish = Parish::find($parish_id);
+
+            if (count($parish)>0) {
+
+                if($parish->penalty==1) {
+                    $parish->penalty = 0;
+                } else {
+                    $parish->penalty = 1;
+                }
+            }
+
+            $parish->save();
+
+            $response = [
+                'status'    => true,
+                'message'   => "Parish penalty updated successfully."
+            ];
+            $responseCode = 200;
+
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+
+            unset($parish);
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+    /**
+     * Update payment status for all parishes
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function updatePenalty() {
+
+        try {
+
+            DB::beginTransaction();
+
+            $parishes = Parish::whereNull('deleted_at')->get();
+            $noOfParish = count($parishes);
+
+            if($parishes){
+
+                foreach ($parishes as  $parish) {
+
+                    $due_date = $parish->due_date;
+                    $payment_status = $parish->payment_status;
+                    $date = strtotime( $due_date."+7 days");
+                    $overdue_date= date('Y-m-d', $date);
+                    $present_date = date('Y-m-d');
+
+                    if($present_date>$overdue_date && $payment_status!=1) {
+
+                        $parish->penalty = 1;
+                    } else {
+
+                        $parish->penalty = 0;
+                    }
+                    $parish->save();
+                }
+                $response = [
+                    'status'    => true,
+                    'message'   => 'Payment status updated successfully.'
+                ];
+                $responseCode = 200;
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "Payment status not updated."
                 ];
                 $responseCode = 200;
             }

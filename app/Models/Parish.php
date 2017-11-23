@@ -22,7 +22,7 @@ class Parish extends Model
      */
     protected $fillable = [
 
-        'name', 'area_id', 'user_id'
+        'name', 'area_id', 'user_id','payment_status','due_date'
     ];
 
     public $timestamps = true;

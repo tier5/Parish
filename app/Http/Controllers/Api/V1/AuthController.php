@@ -4,6 +4,7 @@
  */
 namespace App\Http\Controllers\Api\V1;
 use App\Exceptions\HttpBadRequestException;
+use App\Models\Parish;
 use App\Models\User;
 use App\Models\Subscription;
 use App\Models\PasswordReset;
@@ -391,6 +392,11 @@ class AuthController extends Controller {
                     }
                     else
                     {
+                        if($user->user_type==3) {
+                            $paymentStatus = Parish::where('user_id', $user->id)->get()->first()->payment_status;
+                        } else {
+                            $paymentStatus = 1;
+                        }
 
                     $response = [
                         'status'            => true,
@@ -401,6 +407,7 @@ class AuthController extends Controller {
                         'user_type'         => $user->user_type,
                         'pastor_type'       => $user->pastor_type,
                         'token'             => $token,
+                        'payment_status'    => $paymentStatus,
                     ];
                     $responseCode = 200; 
                     }

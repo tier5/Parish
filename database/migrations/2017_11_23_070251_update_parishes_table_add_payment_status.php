@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateParishesTable extends Migration
+class UpdateParishesTableAddPaymentStatus extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,8 @@ class UpdateParishesTable extends Migration
     public function up()
     {
         Schema::table('parishes', function (Blueprint $table) {
-           $table->date('due_date')->nullable();
-           $table->boolean('penalty')
-                ->comment('0 => NO PENALTY, 1 =>  PENALTY')
+            $table->boolean('payment_status')
+                ->comment('0 => NOT PAID, 1 =>  PAID ,2 NOT PAID AFTER DUE DATE')
                 ->default('0');
         });
     }
@@ -29,8 +28,7 @@ class UpdateParishesTable extends Migration
     public function down()
     {
         Schema::table('parishes', function($table) {
-          $table->dropColumn('penalty');
-          $table->dropColumn('due_date');
+            $table->dropColumn('payment_status');
         });
     }
 }
