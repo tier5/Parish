@@ -692,9 +692,23 @@ class AreaController extends Controller {
 
                     if($request->has('user_id')) {
 
-                        $userDetails = user::find($request->input('user_id'));
+                        $userDetails = User::find($request->input('user_id'));
                         if($userDetails->user_type == 1) {
                            $areas=Area::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                        } else if ($userDetails->user_type == 0) {
+                            $zones = Zone::whereNull('deleted_at')->get();
+                            $zoneArray = array();
+                            if($zones){
+                                foreach($zones as $zone) {
+                                    array_push($zoneArray, $zone->id);
+                                }
+                                if($zoneArray) {
+                                    $areas=Area::whereIn('zone_id',$zoneArray)->whereNull('deleted_at')->get();
+                                } else {
+                                    $areas= []; 
+                                }
+                            }
+                            
                         } else {
                             if($userDetails->pastor_type == 1) {
                                 $province = Provience::where('user_id',$request->input('user_id'))->first();

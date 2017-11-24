@@ -439,7 +439,7 @@ class ParishController extends Controller {
                 $zone_id        =   $request->input('zone_id');
                 $area_id        =   $request->input('area_id');
 
-                if($request->has('area_id') && $request->input('area_id')) {
+                if($request->has('area_id') && $request->input('area_id')!=0) {
                     $parishes_area = Area::find($area_id)->parishes;
 
                     if($request->has('compliance')) {
@@ -471,15 +471,49 @@ class ParishController extends Controller {
                            }
                            $parishes    = $parishArray;
 
+                    } else {
+                        $parishes = $parishes_area;
                     }
                 } else {
 
-                   if($request->has('zone_id') && $request->input('zone_id')) {
+                   if($request->has('zone_id') && $request->input('zone_id')!=0) {
 
-                        $parishes = Zone::find($zone_id)->parishes;
+                        $parishes_zones = Zone::find($zone_id)->parishes;
+                        if($request->has('compliance')) {
+                        $parishArray = [];
+                        $parishList  = $parishes_zones;
+
+
+                           foreach ( $parishList as $parish) {
+                               $allreports= Report::where('parish_id', $parish->id)
+                                   ->where('report_month', date('m'))
+                                   ->whereNull('deleted_at')
+                                   ->get();
+                               $reports =  Report::where('parish_id', $parish->id)
+                                   ->where('compliance',1)
+                                   ->where('report_month', date('m'))
+                                   ->whereNull('deleted_at')
+                                   ->get();
+                               if($request->input('compliance')==1) {
+                                   if(count($reports)==count($allreports) && (count($reports)>0)) {
+                                       $parishArray[] = $parish;
+                                   }
+                               }
+                               else {
+                                   if(count($reports)<count($allreports) || count($allreports)==0 || count($reports)==0) {
+                                       $parishArray[]= $parish;
+                                   }
+                               }
+
+                           }
+                           $parishes    = $parishArray;
+
+                    } else {
+                        $parishes = $parishes_zones;
+                    }
                     } else {
 
-                       if($request->has('province_id') && $request->input('province_id')) {
+                       if($request->has('province_id') && $request->input('province_id')!=0) {
                            $areas = Provience::find($province_id)->areas;
                            $area_array = [];
                            foreach ($areas as $area) {
@@ -490,8 +524,15 @@ class ParishController extends Controller {
                        } else {
                            /** Get compliant or non compliant parish */
                            $parishArray = [];
-                           $parishList  = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
 
+                           $userDetails        = User::find($request->input('user_id'));
+
+                           if($userDetails->user_type!=0) {
+                                $parishList  = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                           } else {
+                                $parishList  = Parish::whereNull('deleted_at')->get();
+                           }
+                           
                            foreach ( $parishList as $parish) {
                                $allreports= Report::where('parish_id', $parish->id)
                                                    ->where('report_month', date('m'))
@@ -522,9 +563,14 @@ class ParishController extends Controller {
              
             } else {
                 if($request->has('user_id')) {
-                    $userDetails = user::find($request->input('user_id'));
+                    $userDetails = User::find($request->input('user_id'));
                     if($userDetails->user_type == 1) {
+                        $due_date       = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->due_date;
                         $parishes=Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                    } else if ($userDetails->user_type == 0) {
+                        $due_date       = Parish::whereNull('deleted_at')->get()->first()->due_date;
+                        $parishes       = Parish::whereNull('deleted_at')->get();
+                            
                     } else {
                         if($userDetails->pastor_type == 1) {
                              $province = Provience::where('user_id',$request->input('user_id'))->first();
@@ -581,9 +627,11 @@ class ParishController extends Controller {
             
             if(count($parishes) >0 ){
                 $parishArray    = [];
-                $due_date       = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->due_date;
+
                 $noOfParishes   = count($parishes);
                 foreach ($parishes as $key=>$parish) {
+
+                    $due_date                                   = $parish->due_date;
                     
                     $parishArray[$key]['id']                    = $parish->id;
                     $parishArray[$key]['user_id']               = $parish->users->id;

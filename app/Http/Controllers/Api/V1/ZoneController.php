@@ -592,9 +592,23 @@ class ZoneController extends Controller {
             } else {
 
                 if($request->has('user_id')) {
-                    $userDetails = user::find($request->input('user_id'));
+                    $userDetails = User::find($request->input('user_id'));
                     if($userDetails->user_type == 1) {
                         $zones=Zone::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                    } else if ($userDetails->user_type == 0) {
+                        $zones = Zone::whereNull('deleted_at')->get();
+                        $zoneArray = array();
+                        if($zones){
+                            foreach($zones as $zone) {
+                                array_push($zoneArray, $zone->id);
+                            }
+                            if($zoneArray) {
+                                $areas=Area::whereIn('zone_id',$zoneArray)->whereNull('deleted_at')->get();
+                            } else {
+                                $areas= []; 
+                            }
+                        }
+                            
                     } else {
                         $province = Provience::where('user_id',$request->input('user_id'))->first();
                         $zones=Zone::where('provience_id',$province->id)->whereNull('deleted_at')->get();
@@ -608,20 +622,20 @@ class ZoneController extends Controller {
             {
                 $zoneArray = [];
               
-                foreach($zones as $key => $zone){
+               foreach($zones as $key => $zone){
 
-                    $zoneArray[$key]['id']              = $zone->id;
-                    $zoneArray[$key]['zone_name']       = $zone->name;
-                    $zoneArray[$key]['province_name']   = $zone->proviences->name;
-                    $zoneArray[$key]['province_id']     = $zone->proviences->id;
-                    $zoneArray[$key]['user_id']         = $zone->users->id;
-                    $zoneArray[$key]['parish_id']       = $zone->users->parish_id;
-                    $zoneArray[$key]['password']        = $zone->users->uniqueKey;
-                    $zoneArray[$key]['first_name']      = $zone->users->first_name;
-                    $zoneArray[$key]['last_name']       = $zone->users->last_name;
-                } 
-                
-                $noOfZones = count($zoneArray);   
+                   $zoneArray[$key]['id']              = $zone->id;
+                   $zoneArray[$key]['zone_name']       = $zone->name;
+                   $zoneArray[$key]['province_name']   = $zone->proviences->name;
+                   $zoneArray[$key]['province_id']     = $zone->proviences->id;
+                   $zoneArray[$key]['user_id']         = $zone->users->id;
+                   $zoneArray[$key]['parish_id']       = $zone->users->parish_id;
+                   $zoneArray[$key]['password']        = $zone->users->uniqueKey;
+                   $zoneArray[$key]['first_name']      = $zone->users->first_name;
+                   $zoneArray[$key]['last_name']       = $zone->users->last_name;
+               }
+
+               $noOfZones = count($zoneArray);   
 
                 $response = [
                     'status'    => true,

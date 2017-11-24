@@ -5,7 +5,7 @@
 </div><!--/.row-->
 
 <!-- To add due date -->
-<div class="row">
+<div class="row" *ngIf="isWEM" >
     <div class="col-lg-6">
         <button
                 type="button"
@@ -191,16 +191,16 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let parish of parishList">
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">ROI{{ parish.id }}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.parish_name }}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.first_name }}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.last_name }}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.province_name }}&nbsp;=>&nbsp;{{ parish.zone_name }}&nbsp;=>&nbsp;{{
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">ROI{{ parish.id }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.parish_name }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.first_name }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.last_name }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.province_name }}&nbsp;=>&nbsp;{{ parish.zone_name }}&nbsp;=>&nbsp;{{
                                     parish.area_name }}
                                 </td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'"> {{ parish.parish_id }}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">{{ parish.password}}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''"> {{ parish.parish_id }}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.password}}</td>
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">
                                     <switch
                                             [status]="(parish.penalty===1)?'true': 'false'"
                                             [size]="mini"
@@ -210,7 +210,8 @@
                                     </switch>
 
                                 </td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': 'success'">
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">
                                 <button
                                         class="btn btn-warning btn-xs"
                                         type="button"

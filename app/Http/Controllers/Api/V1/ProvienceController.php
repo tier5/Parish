@@ -63,7 +63,14 @@ class ProvienceController extends Controller {
         try {
             DB::beginTransaction();
 
-            $provinces=Provience::where('created_by',$user_id)->whereNull('deleted_at')->get();
+            $userDetails = User::find($user_id);
+
+            if($userDetails->user_type==0) {
+                $provinces=Provience::whereNull('deleted_at')->get();
+
+            } else {
+                $provinces=Provience::where('created_by',$user_id)->whereNull('deleted_at')->get();
+            }
 
             $noOfProvinces =count($provinces);
 
