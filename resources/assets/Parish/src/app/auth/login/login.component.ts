@@ -10,6 +10,7 @@ import { ProfileService } from "../../profile-details/profile.service";
 import { PaymentService } from "../../payment-details/payment.service";
 import { ReportService } from '../../report/report.service';
 import { WemService } from "../../wem-list/wem.service";
+import {DashboardService} from "../../dashboard/dashboard.service";
 
 @Component( {
 	selector: 'login',
@@ -31,7 +32,8 @@ export class LoginComponent {
 	             private profileService: ProfileService,
 	             private paymentService: PaymentService,
 	             private reportService: ReportService,
-	             private wemService: WemService ) { }
+	             private wemService: WemService,
+	             private dashboardService: DashboardService) { }
 	
 	/** Function call on submit */
 	onSubmit( formSignIn: NgForm ) {
@@ -55,6 +57,7 @@ export class LoginComponent {
 					this.paymentService.refreshHeader();
 					this.reportService.refreshHeader();
 					this.wemService.refreshHeader();
+					this.dashboardService.refreshHeader();
 				} else {
 					this.loginRequestStatus = false;
 					this.loginRequestResponseMsg = response.json().error;

@@ -18,6 +18,7 @@ import { ProfileService } from "./profile-details/profile.service";
 import { PaymentService } from "./payment-details/payment.service"
 import { ReportService } from './report/report.service';
 import { WemService } from "./wem-list/wem.service";
+import {DashboardService} from "./dashboard/dashboard.service";
 
 
 @NgModule( {
@@ -42,7 +43,8 @@ import { WemService } from "./wem-list/wem.service";
 		ProfileService,
 		PaymentService,
 		ReportService,
-        WemService
+        WemService,
+		DashboardService
 	],
 	bootstrap: [ AppComponent ]
 } )

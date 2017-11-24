@@ -29,6 +29,6 @@ import {Ng2NewsList} from "../components/ng2-newslist/ng2newslist.module";
     Ng2NewsList
   ],
   declarations: [ DashboardComponent, StatsCardComponent,PieChartComponent],
-  providers: [ DashboardService ]
+  providers: [  ]
 })
 export class DashboardModule { }

@@ -51,6 +51,7 @@
                                 <div class="col-md-8">
                                     <button
                                             class="btn btn-primary"
+                                            type="submit"
                                             [disabled]=" ( addDueDate.invalid && addDueDate.touched ) || !formData.due_date">
                                         <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                         Save

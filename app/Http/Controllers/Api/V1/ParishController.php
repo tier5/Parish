@@ -899,7 +899,10 @@ class ParishController extends Controller {
         } finally {
             DB::commit();
         }
-
+        $response = [
+                    'status'    => true,
+                    'message'   => 'Payment status updated successfully.'
+                ];
         return response()->json($response, $responseCode);
     }
 
@@ -1031,6 +1034,127 @@ class ParishController extends Controller {
         } finally {
             DB::commit();
         }
+
+        return response()->json($response, $responseCode);
+    }
+
+
+    /**
+     * get Dashboard Data
+     *
+     * @param $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function getDashboard($userId)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = User::find($userId);
+            if (count($user)>0) {
+
+                if($user->user_type==0) {
+                    $parishList = Parish::whereNull('deleted_at')->get();
+                } else {
+                    $parishList = Parish::where('created_by',$userId)->whereNull('deleted_at')->get();
+                }
+
+                $totalParishes = count($parishList);
+
+                $month = date('m');
+
+
+                $compliance = 1;
+                $parishCompliance = [];
+                $parishNonCompliance = [];
+                foreach ( $parishList as $parish) {
+                    $allreports= Report::where('parish_id', $parish->id)
+                                        ->where('report_month', $month)
+                                        ->whereNull('deleted_at')
+                                        ->get();
+                    $reports =  Report::where('parish_id', $parish->id)
+                                        ->where('compliance',$compliance)
+                                        ->where('report_month', $month)
+                                        ->whereNull('deleted_at')
+                                        ->get();
+                    if($compliance==1) {
+                        if(count($reports)==count($allreports) && (count($reports)>0)) {
+                            $parishCompliance[] = $parish;
+                        }
+                        else {
+                           $parishNonCompliance[]= $parish;
+
+                        }
+                    } else {
+                        if(count($reports)<count($allreports) || count($allreports)==0 || count($reports)==0) {
+                            $parishNonCompliance[]= $parish;
+                        }
+                    }
+
+                }
+
+                $noOfParishes   = count($parishCompliance);
+                $complianceList= $noOfParishes;
+                    
+                $noOfParishes   = count($parishNonCompliance);
+                $nonComplianceList= $noOfParishes;
+                    
+         
+                $response = [
+                    'status'        => true,
+                    'message'       => " parish has been found.",
+                    'totalParishes' => $totalParishes,
+                    'parishesCompliance'      => $complianceList,
+                    'parishesNonCompliance'   => $nonComplianceList,
+                    'month'         => $month
+                ];
+                $responseCode = 200;
+
+
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'       => 'User cannot view parishes list'
+                ];
+                $responseCode = 400;   
+            }
+
+            
+           
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+
+            unset($user);
+        }
+
 
         return response()->json($response, $responseCode);
     }

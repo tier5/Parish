@@ -202,4 +202,9 @@ export class ProvinceZoneAreaParishService {
 		return this.http.post( environment.API_URL + 'parish/update-penalty/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
 	}
 	
+	/**Update payment */
+	updatePayment(): Observable<any> {
+		
+		return this.http.get( environment.API_URL + 'parish/update-payment',  { headers: this.headers } );
+	}
 }

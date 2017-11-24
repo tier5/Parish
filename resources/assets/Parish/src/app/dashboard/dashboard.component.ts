@@ -2,8 +2,13 @@
  * Created by mohma on 7/26/2017.
  */
 import {Component, OnInit} from '@angular/core';
+import { Response} from "@angular/http";
 import {StatsCard} from "../components/statsCard/statsCard";
 import {PieChart} from "../components/pieChart/pieChart";
+import { Subscription } from 'rxjs/Subscription';
+import { DashboardService } from './dashboard.service';
+import { AuthService } from "../auth/auth.service";
+
 
 @Component({
   templateUrl: './dashboard.component.html',
@@ -13,13 +18,56 @@ import {PieChart} from "../components/pieChart/pieChart";
 export class DashboardComponent implements OnInit{
 
 
+  /** Injecting services to be used in this component */
+  constructor(private dashboardService: DashboardService,
+               private authService: AuthService) { }
+
+
   public chartHeight=35;
 
-  public ChartOptions:any = {
+  refreshDashboardSubscription   : Subscription;
+  currentMonth : number;
+  
+  lineChartLabels:Array<any> = [];
+	
+  lineChartMonths:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'];
+
+  month : number;
+  ChartOptions:any = {
     scaleShowVerticalLines: false,
     responsive: true,
-    mainAspectRatio:false
+    mainAspectRatio:true,
+	  scales: {
+		  yAxes: [
+			  { ticks: {min: 0} }]
+	  }
+	
   };
+	
+  public barChartLegend:boolean = true;
+	
+	
+	// lineChart
+	lineChartData:Array<any> = [
+		{data: [], label: 'Compliance Parishes'},
+		{data: [], label: 'Non-Compliance Parishes'}
+	];
+	lineChartType:string = 'bar';
+	
+	
+	// events
+	 chartClicked(e:any):void {
+		console.log(e);
+	}
+	
+	chartHovered(e:any):void {
+		console.log(e);
+	}
+	
+	lineChartColors: any[] = [
+		{
+			backgroundColor:["#ff0000", "#00ff00"],
+	}];
 
   //Timeline Related
   public completeListener(item){
@@ -43,16 +91,57 @@ export class DashboardComponent implements OnInit{
 
   ngOnInit(): void {
     let self=this;
-    setTimeout(function(){
-      self.timelineData.push({
-        title:"Step 3",
-        icon:'<i class="fa fa-remove"></i>',
-        content:"Bye World",
-        complete:false
-      });
-    },5000);
-  }
+	
+	  
+    /** Subscribe to event to get chart data */
 
+    this.refreshDashboardSubscription = this.dashboardService.refreshList
+        .subscribe(
+            () => {
+              this.dashboardService.getChartData()
+	              .subscribe(
+                  (response: Response) => {
+                    if(response.json().status) {
+	                    this.currentMonth = response.json().month;
+	
+	                    this.lineChartLabels.push(this.lineChartMonths[this.currentMonth-1]);
+	                   
+		                    // lineChart
+	                    this.lineChartData= [
+		                    {data: [response.json().parishesCompliance], label: 'Compliance Parishes'},
+		                    {data: [response.json().parishesNonCompliance], label: 'Non-Compliance Parishes'}
+	                    ];
+	                    
+	                    this.ChartOptions.scales= {
+			                    yAxes: [
+			                    	{ ticks: {min: 0, max: response.json().totalParishes}}]
+	                    } ;
+	                    
+                    }
+   
+                  },
+                  (error: Response) => {
+	                  console.log(error.json());
+                  }
+              );
+            }
+        );
+	
+	  
+    /** Emitting event which will refresh the chart data  */
+    this.dashboardService.refreshList.next({});
+	
+	  setTimeout(function(){
+		  self.timelineData.push({
+			  title:"Step 3",
+			  icon:'<i class="fa fa-remove"></i>',
+			  content:"Bye World",
+			  complete:false
+		  });
+	  },5000);
+	
+  }
+	
   //Card
 
   public card1:StatsCard={color:"#1ebfae",icon:"fa-users",label:"Users",data:50};
@@ -67,23 +156,7 @@ export class DashboardComponent implements OnInit{
   public pbar4:PieChart={color:"#f9243f",max:100,label:"RAM",current:57};
 
 
-  // lineChart
-  public lineChartData:Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-  ];
-  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChartType:string = 'line';
-
-
-  // events
-  public chartClicked(e:any):void {
-    console.log(e);
-  }
-
-  public chartHovered(e:any):void {
-    console.log(e);
-  }
+ 
 
   //News Component
   public newsList:Array<Object> =[

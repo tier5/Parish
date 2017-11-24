@@ -219,10 +219,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.deleteParish.delete'
             ]);
 
-            Route::get('/{user_id}', [
-                'uses' => 'Api\V1\ParishController@getParishList',
-                'as' => 'api.v1.getParishList.post'
+            Route::get('/update-payment', [
+                'uses' => 'Api\V1\ParishController@updatePaymentStatus',
+                'as'   => 'api.v1.updateParishPaymentStatus.get'
             ]);
+
 
             Route::post('/filter-parish', [
                 'uses' => 'Api\V1\ParishController@filteParish',
@@ -243,6 +244,17 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses' => 'Api\V1\ParishController@updateParishPenalty',
                 'as'   => 'api.v1.updateParishPenalty.post'
             ]);
+
+            Route::get('/dashboard/{user_id}', [
+                'uses' => 'Api\V1\ParishController@getDashboard',
+                'as' => 'api.v1.getDashboard.get'
+            ]);
+
+            Route::get('/{user_id}', [
+                'uses' => 'Api\V1\ParishController@getParishList',
+                'as' => 'api.v1.getParishList.post'
+            ]);
+            
 
         });
     /*
@@ -294,6 +306,8 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses' => 'Api\V1\UserController@updateWemPercentage',
                 'as' => 'api.v1.updateWemPercentage.patch'
             ]);
+
+            
         });
 
     /*

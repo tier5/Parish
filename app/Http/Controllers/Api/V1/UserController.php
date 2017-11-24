@@ -10,6 +10,8 @@ use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Parish;
+use App\Models\Report;
 use App\Helpers;
 use Crypt;
 use DB;
@@ -473,4 +475,7 @@ class UserController extends Controller {
 
         return response()->json($response, $responseCode);
     }
+
+
+    
 }
