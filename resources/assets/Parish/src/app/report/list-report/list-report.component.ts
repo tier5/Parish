@@ -22,6 +22,7 @@ export class ListReportComponent implements OnInit, OnDestroy {
 
     /** Initial variable declaration */
 	currentYear: number = (new Date()).getFullYear();
+	
     currentMonth: number = ((new Date()).getMonth()) + 1;
     currentYearList: number[] = [];
     reportList: any[];
@@ -68,10 +69,14 @@ export class ListReportComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 
         /** Setting user type */
+        
+        
         if( this.authService.getToken().user_type === 1 ) {
             this.showParishIdList = true;
             this.isWEM = true;
         }else {
+	        
+        	
             if(this.authService.getToken().pastor_type === 1) {
                 this.isProvincePastor = true;
                 this.isZonePastor = false;
