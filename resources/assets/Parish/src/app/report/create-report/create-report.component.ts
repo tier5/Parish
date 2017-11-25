@@ -51,6 +51,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	midWeekwomen:{};
 	midWeekchild:{};
 	count   : number = 0;
+	penalty_percent:number =0;
 	
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
@@ -87,25 +88,25 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	};
 	timeInfo                       : { report_month: number, report_year: number };
 	temp_report                    : ProgressReportModel = {
-		'wem_percentage': 0,
-		'wem_share': 0,
-		'account_name': '',
-		'parish_id': 0,
-		'parish_pastor': '',
-		'area_pastor': '',
-		'zonal_pastor': '',
-		'province_pastor': '',
-		'crucial_date': '',
-		'parish_start_date':'',
-		'area_dues':0,
-		'month': '',
-		'year': '',
-		'no_of_birth':0,
-		'no_of_death' :0,
-		'no_of_marrg' :0,
-		'no_of_new_workers' :0,
-		'no_of_souls_saved' :0,
-		'report': {
+		 wem_percentage: 0,
+		 wem_share: 0,
+		 account_name: '',
+		 parish_id: 0,
+		 parish_pastor: '',
+		 area_pastor: '',
+		 zonal_pastor: '',
+		 province_pastor: '',
+		 crucial_date: '',
+		 parish_start_date:'',
+		 area_dues :0,
+		 month : '',
+		 year : '',
+		 no_of_birth:0,
+		 no_of_death :0,
+		 no_of_marrg :0,
+		 no_of_new_workers :0,
+		 no_of_souls_saved :0,
+		 report: {
 			'monthly_total': {
 				'attendance': {
 					'men': null,
@@ -849,6 +850,42 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.displaymode  = true;
 	    this.title = "Create Report";
+		
+		const user_type = this.authService.getToken().user_type;
+		
+	    if(user_type==3) {
+		    
+		    this.pzapService.getPenalty( )
+			    .subscribe(
+				    ( response: Response ) => {
+					    
+					    console.log(response.json());
+					    if(response.json().status) {
+					    	this.penalty_percent = response.json().penalty_percent;
+					    	console.log(this.penalty_percent);
+					    }
+					    
+				    },
+				    ( error: Response ) => {
+					    if ( error.status === 401 ) {
+						    this.authService.removeToken();
+						    this.router.navigate( [ '/login' ] );
+					    }
+					
+					    this.responseStatus     = false;
+					    this.responseReceived   = true;
+					    this.responseMsg        = error.json().error;
+					    setTimeout( () => {
+						    this.responseReceived = false;
+					    }, 3000 )
+				    }
+			    );
+	    }
+	    
+		
+		
+		
+		
 		this.prForm.valueChanges
 		.subscribe(
 			(response) => {
@@ -1033,7 +1070,13 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				this.progress_report.report.monthly_total.monetary.tithe.general = monthTemp.monetary.tithe.general;
 				this.progress_report.report.monthly_total.monetary.f_fruit = monthTemp.monetary.f_fruit;
 				this.progress_report.report.monthly_total.monetary.t_giving = monthTemp.monetary.t_giving;
-				this.progress_report.report.monthly_total.monetary.total = monthTemp.monetary.total;
+				
+				/**to calculate the penalty amount */
+				var penalty = (monthTemp.monetary.total*this.penalty_percent)/100;
+				
+				var total =  monthTemp.monetary.total + penalty;
+				
+				this.progress_report.report.monthly_total.monetary.total = total;
 				
 				
 				
@@ -1194,9 +1237,13 @@ export class CreateReportComponent implements OnInit, OnDestroy {
                 }
 		);
 		
+		
+		
+		
 		/** List all available Parish Id's*/
 		
-		const user_type = this.authService.getToken().user_type;
+		
+		
 		if(user_type !=3) {
 			this.parishShow = true;
 			this.pzapService.filterParish({})

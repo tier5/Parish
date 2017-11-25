@@ -91,6 +91,7 @@ class ParishController extends Controller {
                     $parishArray[$key]['first_name']            = $parish->users->first_name;
                     $parishArray[$key]['last_name']             = $parish->users->last_name;
                     $parishArray[$key]['payment_status']        = $parish->payment_status;
+                    $parishArray[$key]['penalty_percent']       = $parish->penalty_percent;
                 }
                     $response = [
                         'status'    => true,
@@ -651,6 +652,7 @@ class ParishController extends Controller {
                     $parishArray[$key]['last_name']             = $parish->users->last_name;
                     $parishArray[$key]['payment_status']        = $parish->payment_status;
                     $parishArray[$key]['penalty']               = $parish->penalty;
+                    $parishArray[$key]['penalty_percent']       = $parish->penalty_percent;
                 }
                 $response = [
                 'status'        => true,
@@ -924,6 +926,7 @@ class ParishController extends Controller {
 
                 if($parish->penalty==1) {
                     $parish->penalty = 0;
+                    $parish->penalty_percent = 0.00;
                 } else {
                     $parish->penalty = 1;
                 }
@@ -974,51 +977,75 @@ class ParishController extends Controller {
     }
 
     /**
-     * Update payment status for all parishes
-     * @param Request $request
+     * Get penalty for the parish
+     * @param $user_id
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function updatePenalty() {
+    public function getPenalty($user_id) {
 
         try {
 
             DB::beginTransaction();
 
-            $parishes = Parish::whereNull('deleted_at')->get();
-            $noOfParish = count($parishes);
+            $parish = Parish::whereNull('deleted_at')
+                            ->where('user_id',$user_id)
+                            ->get();
 
-            if($parishes){
+            if(count($parish)>0) {
 
-                foreach ($parishes as  $parish) {
+                $parish   = $parish->first();
+                $due_date = $parish->due_date;
+                
 
-                    $due_date = $parish->due_date;
-                    $payment_status = $parish->payment_status;
-                    $date = strtotime( $due_date."+7 days");
-                    $overdue_date= date('Y-m-d', $date);
-                    $present_date = date('Y-m-d');
+                $date = strtotime( $due_date."+7 days");
+                $overdue_date= date('Y-m-d', $date);
+                $present_date = date('Y-m-d');
+                $month = date('m');
+                if($parish->penalty==1) {
 
-                    if($present_date>$overdue_date && $payment_status!=1) {
+                    if($present_date>$overdue_date ) {
 
-                        $parish->penalty = 1;
+                        $payment =  Payment::whereNull('deleted_at')
+                                        ->where('created_by' , $parish->user_id)
+                                        ->where('upload_month', $month)
+                                        ->get();
+                        if(count($payment)>0) {
+                            $pay_date = strtotime($payment->first()->created_at);
+                            $payment_date = date('Y-m-d',$pay_date);
+
+                            if($payment_date>$overdue_date) {
+                                $penalty_percent = $parish->penalty_percent;
+                            } else {
+                                $penalty_percent = 0.00;
+                            }
+                        } else {
+                            $penalty_percent = 0.00;
+                        }
+                        
                     } else {
-
-                        $parish->penalty = 0;
+                        $penalty_percent = 0.00;
                     }
-                    $parish->save();
+                } else {
+                    $penalty_percent = 0.00;
                 }
+
                 $response = [
                     'status'    => true,
-                    'message'   => 'Payment status updated successfully.'
-                ];
+                    'message'   => 'Penalty fetched successfully.',
+                    'penalty_percent' => $penalty_percent,
+                    'paydate' => $payment_date
+                   ];
                 $responseCode = 200;
+                
             } else {
                 $response = [
                     'status'    => false,
-                    'error'     => "Payment status not updated."
+                    'error'     => "Parish not found."
                 ];
                 $responseCode = 200;
             }
+            
         } catch (Exception $exception) {
             DB::rollBack();
 
@@ -1033,6 +1060,76 @@ class ParishController extends Controller {
             $responseCode = 500;
         } finally {
             DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+
+
+    /**
+     * Update penalty % for the parish
+     * @param Request $request,,$user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function updatePenaltyPercentage(Request $request, $user_id) {
+
+        try {
+            DB::beginTransaction();
+
+            $parish_id = $request->input('id');
+            $parish = Parish::find($parish_id);
+
+            if (count($parish)>0) {
+                $parish->penalty_percent = $request->input('penalty_percent');
+                $parish->save();
+
+                $response = [
+                'status'    => true,
+                'message'   => "Parish penalty percentage updated successfully."
+                ];
+                $responseCode = 200;
+
+            } else {
+                $response = [
+                'status'    => false,
+                'message'   => "Parish not found."
+                ];
+            }
+
+            
+        } catch (HttpBadRequestException $httpBadRequestException) {
+            $response = [
+                'status'    => false,
+                'error'     => $httpBadRequestException->getMessage()
+            ];
+            $responseCode = 400;
+        } catch (ClientException $clientException) {
+            DB::rollBack();
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $clientException->getMessage()
+            ];
+            $responseCode = 500;
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+
+            unset($parish);
         }
 
         return response()->json($response, $responseCode);

@@ -28,7 +28,6 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             $ob = new ParishController;
             $paymentResponse = $ob->updatePaymentStatus();
-            $penaltyResponse = $ob->updatePenalty();
         })->everyMinute();
     }
 

@@ -394,8 +394,11 @@ class AuthController extends Controller {
                     {
                         if($user->user_type==3) {
                             $paymentStatus = Parish::where('user_id', $user->id)->get()->first()->payment_status;
+                            $penaltyPercent = Parish::where('user_id', $user->id)->get()->first()->penalty_percent;
                         } else {
                             $paymentStatus = 1;
+                            $penaltyPercent = 0.00;
+
                         }
 
                     $response = [
@@ -408,6 +411,7 @@ class AuthController extends Controller {
                         'pastor_type'       => $user->pastor_type,
                         'token'             => $token,
                         'payment_status'    => $paymentStatus,
+                        'penalty_percent'   => $penaltyPercent
                     ];
                     $responseCode = 200; 
                     }

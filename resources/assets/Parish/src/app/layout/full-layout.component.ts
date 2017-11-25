@@ -35,7 +35,7 @@ export class FullLayoutComponent {
 		if(user_type != 1){
 			this.showSidebar = false;
 			if(user_type == 3){
-				if(parishStatus ==1) {
+				if(parishStatus !=1) {
 					this.paymentOption 	= true;
 				}
 				

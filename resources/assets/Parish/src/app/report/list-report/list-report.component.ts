@@ -69,7 +69,7 @@ export class ListReportComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 
         /** Setting user type */
-        
+        console.log(this.authService.getToken());
         
         if( this.authService.getToken().user_type === 1 ) {
             this.showParishIdList = true;

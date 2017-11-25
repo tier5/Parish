@@ -245,6 +245,17 @@ Route::group(['prefix' => 'v1'], function() {
                 'as'   => 'api.v1.updateParishPenalty.post'
             ]);
 
+            Route::post('/update-penalty-percentage/{user_id}', [
+                'uses' => 'Api\V1\ParishController@updatePenaltyPercentage',
+                'as'   => 'api.v1.updatePenaltyPercentage.post'
+            ]);
+
+
+            Route::get('/get-penalty/{user_id}', [
+                'uses' => 'Api\V1\ParishController@getPenalty',
+                'as'   => 'api.v1.getPenalty.get'
+            ]);
+
             Route::get('/dashboard/{user_id}', [
                 'uses' => 'Api\V1\ParishController@getDashboard',
                 'as' => 'api.v1.getDashboard.get'

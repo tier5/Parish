@@ -204,13 +204,23 @@
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">
                                     <switch
                                             [status]="(parish.penalty===1)?'true': 'false'"
-                                            [size]="mini"
+                                            [size]="size"
                                             (statusChange)="onUpdatePenalty(parish)"
                                     >
-
                                     </switch>
+                                    <div class="" *ngIf="parish.penalty===1">
+                                        <input class="input-penalty" type="text" name="percentage" value="{{parish.penalty_percent}}" [(ngModel)]="parish.penalty_percent">
+                                        <button
+                                                class="btn btn-warning btn-xs"
+                                                type="button"
+                                                (click)="onUpdatePenaltyPercentage(parish)">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </button>
+                                    </div>
 
                                 </td>
+
+
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">
                                 <button

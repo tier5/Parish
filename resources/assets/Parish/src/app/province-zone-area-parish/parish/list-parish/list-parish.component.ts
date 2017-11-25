@@ -96,6 +96,8 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	formData = {
 		due_date : null
 	};
+	
+	size:string ="mini";
 
 
 	/** Injecting services to be used in this component */
@@ -562,8 +564,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 									this.responseStatus = response.json().status;
 									
 									if ( response.json().status ) {
-										console.log(response.json());
-										this.responseMsg = response.json().message;
+										
 										this.selectDate  = false;
 										this.pzapService.refreshList.next( {} );
 									} else {
@@ -662,8 +663,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 
 					if ( response.json().status ) {
 						this.responseMsg = response.json().message;
-						this.onResetFilters();
-						this.selectDate  = false;
+						this.pzapService.refreshList.next( {} );
 					} else {
 						this.responseMsg = '';
 					}
@@ -691,6 +691,49 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			);
 
 
+	}
+	
+	/** Function to update penalty */
+	onUpdatePenaltyPercentage(parishDetails: ParishListModel) {
+		
+		this.pzapService.updatePenaltyPercentage( parishDetails )
+			.subscribe(
+				( response: Response ) => {
+					this.showLoader = false;
+					this.responseStatus = response.json().status;
+					
+					if ( response.json().status ) {
+						this.responseMsg = response.json().message;
+						console.log(response.json());
+						this.pzapService.refreshList.next( {} );
+					
+					} else {
+						this.responseMsg = '';
+					}
+				},
+				( error: Response ) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
+					
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				},
+				() => {
+					this.responseReceived = true;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 3000 )
+				}
+			);
+		
+		
 	}
 
 	/** Un-subscribing from all custom made events when component is destroyed */

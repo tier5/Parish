@@ -16,7 +16,11 @@ export class ParishListModel {
 				 public pastor_name_province: string,
 	             public first_name: string,
 	             public last_name: string,
-	             public start_date: any) { }
+	             public start_date: any,
+				 public penalty : number,
+				 public penalty_amount  : number,
+				 public payment_status  : number) { }
+				 
 	             
 }
 

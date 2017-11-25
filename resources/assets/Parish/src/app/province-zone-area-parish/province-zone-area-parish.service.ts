@@ -193,7 +193,7 @@ export class ProvinceZoneAreaParishService {
 		return this.http.post( environment.API_URL + 'parish/add-duedate/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
 	}
 
-	/**Add due date for the current month */
+	/**Update penalty status for the parish */
 	updatePenalty(body: any ): Observable<any> {
 		const obj = {
 			user_id: this.authService.getToken().user_id
@@ -206,5 +206,21 @@ export class ProvinceZoneAreaParishService {
 	updatePayment(): Observable<any> {
 		
 		return this.http.get( environment.API_URL + 'parish/update-payment',  { headers: this.headers } );
+	}
+	
+	/**Update penalty % for the parish  */
+	updatePenaltyPercentage(body: any): Observable<any> {
+		const obj = {
+			user_id: this.authService.getToken().user_id
+		};
+		const user_id = this.authService.getToken().user_id;
+		return this.http.post( environment.API_URL + 'parish/update-penalty-percentage/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
+	}
+	
+	/**Get penalty % for the parish  */
+	getPenalty(): Observable<any> {
+		
+		const user_id = this.authService.getToken().user_id;
+		return this.http.get( environment.API_URL + 'parish/get-penalty/'+ user_id, { headers: this.headers } );
 	}
 }
