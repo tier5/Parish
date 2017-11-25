@@ -859,7 +859,6 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 			    .subscribe(
 				    ( response: Response ) => {
 					    
-					    console.log(response.json());
 					    if(response.json().status) {
 					    	this.penalty_percent = response.json().penalty_percent;
 					    	console.log(this.penalty_percent);
