@@ -9,3 +9,7 @@
 .resetfilter {
     float: right;
 }
+
+.alert.alert-success {
+    background-color: #4CAF50;
+}

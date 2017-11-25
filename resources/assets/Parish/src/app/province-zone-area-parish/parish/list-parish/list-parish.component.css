@@ -17,9 +17,9 @@
     border-radius: 5px;
 }
 
-/*.alert.success {*/
-/*background-color: #4CAF50;*/
-/*}*/
+.alert.alert-success {
+background-color: #4CAF50;
+}
 
 /*.alert.info {*/
 /*background-color: #2196F3;*/
