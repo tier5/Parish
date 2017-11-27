@@ -1307,32 +1307,22 @@ class ParishController extends Controller {
 
             DB::beginTransaction();
 
-            $parish = Parish::where('user_id',$user_id)->get();
-            $noOfParish = count($parish);
+            $get_parish = Parish::where('user_id',$user_id)->get();
+            $noOfParish = count($get_parish);
             
-            if($parish){
-                $parish = $parish->first();
+            if(count($get_parish)>0){
+                $parish = $get_parish->first();
                 $parishArray = [];
                 
                 $parishArray['id']                      = $parish->id;
                 $parishArray['user_id']                 = $parish->users->id;
-                $parishArray['parish_id']               = $parish->users->parish_id;
-                $parishArray['parish_name']             = $parish->name;
-                $parishArray['province_name']           = $parish->areas->zones->proviences->name;
-                $parishArray['province_id']             = $parish->areas->zones->proviences->id;
-                $parishArray['zone_name']               = $parish->areas->zones->name;
-                $parishArray['zone_id']                 = $parish->areas->zones->id;
-                $parishArray['area_name']               = $parish->areas->name;
-                $parishArray['area_id']                 = $parish->areas->id;
-                $parishArray['pastor_name_area']        = $parish->areas->users->first_name;
-                $parishArray['pastor_name_zone']        = $parish->areas->zones->users->first_name;
-                $parishArray['pastor_name_province']    = $parish->areas->zones->proviences->users->first_name;
+            
                 $parishArray['password']                = $parish->users->uniqueKey;
                 $parishArray['first_name']              = $parish->users->first_name;
                 $parishArray['last_name']               = $parish->users->last_name;
-                $parishArray['start_date']              = Date('m-d-Y',strtotime($parish->start_date));
-                $parishArray['due_date']                = Date('m-d-Y',strtotime($parish->due_date));
-                $parishArray['penalty']                 = Date('m-d-Y',strtotime($parish->penalty));
+                $parishArray['start_date']              = date('m-d-Y',strtotime($parish->start_date));
+                $parishArray['due_date']                = date('m-d-Y',strtotime($parish->due_date));
+                $parishArray['penalty']                 = date('m-d-Y',strtotime($parish->penalty));
                 $parishArray['payment_status']          = $parish->payment_status;
 
                     $response = [

@@ -16,8 +16,8 @@ export class FullLayoutComponent {
 	
 	public toggleBarIcon: boolean = true;
 	public showSidebar: boolean = true;
-	paymentOption: boolean = false;
-	parishStatus: number;
+	paymentOption: boolean = true;
+	parishStatus: number = 0;
 	superAdmin: boolean = false;
 	paymentStatus: boolean = false;
 	userInformation:{};
@@ -33,25 +33,28 @@ export class FullLayoutComponent {
 		const user_type = this.authService.getToken().user_type;
 		this.userInformation = this.authService.getToken();
 		
-		this.pzapService.getParish()
-			.subscribe(
-			(response: Response) => {
-				if(response.json().status) {
-					this.parishStatus = response.json().parish.payment_status;;
-					if(this.parishStatus!=1) {
-						this.paymentStatus = true;
-						this.paymentOption = false;
+		if(user_type ==3) {
+			this.pzapService.getParish()
+				.subscribe(
+					(response: Response) => {
+						if (response.json().status) {
+							this.parishStatus = response.json().parish.payment_status;
+							;
+							if (this.parishStatus != 1) {
+								this.paymentStatus = true;
+								this.paymentOption = false;
+							}
+						}
+					},
+					(error: Response) => {
+						if (error.status === 401) {
+							this.authService.removeToken();
+							this.router.navigate(['/login']);
+						}
+						
 					}
-				}
-			},
-			(error: Response) => {
-				if ( error.status === 401 ) {
-					this.authService.removeToken();
-					this.router.navigate( [ '/login' ] );
-				}
-				
-			}
-		);
+				);
+		}
 		
 		
 		
