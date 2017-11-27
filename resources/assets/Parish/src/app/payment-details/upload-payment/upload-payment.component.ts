@@ -96,6 +96,7 @@ export class UploadPaymentComponent {
 					if(response.json().status){
 						this.progress       = 100;
 						this.responseMsg    = response.json().message;
+						
 					}
 				},(error: Response) => {
 					this.showLoader         = false;

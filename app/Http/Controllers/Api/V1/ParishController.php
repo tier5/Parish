@@ -15,7 +15,9 @@ use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
 use App\Models\Parish;
+use App\Models\Subscription;
 use App\Models\Payment;
+use App\Models\WemPayment;
 use App\Helpers;
 use Crypt;
 use DB;
@@ -27,6 +29,7 @@ use JWTAuth;
 use JWTAuthException;
 use Log;
 use SoftDeletes;
+use \Stripe;
 
 class ParishController extends Controller {
 
@@ -211,6 +214,42 @@ class ParishController extends Controller {
             $parish->created_by = $request->input('user_id');
 
             $parish->save();
+
+
+
+            // start stripe payment charge 
+
+            $key  = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+            $stripe_token = $request->input('token');
+            $creditCardToken = $stripe_token['id'];
+
+            $plan_id = env('PARISH_PLAN');
+
+            $plan = \Stripe\Plan::retrieve($plan_id);
+            $amount = $plan->amount;
+            $currency = $plan->currency;
+                
+            $wem = User::find($request->input('user_id'));
+
+            $subscription =\Stripe\Subscription::create(array(
+                "customer" => $wem->stripe_id,
+                "items" => array(
+                    array(
+                         "plan" => $plan_id,
+                   ),
+                )
+            )); 
+
+            if($subscription->id) {
+                $wem_payment = new WemPayment();
+                $wem_payment->wem_id = $request->input('user_id');
+                $wem_payment->parish_user_id = $user->id;
+                $wem_payment->name = $plan->interval;
+                $wem_payment->stripe_id = $subscription->id;
+                $wem_payment->card_brand = $stripe_token['card']['brand'];
+                $wem_payment->card_last_four = $stripe_token['card']['last4'];
+                $wem_payment->save();
+            }
 
             $response = [
             'status'        => true,
@@ -864,7 +903,7 @@ class ParishController extends Controller {
                     } else {
 
                         $date = date("Y-m-d");
-                        if($date>$due_date) {
+                        if(($due_date!=null) && ($date>$due_date)) {
 
                             $parish->payment_status = 2;
                         }
@@ -1255,4 +1294,77 @@ class ParishController extends Controller {
 
         return response()->json($response, $responseCode);
     }
+
+    /**
+     * get Parish Data
+     *
+     * @param $user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getParish($user_id) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $parish = Parish::where('user_id',$user_id)->get();
+            $noOfParish = count($parish);
+            
+            if($parish){
+                $parish = $parish->first();
+                $parishArray = [];
+                
+                $parishArray['id']                      = $parish->id;
+                $parishArray['user_id']                 = $parish->users->id;
+                $parishArray['parish_id']               = $parish->users->parish_id;
+                $parishArray['parish_name']             = $parish->name;
+                $parishArray['province_name']           = $parish->areas->zones->proviences->name;
+                $parishArray['province_id']             = $parish->areas->zones->proviences->id;
+                $parishArray['zone_name']               = $parish->areas->zones->name;
+                $parishArray['zone_id']                 = $parish->areas->zones->id;
+                $parishArray['area_name']               = $parish->areas->name;
+                $parishArray['area_id']                 = $parish->areas->id;
+                $parishArray['pastor_name_area']        = $parish->areas->users->first_name;
+                $parishArray['pastor_name_zone']        = $parish->areas->zones->users->first_name;
+                $parishArray['pastor_name_province']    = $parish->areas->zones->proviences->users->first_name;
+                $parishArray['password']                = $parish->users->uniqueKey;
+                $parishArray['first_name']              = $parish->users->first_name;
+                $parishArray['last_name']               = $parish->users->last_name;
+                $parishArray['start_date']              = Date('m-d-Y',strtotime($parish->start_date));
+                $parishArray['due_date']                = Date('m-d-Y',strtotime($parish->due_date));
+                $parishArray['penalty']                 = Date('m-d-Y',strtotime($parish->penalty));
+                $parishArray['payment_status']          = $parish->payment_status;
+
+                    $response = [
+                        'status'    => true,
+                        'message'   => "Parish has been found.",
+                        'parish'    => $parishArray
+                    ];
+                    $responseCode = 200;
+            } else {
+                    $response = [
+                        'status'    => false,
+                        'error'     => "No parish detail has been found."
+                    ];
+                    $responseCode = 200;
+                }
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
 }

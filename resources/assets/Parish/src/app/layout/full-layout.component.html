@@ -160,7 +160,7 @@
                 <img src="{{ base_url }}/images/payment-icon.png"> Payment
             </a>
             <ul class="children collapse" id="payment-section">
-                <li *ngIf="paymentOption">
+                <li>
                     <a routerLinkActive="active" [routerLink]="['/payment/upload']">
                         <i class="fa fa-fw fa-plus-square"></i> Upload
                     </a>
@@ -179,7 +179,7 @@
                 <img src="{{ base_url }}/images/report-icon.png">  Report
             </a>
             <ul class="children collapse" id="report-section">
-                <li *ngIf="!paymentOption">
+                <li *ngIf="paymentOption">
                     <a routerLinkActive="active" [routerLink]="['/report/create']">
                         <i class="fa fa-fw fa-plus-square"></i> Create
                     </a>

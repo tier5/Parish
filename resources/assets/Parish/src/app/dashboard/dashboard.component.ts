@@ -33,17 +33,7 @@ export class DashboardComponent implements OnInit{
   lineChartMonths:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'];
 
   month : number;
-  ChartOptions:any = {
-    scaleShowVerticalLines: false,
-    responsive: true,
-    mainAspectRatio:true,
-	  scales: {
-		  yAxes: [
-			  { ticks: {min: 0} }]
-	  }
-	
-  };
-	
+  ChartOptions:any ;
   public barChartLegend:boolean = true;
 	
 	
@@ -91,9 +81,19 @@ export class DashboardComponent implements OnInit{
 
   ngOnInit(): void {
     let self=this;
+	this.ChartOptions = {
+		scaleShowVerticalLines: false,
+		responsive: true,
+		mainAspectRatio:true,
+		scales: {
+			yAxes: [
+				{ ticks: {min: 0} }]
+		}
+		
+	};
 	
-	  
-    /** Subscribe to event to get chart data */
+	
+	  /** Subscribe to event to get chart data */
 
     this.refreshDashboardSubscription = this.dashboardService.refreshList
         .subscribe(

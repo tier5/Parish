@@ -180,6 +180,27 @@
                         </div>
                     </div>
 
+
+                    <!-- Stripe Custom Form -->
+
+                    <div class="row" >
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <label for="card-element" *ngIf="!editMode">
+                                        Credit or debit card
+                                    </label>
+                                    <div id="card-element">
+                                        <!-- a Stripe Element will be inserted here. -->
+                                    </div>
+
+                                    <!-- Used to display form errors -->
+                                    <div id="card-errors" role="alert" *ngIf="!editMode"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-6">
                             <button

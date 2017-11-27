@@ -124,7 +124,7 @@ export class RegisterComponent {
 	/** Function call on submit */
 	onSubmit() {
         const body = this.formRegister.value;
-
+		
         this.stripe.createToken(this.card).then((result) => {
             if (result.error) {
 
@@ -133,7 +133,6 @@ export class RegisterComponent {
                 errorElement.textContent = result.error.message;
 
             } else {
-
                 // Send the token to your server
                 this.userRegisterRequested = true;
                 this.registerService.register( { ...body, token: result.token, planId: this.planId } )

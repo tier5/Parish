@@ -261,6 +261,12 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.getDashboard.get'
             ]);
 
+
+            Route::get('/get-parish/{user_id}', [
+                'uses' => 'Api\V1\ParishController@getParish',
+                'as' => 'api.v1.getParish.get'
+            ]);
+
             Route::get('/{user_id}', [
                 'uses' => 'Api\V1\ParishController@getParishList',
                 'as' => 'api.v1.getParishList.post'

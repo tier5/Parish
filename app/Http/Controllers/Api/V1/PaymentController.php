@@ -372,6 +372,8 @@ class PaymentController extends Controller {
 
                 $this->WEMUser= $getWEMuser->created_by;
 
+
+
             } else {
                 $response = [
                     'status'        => false,
@@ -452,6 +454,18 @@ class PaymentController extends Controller {
             $payment->created_by            = $request->input('user_id');
 
             $payment->save();
+
+            $month= date('m');
+
+            if($request->input('upload_month')==$month) {
+                $getParish = Parish::where('user_id',$request->input('user_id'))
+                                    ->first();
+                $getParish->payment_status = 1;
+                
+                $getParish->save();
+            }
+
+            
 
             $response = [
                 'status'    => true,

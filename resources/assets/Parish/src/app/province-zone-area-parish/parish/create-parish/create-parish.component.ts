@@ -95,6 +95,11 @@ export class CreateParishComponent {
 	};
 	
 	
+	stripe: any;
+	elements: any;
+	style: any;
+	card: any;
+	
 	/** Injecting services to be used in this component */
 	constructor( private pzapService: ProvinceZoneAreaParishService,
 	             private authService: AuthService,
@@ -102,6 +107,99 @@ export class CreateParishComponent {
 	             private router: Router ) { }
 	
 	ngOnInit() {
+		
+		/** Checking route params to get present mode */
+		this.activatedRoute.data.subscribe(
+			(data: Data) => {
+				this.editMode = data['editMode'];
+				
+				/** Perform operation is present mode is edit mode */
+				if( this.editMode ) {
+					this.provinceSelected   = true;
+					this.zoneSelected       = true;
+					this.areaSelected       = true;
+					this.heading            = 'Update';
+					this.title              = 'Parish - Update';
+					
+					/** Checking route params to get id of area to edit */
+					this.activatedRoute.params.subscribe(
+						(params: Params) => {
+							this.parishId = params['id'];
+							this.pzapService.parishToEdit( this.parishId )
+								.subscribe(
+									(response: Response) => {
+										this.parishData = response.json().parish;
+										let tmpDate = moment(this.parishData.start_date);
+										this.parishData.start_date = tmpDate;
+										
+										this.pzapService.filterZone( { province_id: this.parishData.province_id } )
+											.subscribe(
+												(response: Response) => {
+													this.zoneList = response.json().zones;
+													this.pzapService.filterArea( { zone_id: this.parishData.zone_id } )
+														.subscribe(
+															(response: Response) => {
+																this.areaList = response.json().areas;
+															}
+														);
+												},
+												(error: Response) => {
+													if ( error.status === 401 ) {
+														this.authService.removeToken();
+														this.router.navigate( [ '/login' ] );
+													}
+												}
+											);
+									}
+								);
+						},
+						(error: Response) => {
+							if ( error.status === 401 ) {
+								this.authService.removeToken();
+								this.router.navigate( [ '/login' ] );
+							}
+						},
+						() => { }
+					);
+				} else {
+					this.provinceSelected   = false;
+					this.zoneSelected       = false;
+					this.areaSelected       = false;
+					
+				}
+			}
+		);
+		
+		if(!this.editMode) {
+			
+			this.stripe = Stripe('pk_test_SIRpnt5y8OAGeLprrzbQKrKd');
+			this.elements = this.stripe.elements();
+			
+			// Custom styling can be passed to options when creating an Element.
+			this.style = {
+				base: {
+					// Add your base input styles here. For example:
+					fontSize: '16px',
+					lineHeight: '18px',
+				},
+			};
+			
+			// Create an instance of the card Element
+			this.card = this.elements.create('card', {style: this.style});
+			
+			// Add an instance of the card Element into the `card-element` <div>
+			
+			this.card.mount('#card-element');
+			
+			this.card.addEventListener('change', ({error}) => {
+				const displayError = document.getElementById('card-errors');
+				if (error) {
+					displayError.textContent = error.message;
+				} else {
+					displayError.textContent = '';
+				}
+			});
+		}
 
 		/** Service call to get list of all available province */
 		this.pzapService.listProvince()
@@ -115,68 +213,6 @@ export class CreateParishComponent {
 					this.provinceList = [];
 					this.responseMsg = response.json().message;
 				}
-
-				/** Checking route params to get present mode */
-				this.activatedRoute.data.subscribe(
-					(data: Data) => {
-						this.editMode = data['editMode'];
-
-						/** Perform operation is present mode is edit mode */
-						if( this.editMode ) {
-							this.provinceSelected   = true;
-							this.zoneSelected       = true;
-							this.areaSelected       = true;
-							this.heading            = 'Update';
-							this.title              = 'Parish - Update';
-							
-							/** Checking route params to get id of area to edit */
-							this.activatedRoute.params.subscribe(
-								(params: Params) => {
-									this.parishId = params['id'];
-									this.pzapService.parishToEdit( this.parishId )
-									.subscribe(
-										(response: Response) => {
-											this.parishData = response.json().parish;
-											let tmpDate = moment(this.parishData.start_date);
-                                            this.parishData.start_date = tmpDate;
-											
-											this.pzapService.filterZone( { province_id: this.parishData.province_id } )
-											.subscribe(
-												(response: Response) => {
-													this.zoneList = response.json().zones;
-														this.pzapService.filterArea( { zone_id: this.parishData.zone_id } )
-															.subscribe(
-																(response: Response) => {
-																	this.areaList = response.json().areas;
-																}
-															);
-												},
-												(error: Response) => {
-													if ( error.status === 401 ) {
-														this.authService.removeToken();
-														this.router.navigate( [ '/login' ] );
-													}
-												}
-											);
-										}
-									);
-								},
-								(error: Response) => {
-									if ( error.status === 401 ) {
-										this.authService.removeToken();
-										this.router.navigate( [ '/login' ] );
-									}
-								},
-								() => { }
-							);
-						} else {
-							this.provinceSelected   = false;
-							this.zoneSelected       = false;
-							this.areaSelected       = false;
-						}
-					}
-				);
-				
 			},
 			(error: Response) => {
 				if ( error.status === 401 ) {
@@ -283,8 +319,10 @@ export class CreateParishComponent {
 	/** Function call when form is submitted */
 	onSubmit(createParishForm: NgForm) {
 		this.showLoader = true;
+		
+		
 		if( this.editMode ) {
-
+			
 			const area_id: number = this.parishData.id;
 			const pastor_id:number = this.parishData.user_id;
 			var start_date    = new Date(createParishForm.value.start_date);
@@ -294,86 +332,103 @@ export class CreateParishComponent {
 			const date     = year+"-"+month+"-"+day;
 			
 			createParishForm.value.start_date = date;
-
+			
 			this.pzapService.editParish( area_id, pastor_id, createParishForm.value )
-			.subscribe(
-				( response: Response ) => {
-					this.showLoader = false;
-					this.responseStatus = response.json().status;
-					
-					if ( response.json().status ) {
-						this.responseMsg = response.json().message;
-					} else {
-						this.responseMsg = '';
+				.subscribe(
+					( response: Response ) => {
+						this.showLoader = false;
+						this.responseStatus = response.json().status;
+						
+						if ( response.json().status ) {
+							this.responseMsg = response.json().message;
+						} else {
+							this.responseMsg = '';
+						}
+					},
+					( error: Response ) => {
+						if ( error.status === 401 ) {
+							this.authService.removeToken();
+							this.router.navigate( [ '/login' ] );
+						}
+						
+						this.showLoader         = false;
+						this.responseStatus     = false;
+						this.responseReceived   = true;
+						this.responseMsg        = error.json().error;
+						setTimeout( () => {
+							this.responseReceived = false;
+						}, 3000 )
+					},
+					() => {
+						//createAreaForm.reset();
+						this.responseReceived = true;
+						setTimeout( () => {
+							this.responseReceived = false;
+						}, 3000 )
 					}
-				},
-				( error: Response ) => {
-					if ( error.status === 401 ) {
-						this.authService.removeToken();
-						this.router.navigate( [ '/login' ] );
-					}
-					
-					this.showLoader         = false;
-					this.responseStatus     = false;
-					this.responseReceived   = true;
-					this.responseMsg        = error.json().error;
-					setTimeout( () => {
-						this.responseReceived = false;
-					}, 3000 )
-				},
-				() => {
-					//createAreaForm.reset();
-					this.responseReceived = true;
-					setTimeout( () => {
-						this.responseReceived = false;
-					}, 3000 )
-				}
-			);
+				);
 		} else {
-			
-			var start_date    = new Date(createParishForm.value.start_date);
-			const year     = start_date.getFullYear().toString();
-			const month    = (start_date.getMonth()+1).toString();
-			const day      = start_date.getDate().toString();
-			const date     = year+"-"+month+"-"+day;
-			
-			createParishForm.value.start_date = date;
-			this.pzapService.createParish( createParishForm.value )
-			.subscribe(
-				( response: Response ) => {
-					this.showLoader = false;
-					if ( response.json().status ) {
-						this.responseStatus = true;
-						this.responseMsg = response.json().message;
-					} else {
-						this.responseStatus = false;
-					}
-				},
-				( error: Response ) => {
-					if ( error.status === 401 ) {
-						this.authService.removeToken();
-						this.router.navigate( [ '/login' ] );
-					}
+			this.stripe.createToken(this.card).then((result) => {
+				if (result.error) {
 					
+					// Inform the user if there was an error
+					var errorElement = document.getElementById('card-errors');
+					errorElement.textContent = result.error.message;
 					this.showLoader         = false;
-					this.responseStatus     = false;
-					this.responseReceived   = true;
-					this.responseMsg        = error.json().error;
-					setTimeout( () => {
-						this.responseReceived = false;
-					}, 3000 );
-				},
-				() => {
-					this.responseReceived       = true;
-					createParishForm.reset();
-					this.provinceSelected       = false;
-					this.zoneSelected           = false;
-					setTimeout( () => {
-						this.responseReceived   = false;
-					}, 3000 );
+					
+				} else {
+					// Send the token to your server
+					var start_date    = new Date(createParishForm.value.start_date);
+					const year     = start_date.getFullYear().toString();
+					const month    = (start_date.getMonth()+1).toString();
+					const day      = start_date.getDate().toString();
+					const date     = year+"-"+month+"-"+day;
+					
+					createParishForm.value.start_date = date;
+					
+					const body = createParishForm.value;
+					this.pzapService.createParish( { ...body, token: result.token}  )
+						.subscribe(
+							( response: Response ) => {
+								this.showLoader = false;
+								if ( response.json().status ) {
+									this.card.clear();
+									this.responseStatus = true;
+									this.responseMsg = response.json().message;
+								} else {
+									this.responseStatus = false;
+								}
+							},
+							( error: Response ) => {
+								if ( error.status === 401 ) {
+									this.authService.removeToken();
+									this.router.navigate( [ '/login' ] );
+								}
+								
+								this.showLoader         = false;
+								this.responseStatus     = false;
+								this.responseReceived   = true;
+								this.responseMsg        = error.json().error;
+								setTimeout( () => {
+									this.responseReceived = false;
+								}, 3000 );
+							},
+							() => {
+								this.responseReceived       = true;
+								createParishForm.reset();
+								this.provinceSelected       = false;
+								this.zoneSelected           = false;
+								setTimeout( () => {
+									this.responseReceived   = false;
+								}, 3000 );
+							}
+						);
+					
 				}
-			);
+			});
 		}
+		
+		
 	}
 	
 	
