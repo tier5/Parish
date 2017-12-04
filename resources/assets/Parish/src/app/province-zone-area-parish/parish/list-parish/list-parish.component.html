@@ -185,7 +185,7 @@
                             <th>Parish Name</th>
                             <th>First Name</th>
                             <th>Last Name</th>
-                            <th>Province/Zone/Area</th>
+                            <th>Parish / Area / Zone / Province</th>
                             <th>Username</th>
                             <th>Password</th>
                             <th>Penalty</th>
@@ -198,8 +198,7 @@
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.parish_name }}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.first_name }}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.last_name }}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.province_name }}&nbsp;=>&nbsp;{{ parish.zone_name }}&nbsp;=>&nbsp;{{
-                                    parish.area_name }}
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.parish_name }} => {{ parish.area_name }} => {{ parish.zone_name }}&nbsp;=> {{ parish.province_name }}
                                 </td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''"> {{ parish.parish_id }}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.password}}</td>

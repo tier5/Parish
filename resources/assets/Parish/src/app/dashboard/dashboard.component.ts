@@ -27,6 +27,12 @@ export class DashboardComponent implements OnInit{
 
   refreshDashboardSubscription   : Subscription;
   currentMonth : number;
+  superAdmin: boolean = false;
+  wem: boolean = false;
+  showZone: boolean = false;
+  showArea: boolean = false;
+  isParish: boolean = false;
+  loadder:boolean   = false;
   
   lineChartLabels:Array<any> = [];
 	
@@ -43,6 +49,7 @@ export class DashboardComponent implements OnInit{
 		{data: [], label: 'Non-Compliance Parishes'}
 	];
 	lineChartType:string = 'bar';
+	
 	
 	
 	// events
@@ -78,6 +85,20 @@ export class DashboardComponent implements OnInit{
       complete:false
     }
   ];
+	
+	
+	
+	//Card
+	
+	public card1:StatsCard={color:"#1ebfae",icon:"fa-users",label:"WEM",data:0};
+	public card2:StatsCard={color:"#30a5ff",icon:"fa-users",label:"Province Paster",data:0};
+	public card3:StatsCard={color:"#ffb53e",icon:"fa-users",label:"Zone Paster",data:0};
+	public card4:StatsCard={color:"#f9243f",icon:"fa-users",label:"Area Paster",data:0};
+	public card5:StatsCard={color:"#f9243f",icon:"fa-users",label:"Parish",data:0};
+	public card6:StatsCard={color:"#f9243f",icon:"fa-money",label:"Total Payment",data:0};
+	public card7:StatsCard={color:"#f9243f",icon:"fa-file",label:"Total Report",data:0};
+	public card8:StatsCard={color:"#30a5ff",icon:"fa-cogs",label:"On Exemption",data:0};
+	public card9:StatsCard={color:"#1ebfae",icon:"fa-cogs",label:"On hold",data:0};
 
   ngOnInit(): void {
     let self=this;
@@ -92,8 +113,10 @@ export class DashboardComponent implements OnInit{
 		
 	};
 	
+	this.loadder  = false;
+	this.isParish = false;
 	
-	  /** Subscribe to event to get chart data */
+	/** Subscribe to event to get chart data */
 
     this.refreshDashboardSubscription = this.dashboardService.refreshList
         .subscribe(
@@ -124,6 +147,66 @@ export class DashboardComponent implements OnInit{
 	                  console.log(error.json());
                   }
               );
+	
+	            this.dashboardService.getUserCount()
+		            .subscribe(
+			            (response: Response) => {
+			            	
+				            if(response.json().status) {
+					          
+				                    if(response.json().user_type == 'Province') {
+						                this.loadder  = true;
+						                this.showArea = true;
+						                this.showZone = true;
+						                this.isParish = false;
+										this.card3    = {color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Paster",data:response.json().userCount.zone};
+										this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Paster",data:response.json().userCount.area};
+										this.card5    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish };
+							          
+						            } else if(response.json().user_type == 'Zone') {
+							            this.loadder  = true;
+							            this.showArea = true;
+							            this.showZone = false;
+							            this.isParish = false;
+							            this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Paster",data:response.json().userCount.area};
+							            this.card5    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish};
+						            } else if(response.json().user_type == 'area') {
+							           this.loadder  = true;
+							           this.showArea = false;
+							           this.showZone = false;
+							           this.isParish = false;
+							           this.card5    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish};
+						            } else if(response.json().user_type == 'Super-admin') {
+							           this.loadder  = true;
+							           this.superAdmin = true;
+							           this.isParish = false;
+							           this.card1    = {color:"#1ebfae",icon:"fa-users fa fa-3x fa-fw",label:"WEM",data:response.json().userCount.wem};
+							           this.card2    = {color:"#30a5ff",icon:"fa-users  fa fa-3x fa-fw",label:"Province Paster",data:response.json().userCount.province};
+							           this.card3    = {color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Paster",data:response.json().userCount.zone};
+							           this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Paster",data:response.json().userCount.area};
+							           this.card5    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish};
+				                       this.card8    = {color:"#30a5ff",icon:"fa-cogs",label:"On Exemption",data:response.json().userCount.wem_on_exemption};
+				                       this.card9    = {color:"#1ebfae",icon:"fa-cogs",label:"On hold",data:response.json().userCount.wem_on_hold};
+				                    } else if(response.json().user_type == 'WEM') {
+							           this.loadder  = true;
+							           this.wem = true;
+							           this.isParish = false;
+							           this.card2={color:"#30a5ff",icon:"fa-users  fa fa-3x fa-fw",label:"Province Paster",data:response.json().userCount.province};
+							           this.card3={color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Paster",data:response.json().userCount.zone};
+							           this.card4={color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Paster",data:response.json().userCount.area};
+							           this.card5={color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish};
+						            } else {
+							           this.loadder  = false;
+							           this.isParish = true;
+							           this.card6={color:"#ffb53e",icon:"fa-money  fa fa-3x fa-fw",label:"Total Payment",data:response.json().userCount.payment};
+							           this.card7={color:"#30a5ff",icon:"fa-file  fa fa-3x fa-fw",label:"Total Report",data:response.json().userCount.report};
+						            }
+					        }
+						},
+			            (error: Response) => {
+				            console.log(error.json());
+			            }
+		            );
             }
         );
 	
@@ -141,15 +224,10 @@ export class DashboardComponent implements OnInit{
 	  },5000);
 	
   }
+  
+
 	
-  //Card
-
-  public card1:StatsCard={color:"#1ebfae",icon:"fa-users",label:"Users",data:50};
-  public card2:StatsCard={color:"#30a5ff",icon:"fa-cogs",label:"Items",data:80};
-  public card3:StatsCard={color:"#ffb53e",icon:"fa-cogs",label:"Orders",data:90};
-  public card4:StatsCard={color:"#f9243f",icon:"fa-cog",label:"Delivered",data:2};
-
-  //ProgressBars
+	//ProgressBars
   public pbar1:PieChart={color:"#1ebfae",max:100,label:"Load",current:2};
   public pbar2:PieChart={color:"#30a5ff",max:100,label:"Traffic",current:20};
   public pbar3:PieChart={color:"#ffb53e",max:100,label:"Users",current:50};

@@ -36,5 +36,11 @@ export class DashboardService {
     const user_id = this.authService.getToken().user_id;
     return this.http.get( environment.API_URL + 'parish/dashboard/' + user_id, { headers: this.headers } );
   }
+	
+	/** Fetch number of province, zone and area pastor, no of WEm and no of parish data */
+	getUserCount(): Observable<any> {
+		const user_id = this.authService.getToken().user_id;
+		return this.http.get( environment.API_URL + 'user/dashboard/getCountOfUsers/' + user_id, { headers: this.headers } );
+	}
 
 }

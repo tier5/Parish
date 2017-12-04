@@ -306,7 +306,7 @@ Route::group(['prefix' => 'v1'], function() {
 
             Route::get('/wem-list/{user_id}',[
                 'uses'  => 'Api\V1\UserController@getWemList',
-                'as'    => 'api.v1.getWemList.post'
+                'as'    => 'api.v1.getWemList.get'
             ]);
 
             Route::post('/change-status/{user_id}',[
@@ -324,6 +324,10 @@ Route::group(['prefix' => 'v1'], function() {
                 'as' => 'api.v1.updateWemPercentage.patch'
             ]);
 
+            Route::get('/dashboard/getCountOfUsers/{user_id}',[
+                'uses'  => 'Api\V1\UserController@getUserCount',
+                'as'    => 'api.v1.getUserCount.get'
+            ]);
             
         });
 

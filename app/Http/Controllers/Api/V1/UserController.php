@@ -10,8 +10,12 @@ use App\Exceptions\EntityConflictException;
 use App\Exceptions\HttpBadRequestException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Provience;
+use App\Models\Zone;
+use App\Models\Area;
 use App\Models\Parish;
 use App\Models\Report;
+use App\Models\Payment;
 use App\Helpers;
 use Crypt;
 use DB;
@@ -476,6 +480,213 @@ class UserController extends Controller {
         return response()->json($response, $responseCode);
     }
 
+    /**
+     * Get count of province , zone area pastor, wem and parish depends on user logged in
+     * userId id of logged in user
+     * user type => 1 : WEM , user type => 2 : pastor, user type => 3 : parish , user type => 0 : Super admin
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
 
-    
+     public function getUserCount(Request $request, $userId) {
+
+        try {
+            DB::beginTransaction();
+
+            $user=User::find($userId);
+
+            $user_type = '';
+
+            if($user->user_type == 0 ) {
+
+                $user_type      = 'Super-admin';
+
+                $countOfwem     = User::where('user_type',1)
+                                   ->whereNull('deleted_at')
+                                   ->count();
+
+                $countOfExemption = User::where('user_type',1)
+                                   ->where('user_status',1)
+                                   ->whereNull('deleted_at')
+                                   ->count();
+
+                $countOfHold    = User::where('user_type',1)
+                                   ->where('user_status',0)
+                                   ->whereNull('deleted_at')
+                                   ->count();
+                
+                $countOfParish  = User::where('user_type',3)
+                                   ->whereNull('deleted_at')
+                                   ->count();
+                
+                $countOfProvincePaster = User::where('user_type',2)
+                                        ->where('pastor_type',1)
+                                        ->whereNull('deleted_at')
+                                        ->count();
+                
+                $countOfZonePaster = User::where('user_type',2)
+                                   ->where('pastor_type',2)
+                                   ->whereNull('deleted_at')
+                                   ->count();
+                
+                $countOfAreaPaster = User::where('user_type',2)
+                                   ->where('pastor_type',3)
+                                   ->whereNull('deleted_at')
+                                   ->count();
+
+                $count['wem']       = $countOfwem;
+                $count['parish']    = $countOfParish;
+                $count['province']  = $countOfProvincePaster;
+                $count['zone']      = $countOfZonePaster;
+                $count['area']      = $countOfAreaPaster;
+                $count['wem_on_hold']           = $countOfHold;
+                $count['wem_on_exemption']      = $countOfExemption;
+
+                $response = [
+                    'status'        => true,
+                    'message'       => 'Dashbard user count Information',
+                    'user_type'     => $user_type,
+                    'userCount'     => $count
+                ];
+                $responseCode = 200;
+
+            } else if($user->user_type == 1 ) {
+
+                $user_type      = 'WEM';
+
+                $countOfParish  =   Parish::where('created_by',$userId)
+                                       ->whereNull('deleted_at')
+                                       ->count();
+                
+                $countOfProvincePaster = Provience::where('created_by',$userId)
+                                               ->whereNull('deleted_at')
+                                               ->count();
+                
+                $countOfZonePaster      = Zone::where('created_by',$userId)
+                                           ->whereNull('deleted_at')
+                                           ->count();
+                
+                $countOfAreaPaster      = Area::where('created_by',$userId)
+                                           ->whereNull('deleted_at')
+                                           ->count();
+
+                $count['parish']    = $countOfParish;
+                $count['province']  = $countOfProvincePaster;
+                $count['zone']      = $countOfZonePaster;
+                $count['area']      = $countOfAreaPaster;
+
+                $response = [
+                    'status'        => true,
+                    'message'       => 'Dashbard user count Information',
+                    'user_type'     => $user_type,
+                    'userCount'     => $count
+                ];
+                $responseCode = 200;
+
+            } else if ($user->user_type == 2 ) {
+
+                if($user->pastor_type == 1 ) {
+
+                    /** province */
+
+                    $user_type      = 'Province';
+
+                    $prov = Provience::where('user_id',$userId)->first();
+                    
+                    $countOfZonePaster      = Zone::where('provience_id',$prov->id)
+                                                   ->whereNull('deleted_at')
+                                                   ->count();
+                    $areaInfo               = Provience::find($prov->id)->areas;
+                    $countOfAreaPaster      = count($areaInfo);
+                    $area_array = [];
+                    
+                    foreach ($areaInfo as $area) {
+                       array_push($area_array, $area->id);
+                    }
+
+                    $countOfParish = Parish::whereIn('area_id', $area_array)->count();
+
+
+                    $count['parish']    = $countOfParish;
+                    $count['zone']      = $countOfZonePaster;
+                    $count['area']      = $countOfAreaPaster;
+
+                } else if($user->pastor_type == 2 ) {
+
+                    /** zone */
+
+                    $user_type      = 'Zone';
+
+                    $zone = Zone::where('user_id',$userId)->first();
+
+                    $countOfAreaPaster      = Area::where('zone_id',$zone->id)
+                                                   ->whereNull('deleted_at')
+                                                   ->count();
+                    $parish                 =  Zone::find($zone->id)->parishes;
+                    $countOfParish          =  count($parish);
+
+
+                    $count['parish']    = $countOfParish;
+                    $count['area']      = $countOfAreaPaster;
+                    
+                } else {
+                    
+                    /** area */
+
+                    $user_type      = 'Area';
+
+                    $area = Area::where('user_id',$userId)->first();
+
+                    $countOfParish  =   Parish::where('area_id',$area->id)
+                                       ->whereNull('deleted_at')
+                                       ->count();
+                    $count['parish']    = $countOfParish;
+                }
+                
+
+                $response = [
+                    'status'        => true,
+                    'user_type'     => $user_type,
+                    'message'       => 'Dashbard user count Information',
+                    'userCount'     => $count
+                ];
+                $responseCode = 200;
+            } else {
+
+                $parish = Parish::where('user_id',$userId)->first();
+                $countOfReport  = Report::where('parish_id',$parish->id)->whereNull('deleted_at')->count();
+                $countOfPayment = Payment::where('created_by',$userId)->whereNull('deleted_at')->count();
+
+                $count['payment']   = $countOfPayment;
+                $count['report']    = $countOfReport;
+
+                $response = [
+                    'status'        => true,
+                    'user_type'     => 'Parish',
+                    'message'       => 'Dashbard user count Information',
+                    'userCount'     => $count
+                ];
+
+                $responseCode = 200;
+            }
+
+        } catch (Exception $exception) {
+
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
 }

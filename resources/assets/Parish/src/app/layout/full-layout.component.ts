@@ -30,7 +30,7 @@ export class FullLayoutComponent {
 	) { }
 	
 	ngOnInit() {
-		console.log('test');
+		
 		const user_type = this.authService.getToken().user_type;
 		this.userInformation = this.authService.getToken();
 	

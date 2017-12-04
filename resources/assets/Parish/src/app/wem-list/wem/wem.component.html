@@ -52,13 +52,13 @@
                             </button></td>
                             <td>
                                 <button
-                                        class="btn btn-warning btn-xs"
-                                        type="button" *ngIf="wem.hold" title="Click to Exemption this account" (click)="changeUserStatus(wem)">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> 
+                                        class="btn btn-success btn-xs"
+                                        type="button" *ngIf="wem.hold" title="Click to Hold this account" (click)="changeUserStatus(wem)">
+                                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                                 </button>
                                 <button
                                         class="btn btn-danger btn-xs"
-                                        type="button" *ngIf="!wem.hold" title="Click to hold this account" (click)="changeUserStatus(wem)">
+                                        type="button" *ngIf="!wem.hold" title="Click to put on Exemption this account" (click)="changeUserStatus(wem)">
                                     <i class="fa fa-hand-paper-o" aria-hidden="true"></i>
                                 </button>
                                 
