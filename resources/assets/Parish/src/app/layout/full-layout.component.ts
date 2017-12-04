@@ -16,7 +16,7 @@ export class FullLayoutComponent {
 	
 	public toggleBarIcon: boolean = true;
 	public showSidebar: boolean = true;
-	paymentOption: boolean = true;
+	paymentOption: boolean = false;
 	parishStatus: number = 0;
 	superAdmin: boolean = false;
 	paymentStatus: boolean = false;
@@ -30,42 +30,36 @@ export class FullLayoutComponent {
 	) { }
 	
 	ngOnInit() {
+		console.log('test');
 		const user_type = this.authService.getToken().user_type;
 		this.userInformation = this.authService.getToken();
-		
-		if(user_type ==3) {
-			this.pzapService.getParish()
-				.subscribe(
-					(response: Response) => {
-						if (response.json().status) {
-							this.parishStatus = response.json().parish.payment_status;
-							;
-							if (this.parishStatus != 1) {
-								this.paymentStatus = true;
-								this.paymentOption = false;
-							}
-						}
-					},
-					(error: Response) => {
-						if (error.status === 401) {
-							this.authService.removeToken();
-							this.router.navigate(['/login']);
-						}
-						
-					}
-				);
-		}
-		
-		
+	
+		/* user type: 0 => super admin , user type : 1 => WEM, user type: 2 => pastor(province, zone or area), user type: 3 => Parish */
 		
 		if(user_type != 1){
 			this.showSidebar = false;
 			if(user_type == 3){
-				if(this.parishStatus !=1) {
-					this.paymentOption 	= true;
-					this.paymentStatus = false;
-				}
-				
+				this.pzapService.getParish()
+					.subscribe(
+						(response: Response) => {
+							if (response.json().status) {
+								this.parishStatus = response.json().parish.payment_status;
+								if (this.parishStatus != 1) {
+									this.paymentStatus = true;
+									this.paymentOption = false;
+								} else {
+									this.paymentOption = true;
+								}
+							}
+						},
+						(error: Response) => {
+							if (error.status === 401) {
+								this.authService.removeToken();
+								this.router.navigate(['/login']);
+							}
+							
+						}
+					);
 				this.superAdmin 	= false;
 			} else if(user_type == 0){
 				this.superAdmin = true;

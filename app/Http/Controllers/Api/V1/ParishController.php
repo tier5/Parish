@@ -1067,6 +1067,7 @@ class ParishController extends Controller {
                     }
                 } else {
                     $penalty_percent = 0.00;
+                    $payment_date    = 'None';
                 }
 
                 $response = [

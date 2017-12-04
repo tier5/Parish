@@ -160,7 +160,7 @@
                 <img src="{{ base_url }}/images/payment-icon.png"> Payment
             </a>
             <ul class="children collapse" id="payment-section">
-                <li>
+                <li *ngIf="paymentOption">
                     <a routerLinkActive="active" [routerLink]="['/payment/upload']">
                         <i class="fa fa-fw fa-plus-square"></i> Upload
                     </a>

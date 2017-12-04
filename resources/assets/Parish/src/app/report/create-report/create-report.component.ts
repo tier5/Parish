@@ -861,7 +861,6 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 					    
 					    if(response.json().status) {
 					    	this.penalty_percent = response.json().penalty_percent;
-					    	console.log(this.penalty_percent);
 					    }
 					    
 				    },
@@ -876,7 +875,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 					    this.responseMsg        = error.json().error;
 					    setTimeout( () => {
 						    this.responseReceived = false;
-					    }, 3000 )
+						}, 3000 )
 				    }
 			    );
 	    }

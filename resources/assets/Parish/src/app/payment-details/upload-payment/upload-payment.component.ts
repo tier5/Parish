@@ -8,6 +8,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { PaymentService } from "../payment.service";
 import { Response } from '@angular/http';
 import {IDatePickerConfig} from "ng2-date-picker";
+import {ProvinceZoneAreaParishService} from "../../province-zone-area-parish/province-zone-area-parish.service";
 
 @Component({
 	selector: 'app-upload-payment',
@@ -29,7 +30,7 @@ export class UploadPaymentComponent {
 	uploader                = new FileUploader({});
 	files       : FileList;
 	length                  = false;
-	
+
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
@@ -96,7 +97,6 @@ export class UploadPaymentComponent {
 					if(response.json().status){
 						this.progress       = 100;
 						this.responseMsg    = response.json().message;
-						
 					}
 				},(error: Response) => {
 					this.showLoader         = false;
