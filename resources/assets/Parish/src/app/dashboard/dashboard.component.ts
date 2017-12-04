@@ -91,9 +91,9 @@ export class DashboardComponent implements OnInit{
 	//Card
 	
 	public card1:StatsCard={color:"#1ebfae",icon:"fa-users",label:"WEM",data:0};
-	public card2:StatsCard={color:"#30a5ff",icon:"fa-users",label:"Province Paster",data:0};
-	public card3:StatsCard={color:"#ffb53e",icon:"fa-users",label:"Zone Paster",data:0};
-	public card4:StatsCard={color:"#f9243f",icon:"fa-users",label:"Area Paster",data:0};
+	public card2:StatsCard={color:"#30a5ff",icon:"fa-users",label:"Province Pastor",data:0};
+	public card3:StatsCard={color:"#ffb53e",icon:"fa-users",label:"Zone Pastor",data:0};
+	public card4:StatsCard={color:"#f9243f",icon:"fa-users",label:"Area Pastor",data:0};
 	public card5:StatsCard={color:"#f9243f",icon:"fa-users",label:"Parish",data:0};
 	public card6:StatsCard={color:"#f9243f",icon:"fa-money",label:"Total Payment",data:0};
 	public card7:StatsCard={color:"#f9243f",icon:"fa-file",label:"Total Report",data:0};
@@ -159,8 +159,8 @@ export class DashboardComponent implements OnInit{
 						                this.showArea = true;
 						                this.showZone = true;
 						                this.isParish = false;
-										this.card3    = {color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Paster",data:response.json().userCount.zone};
-										this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Paster",data:response.json().userCount.area};
+										this.card3    = {color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Pastor",data:response.json().userCount.zone};
+										this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Pastor",data:response.json().userCount.area};
 										this.card5    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish };
 							          
 						            } else if(response.json().user_type == 'Zone') {
@@ -168,7 +168,7 @@ export class DashboardComponent implements OnInit{
 							            this.showArea = true;
 							            this.showZone = false;
 							            this.isParish = false;
-							            this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Paster",data:response.json().userCount.area};
+							            this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Pastor",data:response.json().userCount.area};
 							            this.card5    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish};
 						            } else if(response.json().user_type == 'area') {
 							           this.loadder  = true;
@@ -181,9 +181,9 @@ export class DashboardComponent implements OnInit{
 							           this.superAdmin = true;
 							           this.isParish = false;
 							           this.card1    = {color:"#1ebfae",icon:"fa-users fa fa-3x fa-fw",label:"WEM",data:response.json().userCount.wem};
-							           this.card2    = {color:"#30a5ff",icon:"fa-users  fa fa-3x fa-fw",label:"Province Paster",data:response.json().userCount.province};
-							           this.card3    = {color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Paster",data:response.json().userCount.zone};
-							           this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Paster",data:response.json().userCount.area};
+							           this.card2    = {color:"#30a5ff",icon:"fa-users  fa fa-3x fa-fw",label:"Province Pastor",data:response.json().userCount.province};
+							           this.card3    = {color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Pastor",data:response.json().userCount.zone};
+							           this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Pastor",data:response.json().userCount.area};
 							           this.card5    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish};
 				                       this.card8    = {color:"#30a5ff",icon:"fa-cogs",label:"On Exemption",data:response.json().userCount.wem_on_exemption};
 				                       this.card9    = {color:"#1ebfae",icon:"fa-cogs",label:"On hold",data:response.json().userCount.wem_on_hold};
@@ -191,9 +191,9 @@ export class DashboardComponent implements OnInit{
 							           this.loadder  = true;
 							           this.wem = true;
 							           this.isParish = false;
-							           this.card2={color:"#30a5ff",icon:"fa-users  fa fa-3x fa-fw",label:"Province Paster",data:response.json().userCount.province};
-							           this.card3={color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Paster",data:response.json().userCount.zone};
-							           this.card4={color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Paster",data:response.json().userCount.area};
+							           this.card2={color:"#30a5ff",icon:"fa-users  fa fa-3x fa-fw",label:"Province Pastor",data:response.json().userCount.province};
+							           this.card3={color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Pastor",data:response.json().userCount.zone};
+							           this.card4={color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Pastor",data:response.json().userCount.area};
 							           this.card5={color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish};
 						            } else {
 							           this.loadder  = false;

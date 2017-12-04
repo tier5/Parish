@@ -13,7 +13,7 @@
                         {{ userInformation.user_first_name + ' ' + userInformation.user_last_name }}  <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li [routerLink]="['/profile']"><a><i class="fa fa-fw fa-user"></i> Profile</a></li>
-                        <li><a><i class="fa fa-fw fa-cogs"></i> Settings</a></li>
+                        <!-- <li><a><i class="fa fa-fw fa-cogs"></i> Settings</a></li> -->
                         <li><a (click)="onLogout()"><i class="fa fa-fw fa-lock"></i> Logout</a></li>
                     </ul>
                 </li>

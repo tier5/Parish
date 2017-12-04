@@ -1,4 +1,4 @@
-webpackJsonp([21],{
+webpackJsonp(["scripts"],{
 
 /***/ "../../../../raw-loader/index.js!../../../../source-map-loader/index.js!../../../../../src/assets/js/Chart.min.js":
 /***/ (function(module, exports) {
@@ -36,10 +36,27 @@ module.exports = "/*! jQuery v1.11.1 | (c) 2005, 2014 jQuery Foundation, Inc. | 
 	Author Tobias Koppers @sokra
 */
 module.exports = function(src) {
-	if (typeof execScript !== "undefined")
-		execScript(src);
-	else
-		eval.call(null, src);
+	function log(error) {
+		(typeof console !== "undefined")
+		&& (console.error || console.log)("[Script Loader]", error);
+	}
+
+	// Check for IE =< 8
+	function isIE() {
+		return typeof attachEvent !== "undefined" && typeof addEventListener === "undefined";
+	}
+
+	try {
+		if (typeof execScript !== "undefined" && isIE()) {
+			execScript(src);
+		} else if (typeof eval !== "undefined") {
+			eval.call(null, src);
+		} else {
+			log("EvalError: No eval function available");
+		}
+	} catch (error) {
+		log(error);
+	}
 }
 
 
@@ -73,7 +90,7 @@ __webpack_require__("../../../../script-loader/addScript.js")(__webpack_require_
 
 /***/ }),
 
-/***/ 3:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("../../../../script-loader/index.js!../../../../../src/assets/js/jquery-1.11.1.min.js");
@@ -84,5 +101,5 @@ module.exports = __webpack_require__("../../../../script-loader/index.js!../../.
 
 /***/ })
 
-},[3]);
+},[2]);
 //# sourceMappingURL=scripts.bundle.js.map

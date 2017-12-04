@@ -1,93 +1,93 @@
-webpackJsonp([19],{
+webpackJsonp(["main"],{
 
-/***/ "../../../../../src async recursive":
+/***/ "../../../../../src lazy recursive":
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
 	"./auth/forgot-password/forgot-password.module": [
 		"../../../../../src/app/auth/forgot-password/forgot-password.module.ts",
-		13,
-		0
+		"common",
+		"forgot-password.module"
 	],
 	"./auth/login/login.module": [
 		"../../../../../src/app/auth/login/login.module.ts",
-		12,
-		0
+		"common",
+		"login.module"
 	],
 	"./auth/register/register.module": [
 		"../../../../../src/app/auth/register/register.module.ts",
-		5,
-		0
+		"common",
+		"register.module"
 	],
 	"./auth/reset-password/reset-password.module": [
 		"../../../../../src/app/auth/reset-password/reset-password.module.ts",
-		11,
-		0
+		"common",
+		"reset-password.module"
 	],
 	"./dashboard/dashboard.module": [
 		"../../../../../src/app/dashboard/dashboard.module.ts",
-		2,
-		0
+		"common",
+		"dashboard.module"
 	],
 	"./form/form.module": [
 		"../../../../../src/app/form/form.module.ts",
-		16,
-		0
+		"common",
+		"form.module"
 	],
 	"./payment-details/payment.module": [
 		"../../../../../src/app/payment-details/payment.module.ts",
-		3,
-		0
+		"common",
+		"payment.module"
 	],
 	"./profile-details/profile.module": [
 		"../../../../../src/app/profile-details/profile.module.ts",
-		15,
-		0
+		"common",
+		"profile.module"
 	],
 	"./province-zone-area-parish/area/area.module": [
 		"../../../../../src/app/province-zone-area-parish/area/area.module.ts",
-		10,
-		0
+		"common",
+		"area.module"
 	],
 	"./province-zone-area-parish/parish/parish.module": [
 		"../../../../../src/app/province-zone-area-parish/parish/parish.module.ts",
-		9,
-		0
+		"common",
+		"parish.module"
 	],
 	"./province-zone-area-parish/province/province.module": [
 		"../../../../../src/app/province-zone-area-parish/province/province.module.ts",
-		8,
-		0
+		"common",
+		"province.module"
 	],
 	"./province-zone-area-parish/zone/zone.module": [
 		"../../../../../src/app/province-zone-area-parish/zone/zone.module.ts",
-		7,
-		0
+		"common",
+		"zone.module"
 	],
 	"./report/report.module": [
 		"../../../../../src/app/report/report.module.ts",
-		6,
-		0
+		"common",
+		"report.module"
 	],
 	"./wem-list/wem.module": [
 		"../../../../../src/app/wem-list/wem.module.ts",
-		14,
-		0
+		"common",
+		"wem.module"
 	],
 	"./widgets/charts/charts.module": [
 		"../../../../../src/app/widgets/charts/charts.module.ts",
-		17,
-		0
+		"common",
+		"charts.module"
 	],
 	"./widgets/main/main.module": [
 		"../../../../../src/app/widgets/main/main.module.ts",
-		4,
-		0
+		"common",
+		"main.module"
 	],
 	"./widgets/tables/tables.module": [
 		"../../../../../src/app/widgets/tables/tables.module.ts",
-		1,
-		0
+		"common",
+		"tables.module"
 	]
 };
 function webpackAsyncContext(req) {
@@ -102,7 +102,7 @@ webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
 module.exports = webpackAsyncContext;
-webpackAsyncContext.id = "../../../../../src async recursive";
+webpackAsyncContext.id = "../../../../../src lazy recursive";
 
 /***/ }),
 
@@ -110,12 +110,12 @@ webpackAsyncContext.id = "../../../../../src async recursive";
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_auth_guard__ = __webpack_require__("../../../../../src/app/auth/auth.guard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__layout_full_layout_component__ = __webpack_require__("../../../../../src/app/layout/full-layout.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_not_auth_guard__ = __webpack_require__("../../../../../src/app/auth/not-auth.guard.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -160,9 +160,9 @@ var AppRoutingModule = (function () {
     return AppRoutingModule;
 }());
 AppRoutingModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(appRoutes, { preloadingStrategy: __WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* PreloadAllModules */] })],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* RouterModule */].forRoot(appRoutes, { preloadingStrategy: __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* PreloadAllModules */] })],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["e" /* RouterModule */]]
     })
 ], AppRoutingModule);
 
@@ -174,8 +174,8 @@ AppRoutingModule = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -189,7 +189,7 @@ var AppComponent = (function () {
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-root',
         template: '<router-outlet></router-outlet>'
     })
@@ -203,6 +203,7 @@ AppComponent = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
@@ -213,20 +214,23 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__layout_full_layout_component__ = __webpack_require__("../../../../../src/app/layout/full-layout.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_ng2_auto_breadcrumb__ = __webpack_require__("../../../../ng2-auto-breadcrumb/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__auth_not_auth_guard__ = __webpack_require__("../../../../../src/app/auth/not-auth.guard.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__province_zone_area_parish_province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__profile_details_profile_service__ = __webpack_require__("../../../../../src/app/profile-details/profile.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__payment_details_payment_service__ = __webpack_require__("../../../../../src/app/payment-details/payment.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__report_report_service__ = __webpack_require__("../../../../../src/app/report/report.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__wem_list_wem_service__ = __webpack_require__("../../../../../src/app/wem-list/wem.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__angular_platform_browser_animations__ = __webpack_require__("../../../platform-browser/@angular/platform-browser/animations.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__auth_not_auth_guard__ = __webpack_require__("../../../../../src/app/auth/not-auth.guard.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__province_zone_area_parish_province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__shared_shared_module__ = __webpack_require__("../../../../../src/app/shared/shared.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__profile_details_profile_service__ = __webpack_require__("../../../../../src/app/profile-details/profile.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__payment_details_payment_service__ = __webpack_require__("../../../../../src/app/payment-details/payment.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__report_report_service__ = __webpack_require__("../../../../../src/app/report/report.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__wem_list_wem_service__ = __webpack_require__("../../../../../src/app/wem-list/wem.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__dashboard_dashboard_service__ = __webpack_require__("../../../../../src/app/dashboard/dashboard.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
 
 
 
@@ -250,14 +254,15 @@ var AppModule = (function () {
     return AppModule;
 }());
 AppModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__angular_core__["NgModule"])({
+    Object(__WEBPACK_IMPORTED_MODULE_3__angular_core__["NgModule"])({
         imports: [
             __WEBPACK_IMPORTED_MODULE_5__app_routing_module__["a" /* AppRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["BrowserModule"],
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"],
-            __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_9_ng2_auto_breadcrumb__["a" /* Ng2AutoBreadCrumb */],
-            __WEBPACK_IMPORTED_MODULE_12__shared_shared_module__["a" /* SharedModule */],
+            __WEBPACK_IMPORTED_MODULE_13__shared_shared_module__["a" /* SharedModule */],
+            __WEBPACK_IMPORTED_MODULE_10__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */]
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_8__layout_full_layout_component__["a" /* FullLayoutComponent */],
@@ -266,12 +271,13 @@ AppModule = __decorate([
         providers: [
             __WEBPACK_IMPORTED_MODULE_7__auth_auth_service__["a" /* AuthService */],
             __WEBPACK_IMPORTED_MODULE_6__auth_auth_guard__["a" /* AuthGuard */],
-            __WEBPACK_IMPORTED_MODULE_10__auth_not_auth_guard__["a" /* NotAuthGuard */],
-            __WEBPACK_IMPORTED_MODULE_11__province_zone_area_parish_province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */],
-            __WEBPACK_IMPORTED_MODULE_13__profile_details_profile_service__["a" /* ProfileService */],
-            __WEBPACK_IMPORTED_MODULE_14__payment_details_payment_service__["a" /* PaymentService */],
-            __WEBPACK_IMPORTED_MODULE_15__report_report_service__["a" /* ReportService */],
-            __WEBPACK_IMPORTED_MODULE_16__wem_list_wem_service__["a" /* WemService */]
+            __WEBPACK_IMPORTED_MODULE_11__auth_not_auth_guard__["a" /* NotAuthGuard */],
+            __WEBPACK_IMPORTED_MODULE_12__province_zone_area_parish_province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */],
+            __WEBPACK_IMPORTED_MODULE_14__profile_details_profile_service__["a" /* ProfileService */],
+            __WEBPACK_IMPORTED_MODULE_15__payment_details_payment_service__["a" /* PaymentService */],
+            __WEBPACK_IMPORTED_MODULE_16__report_report_service__["a" /* ReportService */],
+            __WEBPACK_IMPORTED_MODULE_17__wem_list_wem_service__["a" /* WemService */],
+            __WEBPACK_IMPORTED_MODULE_18__dashboard_dashboard_service__["a" /* DashboardService */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_4__app_component__["a" /* AppComponent */]]
     })
@@ -285,10 +291,10 @@ AppModule = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuard; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuard; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -327,8 +333,8 @@ var AuthGuard = (function () {
     return AuthGuard;
 }());
 AuthGuard = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["d" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["d" /* Router */]) === "function" && _b || Object])
 ], AuthGuard);
 
 var _a, _b;
@@ -340,10 +346,10 @@ var _a, _b;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -363,7 +369,7 @@ var AuthService = (function () {
         this.http = http;
     }
     AuthService.prototype.logout = function (token) {
-        var header = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({
+        var header = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({
             'X-Requested-With': 'XMLHttpRequest',
             'Authorization': 'Bearer ' + token
         });
@@ -388,8 +394,8 @@ var AuthService = (function () {
     return AuthService;
 }());
 AuthService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]) === "function" && _a || Object])
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], AuthService);
 
 var _a;
@@ -401,10 +407,10 @@ var _a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotAuthGuard; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotAuthGuard; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -434,8 +440,8 @@ var NotAuthGuard = (function () {
     return NotAuthGuard;
 }());
 NotAuthGuard = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_router__["d" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_router__["d" /* Router */]) === "function" && _b || Object])
 ], NotAuthGuard);
 
 var _a, _b;
@@ -443,10 +449,76 @@ var _a, _b;
 
 /***/ }),
 
+/***/ "../../../../../src/app/dashboard/dashboard.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var DashboardService = (function () {
+    /** Injecting services to be used in this component */
+    function DashboardService(http, authService) {
+        this.http = http;
+        this.authService = authService;
+        /** Initializing custom Observables */
+        this.refreshList = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
+        /** Initializing the different headers to be passed with each api call */
+        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]({
+            'X-Requested-With': 'XMLHttpRequest'
+        });
+        if (this.authService.isAuthenticated()) {
+            this.refreshHeader();
+        }
+    }
+    /** Refreshing the header for authenticated users */
+    DashboardService.prototype.refreshHeader = function () {
+        this.headers.set('Authorization', 'Bearer ' + this.authService.getToken().token);
+    };
+    /** Fetch dashboard data for the graph */
+    DashboardService.prototype.getChartData = function () {
+        var user_id = this.authService.getToken().user_id;
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'parish/dashboard/' + user_id, { headers: this.headers });
+    };
+    /** Fetch number of province, zone and area pastor, no of WEm and no of parish data */
+    DashboardService.prototype.getUserCount = function () {
+        var user_id = this.authService.getToken().user_id;
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'user/dashboard/getCountOfUsers/' + user_id, { headers: this.headers });
+    };
+    return DashboardService;
+}());
+DashboardService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+], DashboardService);
+
+var _a, _b;
+//# sourceMappingURL=dashboard.service.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/layout/full-layout.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "    <nav class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#sidebar-collapse\"\n                    (click)=\"toggle()\">\n                <span class=\"sr-only\">Toggle navigation</span>\n                <i class=\"fa {{toggleBarIcon?'fa-bars':'fa-remove'}} text-white custom-nav-toggle\"></i>\n            </button>\n            <a class=\"navbar-brand\" [routerLink]=\"['/dashboard']\" ><span>Parish </span><!--Admin--></a>\n            <ul class=\"user-menu\">\n                <li class=\"dropdown pull-right\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n                       {{ userInformation.user_first_name + ' ' + userInformation.user_last_name }}  <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li [routerLink]=\"['/profile']\"><a><i class=\"fa fa-fw fa-user\"></i> Profile</a></li>\n                        <li><a><i class=\"fa fa-fw fa-cogs\"></i> Settings</a></li>\n                        <li><a (click)=\"onLogout()\"><i class=\"fa fa-fw fa-lock\"></i> Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div><!-- /.container-fluid -->\n</nav>\n\n<div id=\"sidebar-collapse\" class=\"col-sm-3 col-lg-2 sidebar\">\n    <form role=\"search\">\n        <div class=\"form-group\">\n            <input type=\"text\" class=\"form-control\" placeholder=\"Search\">\n        </div>\n    </form>\n    <ul class=\"nav menu\">\n\n        <!-- Dashboard Section -->\n        <li>\n            <a routerLinkActive=\"active\" [routerLink]=\"['/dashboard']\">\n                <img src=\"{{ base_url }}/images/dashboard-icon.png\"> Dashboard\n            </a>\n        </li>\n\n        <!-- <li role=\"presentation\" class=\"divider\"></li> -->\n\n        <!-- Province Section -->\n        <li class=\"parent \" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-1\">\n                <img src=\"{{ base_url }}/images/province-icon.png\"> Province\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-1\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/province/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/province/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Zone Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-2\">\n                <img src=\"{{ base_url }}/images/zone-icon.png\"> Zone\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-2\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/zone/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/zone/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Area Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-3\">\n                <img src=\"{{ base_url }}/images/area-icon.png\"> Area\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-3\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/area/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/area/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li> -->\n\n        <!-- Parish Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#parish-section\">\n                <img src=\"{{ base_url }}/images/church-icon.png\"> Parish\n            </a>\n            <ul class=\"children collapse\" id=\"parish-section\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li> -->\n\n        <!-- Payment Section -->\n        <li class=\"parent\" *ngIf=\"!superAdmin\">\n            <a data-toggle=\"collapse\" href=\"#payment-section\">\n                <img src=\"{{ base_url }}/images/payment-icon.png\"> Payment\n            </a>\n            <ul class=\"children collapse\" id=\"payment-section\">\n                <li *ngIf=\"paymentOption\">\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/payment/upload']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Upload\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/payment/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Report Section -->\n        <li class=\"parent\" *ngIf=\"!superAdmin\">\n            <a data-toggle=\"collapse\" href=\"#report-section\">\n                <img src=\"{{ base_url }}/images/report-icon.png\">  Report\n            </a>\n            <ul class=\"children collapse\" id=\"report-section\">\n                <li *ngIf=\"paymentOption\">\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/report/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/report/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li> -->\n\n\n        <!-- WEM Section -->\n        <li class=\"parent\" *ngIf=\"this.superAdmin\">\n            <a data-toggle=\"collapse\" href=\"#wem-section\">\n                <img src=\"{{ base_url }}/images/report-icon.png\">  Wem\n            </a>\n            <ul class=\"children collapse\" id=\"wem-section\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/wem/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> Parish List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n    </ul>\n</div><!--/.sidebar-->\n<div class=\"col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main\">\n    <!-- Main content -->\n    <div class=\"row\">\n        <ng2-auto-breadcrumb></ng2-auto-breadcrumb>\n    </div><!--/.row-->\n\n    <router-outlet></router-outlet>\n</div>\n"
+module.exports = "    <nav class=\"navbar navbar-inverse navbar-fixed-top\" role=\"navigation\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#sidebar-collapse\"\n                    (click)=\"toggle()\">\n                <span class=\"sr-only\">Toggle navigation</span>\n                <i class=\"fa {{toggleBarIcon?'fa-bars':'fa-remove'}} text-white custom-nav-toggle\"></i>\n            </button>\n            <a class=\"navbar-brand\" [routerLink]=\"['/dashboard']\" ><span>Parish </span><!--Admin--></a>\n            <ul class=\"user-menu\">\n                <li class=\"dropdown pull-right\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n                        {{ userInformation.user_first_name + ' ' + userInformation.user_last_name }}  <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li [routerLink]=\"['/profile']\"><a><i class=\"fa fa-fw fa-user\"></i> Profile</a></li>\n                        <li><a (click)=\"onLogout()\"><i class=\"fa fa-fw fa-lock\"></i> Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class=\"user-menu\" *ngIf=\"paymentStatus\">\n                <li class=\"dropdown pull-right\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\">\n                        <i class=\"fa fa-bell-o\"></i>\n                        <span class=\"label label-warning\">1</span>\n                        <i class=\"fa fa-angle-double-down fa-fw\"></i>\n                    </a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a>\n                                <div>\n                                    <i class=\"fa fa-flag fa-fw\"></i> You have not yet submitted your payment\n                                    <span class=\"pull-right text-muted small\"></span>\n                                </div>\n                            </a>\n                        </li>\n\n                        <li>\n                            <a>\n                                <div>\n                                    <i class=\"fa fa-exclamation fa-fw\"></i> Note: Late submission will attract 10% surcharge\n                                    <span class=\"pull-right text-muted small\"></span>\n                                </div>\n                            </a>\n                        </li>\n                        <li class=\"footer\" [routerLink]=\"['/payment/upload']\">\n                            <a>\n                                <i class=\"fa fa-sign-in fa-fw\" ></i>Click Here for Payment\n                            </a>\n                        </li>\n                    </ul>\n                </li>\n            </ul>\n\n        </div>\n    </div><!-- /.container-fluid -->\n</nav>\n\n<div id=\"sidebar-collapse\" class=\"col-sm-3 col-lg-2 sidebar\">\n\n    <ul class=\"nav menu\">\n\n        <!-- Dashboard Section -->\n        <li>\n            <a routerLinkActive=\"active\" [routerLink]=\"['/dashboard']\">\n                <img src=\"{{ base_url }}/images/dashboard-icon.png\"> Dashboard\n            </a>\n        </li>\n\n        <!-- <li role=\"presentation\" class=\"divider\"></li> -->\n\n        <!-- Province Section -->\n        <li class=\"parent \" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-1\">\n                <img src=\"{{ base_url }}/images/province-icon.png\"> Province\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-1\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/province/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/province/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Zone Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-2\">\n                <img src=\"{{ base_url }}/images/zone-icon.png\"> Zone\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-2\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/zone/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/zone/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Area Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#sub-item-3\">\n                <img src=\"{{ base_url }}/images/area-icon.png\"> Area\n            </a>\n            <ul class=\"children collapse\" id=\"sub-item-3\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/area/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/area/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li> -->\n\n        <!-- Parish Section -->\n        <li class=\"parent\" *ngIf=\"showSidebar\">\n            <a data-toggle=\"collapse\" href=\"#parish-section\">\n                <img src=\"{{ base_url }}/images/church-icon.png\"> Parish\n            </a>\n            <ul class=\"children collapse\" id=\"parish-section\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li> -->\n\n        <!-- Payment Section -->\n        <li class=\"parent\" *ngIf=\"!superAdmin\">\n            <a data-toggle=\"collapse\" href=\"#payment-section\">\n                <img src=\"{{ base_url }}/images/payment-icon.png\"> Payment\n            </a>\n            <ul class=\"children collapse\" id=\"payment-section\">\n                <li *ngIf=\"paymentOption\">\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/payment/upload']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Upload\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/payment/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- Report Section -->\n        <li class=\"parent\" *ngIf=\"!superAdmin\">\n            <a data-toggle=\"collapse\" href=\"#report-section\">\n                <img src=\"{{ base_url }}/images/report-icon.png\">  Report\n            </a>\n            <ul class=\"children collapse\" id=\"report-section\">\n                <li *ngIf=\"paymentOption\">\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/report/create']\">\n                        <i class=\"fa fa-fw fa-plus-square\"></i> Create\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/report/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n        <!-- <li role=\"presentation\" class=\"divider\" *ngIf=\"showSidebar\"></li> -->\n\n\n        <!-- WEM Section -->\n        <li class=\"parent\" *ngIf=\"this.superAdmin\">\n            <a data-toggle=\"collapse\" href=\"#wem-section\">\n                <img src=\"{{ base_url }}/images/report-icon.png\">  Wem\n            </a>\n            <ul class=\"children collapse\" id=\"wem-section\">\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/wem/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> List\n                    </a>\n                </li>\n                <li>\n                    <a routerLinkActive=\"active\" [routerLink]=\"['/parish/list']\">\n                        <i class=\"fa fa-fw fa-th-list\"></i> Parish List\n                    </a>\n                </li>\n            </ul>\n        </li>\n\n    </ul>\n</div><!--/.sidebar-->\n<div class=\"col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main\">\n    <!-- Main content -->\n    <div class=\"row\">\n        <ng2-auto-breadcrumb></ng2-auto-breadcrumb>\n    </div><!--/.row-->\n\n    <router-outlet></router-outlet>\n</div>\n"
 
 /***/ }),
 
@@ -472,11 +544,12 @@ module.exports = module.exports.toString();
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FullLayoutComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FullLayoutComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__province_zone_area_parish_province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -490,23 +563,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var FullLayoutComponent = (function () {
-    function FullLayoutComponent(authService, router) {
+    function FullLayoutComponent(authService, router, pzapService) {
         this.authService = authService;
         this.router = router;
+        this.pzapService = pzapService;
         this.toggleBarIcon = true;
         this.showSidebar = true;
         this.paymentOption = false;
+        this.parishStatus = 0;
         this.superAdmin = false;
+        this.paymentStatus = false;
         this.base_url = __WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__["a" /* environment */].base_url;
     }
     FullLayoutComponent.prototype.ngOnInit = function () {
+        var _this = this;
         var user_type = this.authService.getToken().user_type;
         this.userInformation = this.authService.getToken();
+        /* user type: 0 => super admin , user type : 1 => WEM, user type: 2 => pastor(province, zone or area), user type: 3 => Parish */
         if (user_type != 1) {
             this.showSidebar = false;
             if (user_type == 3) {
-                this.paymentOption = true;
+                this.pzapService.getParish()
+                    .subscribe(function (response) {
+                    if (response.json().status) {
+                        _this.parishStatus = response.json().parish.payment_status;
+                        if (_this.parishStatus != 1) {
+                            _this.paymentStatus = true;
+                            _this.paymentOption = false;
+                        }
+                        else {
+                            _this.paymentOption = true;
+                        }
+                    }
+                }, function (error) {
+                    if (error.status === 401) {
+                        _this.authService.removeToken();
+                        _this.router.navigate(['/login']);
+                    }
+                });
                 this.superAdmin = false;
             }
             else if (user_type == 0) {
@@ -540,15 +636,15 @@ var FullLayoutComponent = (function () {
     return FullLayoutComponent;
 }());
 FullLayoutComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-dashboard',
         template: __webpack_require__("../../../../../src/app/layout/full-layout.component.html"),
         styles: [__webpack_require__("../../../../../src/app/layout/full-layout.component.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__auth_auth_service__["a" /* AuthService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["d" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["d" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__province_zone_area_parish_province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__province_zone_area_parish_province_zone_area_parish_service__["a" /* ProvinceZoneAreaParishService */]) === "function" && _c || Object])
 ], FullLayoutComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=full-layout.component.js.map
 
 /***/ }),
@@ -557,13 +653,13 @@ var _a, _b;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaymentService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PaymentService; });
 /** Service created for upload payment */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -589,7 +685,7 @@ var PaymentService = (function () {
         this.deleteEvent = new __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__["Subject"]();
         this.refreshList = new __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__["Subject"]();
         /** Initializing the different headers to be passed with each api call */
-        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({
+        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]({
             'X-Requested-With': 'XMLHttpRequest'
         });
         if (this.authService.isAuthenticated()) {
@@ -627,8 +723,8 @@ var PaymentService = (function () {
     return PaymentService;
 }());
 PaymentService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
 ], PaymentService);
 
 var _a, _b;
@@ -640,11 +736,11 @@ var _a, _b;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileService; });
 /** Service created for show and update profile */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -665,7 +761,7 @@ var ProfileService = (function () {
         this.http = http;
         this.authService = authService;
         /** Initializing the different headers to be passed with each api call */
-        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({
+        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]({
             'X-Requested-With': 'XMLHttpRequest'
         });
         if (this.authService.isAuthenticated()) {
@@ -700,8 +796,8 @@ var ProfileService = (function () {
     return ProfileService;
 }());
 ProfileService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
 ], ProfileService);
 
 var _a, _b;
@@ -713,13 +809,13 @@ var _a, _b;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProvinceZoneAreaParishService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProvinceZoneAreaParishService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -744,7 +840,7 @@ var ProvinceZoneAreaParishService = (function () {
         this.deleteEvent = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
         this.refreshList = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Subject__["Subject"]();
         /** Initializing the different headers to be passed with each api call */
-        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({
+        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]({
             'X-Requested-With': 'XMLHttpRequest'
         });
         if (this.authService.isAuthenticated()) {
@@ -881,11 +977,41 @@ var ProvinceZoneAreaParishService = (function () {
         var user_id = this.authService.getToken().user_id;
         return this.http.post(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'parish/add-duedate/' + user_id, Object.assign(body, obj), { headers: this.headers });
     };
+    /**Update penalty status for the parish */
+    ProvinceZoneAreaParishService.prototype.updatePenalty = function (body) {
+        var obj = {
+            user_id: this.authService.getToken().user_id
+        };
+        var user_id = this.authService.getToken().user_id;
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'parish/update-penalty/' + user_id, Object.assign(body, obj), { headers: this.headers });
+    };
+    /**Update payment */
+    ProvinceZoneAreaParishService.prototype.updatePayment = function () {
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'parish/update-payment', { headers: this.headers });
+    };
+    /**Update penalty % for the parish  */
+    ProvinceZoneAreaParishService.prototype.updatePenaltyPercentage = function (body) {
+        var obj = {
+            user_id: this.authService.getToken().user_id
+        };
+        var user_id = this.authService.getToken().user_id;
+        return this.http.post(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'parish/update-penalty-percentage/' + user_id, Object.assign(body, obj), { headers: this.headers });
+    };
+    /**Get penalty % for the parish  */
+    ProvinceZoneAreaParishService.prototype.getPenalty = function () {
+        var user_id = this.authService.getToken().user_id;
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'parish/get-penalty/' + user_id, { headers: this.headers });
+    };
+    /**Get parish details */
+    ProvinceZoneAreaParishService.prototype.getParish = function () {
+        var user_id = this.authService.getToken().user_id;
+        return this.http.get(__WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__["a" /* environment */].API_URL + 'parish/get-parish/' + user_id, { headers: this.headers });
+    };
     return ProvinceZoneAreaParishService;
 }());
 ProvinceZoneAreaParishService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
 ], ProvinceZoneAreaParishService);
 
 var _a, _b;
@@ -897,13 +1023,13 @@ var _a, _b;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -927,7 +1053,7 @@ var ReportService = (function () {
         this.generateReport = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__["Subject"]();
         this.refreshReportList = new __WEBPACK_IMPORTED_MODULE_3_rxjs_Subject__["Subject"]();
         /** Initializing the different headers to be passed with each api call */
-        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Headers */]({
+        this.headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({
             'X-Requested-With': 'XMLHttpRequest'
         });
         if (this.authService.isAuthenticated()) {
@@ -996,8 +1122,8 @@ var ReportService = (function () {
     return ReportService;
 }());
 ReportService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+    Object(__WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
 ], ReportService);
 
 var _a, _b;
@@ -1034,9 +1160,9 @@ module.exports = "<h1>Edit works!</h1>\n<h3>{{data}}</h3>"
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProvinceZoneAreaComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EditProvinceZoneAreaComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1063,12 +1189,12 @@ var EditProvinceZoneAreaComponent = (function () {
     return EditProvinceZoneAreaComponent;
 }());
 EditProvinceZoneAreaComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-edit-province-zone-area',
         template: __webpack_require__("../../../../../src/app/shared/edit-province-zone-area/edit-province-zone-area.component.html"),
         styles: [__webpack_require__("../../../../../src/app/shared/edit-province-zone-area/edit-province-zone-area.component.css")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* ActivatedRoute */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object])
 ], EditProvinceZoneAreaComponent);
 
 var _a;
@@ -1105,10 +1231,10 @@ module.exports = "<!-- Pop Up -->\n<div class=\"row\">\n\n    <div class=\"col-m
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PromptComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__province_zone_area_parish_province_zone_area_parish_service__ = __webpack_require__("../../../../../src/app/province-zone-area-parish/province-zone-area-parish.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__payment_details_payment_service__ = __webpack_require__("../../../../../src/app/payment-details/payment.service.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PromptComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1137,15 +1263,15 @@ var PromptComponent = (function () {
     return PromptComponent;
 }());
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('calledFrom'),
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('calledFrom'),
     __metadata("design:type", Object)
 ], PromptComponent.prototype, "calledFrom", void 0);
 __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('itemInfo'),
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"])('itemInfo'),
     __metadata("design:type", Object)
 ], PromptComponent.prototype, "itemInfo", void 0);
 PromptComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-prompt',
         template: __webpack_require__("../../../../../src/app/shared/prompt/prompt.component.html"),
         styles: [__webpack_require__("../../../../../src/app/shared/prompt/prompt.component.css")]
@@ -1162,11 +1288,11 @@ var _a, _b;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SharedModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__edit_province_zone_area_edit_province_zone_area_component__ = __webpack_require__("../../../../../src/app/shared/edit-province-zone-area/edit-province-zone-area.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__prompt_prompt_component__ = __webpack_require__("../../../../../src/app/shared/prompt/prompt.component.ts");
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SharedModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1183,7 +1309,7 @@ var SharedModule = (function () {
     return SharedModule;
 }());
 SharedModule = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_0__angular_common__["CommonModule"]],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_3__prompt_prompt_component__["a" /* PromptComponent */],
@@ -1204,13 +1330,13 @@ SharedModule = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WemService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__ = __webpack_require__("../../../../../src/app/auth/auth.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment_prod__ = __webpack_require__("../../../../../src/environments/environment.prod.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return WemService; });
 /** Service created for show and update wem-list */
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1233,7 +1359,7 @@ var WemService = (function () {
         this.authService = authService;
         this.refreshList = new __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__["Subject"]();
         /** Initializing the different headers to be passed with each api call */
-        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Headers */]({
+        this.headers = new __WEBPACK_IMPORTED_MODULE_0__angular_http__["a" /* Headers */]({
             'X-Requested-With': 'XMLHttpRequest'
         });
         if (this.authService.isAuthenticated()) {
@@ -1264,8 +1390,8 @@ var WemService = (function () {
     return WemService;
 }());
 WemService = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["c" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__auth_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
 ], WemService);
 
 var _a, _b;
@@ -1319,9 +1445,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
 }
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
+Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
 //# sourceMappingURL=main.js.map
 
 /***/ }),
