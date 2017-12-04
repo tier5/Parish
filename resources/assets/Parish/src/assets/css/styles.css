@@ -10,6 +10,7 @@ body {
 	background: #f1f4f7;
 	padding-top: 50px;
 	color: #5f6468;
+
 }
 
 p {
@@ -885,6 +886,43 @@ h1.page-header {
 
 
 
+
+.sidebar[_ngcontent-c0]{background-color: #3c424e !important;}
+.navbar-inverse[_ngcontent-c0]{background: #3c424e !important;}
+.sidebar[_ngcontent-c0] ul.nav[_ngcontent-c0] a[_ngcontent-c0]:hover, .sidebar[_ngcontent-c0] ul.nav[_ngcontent-c0] li.parent[_ngcontent-c0] ul[_ngcontent-c0] li[_ngcontent-c0] a[_ngcontent-c0]:hover, .nav[_ngcontent-c0] > li[_ngcontent-c0] > a[_ngcontent-c0]:hover, .nav[_ngcontent-c0] > li[_ngcontent-c0] > a[_ngcontent-c0]:focus
+{background: #565e6f !important;}
+
+.white-bg{background: #fff;}
+
+
+
+@media screen and (max-width: 878px) {
+	.table-responsive {
+		width: 100%;
+		margin-bottom: 15px;
+		overflow-x: auto;
+	}
+}
+
+
+@media screen and (max-width: 768px) {
+
+	.widget-left{width: 100%;}
+	.navbar-fixed-top, .navbar-fixed-bottom{z-index: 99999;}
+
+
+}
+
+
+
+@media screen and (max-width: 480px) {
+
+	.navbar-fixed-top, .navbar-fixed-bottom{position: absolute;}
+	.sidebar[_ngcontent-c0]{position: absolute !important; top:0;}
+
+
+
+}
 
 
 
