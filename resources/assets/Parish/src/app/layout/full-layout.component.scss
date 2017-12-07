@@ -1,3 +1,19 @@
+.title {
+  text-transform: none;
+  color:#fff !important;
+}
+
+.sidebar ul.nav ul.children li a {
+  height: 40px;
+  background: #3c424e;
+  color: #ffffff!important;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 5px 20px;
+}
+
+.sidebar ul.nav li.parent ul li a.active{background: #565e6f; text-decoration: none;}
+
 @media only screen and (max-width: 480px){
   .attribution {
     position: relative;
@@ -28,6 +44,7 @@ a {
 }
 .navbar-inverse {
   background: #1c1c1c;
+  border-bottom: 1px solid #fff;
 }
 .main .breadcrumb {
   background: none;
@@ -47,4 +64,19 @@ a {
     overflow-y: auto;
     max-height: 420px;
   }
+}
+
+
+@media only screen and (max-width: 440px){
+
+
+  .nav{margin-top:50px;}
+
+}
+@media only screen and (max-width: 370px){
+
+  .navbar-header .navbar-brand{font-size: 12px;}
+  .nav{margin-top:50px;}
+
+
 }

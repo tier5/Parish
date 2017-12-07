@@ -583,7 +583,7 @@ a.bg-danger:hover {
 	width: auto;
 	padding: 0;
 	margin: 0;
-	background: #f9f9f9;
+	/*background: #f9f9f9;*/
 }
 
 .sidebar ul.nav ul.children li a {
@@ -600,9 +600,14 @@ a.bg-danger:hover {
 .sidebar ul.nav li.parent ul li a {
 	border: none;
 	display:block;
-	padding-left: 30px;
+	padding-left: 13px;
 	line-height: 40px;
 }
+
+
+
+
+
 
 
 .sidebar span.glyphicon {
