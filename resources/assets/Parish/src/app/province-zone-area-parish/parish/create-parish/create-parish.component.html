@@ -24,7 +24,7 @@
                 <form
                         #createParishForm="ngForm"
                         (submit)="onSubmit(createParishForm)">
-                    <div class="row">
+                   <!-- <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Select Province</label>
@@ -83,7 +83,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -92,7 +92,6 @@
                                         id="pname"
                                         class="form-control"
                                         placeholder="Enter..."
-                                        [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected"
                                         name="parish_name"
                                         required
                                         [ngModel]="parishData.parish_name"
@@ -115,7 +114,6 @@
                                         id="fname"
                                         class="form-control"
                                         placeholder="Enter..."
-                                        [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected"
                                         name="first_name"
                                         required
                                         [ngModel]="parishData.first_name"
@@ -138,7 +136,6 @@
                                         id="lname"
                                         class="form-control"
                                         placeholder="Enter..."
-                                        [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected"
                                         name="last_name"
                                         required
                                         [ngModel]="parishData.last_name"
@@ -205,7 +202,7 @@
                         <div class="col-md-6">
                             <button
                                     class="btn btn-primary"
-                                    [disabled]="!provinceList || !provinceSelected || !zoneList || !zoneSelected || !areaList || !areaSelected || ( createParishForm.invalid && createParishForm.touched ) || !parishData.start_date">
+                                    [disabled]="( createParishForm.invalid && createParishForm.touched ) || !parishData.start_date">
                                 <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                 Submit
                             </button>

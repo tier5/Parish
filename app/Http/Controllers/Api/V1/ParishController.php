@@ -137,8 +137,7 @@ class ParishController extends Controller {
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function createParish(Request $request)
-    {
+    public function createParish(Request $request){
         try {
 
             DB::beginTransaction();
@@ -148,13 +147,14 @@ class ParishController extends Controller {
             $user   = new User();
 
             /*
-             * Validate mandatory fields
-             */
-            if ($request->has('area_id'))
+            * Validate mandatory fields
+            */
+
+            /*if ($request->has('area_id'))
 
                 $parish->area_id = $request->input('area_id');
             else
-                throw new HttpBadRequestException("Area selection is required.");
+                throw new HttpBadRequestException("Area selection is required.");*/
 
             if ($request->has('parish_name'))
 
@@ -520,37 +520,33 @@ class ParishController extends Controller {
 
                         $parishes_zones = Zone::find($zone_id)->parishes;
                         if($request->has('compliance')) {
-                        $parishArray = [];
-                        $parishList  = $parishes_zones;
-
-
-                           foreach ( $parishList as $parish) {
-                               $allreports= Report::where('parish_id', $parish->id)
+                            $parishArray = [];
+                            $parishList  = $parishes_zones;
+                            foreach ( $parishList as $parish) {
+                                $allreports= Report::where('parish_id', $parish->id)
                                    ->where('report_month', date('m'))
                                    ->whereNull('deleted_at')
                                    ->get();
-                               $reports =  Report::where('parish_id', $parish->id)
+                                $reports =  Report::where('parish_id', $parish->id)
                                    ->where('compliance',1)
                                    ->where('report_month', date('m'))
                                    ->whereNull('deleted_at')
                                    ->get();
-                               if($request->input('compliance')==1) {
+                                if($request->input('compliance')==1) {
                                    if(count($reports)==count($allreports) && (count($reports)>0)) {
                                        $parishArray[] = $parish;
-                                   }
-                               }
-                               else {
-                                   if(count($reports)<count($allreports) || count($allreports)==0 || count($reports)==0) {
+                                    }
+                                }
+                                else {
+                                    if(count($reports)<count($allreports) || count($allreports)==0 || count($reports)==0) {
                                        $parishArray[]= $parish;
-                                   }
+                                    }
                                }
-
-                           }
-                           $parishes    = $parishArray;
-
-                    } else {
-                        $parishes = $parishes_zones;
-                    }
+                            }
+                            $parishes    = $parishArray;
+                        } else {
+                            $parishes = $parishes_zones;
+                        }
                     } else {
 
                        if($request->has('province_id') && $request->input('province_id')!=0) {
@@ -560,21 +556,19 @@ class ParishController extends Controller {
                                array_push($area_array, $area->id);
                            }
                            $parishes = Parish::whereIn('area_id', $area_array)->get();
-
-                       } else {
+                        } else {
                            /** Get compliant or non compliant parish */
-                           $parishArray = [];
+                            $parishArray = [];
+                            $userDetails        = User::find($request->input('user_id'));
 
-                           $userDetails        = User::find($request->input('user_id'));
-
-                           if($userDetails->user_type!=0) {
+                            if($userDetails->user_type!=0) {
                                 $parishList  = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
-                           } else {
+                            } else {
                                 $parishList  = Parish::whereNull('deleted_at')->get();
-                           }
+                            }
                            
-                           foreach ( $parishList as $parish) {
-                               $allreports= Report::where('parish_id', $parish->id)
+                            foreach ( $parishList as $parish) {
+                                $allreports= Report::where('parish_id', $parish->id)
                                                    ->where('report_month', date('m'))
                                                    ->whereNull('deleted_at')
                                                    ->get();
@@ -588,19 +582,16 @@ class ParishController extends Controller {
                                         $parishArray[] = $parish;
                                     }
                                 }
-                               else {
-                                       if(count($reports)<count($allreports) || count($allreports)==0 || count($reports)==0) {
-                                           $parishArray[]= $parish;
-                                       }
-                               }
-
-                           }
-                           $parishes    = $parishArray;
-
-                       }
+                                else {
+                                   if(count($reports)<count($allreports) || count($allreports)==0 || count($reports)==0) {
+                                       $parishArray[]= $parish;
+                                    }
+                                }
+                            }
+                            $parishes    = $parishArray;
+                        }
                     }
                 }
-             
             } else {
                 if($request->has('user_id')) {
                     $userDetails = User::find($request->input('user_id'));
@@ -677,15 +668,17 @@ class ParishController extends Controller {
                     $parishArray[$key]['user_id']               = $parish->users->id;
                     $parishArray[$key]['parish_id']             = $parish->users->parish_id;
                     $parishArray[$key]['parish_name']           = $parish->name;
-                    $parishArray[$key]['province_name']         = $parish->areas->zones->proviences->name;
-                    $parishArray[$key]['province_id']           = $parish->areas->zones->proviences->id;
-                    $parishArray[$key]['zone_name']             = $parish->areas->zones->name;
-                    $parishArray[$key]['zone_id']               = $parish->areas->zones->id;
-                    $parishArray[$key]['area_name']             = $parish->areas->name;
-                    $parishArray[$key]['area_id']               = $parish->areas->id;
-                    $parishArray[$key]['pastor_name_area']      = $parish->areas->users->first_name;
-                    $parishArray[$key]['pastor_name_zone']      = $parish->areas->zones->users->first_name;
-                    $parishArray[$key]['pastor_name_province']  = $parish->areas->zones->proviences->users->first_name;
+                    if($parish->area_id) {
+                        $parishArray[$key]['province_name']         = $parish->areas->zones->proviences->name;
+                        $parishArray[$key]['province_id']           = $parish->areas->zones->proviences->id;
+                        $parishArray[$key]['zone_name']             = $parish->areas->zones->name;
+                        $parishArray[$key]['zone_id']               = $parish->areas->zones->id;
+                        $parishArray[$key]['area_name']             = $parish->areas->name;
+                        $parishArray[$key]['area_id']               = $parish->areas->id;
+                        $parishArray[$key]['pastor_name_area']      = $parish->areas->users->first_name;
+                        $parishArray[$key]['pastor_name_zone']      = $parish->areas->zones->users->first_name;
+                        $parishArray[$key]['pastor_name_province']  = $parish->areas->zones->proviences->users->first_name;
+                    }
                     $parishArray[$key]['password']              = $parish->users->uniqueKey;
                     $parishArray[$key]['first_name']            = $parish->users->first_name;
                     $parishArray[$key]['last_name']             = $parish->users->last_name;
@@ -768,15 +761,17 @@ class ParishController extends Controller {
                 $parishArray['user_id']                 = $parish->users->id;
                 $parishArray['parish_id']               = $parish->users->parish_id;
                 $parishArray['parish_name']             = $parish->name;
-                $parishArray['province_name']           = $parish->areas->zones->proviences->name;
-                $parishArray['province_id']             = $parish->areas->zones->proviences->id;
-                $parishArray['zone_name']               = $parish->areas->zones->name;
-                $parishArray['zone_id']                 = $parish->areas->zones->id;
-                $parishArray['area_name']               = $parish->areas->name;
-                $parishArray['area_id']                 = $parish->areas->id;
-                $parishArray['pastor_name_area']        = $parish->areas->users->first_name;
-                $parishArray['pastor_name_zone']        = $parish->areas->zones->users->first_name;
-                $parishArray['pastor_name_province']    = $parish->areas->zones->proviences->users->first_name;
+                if($parish->area_id) {
+                    $parishArray['province_name']           = $parish->areas->zones->proviences->name;
+                    $parishArray['province_id']             = $parish->areas->zones->proviences->id;
+                    $parishArray['zone_name']               = $parish->areas->zones->name;
+                    $parishArray['zone_id']                 = $parish->areas->zones->id;
+                    $parishArray['area_name']               = $parish->areas->name;
+                    $parishArray['area_id']                 = $parish->areas->id;
+                    $parishArray['pastor_name_area']        = $parish->areas->users->first_name;
+                    $parishArray['pastor_name_zone']        = $parish->areas->zones->users->first_name;
+                    $parishArray['pastor_name_province']    = $parish->areas->zones->proviences->users->first_name; 
+                }
                 $parishArray['password']                = $parish->users->uniqueKey;
                 $parishArray['first_name']              = $parish->users->first_name;
                 $parishArray['last_name']               = $parish->users->last_name;

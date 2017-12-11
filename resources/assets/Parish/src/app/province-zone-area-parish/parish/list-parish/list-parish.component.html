@@ -193,12 +193,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let parish of parishList">
+                             <tr *ngFor="let parish of parishList">
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">ROI{{ parish.id }}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.parish_name }}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.first_name }}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.last_name }}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.parish_name }} => {{ parish.area_name }} => {{ parish.zone_name }}&nbsp;=> {{ parish.province_name }}
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''"> <span *ngIf="parish.area_name"> {{ parish.parish_name }} => {{ parish.area_name }} => {{ parish.zone_name }}&nbsp;=> {{ parish.province_name }}</span>
+                                    <span *ngIf="!parish.area_name">None</span>
                                 </td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''"> {{ parish.parish_id }}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.password}}</td>
@@ -218,29 +219,30 @@
                                             <i class="fa fa-pencil-square-o"></i>
                                         </button>
                                     </div>
-
                                 </td>
-
-
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">
-                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">
-                                <button
-                                        class="btn btn-warning btn-xs"
-                                        type="button"
-                                        (click)="onEdit(parish)">
-                                    <i class="fa fa-pencil fa-fw"></i>
-                                </button>
-                                <button
-                                        class="btn btn-danger btn-xs"
-                                        type="button"
-                                        (click)="showPrompt(parish)">
-                                    <i class="fa fa-trash fa-fw"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr *ngIf="!parishList">
-                            {{responseNoRecord}}
-                        </tr>
+                                     <button
+                                            class="btn btn-warning btn-xs"
+                                            type="button"
+                                            (click)="onEdit(parish)">
+                                        <i class="fa fa-pencil fa-fw"></i>
+                                     </button>
+                                     <button
+                                            class="btn btn-danger btn-xs"
+                                            type="button"
+                                            (click)="showPrompt(parish)">
+                                        <i class="fa fa-trash fa-fw"></i>
+                                     </button>
+                                     <button class="btn btn-info btn-xs"
+                                             type="button"
+                                             (click)="showPrompt(parish)">
+                                         <i class="fa fa-cog" aria-hidden="true"></i>
+                                     </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!parishList">
+                                {{responseNoRecord}}
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -22,7 +22,7 @@ class CreateParishesTable extends Migration
                 ->index();
             $table->integer('area_id')
                 ->unsigned()
-               ->index();
+               ->index()->nullable();
             $table->integer('created_by');
             $table->softDeletes();
             $table->timestamps();
