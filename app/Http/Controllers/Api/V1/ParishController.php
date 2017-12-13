@@ -603,14 +603,20 @@ class ParishController extends Controller {
              
             } else {
                 if($request->has('user_id')) {
+
                     $userDetails = User::find($request->input('user_id'));
+
                     if($userDetails->user_type == 1) {
-                        $due_date       = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->due_date;
                         $parishes=Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
+                        if(count($parishes) >0) {
+                           $due_date       = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->due_date;  
+                        }
                     } else if ($userDetails->user_type == 0) {
-                        $due_date       = Parish::whereNull('deleted_at')->get()->first()->due_date;
+                        
                         $parishes       = Parish::whereNull('deleted_at')->get();
-                            
+                        if(count($parishes) >0) {
+                           $due_date       = Parish::whereNull('deleted_at')->get()->first()->due_date;
+                        }
                     } else {
                         if($userDetails->pastor_type == 1) {
                              $province = Provience::where('user_id',$request->input('user_id'))->first();
@@ -664,7 +670,8 @@ class ParishController extends Controller {
                     throw new HttpBadRequestException("Please Provide user id.");
                 }
             }
-            
+                
+
             if(count($parishes) >0 ){
                 $parishArray    = [];
 
