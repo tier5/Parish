@@ -28,7 +28,8 @@ const appRoutes: Routes = [
 		{ path: 'profile', loadChildren: './profile-details/profile.module#ProfileModule' },
 		{ path: 'report', loadChildren: './report/report.module#ReportModule' },
 		{ path: 'payment', loadChildren: './payment-details/payment.module#PaymentModule'},
-        { path: 'wem', loadChildren: './wem-list/wem.module#WemModule'}
+        { path: 'wem', loadChildren: './wem-list/wem.module#WemModule'},
+		{ path: 'csv', loadChildren: './csv-upload/csv.module#CsvModule' },
 	] },
     { path: '**', redirectTo: 'login' }
 ];

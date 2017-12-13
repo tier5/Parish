@@ -127,6 +127,22 @@
             </ul>
         </li>
 
+        <!-- csv upload feature -->
+
+        <li class="parent " *ngIf="showSidebar">
+            <a data-toggle="collapse" href="#csv-upload">
+                <img src="{{ base_url }}/images/province-icon.png"> Csv Upload
+            </a>
+            <ul class="children collapse" id="csv-upload">
+                <li>
+                    <a routerLinkActive="active" [routerLink]="['/csv']">
+                        <i class="fa fa-fw fa-plus-square"></i> Csv Upload
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
         <!-- <li role="presentation" class="divider" *ngIf="showSidebar"></li> -->
 
         <!-- Parish Section -->

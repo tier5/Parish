@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">Csv - Upload</h3>
+    </div>
+</div><!--/.row-->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">CSV</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
+                            <strong>{{ responseMsg }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                Download Sample Csv <a [href]="base_url+'/sample-csv/sample.csv'" [download]="csvData.file_name" title="Download csv here"><i class="fa fa-download fa-fw"></i></a>
+
+                <!--<form
+                        #updateProfileForm="ngForm"
+                        (submit)="onSubmit(updateProfileForm)">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="fname">First Name</label>
+                                <input
+                                        id="fname"
+                                        class="form-control"
+                                        placeholder="Enter..."
+
+                                        name="first_name"
+                                        required
+                                        [ngModel]="profileData.first_name"
+                                        #firstName="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="firstName.invalid && firstName.touched">
+                                First Name is Required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="lname">Last Name</label>
+                                <input
+                                        id="lname"
+                                        class="form-control"
+                                        placeholder="Enter..."
+
+                                        name="last_name"
+                                        required
+                                        [ngModel]="profileData.last_name"
+                                        #lastName="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div
+                                    class="alert alert-danger"
+                                    *ngIf="lastName.invalid && lastName.touched">
+                                Last Name is Required!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row passwordDiv" *ngIf="!isAdmin">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pasword">Password</label>
+                                <input
+                                        id="pasword"
+                                        class="form-control col-md-9"
+                                        name="uniqueKey"
+                                        required
+                                        [ngModel]="profileData.uniqueKey"
+                                        #uniqueKey="ngModel" readonly>
+                                <button (click)="onResetPassword()" type="button"
+                                        class="btn btn-default col-md-3">Reset Password
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row passwordDiv" *ngIf="!isAdmin">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input
+                                        id="username"
+                                        class="form-control col-md-9"
+                                        name="parish_id"
+                                        required
+                                        [ngModel]="profileData.parish_id"
+                                        #parish_id="ngModel">
+                                <button (click)="onResetUsername(updateProfileForm)" type="button"
+                                        class="btn btn-default col-md-3" [disabled] = "!updateProfileForm.value.parish_id || !activateReset">Reset Username
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary"
+                                    [disabled]="( updateProfileForm.invalid && updateProfileForm.touched )">
+                                <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                                Submit
+                            </button>
+                            <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    (click)="onReset(updateProfileForm)"
+                            >Reset
+                            </button>
+                        </div>
+                    </div>
+                </form>-->
+
+            </div>
+        </div>
+    </div>
+</div>
