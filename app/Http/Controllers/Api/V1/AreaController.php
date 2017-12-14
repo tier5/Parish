@@ -76,7 +76,6 @@ class AreaController extends Controller {
      */
 
     public function getAllArea(Request $request,$created_by) {
-
         try {
 
             DB::beginTransaction();

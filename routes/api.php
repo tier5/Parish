@@ -333,6 +333,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses'  => 'Api\V1\UploadController@uploadCsv',
                 'as'    => 'api.v1.uploadCsv.post'
             ]);
+
+            Route::post('/parse-csv/{user_id}',[
+                'uses'  => 'Api\V1\UploadController@parseData',
+                'as'    => 'api.v1.parseData'
+            ]);
             
         });
 
