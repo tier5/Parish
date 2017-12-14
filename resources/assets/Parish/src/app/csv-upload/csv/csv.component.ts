@@ -54,7 +54,7 @@ export class CsvComponent{
 		this.progress       = 30;
 		const user_id       = this.authService.getToken().user_id;
 		const formData      = new FormData();
-		formData.append("name",this.files[0]);
+		formData.append("file",this.files[0]);
 		formData.append("user_id", user_id);
 		this.CsvService.uploadCsv(formData)
 			.subscribe(
@@ -63,6 +63,7 @@ export class CsvComponent{
 					this.responseReceived   = true;
 					this.responseStatus     = response.json().status;
 					this.showLoader         = false;
+					console.log(response.json());
 					if(response.json().status){
 						this.progress       = 100;
 						this.responseMsg    = response.json().message;
