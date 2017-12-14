@@ -13,6 +13,7 @@ use App\Models\Provience;
 use App\Models\Zone;
 use App\Models\Area;
 use App\Models\User;
+use App\Models\Parish;
 use App\Models\Payment;
 use App\Helpers;
 use Crypt;
@@ -26,6 +27,7 @@ use JWTAuth;
 use JWTAuthException;
 use Log;
 use SoftDeletes;
+use \Stripe;
 
 class UploadController extends Controller {
      /**
@@ -67,7 +69,7 @@ class UploadController extends Controller {
         $provinceCount=0;
         if((isset($getUserInfo)) && ($getUserInfo->user_type==1)){                                                            // If the user is WEM 
                 if ($request->hasFile('file')) {                                                //If Any File Exists
-                    $allowedExts        = array('csv','CSV');                                   //Store Allowable extentions for upload in array
+                    $allowedExts        = array('csv','CSV','xls','XLS','xlsx','XLSX');                                   //Store Allowable extentions for upload in array
                     $getFileExtension   = $request->file('file')->getClientOriginalExtension(); //Get extention for uploaded file
                     if(in_array($getFileExtension, $allowedExts)) {                             //If extention is allowed
                         $getFileSize    = $request->file('file')->getClientSize();              //Get size for uploaded file in bytes
@@ -103,7 +105,7 @@ class UploadController extends Controller {
                                        
                                         if((isset($data_array[$i]['parish']) && (!empty($data_array[$i]['parish'])))){
                                             if((isset($data_array[$i]['area']) && (!empty($data_array[$i]['area'])))){
-                                                if((isset($data_array[$i]['zone']) && (!empty($data_array[$i]['zone'])))){
+                                                if((isset($data_array[$i]['zone']) && (!empty($data_array[$i]['zone'])) && ($data_array[$i]['startdate']))){
                                                    $parishCount=$parishCount+1;
                                                 }
                                             }
@@ -124,18 +126,18 @@ class UploadController extends Controller {
                                     }
                                 }
 
-                                if($parishCount!=0){
+                               /* if($parishCount!=0){
                                     $response = [
                                         'status'       => true,
-                                        /*'provinceCount' => $provinceCount,*/
                                         'parishCount'   => $parishCount,
-                                        /*'areaCount'     => $areaCount,
-                                        'zoneCount'     => $zoneCount,*/
                                         'allData'       => $data_array,
                                         'message'       => '$'.$parishCount." will deduct for parish creation. Do you want to proceed ?"
                                     ];
                                     $responseCode = 200;
-                                }
+                                }else{*/
+                                    $response=$this->parseData($userId,$data_array,$parishCount);
+                                    $responseCode = 200;
+                                /*}*/
                             }else{
                                  $response = [
                                     'status'       => false,
@@ -178,17 +180,11 @@ class UploadController extends Controller {
         return response()->json($response, $responseCode);
     }
 
-    public function parseData(Request $request, $userId){
-        $response = [
-                'status'       => true,
-                'message'        => "CSV uploaded successfully",
-        ];
-        $responseCode = 200;
-        return response()->json($response, $responseCode);
-        /*$getUserInfo=User::where('id',$userId)->first();
+    public function parseData($userId,$data,$parishCount){
+        $getUserInfo=User::where('id',$userId)->first();
         if((isset($getUserInfo)) && ($getUserInfo->user_type==1)){
-            $data = $request->data(); //Convert to array
-
+            $data =$data; //$request->data(); 
+         
             for($i=0; $i<count($data); $i++){ //Start Inserting Data into "export_addresses" table
 
                 if((isset($data[$i]['firstname']) && (!empty($data[$i]['firstname']))) && (isset($data[$i]['lastname'])) && (!empty($data[$i]['lastname']))&& (isset($data[$i]['province'])) && (!empty($data[$i]['province']))){ // Check If First Name Last Name Province Exist Or not
@@ -201,10 +197,17 @@ class UploadController extends Controller {
                         $this->randomUsername = Helpers::generateNumber();
                         $this->randomPassword = Helpers::generateNumber();
 
+                        if((isset($data[$i]['zone'])) && (!empty($data[$i]['zone']))){
+                            $provFirstname=null;
+                            $provLastname=null;
+                        }else{
+                            $provFirstname=$data[$i]['firstname'];
+                            $provLastname=$data[$i]['lastname'];
+                        }
                         $createNewUser = new User();   
                         $createNewUser->parish_id = $this->randomUsername;
-                        $createNewUser->first_name ='';
-                        $createNewUser->last_name ='';
+                        $createNewUser->first_name =$provFirstname;
+                        $createNewUser->last_name =$provLastname;
                         $createNewUser->user_type =2;
                         $createNewUser->pastor_type=1;
                         $createNewUser->user_status=1;
@@ -215,16 +218,16 @@ class UploadController extends Controller {
 
                         $NewProvinceId=$createNewUser->id;
 
-                        $Province=new Province();
+                        $Province=new Provience();
                         $Province->name=$data[$i]['province'];
                         $Province->user_id=$NewProvinceId;
                         $Province->created_by=$userId;
                         $Province->save();
 
-                        $provinceId=$NewProvinceId;
+                        $provinceId=$Province->id;
                     }
 
-                    if((isset($data[$i]['zone']) && (!empty($data[$i]['zone'])))){  //Check Zone Name Empty or not
+                    if((isset($data[$i]['zone']) && (!empty($data[$i]['zone'])) && $provinceId)){  //Check Zone Name Empty or not
                         $getZonesInfo=Zone::where('name',$data[$i]['zone'])->where('provience_id',$provinceId)->where('created_by',$userId)->first();
                         if(count($getZonesInfo) >0){
                             $zoneId=$getZonesInfo->id;
@@ -232,12 +235,20 @@ class UploadController extends Controller {
                             $this->randomUsername = Helpers::generateNumber();
                             $this->randomPassword = Helpers::generateNumber();
 
+                            if((isset($data[$i]['area'])) && (!empty($data[$i]['area']))){
+                                $zoneFirstname=null;
+                                $zoneLastname=null;
+                            }else{
+                                $zoneFirstname=$data[$i]['firstname'];
+                                $zoneLastname=$data[$i]['lastname'];
+                            }
+
                             $createNewUser = new User();   
                             $createNewUser->parish_id = $this->randomUsername;
-                            $createNewUser->first_name ='';
-                            $createNewUser->last_name ='';
+                            $createNewUser->first_name =$zoneFirstname;
+                            $createNewUser->last_name =$zoneLastname;
                             $createNewUser->user_type =2;
-                            $createNewUser->pastor_type=1;
+                            $createNewUser->pastor_type=2;
                             $createNewUser->user_status=1;
                             $createNewUser->email=null;
                             $createNewUser->password=$this->randomPassword;
@@ -253,11 +264,11 @@ class UploadController extends Controller {
                             $Zone->created_by=$userId;
                             $Zone->save();
 
-                            $zoneId=$NewZoneId;
+                            $zoneId=$Zone->id;
                         }
                     }
 
-                    if((isset($data[$i]['area']) && (!empty($data[$i]['area'])))){      //Check Area Name Empty or not
+                    if((isset($data[$i]['area']) && (!empty($data[$i]['area']))) && $provinceId && $zoneId){      //Check Area Name Empty or not
                         $getAreaInfo=Area::where('name',$data[$i]['area'])->where('zone_id',$zoneId)->where('created_by',$userId)->first();
                         if(count($getAreaInfo) >0){
                             $areaId=$getAreaInfo->id;
@@ -265,10 +276,18 @@ class UploadController extends Controller {
                             $this->randomUsername = Helpers::generateNumber();
                             $this->randomPassword = Helpers::generateNumber();
 
+                            if((isset($data[$i]['parish'])) && (!empty($data[$i]['parish']))){
+                                $areaFirstname=null;
+                                $areaLastname=null;
+                            }else{
+                                $areaFirstname=$data[$i]['firstname'];
+                                $areaLastname=$data[$i]['lastname'];
+                            }
+
                             $createNewUser = new User();   
                             $createNewUser->parish_id = $this->randomUsername;
-                            $createNewUser->first_name ='';
-                            $createNewUser->last_name ='';
+                            $createNewUser->first_name =$areaFirstname;
+                            $createNewUser->last_name =$areaLastname;
                             $createNewUser->user_type =2;
                             $createNewUser->pastor_type=3;
                             $createNewUser->user_status=1;
@@ -286,35 +305,82 @@ class UploadController extends Controller {
                             $Area->created_by = $userId;
                             $Area->save();
 
+                            $areaId=$Area->id;
+
                         }
                     }
 
-                    if((isset($data[$i]['parish']) && (!empty($data[$i]['parish'])))){ 
-                        $this->randomUsername = Helpers::generateNumber();
-                        $this->randomPassword = Helpers::generateNumber();
-
-                        $createNewUser = new User();   
-                        $createNewUser->parish_id = $this->randomUsername;
-                        $createNewUser->first_name =$data[$i]['firstname'];
-                        $createNewUser->last_name =$data[$i]['lastname'];
-                        $createNewUser->user_type =3;
-                        $createNewUser->pastor_type=0;
-                        $createNewUser->user_status=1;
-                        $createNewUser->email=null;
-                        $createNewUser->password=$this->randomPassword;
-                        $createNewUser->uniqueKey=$this->randomPassword;
-                        $createNewUser->save();
-                        $newParisId=$createNewUser->id;
-                        $parish = new Parish();
-                        $parish->area_id = $areaId;
-                        $parish->name = $data[$i]['parish'];
+                    if((isset($data[$i]['parish']) && (!empty($data[$i]['parish']))) && $provinceId && $zoneId && $areaId){ 
                         
-                        $parish->user_id    = $newParisId;
-                        $parish->created_by = $userId;
-                        $parish->save(); 
+                        $getParishInfo=Parish::where('name',$data[$i]['parish'])->where('area_id',$areaId)->where('created_by',$userId)->first();
+                        if(count($getParishInfo)==0){
+
+                            $this->randomUsername = Helpers::generateNumber();
+                            $this->randomPassword = Helpers::generateNumber();
+
+                            $createNewUser = new User();   
+                            $createNewUser->parish_id = $this->randomUsername;
+                            $createNewUser->first_name =$data[$i]['firstname'];
+                            $createNewUser->last_name =$data[$i]['lastname'];
+                            $createNewUser->user_type =3;
+                            $createNewUser->pastor_type=0;
+                            $createNewUser->user_status=1;
+                            $createNewUser->email=null;
+                            $createNewUser->password=$this->randomPassword;
+                            $createNewUser->uniqueKey=$this->randomPassword;
+                            $createNewUser->save();
+
+                            $newParisId=$createNewUser->id;
+
+                            $parish = new Parish();
+                            $parish->name = $data[$i]['parish'];
+                            $parish->user_id    = $newParisId;
+                            $parish->area_id= $areaId;
+                            $parish->start_date=$data[$i]['startdate'];
+                            $parish->created_by = $userId;
+                            $parish->save();
+
+
+                            $key  = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                            $stripe_token = $request->input('token');
+                            $creditCardToken = $stripe_token['id'];
+
+                            $plan_id = env('PARISH_PLAN');
+
+                            $plan = \Stripe\Plan::retrieve($plan_id);
+                            $amount = $plan->amount;
+                            $currency = $plan->currency;
+                                
+                            $wem = User::find($userId);
+
+                            $subscription =\Stripe\Subscription::create(array(
+                                "customer" => $wem->stripe_id,
+                                "items" => array(
+                                    array(
+                                         "plan" => $plan_id,
+                                   ),
+                                )
+                            )); 
+
+                            if($subscription->id) {
+                                $wem_payment = new WemPayment();
+                                $wem_payment->wem_id = $userId;
+                                $wem_payment->parish_user_id = $parish->id;
+                                $wem_payment->name = $plan->interval;
+                                $wem_payment->stripe_id = $subscription->id;
+                                $wem_payment->card_brand = $stripe_token['card']['brand'];
+                                $wem_payment->card_last_four = $stripe_token['card']['last4'];
+                                $wem_payment->save();
+                            }
+                        }
                     }            
                 }
             }
+            $response = [
+                'status'       => true,
+                'message'      =>'Successfully Uploaded'
+            ];
+            $responseCode = 200;
         }else{                                                                               // If the user is not WEM 
             $response = [
                 'status'       => false,
@@ -323,7 +389,7 @@ class UploadController extends Controller {
             ];
             $responseCode = 400;
         }
-        return response()->json($response, $responseCode);*/
+        return response()->json($response, $responseCode);
     }
 
    
