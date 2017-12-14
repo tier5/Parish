@@ -68,7 +68,6 @@ export class LoginComponent {
 				
 			},
 			( error: Response ) => {
-				console.log( error );
 				this.loginRequestStatus = false;
 				this.loginRequestResponseMsg = error.json().error;
 				this.showLoader = false;

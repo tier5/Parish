@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-lg-12">
         <h3 class="page-header">Csv - Upload</h3>
@@ -24,7 +25,9 @@
 
                 Download Sample Csv here:  <a [href]="base_url+'/sample-csv/sample.csv'" [download]="csvData.file_name" title="Download csv here"><i class="fa fa-download fa-fw"></i></a>
 
-                <form
+                <div  class="col-lg-12">
+                    <div id="cover-spin" *ngIf="showSpinner"></div>
+                    <form
                         #insertCsvForm="ngForm"
                         (submit)="onSubmit(insertCsvForm)">
 
@@ -76,7 +79,7 @@
                         </div>
                     </div>
                 </form>
-
+                </div>
             </div>
         </div>
     </div>

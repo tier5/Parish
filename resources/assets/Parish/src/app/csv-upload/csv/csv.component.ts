@@ -27,6 +27,7 @@ export class CsvComponent{
 	promptMsg           : string  = '';
 	length                        = false;
 	showLoader          : boolean = false;
+	showSpinner         : boolean = false;
 	isAdmin             : boolean = false;
 	base_url            : string  = environment.base_url;
 	files               : FileList;
@@ -36,8 +37,6 @@ export class CsvComponent{
 	
 	closePromptEventSubscription    : Subscription;
 	proceedPromptEventSubscription    : Subscription;
-	
-	
 	csvData = [];
 	/** Injecting services to be used in this component */
 	constructor( private CsvService: CsvService,
@@ -68,13 +67,19 @@ export class CsvComponent{
 			.subscribe(
 				(itemInfo: any) => {
 					this.showProceedPrompt = false;
-					console.log('test');
-					this.CsvService.proceedCharge( itemInfo ).subscribe(
+					const csv_info = {
+						parishCount : itemInfo.parishCount,
+						data: itemInfo.data
+					};
+					this.showSpinner = true;
+					this.CsvService.proceedCharge( csv_info ).subscribe(
 						(response: Response) => {
+							
 							this.responseReceived   = true;
 							this.responseStatus     = response.json().status;
-							
+							this.showSpinner = false;
 							if( response.json().status ) {
+								
 								this.responseMsg = response.json().message;
 							} else {
 								this.responseMsg    = response.json().message;
@@ -84,13 +89,14 @@ export class CsvComponent{
 							}, 3000 )
 						},
 						(error: Response) => {
+							this.showSpinner = false;
 							if ( error.status === 401 ) {
 								this.authService.removeToken();
 								this.router.navigate( [ '/login' ] );
 							}
-							this.responseStatus     = false;
+							
 							this.responseReceived   = true;
-							this.responseMsg        = error.json().error;
+							this.responseMsg        = error.json().error_info;
 							setTimeout( () => {
 								this.responseReceived = false;
 							}, 3000 )
@@ -113,19 +119,22 @@ export class CsvComponent{
 		this.CsvService.uploadCsv(formData)
 			.subscribe(
 				(response: Response) => {
-					
-					this.responseReceived   = true;
 					this.responseStatus     = response.json().status;
 					this.showLoader         = false;
-					
 					if(response.json().status){
-						this.responseReceived   = false;
+						
 						this.progress       = 100;
 						this.promptMsg      = response.json().message;
 						var csvInfo = [];
-						csvInfo        = response.json().allData;
-						csvInfo['parishCount']=response.json().parishCount;
-						this.showPrompt(csvInfo);
+						csvInfo['data']        = response.json().allData;
+						csvInfo['parishCount'] = response.json().parishCount;
+						if(response.json().parishCount > 0) {
+							this.responseReceived   = false;
+							this.showPrompt(csvInfo);
+						} else {
+							this.responseReceived   = true;
+							this.responseMsg        = response.json().message;
+						}
 					}
 				},(error: Response) => {
 					this.showLoader         = false;
@@ -177,5 +186,6 @@ export class CsvComponent{
 	/** Un-subscribing from all custom made events when component is destroyed */
 	ngOnDestroy() {
 		this.closePromptEventSubscription.unsubscribe();
+		this.proceedPromptEventSubscription.unsubscribe();
 	}
 }

@@ -92,9 +92,10 @@ export class ReportService {
     }
 	
 	/** Accept or reject an existing report */
-	acceptReport( body: any ) : Observable<any> {
+	acceptReport( body: any , complaince_status:number) : Observable<any> {
 		const obj = {
-			user_id: this.authService.getToken().user_id
+			user_id: this.authService.getToken().user_id,
+			comp_status : complaince_status
 		};
 		const api_url = environment.API_URL + 'report/accept-report/'+body.id ;
 		return this.http.put( api_url, Object.assign( body, obj ), { headers: this.headers } );

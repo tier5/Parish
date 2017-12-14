@@ -216,38 +216,23 @@ class ParishController extends Controller {
             $parish->save();
 
 
-
+            $wem = User::find($request->input('user_id'));
             // start stripe payment charge 
 
             $key  = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-            $stripe_token = $request->input('token');
-            $creditCardToken = $stripe_token['id'];
-
-            $plan_id = env('PARISH_PLAN');
-
-            $plan = \Stripe\Plan::retrieve($plan_id);
-            $amount = $plan->amount;
-            $currency = $plan->currency;
-                
-            $wem = User::find($request->input('user_id'));
-
-            $subscription =\Stripe\Subscription::create(array(
-                "customer" => $wem->stripe_id,
-                "items" => array(
-                    array(
-                         "plan" => $plan_id,
-                   ),
-                )
-            )); 
-
-            if($subscription->id) {
+            $charge = \Stripe\Charge::create(array(
+                  "amount" => 100, //$1 for this time
+                  "currency" => "usd",
+                  "customer" => $wem->stripe_id,
+                ));
+            if($charge->id) {
                 $wem_payment = new WemPayment();
                 $wem_payment->wem_id = $request->input('user_id');
                 $wem_payment->parish_user_id = $user->id;
-                $wem_payment->name = $plan->interval;
-                $wem_payment->stripe_id = $subscription->id;
-                $wem_payment->card_brand = $stripe_token['card']['brand'];
-                $wem_payment->card_last_four = $stripe_token['card']['last4'];
+                $wem_payment->name ='parish creation';
+                $wem_payment->stripe_id = $charge->id;
+                $wem_payment->card_brand = $wem['card_brand'];
+                $wem_payment->card_last_four = $wem['card_last_four'];
                 $wem_payment->save();
             }
 

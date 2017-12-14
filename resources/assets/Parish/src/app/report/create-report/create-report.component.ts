@@ -39,6 +39,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	midWeek_child                  : number;
 	parishIdList                   : any;
 	reportId                       : number;
+	showPrompt                     : boolean             = false;
 	reportIdList                   : any;
 	parishShow                     : boolean = false;
 	sundaychild:{};
@@ -1395,8 +1396,17 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 
 				( response: Response ) => {
 					this.responseStatus = response.json().status;
-					this.responseMsg = response.json().message;
 					this.responseReceived = true;
+					if(response.json().show_prompt == 0 ) {
+						this.responseMsg = response.json().message;
+						setTimeout( () => {
+							this.responseReceived = false;
+						}, 5000);
+					} else {
+						this.responseMsg = response.json().message;
+						this.showPrompt = true;
+					}
+					
 				},
 				( error: Response ) => {
                     if ( error.status === 401 ) {
@@ -1413,9 +1423,6 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				() => {
 					this.progress_report = this.temp_report;
 					this.progress_report.crucial_date = undefined;
-					setTimeout( () => {
-						this.responseReceived = false;
-					}, 5000);
 				}
 
 			);

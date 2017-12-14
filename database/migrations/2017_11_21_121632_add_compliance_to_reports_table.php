@@ -15,8 +15,8 @@ class AddComplianceToReportsTable extends Migration
     {
         Schema::table('reports', function (Blueprint $table) {
            $table->integer('compliance')
-                ->default(0)
-                ->comment('0 => NON COMPLIANCE, 1 => COMPLIANCE');
+                ->default(3)
+                ->comment('0 => NON COMPLIANCE, 1 => COMPLIANCE, 3 => HOLD');
         });
     }
 

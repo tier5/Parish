@@ -17,6 +17,7 @@ export class FullLayoutComponent {
 	public toggleBarIcon: boolean = true;
 	public showSidebar: boolean = true;
 	paymentOption: boolean = false;
+	createReport: boolean = false;
 	parishStatus: number = 0;
 	superAdmin: boolean = false;
 	paymentStatus: boolean = false;
@@ -39,6 +40,7 @@ export class FullLayoutComponent {
 		if(user_type != 1){
 			this.showSidebar = false;
 			if(user_type == 3){
+				this.createReport = true;
 				this.pzapService.getParish()
 					.subscribe(
 						(response: Response) => {

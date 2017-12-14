@@ -443,8 +443,8 @@ export class ListReportComponent implements OnInit, OnDestroy {
     }
 	
     /** Function to accept or reject the report */
-	onAccept(report:any){
-		this.reportService.acceptReport( report )
+	onAccept(report:any,complaince_status){
+		this.reportService.acceptReport( report ,complaince_status)
 			.subscribe(
 				( response: Response ) => {
 					this.responseStatus = response.json().status;

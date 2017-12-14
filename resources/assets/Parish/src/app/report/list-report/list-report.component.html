@@ -163,22 +163,26 @@
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ report.parish_name }}</td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ report.province_name }} / {{ report.zone_name }} / {{ report.area_name }} / {{ report.parish_name }}</td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ months[report.report_month - 1].name }} / {{ report.report_year}}</td>
-                            <td [ngClass]="(report.compliance===1)?'success': 'danger'"> {{ report.status }} </td>
+                            <td [ngClass]="(report.compliance===1)?'success': 'danger'"> {{ report.status }} <span *ngIf="report.compliance===0 && isParishPastor">(Rejected By WEM)
+                            </span></td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'" *ngIf="isWEM">
+
                                 <button
                                         class="btn btn-success btn-xs"
                                         type="button"
-                                        (click)="onAccept(report)"
-                                        *ngIf="report.compliance===0">Accept
+                                        (click)="onAccept(report,1)"
+                                        *ngIf="report.compliance===3">Accept
                                     <i class="fa fa-pencil fa-fw"></i>
                                 </button>
                                 <button
                                         class="btn btn-danger btn-xs"
                                         type="button"
-                                        (click)="onAccept(report)"
-                                        *ngIf="report.compliance===1">Reject
+                                        (click)="onAccept(report,0)"
+                                        *ngIf="report.compliance===3">Reject
                                     <i class="fa fa-pencil fa-fw"></i>
                                 </button>
+                                <span *ngIf="report.compliance===1">Accepted</span>
+                                <span *ngIf="report.compliance===0">Rejected</span>
                             </td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">
                                 <button
