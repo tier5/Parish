@@ -30,30 +30,12 @@ export class CsvService {
 		this.headers.set('Authorization', 'Bearer ' + this.authService.getToken().token);
 	}
 	
-	
-	/** Edit an existing profile */
-	editProfile(body: { first_name: string, last_name: string } ): Observable<any> {
-		const user_id = this.authService.getToken().user_id;
-		const api_url = environment.API_URL + 'user/edit/' + user_id;
-		return this.http.put( api_url, body , { headers: this.headers } );
-	}
-	
-	/** Details of logged in profile */
-	profileToEdit(): Observable<any> {
-		
-		const user_id = this.authService.getToken().user_id;
-		return this.http.get( environment.API_URL + 'user/show-detail/' + user_id, { headers: this.headers } );
-	}
-	
-	/** Call to reset password for logged in user */
-	resetPassword(): Observable<any> {
-		const user_id = this.authService.getToken().user_id;
-		return this.http.get( environment.API_URL + 'user/password-reset/' + user_id, { headers: this.headers } );
-	}
 
-	/** Call to reset password for logged in user */
-	resetUsername( body: any ): Observable<any> {
-		const user_id   = this.authService.getToken().user_id;
-		return this.http.post( environment.API_URL + 'user/username-reset/' + user_id , body, { headers: this.headers } );
+	/** Call to upload CSV */
+	uploadCsv( body: any ): Observable<any> {
+		const headers = this.headers;
+		headers.delete('Content-Type');
+		var user_id = this.authService.getToken().user_id;
+		return this.http.post( environment.API_URL + 'user/upload-csv/' + user_id, body, { headers: this.headers } );
 	}
 }

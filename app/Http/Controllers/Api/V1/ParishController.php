@@ -611,6 +611,7 @@ class ParishController extends Controller {
                         if(count($parishes) >0) {
                            $due_date       = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->due_date;  
                         }
+
                     } else if ($userDetails->user_type == 0) {
                         
                         $parishes       = Parish::whereNull('deleted_at')->get();
@@ -670,8 +671,7 @@ class ParishController extends Controller {
                     throw new HttpBadRequestException("Please Provide user id.");
                 }
             }
-                
-
+            
             if(count($parishes) >0 ){
                 $parishArray    = [];
 
