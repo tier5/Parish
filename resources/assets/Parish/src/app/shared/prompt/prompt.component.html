@@ -34,11 +34,18 @@
                     Are you sure you want to delete this<br/>
                     <strong>{{calledFrom}}</strong>?
                 </h4>
-
+                <h4 *ngIf="calledFrom=='CSV'">
+                    If Charge is more then 1$ and you have enough balance then only Proceed. <br/>
+                    <strong>{{itemText}}</strong>
+                </h4>
                 <span class="close-btn" (click)="hidePrompt()">&times;</span>
-                <div class=btn-confirm>
+                <div class="btn-confirm" *ngIf="calledFrom!='CSV'" >
                     <button class="btn btn-primary" (click)="deletePrompt()">Confirm</button>
                     <button class="btn btn-danger" (click)="hidePrompt()">Cancel</button>
+                </div>
+                <div class="btn-confirm" *ngIf="calledFrom=='CSV'" >
+                    <button class="btn btn-primary" (click)="proceedPrompt()">Yes</button>
+                    <button class="btn btn-danger" (click)="hidePrompt()">No</button>
                 </div>
 
             </div>

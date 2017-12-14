@@ -43,7 +43,7 @@
                                         ng2FileSelect [uploader]="uploader"
 
                                         (change)="checkUploadedFileType($event)"
-                                > (.pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG only accepted)
+                                > (.csv only accepted)
                             </div>
                         </div>
                          <div class="col-md-6">
@@ -81,3 +81,10 @@
         </div>
     </div>
 </div>
+
+<app-prompt
+        *ngIf="showProceedPrompt"
+        [calledFrom]="'CSV'"
+        [itemInfo]="toProceedCharge"
+        [itemText]="promptMsg"
+></app-prompt>

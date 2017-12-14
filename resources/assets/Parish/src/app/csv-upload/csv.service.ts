@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AuthService } from '../auth/auth.service';
 import { environment } from '../../environments/environment.prod';
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
 export class CsvService {
@@ -18,6 +19,9 @@ export class CsvService {
 		}
 	}
 	
+	/** Initializing custom Observables */
+	closePromptEvent = new Subject();
+	showPromptEvent  = new Subject();
 	
 	/** Initializing the different headers to be passed with each api call */
 	
@@ -38,4 +42,12 @@ export class CsvService {
 		var user_id = this.authService.getToken().user_id;
 		return this.http.post( environment.API_URL + 'user/upload-csv/' + user_id, body, { headers: this.headers } );
 	}
+	
+	proceedCharge( body: any ): Observable<any> {
+		const headers = this.headers;
+		headers.delete('Content-Type');
+		var user_id = this.authService.getToken().user_id;
+		return this.http.post( environment.API_URL + 'user/parse-csv/' + user_id, body, { headers: this.headers } );
+	}
+	
 }

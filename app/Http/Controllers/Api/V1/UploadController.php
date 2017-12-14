@@ -123,14 +123,19 @@ class UploadController extends Controller {
                                         }
                                     }
                                 }
-                                $response = [
-                                    'provinceCount' => $provinceCount,
-                                    'parishCount'   => $parishCount,
-                                    'areaCount'     => $areaCount,
-                                    'zoneCount'     => $zoneCount,
-                                    'allData'       => $data_array,
-                                ];
-                                $responseCode = 200;
+
+                                if($parishCount!=0){
+                                    $response = [
+                                        'status'       => true,
+                                        /*'provinceCount' => $provinceCount,*/
+                                        'parishCount'   => $parishCount,
+                                        /*'areaCount'     => $areaCount,
+                                        'zoneCount'     => $zoneCount,*/
+                                        'allData'       => $data_array,
+                                        'message'       => '$'.$parishCount." will deduct for parish creation. Do you want to proceed ?"
+                                    ];
+                                    $responseCode = 200;
+                                }
                             }else{
                                  $response = [
                                     'status'       => false,
@@ -174,111 +179,140 @@ class UploadController extends Controller {
     }
 
     public function parseData(Request $request, $userId){
-       /* $getUserInfo=User::where('id',$userId)->first();
+        $response = [
+                'status'       => true,
+                'message'        => "CSV uploaded successfully",
+        ];
+        $responseCode = 200;
+        return response()->json($response, $responseCode);
+        /*$getUserInfo=User::where('id',$userId)->first();
         if((isset($getUserInfo)) && ($getUserInfo->user_type==1)){
             $data = $request->data(); //Convert to array
+
             for($i=0; $i<count($data); $i++){ //Start Inserting Data into "export_addresses" table
+
                 if((isset($data[$i]['firstname']) && (!empty($data[$i]['firstname']))) && (isset($data[$i]['lastname'])) && (!empty($data[$i]['lastname']))&& (isset($data[$i]['province'])) && (!empty($data[$i]['province']))){ // Check If First Name Last Name Province Exist Or not
-                    if((isset($data[$i]['parish']) && (!empty($data[$i]['parish'])))){      //Check Parish Name Empty or not
-                        if((isset($data[$i]['area']) && (!empty($data[$i]['area'])))){      //Check Area Name Empty or not
-                            if((isset($data[$i]['zone']) && (!empty($data[$i]['zone'])))){  //Check Zone Name Empty or not
-                                $getProvinceInfo=Provience::where('name',$data[$i]['province'])->where('created_by',$userId)->first();
-                                if(count($getProvinceInfo) >0){                             //If Province is already present in DB
-                                    $provinceId=$getProvinceInfo->id;                       //@Store "provinceId" 
-                                    $getZonesInfo=Zone::where('name',$data[$i]['zone'])->where('provience_id',$provinceId)->where('created_by',$userId)->first();
-                                    if(count($getZonesInfo) >0){
-                                        $zoneId=$getZonesInfo->id;
-                                        $getAreaInfo=Area::where('name',$data[$i]['area'])->where('zone_id',$zoneId)->where('created_by',$userId)->first();
-                                        if(count($getAreaInfo) >0){
-                                            $areaId=$getAreaInfo->id;
-                                        }else{
-                                            $this->randomUsername = Helpers::generateNumber();
-                                            $this->randomPassword = Helpers::generateNumber();
-
-                                            $createNewUser = new User();   
-                                            $createNewUser->parish_id = $this->randomUsername;
-                                            $createNewUser->first_name ='';
-                                            $createNewUser->last_name ='';
-                                            $createNewUser->user_type =2;
-                                            $createNewUser->pastor_type=3;
-                                            $createNewUser->user_status=1;
-                                            $createNewUser->email=null;
-                                            $createNewUser->password=$this->randomPassword;
-                                            $createNewUser->uniqueKey=$this->randomPassword;
-                                            $createNewUser->save();
-
-                                            $newAreaId=$createNewUser->id;
-                                            
-                                            $Area = new Area();
-                                            $Area->name = $data[$i]['zone'];
-                                            $Area->user_id = $newAreaId;
-                                            $Area->zone_id = $zoneId;
-                                            $Area->created_by = $userId;
-                                            $Area->save();
-
-                                            $areaId=$newAreaId;
-                                        }
-                                    }else{
-
-                                    }
-                                }else{
-                                    $this->randomUsername = Helpers::generateNumber();
-                                    $this->randomPassword = Helpers::generateNumber();
-
-                                    $createNewUser = new User();   
-                                    $createNewUser->parish_id = $this->randomUsername;
-                                    $createNewUser->first_name ='';
-                                    $createNewUser->last_name ='';
-                                    $createNewUser->user_type =2;
-                                    $createNewUser->pastor_type=1;
-                                    $createNewUser->user_status=1;
-                                    $createNewUser->email=null;
-                                    $createNewUser->password=$this->randomPassword;
-                                    $createNewUser->uniqueKey=$this->randomPassword;
-                                    $createNewUser->save();
-
-                                    $newProvinceId=$createNewUser->id;
-
-                                }
-                                $this->randomUsername = Helpers::generateNumber();
-                                $this->randomPassword = Helpers::generateNumber();
-
-                                $createNewUser = new User();   
-                                $createNewUser->parish_id = $this->randomUsername;
-                                $createNewUser->first_name =$data[$i]['firstname'];
-                                $createNewUser->last_name =$data[$i]['lastname'];
-                                $createNewUser->user_type =3;
-                                $createNewUser->pastor_type=0;
-                                $createNewUser->user_status=1;
-                                $createNewUser->email=null;
-                                $createNewUser->password=$this->randomPassword;
-                                $createNewUser->uniqueKey=$this->randomPassword;
-                                $createNewUser->save();
-
-                                $newParisId=$createNewUser->id;
-
-                                $parish = new Parish();
-                                $parish->area_id = $areaId;
-                                $parish->name = $data[$i]['parish'];
+                    
+                    $getProvinceInfo=Provience::where('name',$data[$i]['province'])->where('created_by',$userId)->first();
                                 
-                                $parish->user_id    = $newParisId;
-                                $parish->created_by = $userId;
-                                $parish->save();
-                            }
-                        }
+                    if(count($getProvinceInfo) >0){                             //If Province is already present in DB
+                        $provinceId=$getProvinceInfo->id;                       //@Store "provinceId" 
                     }else{
-                        if((isset($data[$i]['area']) && (!empty($data[$i]['area'])))){
-                            if((isset($data[$i]['zone']) && (!empty($data[$i]['zone'])))){
-                                $areaCount=$areaCount+1;
-                            }
+                        $this->randomUsername = Helpers::generateNumber();
+                        $this->randomPassword = Helpers::generateNumber();
+
+                        $createNewUser = new User();   
+                        $createNewUser->parish_id = $this->randomUsername;
+                        $createNewUser->first_name ='';
+                        $createNewUser->last_name ='';
+                        $createNewUser->user_type =2;
+                        $createNewUser->pastor_type=1;
+                        $createNewUser->user_status=1;
+                        $createNewUser->email=null;
+                        $createNewUser->password=$this->randomPassword;
+                        $createNewUser->uniqueKey=$this->randomPassword;
+                        $createNewUser->save();
+
+                        $NewProvinceId=$createNewUser->id;
+
+                        $Province=new Province();
+                        $Province->name=$data[$i]['province'];
+                        $Province->user_id=$NewProvinceId;
+                        $Province->created_by=$userId;
+                        $Province->save();
+
+                        $provinceId=$NewProvinceId;
+                    }
+
+                    if((isset($data[$i]['zone']) && (!empty($data[$i]['zone'])))){  //Check Zone Name Empty or not
+                        $getZonesInfo=Zone::where('name',$data[$i]['zone'])->where('provience_id',$provinceId)->where('created_by',$userId)->first();
+                        if(count($getZonesInfo) >0){
+                            $zoneId=$getZonesInfo->id;
                         }else{
-                            if((isset($data[$i]['zone']) && (!empty($data[$i]['zone'])))){
-                                $zoneCount=$zoneCount+1;
-                            }else{
-                                $provinceCount=$provinceCount+1;
-                            }
+                            $this->randomUsername = Helpers::generateNumber();
+                            $this->randomPassword = Helpers::generateNumber();
+
+                            $createNewUser = new User();   
+                            $createNewUser->parish_id = $this->randomUsername;
+                            $createNewUser->first_name ='';
+                            $createNewUser->last_name ='';
+                            $createNewUser->user_type =2;
+                            $createNewUser->pastor_type=1;
+                            $createNewUser->user_status=1;
+                            $createNewUser->email=null;
+                            $createNewUser->password=$this->randomPassword;
+                            $createNewUser->uniqueKey=$this->randomPassword;
+                            $createNewUser->save();
+
+                            $NewZoneId=$createNewUser->id;
+
+                            $Zone=new Zone();
+                            $Zone->name=$data[$i]['zone'];
+                            $Zone->user_id=$NewZoneId;
+                            $Zone->provience_id=$provinceId;
+                            $Zone->created_by=$userId;
+                            $Zone->save();
+
+                            $zoneId=$NewZoneId;
                         }
-                    }              
+                    }
+
+                    if((isset($data[$i]['area']) && (!empty($data[$i]['area'])))){      //Check Area Name Empty or not
+                        $getAreaInfo=Area::where('name',$data[$i]['area'])->where('zone_id',$zoneId)->where('created_by',$userId)->first();
+                        if(count($getAreaInfo) >0){
+                            $areaId=$getAreaInfo->id;
+                        }else{
+                            $this->randomUsername = Helpers::generateNumber();
+                            $this->randomPassword = Helpers::generateNumber();
+
+                            $createNewUser = new User();   
+                            $createNewUser->parish_id = $this->randomUsername;
+                            $createNewUser->first_name ='';
+                            $createNewUser->last_name ='';
+                            $createNewUser->user_type =2;
+                            $createNewUser->pastor_type=3;
+                            $createNewUser->user_status=1;
+                            $createNewUser->email=null;
+                            $createNewUser->password=$this->randomPassword;
+                            $createNewUser->uniqueKey=$this->randomPassword;
+                            $createNewUser->save();
+
+                            $newAreaId=$createNewUser->id;
+
+                            $Area = new Area();
+                            $Area->name = $data[$i]['area'];
+                            $Area->user_id = $newAreaId;
+                            $Area->zone_id = $zoneId;
+                            $Area->created_by = $userId;
+                            $Area->save();
+
+                        }
+                    }
+
+                    if((isset($data[$i]['parish']) && (!empty($data[$i]['parish'])))){ 
+                        $this->randomUsername = Helpers::generateNumber();
+                        $this->randomPassword = Helpers::generateNumber();
+
+                        $createNewUser = new User();   
+                        $createNewUser->parish_id = $this->randomUsername;
+                        $createNewUser->first_name =$data[$i]['firstname'];
+                        $createNewUser->last_name =$data[$i]['lastname'];
+                        $createNewUser->user_type =3;
+                        $createNewUser->pastor_type=0;
+                        $createNewUser->user_status=1;
+                        $createNewUser->email=null;
+                        $createNewUser->password=$this->randomPassword;
+                        $createNewUser->uniqueKey=$this->randomPassword;
+                        $createNewUser->save();
+                        $newParisId=$createNewUser->id;
+                        $parish = new Parish();
+                        $parish->area_id = $areaId;
+                        $parish->name = $data[$i]['parish'];
+                        
+                        $parish->user_id    = $newParisId;
+                        $parish->created_by = $userId;
+                        $parish->save(); 
+                    }            
                 }
             }
         }else{                                                                               // If the user is not WEM 

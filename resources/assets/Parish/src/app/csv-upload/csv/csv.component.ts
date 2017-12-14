@@ -8,6 +8,8 @@ import { CsvService } from "../csv.service";
 import { AuthService } from "../../auth/auth.service";
 import { environment } from "../../../environments/environment.prod";
 import { FileUploader } from 'ng2-file-upload';
+import { Subscription } from "rxjs/Subscription";
+
 @Component({
 	selector: 'app-csv',
 	templateUrl: './csv.component.html',
@@ -20,7 +22,9 @@ export class CsvComponent{
 	responseReceived    : boolean = false;
 	responseStatus      : boolean = false;
 	activateReset       : boolean = true;
+	showProceedPrompt   : boolean = false;
 	responseMsg         : string  = '';
+	promptMsg           : string  = '';
 	length                        = false;
 	showLoader          : boolean = false;
 	isAdmin             : boolean = false;
@@ -28,6 +32,10 @@ export class CsvComponent{
 	files               : FileList;
 	progress            : number  = 0;
 	uploader                      = new FileUploader({});
+	toProceedCharge = [];
+	
+	closePromptEventSubscription    : Subscription;
+	proceedPromptEventSubscription    : Subscription;
 	
 	
 	csvData = [];
@@ -45,6 +53,51 @@ export class CsvComponent{
 		if(user_type ==1){
 			this.isAdmin = true;
 		}
+		
+		/** Subscribe to event to close the delete prompt */
+		this.closePromptEventSubscription = this.CsvService.closePromptEvent
+			.subscribe(
+				() => {
+					this.showProceedPrompt = false;
+				}
+			);
+		
+		/** Subscribe to event to delete an parish */
+		
+		this.proceedPromptEventSubscription = this.CsvService.showPromptEvent
+			.subscribe(
+				(itemInfo: any) => {
+					this.showProceedPrompt = false;
+					console.log('test');
+					this.CsvService.proceedCharge( itemInfo ).subscribe(
+						(response: Response) => {
+							this.responseReceived   = true;
+							this.responseStatus     = response.json().status;
+							
+							if( response.json().status ) {
+								this.responseMsg = response.json().message;
+							} else {
+								this.responseMsg    = response.json().message;
+							}
+							setTimeout( () => {
+								this.responseReceived = false;
+							}, 3000 )
+						},
+						(error: Response) => {
+							if ( error.status === 401 ) {
+								this.authService.removeToken();
+								this.router.navigate( [ '/login' ] );
+							}
+							this.responseStatus     = false;
+							this.responseReceived   = true;
+							this.responseMsg        = error.json().error;
+							setTimeout( () => {
+								this.responseReceived = false;
+							}, 3000 )
+						}
+					);
+				}
+			);
 	}
 	
 	/** Function call when form is submitted */
@@ -56,6 +109,7 @@ export class CsvComponent{
 		const formData      = new FormData();
 		formData.append("file",this.files[0]);
 		formData.append("user_id", user_id);
+		
 		this.CsvService.uploadCsv(formData)
 			.subscribe(
 				(response: Response) => {
@@ -63,10 +117,15 @@ export class CsvComponent{
 					this.responseReceived   = true;
 					this.responseStatus     = response.json().status;
 					this.showLoader         = false;
-					console.log(response.json());
+					
 					if(response.json().status){
+						this.responseReceived   = false;
 						this.progress       = 100;
-						this.responseMsg    = response.json().message;
+						this.promptMsg      = response.json().message;
+						var csvInfo = [];
+						csvInfo        = response.json().allData;
+						csvInfo['parishCount']=response.json().parishCount;
+						this.showPrompt(csvInfo);
 					}
 				},(error: Response) => {
 					this.showLoader         = false;
@@ -104,5 +163,19 @@ export class CsvComponent{
 		this.progress   = 0;
 		this.length 	= false;
 		this.showLoader = false;
+	}
+	
+	/** Function call to show delete prompt */
+	showPrompt(csvInfo) {
+		this.toProceedCharge = csvInfo;
+		this.showProceedPrompt = true;
+		this.progress   = 0;
+		this.length 	= false;
+	}
+	
+	
+	/** Un-subscribing from all custom made events when component is destroyed */
+	ngOnDestroy() {
+		this.closePromptEventSubscription.unsubscribe();
 	}
 }
