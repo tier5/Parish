@@ -165,6 +165,7 @@
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">{{ months[report.report_month - 1].name }} / {{ report.report_year}}</td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'"> {{ report.status }} </td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'" *ngIf="isWEM">
+
                                 <button
                                         class="btn btn-success btn-xs"
                                         type="button"
@@ -176,9 +177,10 @@
                                         class="btn btn-danger btn-xs"
                                         type="button"
                                         (click)="onAccept(report)"
-                                        *ngIf="report.compliance===1">Reject
+                                        *ngIf="report.compliance===0">Reject
                                     <i class="fa fa-pencil fa-fw"></i>
                                 </button>
+                                <span *ngIf="report.compliance===1">Accepted</span>
                             </td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">
                                 <button
