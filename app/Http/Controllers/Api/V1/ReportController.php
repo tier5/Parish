@@ -12,6 +12,7 @@ use App\Models\Report;
 use App\Models\User;
 use App\Models\Parish;
 use App\Models\Provience;
+use App\Models\Payment;
 use App\Models\Zone;
 use App\Models\Area;
 use App\Helpers;
@@ -101,9 +102,31 @@ class ReportController extends Controller {
                     $report->save(); 
                 }        */               
                 
+                
+
+                $showPrompt=0;
+                $checkPayments=Payment::where('created_by',$parish_id)->where('upload_month',$request->input('report_month'))->where('upload_year',$request->input('report_year'))->first();
+                    
                 $report->parish_id  = $parish->id;
                 if($request->input('status') == "save"){
-                    $report->status  = 'submitted';
+                    if(count($checkPayments)==1){
+                        if($checkPayments->payment_status==0){
+                            $report->status  = 'submitted';
+                            $message='Report created successfully.';
+                        }else if($checkPayments->payment_status==3){
+                            $showPrompt=1;
+                            $report->status  = 'draft';
+                            $message='Report created but your payment is on hold,so report is not submitted it is saved as draft.';
+                        }else{
+                            $showPrompt=1;
+                            $report->status  = 'draft';
+                            $message='Report created but your payment rejected, so report is not submitted it is saved as draft.';
+                        }
+                    }else{
+                        $showPrompt=1;
+                        $report->status  = 'draft';
+                        $message='Report is not submitted due to payment it is saved as draft, first make the payment.';
+                    }
                 }else {
                     $report->status  = 'draft';
                 }
@@ -114,7 +137,8 @@ class ReportController extends Controller {
             
             $response = [
                 'status'        => true,
-                'message'       => "Report created successfully."
+                'show_prompt'   =>  $showPrompt,
+                'message'       =>  $message
             ];
             $responseCode = 201;
            
