@@ -354,10 +354,10 @@
                                 $parish->name = $data[$i]['parish'];
                                 $parish->user_id    = $newParisId;
                                 $parish->area_id= $areaId;
-                                $parish->start_date=$data[$i]['startdate'];
+                                $parish->start_date=date('Y-m-d',strtotime($data[$i]['startdate']));
                                 $parish->created_by = $userId;
                                 $parish->save();
-
+                                
                                 if(isset($parish->id) && (!empty($parish->id )) && $charge->id){
                                     $wem_payment = new WemPayment();
                                     $wem_payment->wem_id = $userId;
