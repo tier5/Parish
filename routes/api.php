@@ -53,7 +53,6 @@ Route::group(['prefix' => 'v1'], function() {
         'as'   => 'api.v1.validationEmail.post'
     ]);
 
-
     /**
      * Route for Authenticated user
      */

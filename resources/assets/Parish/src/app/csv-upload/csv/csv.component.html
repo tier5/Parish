@@ -48,7 +48,10 @@
                                         ng2FileSelect [uploader]="uploader"
 
                                         (change)="checkUploadedFileType($event)"
-                                > (.csv only accepted)
+                                > 1. Only .csv, .xls, .xlsx files are accepted.
+                                <br>
+                                  2. Startdate is mandetory for parish creation in uploaded file.
+
                             </div>
                         </div>
                          <div class="col-md-6">

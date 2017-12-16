@@ -132,6 +132,8 @@ export class CsvComponent{
 							this.responseReceived   = false;
 							this.showPrompt(csvInfo);
 						} else {
+							this.progress   = 0;
+							this.length 	= false;
 							this.responseReceived   = true;
 							this.responseMsg        = response.json().message;
 						}

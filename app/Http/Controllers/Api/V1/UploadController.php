@@ -107,31 +107,63 @@
                                 
                                 for($i=0; $i<count($data_array); $i++){ //Start Inserting Data into "export_addresses" table
                                     if((isset($data_array[$i]['firstname']) && (!empty($data_array[$i]['firstname']))) && (isset($data_array[$i]['lastname'])) && (!empty($data_array[$i]['lastname']))&& (isset($data_array[$i]['province'])) && (!empty($data_array[$i]['province']))){ // Check If First Name Last Name Password Province Exist Or not
-                                       
-                                        if((isset($data_array[$i]['parish']) && (!empty($data_array[$i]['parish'])))){
-                                            if((isset($data_array[$i]['area']) && (!empty($data_array[$i]['area'])))){
-                                                if((isset($data_array[$i]['zone']) && (!empty($data_array[$i]['zone'])) && ($data_array[$i]['startdate']))){
-                                                   $parishCount=$parishCount+1;
-                                                }
-                                            }
-                                        }else{
-                                            if((isset($data_array[$i]['area']) && (!empty($data_array[$i]['area'])))){
-                                                if((isset($data_array[$i]['zone']) && (!empty($data_array[$i]['zone'])))){
+                                        $provinceId="";
+                                        $zoneId="";
+                                        $areaId="";
+                                        $parishId="";
+                                        $getProvinceInfo=Provience::where('name',$data[$i]['province'])->where('created_by',$userId)->first();
+                                        if(count($getProvinceInfo) ==0){                             //If Province is already present in DB
+                                            $provinceCount=$provinceCount+1;
+                                            if((isset($data_array[$i]['zone']) && (!empty($data_array[$i]['zone'])))){
+                                                $zoneCount=$zoneCount+1;
+                                                if((isset($data_array[$i]['area']) && (!empty($data_array[$i]['area'])))){
                                                    $areaCount=$areaCount+1;
+                                                    if((isset($data_array[$i]['parish']) && (!empty($data_array[$i]['parish']))) && (isset($data[$i]['startdate']) && (!empty($data[$i]['startdate'])))){
+                                                        $parishCount=$parishCount+1;
+                                                    }
                                                 }
-                                            }else{
-                                                if((isset($data_array[$i]['zone']) && (!empty($data_array[$i]['zone'])))){
-                                                   $zoneCount=$zoneCount+1;
+                                            }                    
+                                        }else{
+                                            $provinceId=$getProvinceInfo->id;
+                                            if((isset($data_array[$i]['zone']) && (!empty($data_array[$i]['zone'])))){
+                                                $getZonesInfo=Zone::where('name',$data[$i]['zone'])->where('provience_id',$provinceId)->where('created_by',$userId)->first();  
+                                                if(count($getZonesInfo)==0){
+                                                    if((isset($data_array[$i]['area']) && (!empty($data_array[$i]['area'])))){
+                                                        if((isset($data_array[$i]['parish']) && (!empty($data_array[$i]['parish']))) && (isset($data[$i]['startdate']) && (!empty($data[$i]['startdate'])))){
+                                                            $parishCount=$parishCount+1;
+                                                        }else{
+                                                            $areaCount=$areaCount+1; 
+                                                        }
+                                                    }else{
+                                                        $zoneCount=$zoneCount+1; 
+                                                    }
                                                 }else{
-                                                    $provinceCount=$provinceCount+1;
+                                                    $zoneId=$getZonesInfo->id;
+                                                    if((isset($data[$i]['area']) && (!empty($data[$i]['area']))) && $provinceId && $zoneId){      //Check Area Name Empty or not
+                                                        $getAreaInfo=Area::where('name',$data[$i]['area'])->where('zone_id',$zoneId)->where('created_by',$userId)->first();
+                                                        if(count($getAreaInfo)==0){
+                                                            if((isset($data_array[$i]['parish']) && (!empty($data_array[$i]['parish']))) && (isset($data[$i]['startdate']) && (!empty($data[$i]['startdate'])))){
+                                                                $parishCount=$parishCount+1;
+                                                            }else{
+                                                                $areaCount=$areaCount+1;
+                                                            }
+                                                        }else{
+                                                            $areaId=$getAreaInfo->id;
+                                                            if((isset($data[$i]['parish']) && (!empty($data[$i]['parish']))) && $provinceId && $zoneId && $areaId){ 
+                                                                $getParishInfo=Parish::where('name',$data[$i]['parish'])->where('area_id',$areaId)->where('created_by',$userId)->first();
+                                                                if(count($getParishInfo)==0){
+                                                                    $parishCount=$parishCount+1;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
-
-                                            }
+                                            }   
                                         }
                                     }
                                 }
 
-                               if($parishCount!=0){
+                                if($parishCount!=0){
                                     $response = [
                                         'status'       => true,
                                         'parishCount'   => $parishCount,
@@ -140,8 +172,16 @@
                                     ];
                                     $responseCode = 200;
                                 }else{
-                                    $result=$this->parseDataNoCharge($userId,$data_array,$parishCount);
-                                    return $result;
+                                    if(($zoneCount==0) && ($areaCount==0) && ($provinceCount==0)){
+                                        $response = [
+                                            'status'       => true,
+                                            'message'      =>'Successfully Uploaded csv but no new data to import',
+                                        ];
+                                        $responseCode = 200;
+                                    }else{
+                                        $result=$this->parseDataNoCharge($userId,$data_array,$parishCount);
+                                        return $result;
+                                    }
                                 }
                             }else{
                                  $response = [
@@ -186,10 +226,8 @@
     }
 
     public function parseData(Request $request,$userId){
-
+            $getParishcount=0;
         try {
-            
-           
             $getUserInfo=User::where('id',$userId)->first();
             if((isset($getUserInfo)) && ($getUserInfo->user_type==1)){
                 $data = $request->data; 
@@ -327,46 +365,55 @@
                                 /** charge stripe 1$ for ech parish  **/
 
                                 $key  = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-                                    $charge = \Stripe\Charge::create(array(
-                                          "amount" => 100,
-                                          "currency" => "usd",
-                                          "customer" => $getUserInfo->stripe_id,
-                                        ));
-
-                                $this->randomUsername = Helpers::generateNumber();
-                                $this->randomPassword = Helpers::generateNumber();
-
-                                $createNewUser = new User();   
-                                $createNewUser->parish_id = $this->randomUsername;
-                                $createNewUser->first_name =$data[$i]['firstname'];
-                                $createNewUser->last_name =$data[$i]['lastname'];
-                                $createNewUser->user_type =3;
-                                $createNewUser->pastor_type=0;
-                                $createNewUser->user_status=1;
-                                $createNewUser->email=null;
-                                $createNewUser->password=$this->randomPassword;
-                                $createNewUser->uniqueKey=$this->randomPassword;
-                                $createNewUser->save();
-
-                                $newParisId=$createNewUser->id;
-
-                                $parish = new Parish();
-                                $parish->name = $data[$i]['parish'];
-                                $parish->user_id    = $newParisId;
-                                $parish->area_id= $areaId;
-                                $parish->start_date=date('Y-m-d',strtotime($data[$i]['startdate']));
-                                $parish->created_by = $userId;
-                                $parish->save();
+                                $charge = \Stripe\Charge::create(array(
+                                      "amount" => 100,
+                                      "currency" => "usd",
+                                      "customer" => $getUserInfo->stripe_id,
+                                ));
                                 
-                                if(isset($parish->id) && (!empty($parish->id )) && $charge->id){
-                                    $wem_payment = new WemPayment();
-                                    $wem_payment->wem_id = $userId;
-                                    $wem_payment->parish_user_id = $parish->id;
-                                    $wem_payment->name = 'parish creation';
-                                    $wem_payment->stripe_id = $charge->id;
-                                    $wem_payment->card_brand = $getUserInfo['card_brand'];
-                                    $wem_payment->card_last_four = $getUserInfo['card_last_four'];
-                                    $wem_payment->save();
+                                if($charge->id){
+                                    $this->randomUsername = Helpers::generateNumber();
+                                    $this->randomPassword = Helpers::generateNumber();
+
+                                    $createNewUser = new User();   
+                                    $createNewUser->parish_id = $this->randomUsername;
+                                    $createNewUser->first_name =$data[$i]['firstname'];
+                                    $createNewUser->last_name =$data[$i]['lastname'];
+                                    $createNewUser->user_type =3;
+                                    $createNewUser->pastor_type=0;
+                                    $createNewUser->user_status=1;
+                                    $createNewUser->email=null;
+                                    $createNewUser->password=$this->randomPassword;
+                                    $createNewUser->uniqueKey=$this->randomPassword;
+                                    $createNewUser->save();
+
+                                    $newParisId=$createNewUser->id;
+
+                                    $parish = new Parish();
+                                    $parish->name = $data[$i]['parish'];
+                                    $parish->user_id    = $newParisId;
+                                    $parish->area_id= $areaId;
+                                    $parish->start_date=date('Y-m-d',strtotime($data[$i]['startdate']));
+                                    $parish->created_by = $userId;
+                                    $parish->save();
+                                    $getParishcount=$getParishcount+1;
+                                    if(isset($parish->id) && (!empty($parish->id )) && $charge->id){
+                                        $wem_payment = new WemPayment();
+                                        $wem_payment->wem_id = $userId;
+                                        $wem_payment->parish_user_id = $parish->id;
+                                        $wem_payment->name = 'parish creation';
+                                        $wem_payment->stripe_id = $charge->id;
+                                        $wem_payment->card_brand = $getUserInfo['card_brand'];
+                                        $wem_payment->card_last_four = $getUserInfo['card_last_four'];
+                                        $wem_payment->save();
+                                    }
+                                }else{
+                                    $response = [
+                                        'status'       => false,
+                                        'error'        => "Bad Request",
+                                        'error_info'   => 'Permission Denied'
+                                    ];
+                                    $responseCode = 400;
                                 }
                             }
                         }            
@@ -405,10 +452,10 @@
             DB::rollBack();
 
             Log::error($exception->getMessage());
-
+            $error_message = ($exception->getMessage()=='Your card has expired.')?'Your card has expired, Please change your card.':(($exception->getMessage()=='Your card was declined.')?'We processed '.$getParishcount.' records from your file. but you donot have enough balance to upload all record. please recharge your card and upload the same file again.':'Internal server error.');
             $response = [
                 'status'        => false,
-                'error'         => "Internal server error.",
+                'error'         => $error_message,
                 'error_info'    => $exception->getMessage()
             ];
 
@@ -564,6 +611,8 @@
         }
         return response()->json($response, $responseCode);
     }
+
+    
 
    
 }
