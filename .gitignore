@@ -13,6 +13,7 @@
 /.idea
 /.vagrant
 /storage/paymentReceipt/*
+/storage/files/*
 Homestead.json
 Homestead.yaml
 npm-debug.log

@@ -23,7 +23,9 @@
                     </div>
                 </div>
 
-                Download Sample Csv here:  <a [href]="base_url+'/sample-csv/sample.csv'" [download]="csvData.file_name" title="Download csv here"><i class="fa fa-download fa-fw"></i></a>
+                Download Sample Csv here: <button class="btn btn-active btn-xs"><i class="fa fa-download fa-fw"></i><a [href]="base_url+'/sample-csv/'+csvData.file_name" [download]="csvData.file_name">Download</a>
+
+            </button>
 
                 <div  class="col-lg-12">
                     <div id="cover-spin" *ngIf="showSpinner"></div>

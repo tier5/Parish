@@ -114,7 +114,6 @@ class ReportController extends Controller {
                             $report->status  = 'submitted';
                             $message='Report created successfully.';
                         }else if($checkPayments->payment_status==3){
-                            $showPrompt=1;
                             $report->status  = 'draft';
                             $message='Report created but your payment is on hold,so report is not submitted it is saved as draft.';
                         }else{

@@ -1,0 +1,151 @@
+Firstname,Lastname,Province,Zone,Area,Parish,Startdate
+James,Smith,Alabama,,,,
+John,Johnson,Alabama,Zone1,,,
+Robert,Williams,Alabama,Zone1,Area1,,
+Michael,Jones,Alabama,Zone1,Area1,Parish1,2017-11-11
+William,Brown,Alabama,Zone1,Area2,Parish1,2017-11-11
+David,Davis,Alabama,Zone2,,,
+Richard,Miller,Alabama,Zone2,Area1,Parish1,2017-11-11
+Joseph,Wilson,Alabama,Zone2,Area2,Parish1,2017-11-11
+Thomas,Moore,Arizona,,,,
+Charles,Taylor,Arizona,Zone1,,,
+Christopher,Anderson,Arizona,Zone2,Area1,Parish1,2017-11-11
+Daniel,Thomas,Arizona,Zone2,Area2,Parish1,2017-11-11
+Matthew,Jackson,Arizona,Zone3,,,
+Anthony,White,Arizona,Zone3,Area1,,
+Donald,Harris,Arizona,Zone3,Area2,,
+Mark,Martin,Arizona,Zone3,Area2,Parish1,2017-11-11
+Paul,Thompson,Arizona,Zone4,Area1,Parish1,2017-11-11
+Steven,Garcia,Delaware,,,,
+Andrew,Martinez,Delaware,Zone1,,,
+Kenneth,Robinson,Delaware,Zone1,Area1,,
+George,Clark,Delaware,Zone2,Area1,,
+Joshua,   Rodriguez,Delaware,Zone2,Area2,,
+Kevin,Lewis,Delaware,Zone2,Area2,Parish1,2017-11-11
+Brian,Lee,Georgia,,,,
+Edward,Walker,Georgia,Zone1,Area1,,
+Ronald,Hall,Georgia,Zone1,Area2,Parish1,2017-11-11
+Timothy,Allen,Georgia,Zone1,Area1,Parish2,2017-11-11
+Jason,Young,Georgia,Zone2,Area2,,
+Jeffrey,Hernandez,Georgia,Zone2,Area2,Parish2,2017-11-11
+Ryan,King,Georgia,Zone2,,,
+Gary,Wright,Georgia,Zone2,Area2,Parish4,2017-11-11
+Jacob,Lopez,Georgia,Zone3,Area1,,
+Nicholas,Hill,Georgia,Zone3,Area2,Parish6,2017-11-11
+Eric,Scott,Indiana,,,,
+Stephen,Green,Indiana,Zone2,Area1,Parish8,2017-11-11
+Jonathan,Adams,Indiana,Zone2,Area2,,
+Larry,Baker,Indiana,Zone2,Area1,Parish10,2017-11-11
+Justin,Gonzalez,Indiana,Zone2,Area2,Parish11,2017-11-11
+Scott,Nelson,Indiana,Zone3,Area2,Parish12,2017-11-11
+Frank,Carter,Indiana,Zone3,Area1,,
+Brandon,Mitchell,Indiana,Zone3,Area2,Parish1,2017-11-11
+Raymond,Perez,Indiana,Zone3,Area1,Parish1,2017-11-11
+Gregory,Roberts,Indiana,Zone3,,,
+Benjamin,Turner,Kentucky,,,,
+Samuel,Phillips,Kentucky,Zone2,Area1,,
+Patrick,Campbell,Kentucky,Zone3,Area2,,
+Alexander,Parker,Kentucky,Zone3,,,
+Jack,Evans,Kentucky,Zone3,Area2,Parish3,2017-11-11
+Dennis,Edwards,Kentucky,Zone3,Area2,,
+Jerry,Collins,Kentucky,Zone4,Area1,Parish5,2017-11-11
+Tyler,Stewart,Kentucky,Zone5,Area2,,
+Aaron,Sanchez,Kentucky,Zone6,Area3,Parish7,2017-11-11
+Henry,Morris,Kentucky,Zone7,Area4,Parish8,2017-11-11
+Douglas,Rogers,Maryland,,,,
+Jose,Reed,Maryland,Zone1,Area1,Parish10,2017-11-11
+Peter,Cook,Maryland,Zone1,Area2,Parish11,2017-11-11
+Adam,Morgan,Maryland,Zone1,Area3,Parish12,2017-11-11
+Zachary,Bell,Maryland,Zone2,Area1,,
+Nathan,Murphy,Maryland,Zone2,Area2,Parish1,2017-11-11
+Walter,Bailey,Maryland,Zone2,Area3,Parish1,2017-11-11
+Harold,Rivera,Maryland,Zone3,Area4,Parish1,2017-11-11
+Kyle,Cooper,Maryland,Zone3,Area5,,
+Carl,Richardson,Maryland,Zone3,,,
+Arthur,Cox,Maryland,Zone3,Area3,,
+Gerald,Howard,Minnesota,,,,
+Roger,Ward,Minnesota,Zone1,Area1,Parish2,2017-11-11
+Keith,Torres,Minnesota,Zone1,Area2,,
+Jeremy,Peterson,Minnesota,Zone1,Area3,Parish4,2017-11-11
+Terry,Gray,Minnesota,Zone2,Area4,,
+Lawrence,Ramirez,Minnesota,Zone3,Area1,Parish6,2017-11-11
+Sean,James,Minnesota,Zone4,Area2,,
+Christian,Watson,Minnesota,Zone5,Area1,Parish8,2017-11-11
+Albert,Brooks,Minnesota,Zone6,Area2,Parish9,2017-11-11
+Joe,Kelly,Missouri,,,,
+Ethan,Sanders,Missouri,Zone1,Area4,Parish11,2017-11-11
+Austin,Price,Missouri,Zone1,Area1,,
+Jesse,Bennett,Missouri,Zone1,Area2,,
+Willie,Wood,Missouri,Zone1,Area3,Parish1,2017-11-11
+Billy,Barnes,Missouri,Zone2,Area4,,
+Bryan,Ross,Missouri,Zone2,Area1,Parish1,2017-11-11
+Bruce,Henderson,Missouri,Zone2,Area2,,
+Jordan,Coleman,Missouri,Zone2,Area3,Parish1,2017-11-11
+Ralph,Jenkins,Missouri,Zone3,Area4,,
+Roy,Perry,Nebraska,,,,
+Noah,Powell,Nebraska,Zone1,Area2,Parish2,2017-11-11
+Dylan,Long,Nebraska,Zone1,Area3,Parish3,2017-11-11
+Eugene,Patterson,Nebraska,Zone1,Area4,,
+Wayne,Hughes,Nebraska,Zone2,Area1,Parish5,2017-11-11
+Alan,Flores,Nebraska,Zone2,Area2,Parish6,2017-11-11
+Juan,Washington,Nebraska,Zone3,Area3,,
+Louis,Butler,Nebraska,Zone4,Area4,Parish8,2017-11-11
+Russell,Simmons,Nebraska,Zone5,Area1,Parish9,2017-11-11
+Gabriel,Foster,Nebraska,Zone6,Area2,Parish10,2017-11-11
+Randy,Gonzales,Nebraska,Zone7,Area3,Parish11,2017-11-11
+Philip,Bryant,New Jersey,,,,
+Harry,Alexander,New Jersey,Zone1,,,
+Vincent,Russell,New Jersey,Zone1,Area2,Parish1,2017-11-11
+Bobby,Griffin,New Jersey,Zone2,Area3,Parish1,2017-11-11
+Johnny,Diaz,New Jersey,Zone2,Area4,,
+Logan,Hayes,New Jersey,Zone3,,,
+James,Myers,New Jersey,Zone4,Area2,Parish1,2017-11-11
+John,Ford,New Jersey,Zone5,Area3,,
+Robert,Hamilton,New Jersey,Zone3,Area1,Parish1,2017-11-11
+Michael,Graham,North Dakota,,,,
+William,Sullivan,North Dakota,Zone1,Area2,Parish3,2017-11-11
+David,Wallace,North Dakota,Zone2,Area3,,
+Richard,Woods,North Dakota,Zone2,Area4,Parish5,2017-11-11
+Joseph,Cole,North Dakota,Zone3,Area1,,
+Thomas,West,North Dakota,Zone4,Area2,Parish7,2017-11-11
+Charles,Jordan,North Dakota,Zone5,Area3,,
+Christopher,Owens,North Dakota,Zone3,Area4,Parish9,2017-11-11
+Daniel,Reynolds,North Dakota,Zone4,Area1,Parish10,2017-11-11
+Matthew,Fisher,Pennsylvania,,,,
+Anthony,Ellis,Pennsylvania,Zone1,Area3,Parish12,2017-11-11
+Donald,Harrison,Pennsylvania,Zone2,Area4,,
+Mark,Gibson,Pennsylvania,Zone2,Area1,Parish1,2017-11-11
+Paul,Mcdonald,Pennsylvania,Zone2,Area2,Parish1,2017-11-11
+Steven,Cruz,Pennsylvania,Zone2,Area3,,
+Andrew,Marshall,Pennsylvania,Zone3,Area4,Parish1,2017-11-11
+Kenneth,Ortiz,Pennsylvania,Zone3,Area1,Parish2,2017-11-11
+George,Gomez,Pennsylvania,Zone3,Area2,,
+Joshua,Murray,South Dakota,,,,
+Kevin,Freeman,South Dakota,Zone3,Area4,Parish2,2017-11-11
+Brian,Wells,South Dakota,Zone3,Area1,Parish3,2017-11-11
+Edward,Webb,South Dakota,Zone3,Area2,,
+Ronald,Simpson,South Dakota,Zone3,Area3,Parish5,2017-11-11
+Timothy,Stevens,South Dakota,Zone3,,,
+Jason,Tucker,South Dakota,Zone3,Area1,Parish7,2017-11-11
+Jeffrey,Porter,South Dakota,Zone4,Area2,Parish8,2017-11-11
+Ryan,Hunter,South Dakota,Zone4,Area3,Parish9,2017-11-11
+Gary,Hicks,South Dakota,Zone4,Area4,,
+Jacob,Crawford,South Dakota,Zone1,Area1,Parish11,2017-11-11
+Nicholas,Henry,South Dakota,Zone1,,,
+Eric,Boyd,South Dakota,Zone1,Area3,Parish1,2017-11-11
+Stephen,Mason,Virginia,,,,
+Jonathan,Morales,Virginia,Zone1,Area1,Parish1,2017-11-11
+Larry,Kennedy,Virginia,Zone1,Area2,Parish1,2017-11-11
+Justin,Warren,Virginia,Zone1,Area3,,
+Scott,Dixon,Virginia,Zone1,Area4,,
+Frank,Ramos,Virginia,Zone1,Area1,Parish2,2017-11-11
+Brandon,Reyes,Virginia,Zone3,Area2,Parish3,2017-11-11
+Raymond,Burns,Virginia,Zone3,,,
+Gregory,Gordon,Virginia,Zone3,Area4,Parish5,2017-11-11
+Benjamin,Shaw,Virginia,Zone3,Area1,Parish6,2017-11-11
+Samuel,Holmes,Wisconsin,,,,
+Patrick,Rice,Wisconsin,Zone1,,,
+Alexander,Robertson,Wisconsin,Zone1,Area4,Parish9,2017-11-11
+Jack,Hunt,Wisconsin,Zone3,,,
+Dennis,Black,Wyoming,Zone3,Area2,,
+Jerry,Daniels,Wyoming,Zone1,Area3,Parish12,2017-11-11
