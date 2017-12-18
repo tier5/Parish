@@ -23,6 +23,7 @@ export class PaymentService {
 	closePromptEvent = new Subject();
 	deleteEvent = new Subject();
 	refreshList = new Subject();
+	showPromptEvent  = new Subject();
 	
 	/** Initializing the different headers to be passed with each api call */
 	

@@ -12,6 +12,8 @@ export class ReportService {
 	/** Initializing custom Observables */
 	generateReport = new Subject();
 	refreshReportList = new Subject();
+	showPromptEvent = new Subject();
+	closePromptEvent = new Subject();
 	
 	
 	/** Injecting services to be used in this component */

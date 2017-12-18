@@ -31,6 +31,7 @@ export class ListReportComponent implements OnInit, OnDestroy {
     prompt: boolean = false;
     toDeleteReport: number;
     showParishIdList: boolean = false;
+	showRejectPrompt: boolean = false;
 
     isWEM: boolean = false;
     isProvincePastor: boolean = false;
@@ -53,11 +54,14 @@ export class ListReportComponent implements OnInit, OnDestroy {
     selectionZone       : number        = 0;
     selectionArea       : number        = 0;
     selectionParish     : number        = 0;
+	toRejectReport      : any;
 
     refreshReportListSubscription: Subscription;
     refreshZoneListSubscription  : Subscription;
     refreshAreaListSubscription  : Subscription;
     refreshParishListSubscription  : Subscription;
+    rejectReportSubscription        : Subscription;
+	closePromptEventSubscription        : Subscription;
 
     /** Injecting services to be used in this component */
     constructor( private authService: AuthService,
@@ -299,6 +303,57 @@ export class ListReportComponent implements OnInit, OnDestroy {
                         );
                 }
             );
+		
+		/** Subscribe to event to close the show prompt */
+		this.closePromptEventSubscription = this.reportService.closePromptEvent
+			.subscribe(
+				() => {
+					this.showRejectPrompt = false;
+				}
+			);
+		
+		/** Subscribe to event to Reject a Report */
+		
+		this.rejectReportSubscription = this.reportService.showPromptEvent
+			.subscribe(
+				(getItemInfo: any) => {
+					this.showRejectPrompt = false;
+					const complaince_status = 0;
+					this.reportService.acceptReport( getItemInfo ,complaince_status)
+						.subscribe(
+							( response: Response ) => {
+								this.responseStatus = response.json().status;
+								
+								if ( response.json().status ) {
+									this.responseStatus = true;
+									this.reportService.refreshReportList.next({});
+									this.responseMsg = response.json().message;
+								} else {
+									this.responseMsg = '';
+								}
+							},
+							( error: Response ) => {
+								if( error.status === 401) {
+									this.authService.removeToken();
+									this.router.navigate( ['/login'] );
+								}
+								
+								this.responseStatus = false;
+								this.responseReceived = true;
+								this.responseMsg = error.json().error;
+								setTimeout( () => {
+									this.responseReceived = false;
+								}, 3000 )
+							},
+							() => {
+								this.responseReceived = true;
+								setTimeout( () => {
+									this.responseReceived = false;
+								}, 3000 )
+							}
+						);
+				}
+			);
 
         /** Emitting event which will refresh the payment list */
         this.reportService.refreshReportList.next({});
@@ -444,39 +499,45 @@ export class ListReportComponent implements OnInit, OnDestroy {
 	
     /** Function to accept or reject the report */
 	onAccept(report:any,complaince_status){
-		this.reportService.acceptReport( report ,complaince_status)
-			.subscribe(
-				( response: Response ) => {
-					this.responseStatus = response.json().status;
-
-					if ( response.json().status ) {
-						this.responseStatus = true;
-						this.reportService.refreshReportList.next({});
-						this.responseMsg = response.json().message;
-					} else {
-						this.responseMsg = '';
+		if(complaince_status == 0 ) {
+			this.showRejectPrompt = true;
+			this.toRejectReport = report;
+		} else {
+			this.showRejectPrompt = false;
+			this.reportService.acceptReport( report ,complaince_status)
+				.subscribe(
+					( response: Response ) => {
+						this.responseStatus = response.json().status;
+						
+						if ( response.json().status ) {
+							this.responseStatus = true;
+							this.reportService.refreshReportList.next({});
+							this.responseMsg = response.json().message;
+						} else {
+							this.responseMsg = '';
+						}
+					},
+					( error: Response ) => {
+						if( error.status === 401) {
+							this.authService.removeToken();
+							this.router.navigate( ['/login'] );
+						}
+						
+						this.responseStatus = false;
+						this.responseReceived = true;
+						this.responseMsg = error.json().error;
+						setTimeout( () => {
+							this.responseReceived = false;
+						}, 3000 )
+					},
+					() => {
+						this.responseReceived = true;
+						setTimeout( () => {
+							this.responseReceived = false;
+						}, 3000 )
 					}
-				},
-				( error: Response ) => {
-					if( error.status === 401) {
-						this.authService.removeToken();
-						this.router.navigate( ['/login'] );
-					}
-
-					this.responseStatus = false;
-					this.responseReceived = true;
-					this.responseMsg = error.json().error;
-					setTimeout( () => {
-						this.responseReceived = false;
-					}, 3000 )
-				},
-				() => {
-					this.responseReceived = true;
-					setTimeout( () => {
-						this.responseReceived = false;
-					}, 3000 )
-				}
-			);
+				);
+		}
 	}
 
     /** Un-subscribing from all custom made events when component is destroyed */
@@ -485,5 +546,7 @@ export class ListReportComponent implements OnInit, OnDestroy {
         this.refreshZoneListSubscription.unsubscribe();
         this.refreshAreaListSubscription.unsubscribe();
         this.refreshParishListSubscription.unsubscribe();
+        this.rejectReportSubscription.unsubscribe();
+        this.closePromptEventSubscription.unsubscribe();
     }
 }

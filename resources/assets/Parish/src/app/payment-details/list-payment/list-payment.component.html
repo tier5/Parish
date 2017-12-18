@@ -165,7 +165,7 @@
                             <td>{{ payment.payment_description }}</td>
                             <td>{{ months[payment.upload_month - 1].name }} / {{ payment.upload_year }}</td>
                             <td>{{ payment.file_name }}</td>
-                            <td>{{ payment.pay_status }}</td>
+                            <td>{{ payment.pay_status }} <i class="fa fa-info-circle color-font" aria-hidden="true" title="{{ payment.reject_reason }}" *ngIf="payment.reject"></i> </td>
                             <td *ngIf="!isProvincePastor && !isZonePastor && !isAreaPastor">
                                 <!-- Appear Only in Admin Section -->
                                 <span *ngIf="payment.hold">
@@ -233,3 +233,9 @@
         [itemInfo]="toDeletePayment"
 ></app-prompt>
 
+<app-prompt
+        *ngIf="showRejectPrompt"
+        [calledFrom]="'PaymentReject'"
+        [itemInfo]="toRejectPayment"
+        [itemText]="'Payment'"
+></app-prompt>

@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CreateReportComponent } from './create-report/create-report.component';
 import { ListReportComponent } from './list-report/list-report.component';
 import { ReportRoutingModule } from './report-routing.module';
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
 	declarations: [
@@ -16,7 +17,8 @@ import { ReportRoutingModule } from './report-routing.module';
 		CommonModule,
 		DpDatePickerModule,
 		FormsModule,
-		ReportRoutingModule
+		ReportRoutingModule,
+		SharedModule
 	],
 	providers: []
 })

@@ -277,11 +277,11 @@ class PaymentController extends Controller {
                 $paymentArray = [];
                 foreach ($payments as $key => $payment) {
                         $parishDetails = Parish::where('user_id',$payment->created_by)->first();
-
                         $paymentArray[$key]['id']                     = $payment->id;
                         $paymentArray[$key]['wem_id']                 = $payment->wem_id;
                         $paymentArray[$key]['file_name']              = $payment->file_name;
                         $paymentArray[$key]['payment_description']    = $payment->payment_description;
+                        $paymentArray[$key]['reject_reason']          = $payment->reject_reason;
                         $paymentArray[$key]['upload_month']           = $payment->upload_month;
                         $paymentArray[$key]['upload_year']            = $payment->upload_year;
                         $paymentArray[$key]['payment_status']         = $payment->payment_status;
@@ -531,6 +531,9 @@ class PaymentController extends Controller {
 
             $payment->payment_status = $request->input('payment_status');
 
+            if(($request->input('payment_status'))==1){
+                $payment->reject_reason=$request->input('comment');  
+            }
             $payment->save();
 
             $response = [
@@ -538,7 +541,6 @@ class PaymentController extends Controller {
                 'message'   => "Payment status changed successfully."
             ];
             $responseCode = 200;
-
         } catch (HttpBadRequestException $httpBadRequestException) {
             $response = [
                 'status'    => false,
@@ -587,7 +589,7 @@ class PaymentController extends Controller {
 
         /**
          * Download File
-         */
+        */
 
         if($payment->file_name)
         {

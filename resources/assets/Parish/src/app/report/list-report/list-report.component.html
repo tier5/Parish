@@ -182,7 +182,7 @@
                                     <i class="fa fa-pencil fa-fw"></i>
                                 </button>
                                 <span *ngIf="report.compliance===1">Accepted</span>
-                                <span *ngIf="report.compliance===0">Rejected</span>
+                                <span *ngIf="report.compliance===0">Rejected <i class="fa fa-info-circle color-font" aria-hidden="true" title="{{ report.reject_reason }}"></i></span>
                             </td>
                             <td [ngClass]="(report.compliance===1)?'success': 'danger'">
                                 <button
@@ -248,3 +248,10 @@
     </div>
 
 </div>
+
+<app-prompt
+        *ngIf="showRejectPrompt"
+        [calledFrom]="'ReportReject'"
+        [itemInfo]="toRejectReport"
+        [itemText]="'Report'"
+></app-prompt>

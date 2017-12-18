@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateUserAddColumnPastorType extends Migration
+class AddRejectReasonToPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class UpdateUserAddColumnPastorType extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->boolean('pastor_type')
-                ->comment('0 => NONE, 1 => PROVINCE, 2 => AREA, 3 => ZONE')
-                ->default('0')
-                ->after('user_type');
+        Schema::table('payments', function (Blueprint $table) {
+            $table->text('reject_reason')->after('payment_status')->nullable();
         });
     }
 
@@ -28,6 +25,8 @@ class UpdateUserAddColumnPastorType extends Migration
      */
     public function down()
     {
-       // $table->dropColumn('pastor_type');
+        Schema::table('payments', function (Blueprint $table) {
+            //
+        });
     }
 }

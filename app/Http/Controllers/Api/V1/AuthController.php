@@ -228,11 +228,17 @@ class AuthController extends Controller {
             DB::rollBack();
 
             Log::error($exception->getMessage());
-            $error_message = ($exception->getMessage()=='Your card has expired.')?'Your card has expired.':(($exception->getMessage()=='Your card was declined.')?'Your card was declined.':'Internal server error.');
+            
+            /*if(strpos($exception->getMessage(),'Your card was declined.') !== false) {
+                $error_message ='Your card was declined.';
+            }else{
+                $error_message = "Internal server error.";
+            }*/
+            $error_message = (strpos($exception->getMessage(),'Your card has expired.') !== false)?'Your card has expired.':((strpos($exception->getMessage(),'Your card was declined') !== false) ?'Your card was declined.':'Internal server error.');
             $response = [
                 'status'            => false,
-                'error'             =>  $error_message,//"Internal server error.",
-                'error_info'        => $exception->getMessage()
+                'error'             =>  $exception->getMessage(),//$exception->getMessage(),//"Internal server error.",
+                'error_info'        =>  $exception->getMessage()
             ];
 
             $responseCode = 500;

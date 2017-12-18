@@ -531,7 +531,7 @@ class ReportController extends Controller {
                 if($report) {
                     $report->progress_report    = $progress_report;
                     if($request->input('status') == "save"){
-                        $report->status  = 'submitted';
+                        $report->status  = 'resubmitted';
                     }else {
                         $report->status  = 'draft';
                     }
@@ -845,6 +845,7 @@ class ReportController extends Controller {
                         $reportArray[$key]['progress_report']        = $reportKey->progress_report;
                         $reportArray[$key]['report_month']           = $reportKey->report_month;
                         $reportArray[$key]['report_year']            = $reportKey->report_year;
+                        $reportArray[$key]['reject_reason']          = $reportKey->reject_reason;
                         $reportArray[$key]['created_at']             = $reportKey->created_at;
                         $reportArray[$key]['parish_id']              = $parishDetails->id;
                         $reportArray[$key]['parish_name']            = $parishDetails->name;
@@ -1104,6 +1105,10 @@ class ReportController extends Controller {
                 }
                 else {
                     $message               = "Report rejected successfully.";
+                }
+
+                if($request->comp_status==0){
+                    $report->reject_reason = $request->comment;
                 }
                 $report->compliance        = $request->comp_status;
                 $report->save();

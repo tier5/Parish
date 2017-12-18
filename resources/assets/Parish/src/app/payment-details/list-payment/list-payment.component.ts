@@ -27,6 +27,7 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 	
 	responseStatus                      = false;
 	responseReceived                    = false;
+	showRejectPrompt                    = false;
 	responseMsg         : string        = '';
     public ifNoData     : boolean       = false;
 	public showProgressbar     : boolean       = false;
@@ -54,6 +55,7 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
     isParishPastor: boolean = false;
 	showDeletePrompt    : boolean   = false;
 	toDeletePayment     : any;
+	toRejectPayment     : any;
 	
 	paymentDetails                  = [];
 	uploader                        = new FileUploader({});
@@ -65,6 +67,7 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 	
 	closePromptEventSubscription     : Subscription;
 	deletePaymentEventSubscription   : Subscription;
+	rejectPaymentEventSubscription   : Subscription;
 
 	showUploadButton                : number        =  0 ;
 	progress                        : number        =  0 ;
@@ -340,6 +343,7 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 			.subscribe(
 				() => {
 					this.showDeletePrompt = false;
+					this.showRejectPrompt = false;
 				}
 			);
 		
@@ -375,6 +379,38 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 							this.responseMsg = error.json().error;
 						}
 					);
+				}
+			);
+		
+		/** Subscribe to event to Reject a Payment */
+		
+		this.rejectPaymentEventSubscription = this.paymentService.showPromptEvent
+			.subscribe(
+				(getItemInfo: any) => {
+					this.showRejectPrompt = false;
+					getItemInfo[0].comment = getItemInfo.comment;
+					this.paymentService.paymentChangeStatus(getItemInfo[0])
+						.subscribe(
+							(response: Response) => {
+								this.responseReceived   = true;
+								this.responseStatus = response.json().status;
+								if ( response.json().status ) {
+									this.responseMsg = response.json().message;
+								} else {
+									this.responseMsg = '';
+								}
+								this.paymentService.refreshList.next();
+							},
+							(error: Response) => {
+								if( error.status === 401) {
+									this.authService.removeToken();
+									this.router.navigate( ['/login'] );
+								}
+								this.responseStatus = false;
+								this.responseReceived = true;
+								this.responseMsg = error.json().error;
+							}
+						);
 				}
 			);
 		
@@ -445,7 +481,8 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 			{ id: payment.id, payment_status: status}
 		];
 		
-		this.paymentService.paymentChangeStatus(setpaymentArray[0])
+		if(status != 1){
+			this.paymentService.paymentChangeStatus(setpaymentArray[0])
 			.subscribe(
 				(response: Response) => {
 					this.responseReceived   = true;
@@ -467,6 +504,10 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 					this.responseMsg = error.json().error;
 				}
 			);
+		} else {
+			this.toRejectPayment = setpaymentArray;
+			this.showRejectPrompt = true;
+		}
 	}
 
     /** Function call when month selected */
@@ -602,6 +643,7 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
         this.refreshAreaListSubscription.unsubscribe();
         this.refreshParishListSubscription.unsubscribe();
         this.deletePaymentEventSubscription.unsubscribe();
+        this.rejectPaymentEventSubscription.unsubscribe();
     }
 
 }

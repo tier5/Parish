@@ -372,6 +372,7 @@
                                 ));
                                 
                                 if($charge->id){
+                                    
                                     $this->randomUsername = Helpers::generateNumber();
                                     $this->randomPassword = Helpers::generateNumber();
 
