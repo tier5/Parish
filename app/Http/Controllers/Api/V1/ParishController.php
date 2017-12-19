@@ -883,9 +883,11 @@ class ParishController extends Controller {
 
                     $due_date = $parish->due_date;
                     $month    = date('m');
+                    $year     = date('Y');
                     $payment  = Payment::whereNull('deleted_at')
                                         ->where('created_by' , $parish->user_id)
                                         ->where('upload_month', $month)
+                                        ->where('upload_year', $year)
                                         ->get();
 
                     if(count($payment)>0) {

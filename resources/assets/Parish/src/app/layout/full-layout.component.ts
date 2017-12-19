@@ -16,7 +16,7 @@ export class FullLayoutComponent {
 	
 	public toggleBarIcon: boolean = true;
 	public showSidebar: boolean = true;
-	paymentOption: boolean = false;
+	paymentOption: boolean = true;
 	createReport: boolean = false;
 	parishStatus: number = 0;
 	superAdmin: boolean = false;
@@ -48,9 +48,9 @@ export class FullLayoutComponent {
 								this.parishStatus = response.json().parish.payment_status;
 								if (this.parishStatus != 1) {
 									this.paymentStatus = true;
-									this.paymentOption = false;
-								} else {
 									this.paymentOption = true;
+								} else {
+									this.paymentOption = false;
 								}
 							}
 						},
