@@ -16,7 +16,7 @@ export class FullLayoutComponent {
 	
 	public toggleBarIcon: boolean = true;
 	public showSidebar: boolean = true;
-	paymentOption: boolean = true;
+	paymentOption: boolean = false;
 	createReport: boolean = false;
 	parishStatus: number = 0;
 	superAdmin: boolean = false;
