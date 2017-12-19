@@ -184,6 +184,19 @@ export class CsvComponent{
 		this.length 	= false;
 	}
 	
+	/** Function to download CSV */
+	
+	downloadCsv() {
+		
+		var uri = 'data:application/csv;charset=utf-8,';
+		var link = document.createElement("a");
+		link.href = this.base_url+'/sample-csv/sample.csv';
+		link.download = "test.csv";
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	}
+	
 	
 	/** Un-subscribing from all custom made events when component is destroyed */
 	ngOnDestroy() {
