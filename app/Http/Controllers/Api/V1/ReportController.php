@@ -531,7 +531,7 @@ class ReportController extends Controller {
                 if($report) {
                     $report->progress_report    = $progress_report;
                     if($request->input('status') == "save"){
-                        if($report->status==0){
+                        if($report->status==0 ){
                             $report->status = 'resubmitted';
                             $report->compliance=3;
                             $report->reject_reason=" ";

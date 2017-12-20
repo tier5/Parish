@@ -168,7 +168,7 @@
                                         'status'       => true,
                                         'parishCount'   => $parishCount,
                                         'allData'       => $data_array,
-                                        'message'       => '$'.$parishCount." will deduct for parish creation. Do you want to proceed ?"
+                                        'message'       => '$'.$parishCount." will deduct for ".$parishCount." parish creation. Do you want to proceed ?"
                                     ];
                                     $responseCode = 200;
                                 }else{
