@@ -193,7 +193,7 @@ class ReportController extends Controller {
             else
                 throw new HttpBadRequestException("User Id is required.");
             
-            if ($request->has('report_month'))
+            if ($dev_superadmin_featurerequest->has('report_month'))
                 $report_month = $request->input('report_month');
             else
                 throw new HttpBadRequestException("Month is required.");
@@ -531,7 +531,13 @@ class ReportController extends Controller {
                 if($report) {
                     $report->progress_report    = $progress_report;
                     if($request->input('status') == "save"){
-                        $report->status  = 'resubmitted';
+                        if($report->status==0){
+                            $report->status = 'resubmitted';
+                            $report->compliance=3;
+                            $report->reject_reason=" ";
+                        }else {
+                            $report->status = 'submitted';
+                        }
                     }else {
                         $report->status  = 'draft';
                     }
