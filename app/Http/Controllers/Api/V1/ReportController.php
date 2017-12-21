@@ -193,7 +193,7 @@ class ReportController extends Controller {
             else
                 throw new HttpBadRequestException("User Id is required.");
             
-            if ($dev_superadmin_featurerequest->has('report_month'))
+            if ($request->has('report_month'))
                 $report_month = $request->input('report_month');
             else
                 throw new HttpBadRequestException("Month is required.");
@@ -530,13 +530,30 @@ class ReportController extends Controller {
 
                 if($report) {
                     $report->progress_report    = $progress_report;
+                    $getParishinfo=Parish::where('id',$report->parish_id)->first();
+                    if(count($getParishinfo) >0){
+                        $getParish_userid=$getParishinfo->user_id;
+                        $get_paymentinfo=Payment::where('created_by',$getParish_userid)->where('upload_month',$report->report_month)->where('upload_year',$report->report_year)->first();
+                    }
                     if($request->input('status') == "save"){
-                        if($report->status==0 ){
-                            $report->status = 'resubmitted';
+                        if($report->compliance==0 ){
+                            if(count($get_paymentinfo)>0) {
+                                $report->status = 'resubmitted';
+                            }else{
+                                $report->status = 'draft';
+                            }
                             $report->compliance=3;
                             $report->reject_reason=" ";
                         }else {
-                            $report->status = 'submitted';
+                            if(count($get_paymentinfo)>0) {
+                                if($report->status=='resubmitted'){
+                                    $report->status = 'resubmitted';
+                                }else {
+                                    $report->status = 'submitted';
+                                }
+                            }else{
+                                $report->status = 'draft';
+                            }
                         }
                     }else {
                         $report->status  = 'draft';
