@@ -128,6 +128,7 @@ class ReportController extends Controller {
                     }
                 }else {
                     $report->status  = 'draft';
+                    $message='Report is submitted as draft';
                 }
                 $report->save(); 
             } else {
