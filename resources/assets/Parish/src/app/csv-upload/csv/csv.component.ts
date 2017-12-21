@@ -48,7 +48,7 @@ export class CsvComponent{
 	ngOnInit() {
 		/** checking for admin */
 		const user_type = this.authService.getToken().user_type;
-		this.csvData['file_name'] = 'sample.csv';
+		this.csvData['file_nmessageame'] = 'sample.csv';
 		if(user_type ==1){
 			this.isAdmin = true;
 		}
