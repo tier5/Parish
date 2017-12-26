@@ -347,44 +347,44 @@ class UserController extends Controller {
     }
 
     /**
-     * Change status of WEM
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+ * Change status of WEM
+ *
+ * @param Request $request
+ * @return \Illuminate\Http\JsonResponse
+ */
 
     public function changeWemStatus(Request $request, $userId) {
         try {
-            
+
             DB::beginTransaction();
 
             $user=User::findOrFail($userId);
             if ($user->user_type == 0) {
-              $wem = User::findOrFail($request->input('id'));
-              if($wem->user_status == 1) {
-                $wem->user_status = 0;
-              } else {
-                $wem->user_status = 1;
-              }
-              
-              $save = $wem->save();
-            if($save) {
-                $response = [
-                    'status'    => true,
-                    'message'       => 'Wem status changed successfully'
-                ];
-                $responseCode = 200;   
+                $wem = User::findOrFail($request->input('id'));
+                if($wem->user_status == 1) {
+                    $wem->user_status = 0;
+                } else {
+                    $wem->user_status = 1;
+                }
+
+                $save = $wem->save();
+                if($save) {
+                    $response = [
+                        'status'    => true,
+                        'message'       => 'Wem status changed successfully'
+                    ];
+                    $responseCode = 200;
+                } else {
+                    $response = [
+                        'status'    => false,
+                        'error'       => 'Wem status changed failed'
+                    ];
+                    $responseCode = 400;
+                }
+
             } else {
-                $response = [
-                    'status'    => false,
-                    'error'       => 'Wem status changed failed'
-                ];
-                $responseCode = 400;   
+                throw new HttpBadRequestException("User is not a Superadmin.");
             }
-                            
-            } else {
-              throw new HttpBadRequestException("User is not a Superadmin.");  
-            }  
         }
         catch (Exception $exception) {
             DB::rollBack();
@@ -672,6 +672,65 @@ class UserController extends Controller {
 
         } catch (Exception $exception) {
 
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+     /**
+     * Change status of Parish
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function changeParishStatus(Request $request, $userId) {
+        try {
+
+            DB::beginTransaction();
+
+            $user=User::findOrFail($userId);
+            if ($user->user_type == 1) {
+                $parish = User::findOrFail($request->input('parish_user_id'));
+                if($parish->user_status == 1) {
+                    $parish->user_status = 0;
+                } else {
+                    $parish->user_status = 1;
+                }
+
+                $save = $parish->save();
+                if($save) {
+                    $response = [
+                        'status'    => true,
+                        'message'       => 'Parish status changed successfully'
+                    ];
+                    $responseCode = 200;
+                } else {
+                    $response = [
+                        'status'    => false,
+                        'error'       => 'Parish status changed failed'
+                    ];
+                    $responseCode = 400;
+                }
+
+            } else {
+                throw new HttpBadRequestException("User is not a Subscriber.");
+            }
+        }
+        catch (Exception $exception) {
             DB::rollBack();
 
             Log::error($exception->getMessage());

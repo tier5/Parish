@@ -337,6 +337,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses'  => 'Api\V1\UploadController@parseData',
                 'as'    => 'api.v1.parseData'
             ]);
+
+            Route::post('/change-parish-status/{user_id}',[
+                'uses'  => 'Api\V1\UserController@changeParishStatus',
+                'as'    => 'api.v1.changeParishStatus.post'
+            ]);
             
         });
 

@@ -402,7 +402,7 @@ class AreaController extends Controller {
             $response = [
                 'status'            => true,
                 'password'          => $this->randomPassword,
-                'message'           => "Area Pastor created successfully."
+                'message'           => "Area created successfully."
             ];
 
             $responseCode = 201;

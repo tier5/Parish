@@ -466,7 +466,14 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 			);
 		
 	}
-	
+
+	/** Download Single Payment Proof*/
+    downloadPayment(payment){
+        console.log(payment);
+    }
+
+
+
 	/** Show upload button when try to upload any doc */
 	showUploader(payment,event) {
 		this.showUploadButton   = payment.id;

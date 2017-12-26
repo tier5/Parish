@@ -30,7 +30,6 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	parishList          : ParishListModel[];
 	provinceList        : ProvinceListModel[];
 	toDeleteParish      : ParishListModel;
-
 	isWEM				: boolean = false;
 	provID              : number;
 	zoneID              : number;
@@ -56,7 +55,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	selectDate			: boolean 	= false;
 	showLoader      	: boolean   = false;
 
-	config                         : IDatePickerConfig   = {
+	config               : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
 		format:'YYYY-MM-DD',
 		monthFormat: 'MMM, YYYY',
@@ -125,6 +124,12 @@ export class ListParishComponent implements OnInit, OnDestroy {
 						if( response.json().status ) {
 							this.parishList         = response.json().parishes;
 
+							this.parishList .forEach(item => {
+								item.hold   = (item.user_status == 0) ? false : true;
+								let user_status = (item.user_status == 0) ? 'On Hold' : 'On Exemption';
+								item.user_status = user_status;
+							});
+
 							var date = new Date();
 
 							var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -142,7 +147,6 @@ export class ListParishComponent implements OnInit, OnDestroy {
 
 							this.config.min = moment(minDate1);
 							this.config.max = moment(maxDate1);
-
 							this.formData.due_date  = response.json().due_date;
 							this.responseNoRecord   = response.json().noData;
 						} else {
@@ -168,7 +172,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			}
 		);
 		
-	/** Emitting event which will refresh the parish list */
+		/** Emitting event which will refresh the parish list */
 
 		this.pzapService.refreshList.next( {} );
 		
@@ -530,8 +534,6 @@ export class ListParishComponent implements OnInit, OnDestroy {
 		else {
 			this.selectDate = true;
 		}
-
-
 	}
 
 	/** On submission of due date for the month */
@@ -625,7 +627,6 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			);
 		
 	}
-
 
 	/** Function call to reset form */
 	onReset(addDueDate: NgForm) {
@@ -734,6 +735,27 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			);
 		
 		
+	}
+
+	/** Function to change status of Parish by subscriber */
+	changeParishStatus(parish){
+
+		this.pzapService.changeStatus(parish)
+            .subscribe(
+				(response: Response) => {
+					this.responseStatus = response.json().status;
+					this.responseMsg = response.json().message;
+					this.pzapService.refreshList.next( {} );
+				},
+				(error: Response) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+				}
+			);
 	}
 
 	/** Un-subscribing from all custom made events when component is destroyed */

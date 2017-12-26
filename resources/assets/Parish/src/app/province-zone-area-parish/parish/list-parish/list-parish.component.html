@@ -189,6 +189,7 @@
                             <th>Username</th>
                             <th>Password</th>
                             <th>Penalty</th>
+                            <th>Exemption</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
@@ -222,8 +223,18 @@
                                 </td>
 
 
+                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{parish.user_status}}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">
-                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">
+                                <button
+                                        class="btn btn-success btn-xs"
+                                        type="button" *ngIf="parish.hold" title="Click to Hold this account" (click)="changeParishStatus(parish)">
+                                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                                </button>
+                                <button
+                                        class="btn btn-danger btn-xs"
+                                        type="button" *ngIf="!parish.hold" title="Click to put on Exemption this account" (click)="changeParishStatus(parish)">
+                                    <i class="fa fa-hand-paper-o" aria-hidden="true"></i>
+                                </button>
                                 <button
                                         class="btn btn-warning btn-xs"
                                         type="button"

@@ -227,8 +227,18 @@ export class ProvinceZoneAreaParishService {
 	
 	/**Get parish details */
 	getParish(): Observable<any> {
-		
+
 		const user_id = this.authService.getToken().user_id;
 		return this.http.get( environment.API_URL + 'parish/get-parish/'+ user_id, { headers: this.headers } );
+	}
+
+	/** Change status of Parish */
+	changeStatus( body: any ) : Observable<any> {
+		const obj = {
+			user_id: this.authService.getToken().user_id
+		};
+		const user_id = this.authService.getToken().user_id;
+		return this.http.post( environment.API_URL + 'user/change-parish-status/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
+
 	}
 }

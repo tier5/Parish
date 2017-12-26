@@ -1,6 +1,8 @@
 export class ParishListModel {
 	
 	constructor( public id: number,
+				 public user_status: any,
+                 public hold:any,
                  public province_id: number,
                  public zone_id: number,
                  public area_id: number,

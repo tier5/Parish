@@ -201,6 +201,7 @@
                                     <i class="fa fa-download fa-fw"></i><a [href]="base_url+'/paymentReceipt/'+payment.file_name" [download]="payment.file_name">Download</a>
 
                                 </button>
+                                <!--<a (click)="downloadPayment(payment)" class="btn btn-active btn-xs" *ngIf="isWEM || (!isWEM && payment.accept)"><i class="fa fa-download fa-fw"></i>Download</a>-->
 
                                 <input type="file" ng2FileSelect [uploader]="uploader" class="upload_file" *ngIf="isParishPastor && payment.payment_status == 1 " (change)="showUploader(payment,$event)" accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"/>
 

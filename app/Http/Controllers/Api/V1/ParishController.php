@@ -668,6 +668,7 @@ class ParishController extends Controller {
                     $parishArray[$key]['id']                    = $parish->id;
                     $parishArray[$key]['user_id']               = $parish->users->id;
                     $parishArray[$key]['parish_id']             = $parish->users->parish_id;
+                    $parishArray[$key]['parish_user_id']        = $parish->users->id;
                     $parishArray[$key]['parish_name']           = $parish->name;
                     $parishArray[$key]['province_name']         = $parish->areas->zones->proviences->name;
                     $parishArray[$key]['province_id']           = $parish->areas->zones->proviences->id;
@@ -681,6 +682,7 @@ class ParishController extends Controller {
                     $parishArray[$key]['password']              = $parish->users->uniqueKey;
                     $parishArray[$key]['first_name']            = $parish->users->first_name;
                     $parishArray[$key]['last_name']             = $parish->users->last_name;
+                    $parishArray[$key]['user_status']           = $parish->users->user_status;
                     $parishArray[$key]['payment_status']        = $parish->payment_status;
                     $parishArray[$key]['penalty']               = $parish->penalty;
                     $parishArray[$key]['penalty_percent']       = $parish->penalty_percent;
