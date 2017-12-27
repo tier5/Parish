@@ -42,7 +42,7 @@
                     <input type ="text" name="comment" [(ngModel)]="itemInfo.comment">
                 </h4>
                 <span class="close-btn" (click)="hidePrompt()">&times;</span>
-                <div class="btn-confirm" *ngIf="calledFrom!='CSV' && calledFrom!='PaymentReject'  && calledFrom!='ReportReject'" >
+                <div class="btn-confirm" *ngIf="calledFrom!='CSV' && calledFrom!='PaymentReject'  && calledFrom!='ReportReject' && calledFrom!='viewUploadPayment'">
                     <button class="btn btn-primary" (click)="deletePrompt()">Confirm</button>
                     <button class="btn btn-danger" (click)="hidePrompt()">Cancel</button>
                 </div>
@@ -54,6 +54,82 @@
                     <button class="btn btn-primary" (click)="proceedPrompt()">Save</button>
                     <button class="btn btn-danger" (click)="hidePrompt()">Cancel</button>
                 </div>
+
+                <div *ngIf="calledFrom=='viewUploadPayment'">
+                    <form  enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label >Choose Year & Month (*)</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <dp-date-picker id="paymentDate"
+                                                    name="payment_date"
+                                                    class="form-control"
+                                                    [mode]="'month'"
+                                                    [placeholder]="'Pick Month & Year'">
+                                    </dp-date-picker>
+                                </div>
+                            </div>
+
+                            <!--<div class="col-md-6">
+                                <div class="alert alert-danger" >
+                                    Payment Date is Required!
+                                </div>
+                            </div>-->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="pdescription">Payment Description</label>
+                                    <textarea class="form-control" rows="3" id="pdescription"   name="payment_description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="pfile">Upload File (*)</label>
+                                    <input type="file"
+                                            id="pfile"
+                                            class="form-control"
+                                            name="uploadfile"
+                                            required
+
+                                            accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"
+
+                                    >
+                                    <br>
+                                    (.pdf, .doc, .docx, .jpeg, .jpg, .PDF, .DOC, .DOCX, .JPEG, .JPG only accepted)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button class="btn btn-primary" (click)="proceedPrompt()">
+                                    <!--<i  class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>-->
+                                    Submit
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button
+                                        type="button"
+                                        class="btn btn-default"
+                                       >Reset
+                                </button>
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="btn btn-danger" (click)="hidePrompt()">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
             </div>
 
         </div>

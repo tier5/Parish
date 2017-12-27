@@ -40,6 +40,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	parishIdList                   : any;
 	reportId                       : number;
 	showPrompt                     : boolean             = false;
+	payment_upload                 : boolean             =false;
 	reportIdList                   : any;
 	parishShow                     : boolean = false;
 	sundaychild:{};
@@ -1433,7 +1434,12 @@ export class CreateReportComponent implements OnInit, OnDestroy {
     onReportChange( reportId: number ) {
         this.router.navigate( [ 'report/view/', reportId ] );
     }
-	
+
+	showPaymentuploadPrompt(){
+		console.log('sdba');
+		this.payment_upload=true;
+	}
+
 	ngOnDestroy() {
 		this.generateReportSubscription.unsubscribe();
 	}
