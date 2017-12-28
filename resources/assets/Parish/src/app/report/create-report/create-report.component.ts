@@ -17,7 +17,8 @@ import { ProvinceZoneAreaParishService } from "../../province-zone-area-parish/p
 	styleUrls: [ './create-report.component.css' ]
 })
 export class CreateReportComponent implements OnInit, OnDestroy {
-	
+
+
 	@ViewChild( 'prForm' ) prForm  : NgForm;
 	generateReportSubscription     : Subscription;
 	editMode                       : boolean             = false;
@@ -54,7 +55,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	midWeekchild:{};
 	count   : number = 0;
 	penalty_percent:number =0;
-	
+	closePromptEventSubscription: Subscription;
 	config                         : IDatePickerConfig   = {
 		firstDayOfWeek: 'su',
 		monthFormat: 'MMM, YYYY',
@@ -881,9 +882,15 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				    }
 			    );
 	    }
-	    
-		
-		
+
+
+		/** Subscribe to event to close the delete prompt */
+		this.closePromptEventSubscription = this.reportService.closePromptEvent
+            .subscribe(
+				() => {
+					this.payment_upload = false;
+				}
+			);
 		
 		
 		this.prForm.valueChanges
@@ -1262,7 +1269,11 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 			this.parishShow = false;
 		}
 	}
-	
+
+
+
+
+
 	/** Function to get date while changing dates in date picker */
 	log(event) {
 		if(event) {
@@ -1435,13 +1446,14 @@ export class CreateReportComponent implements OnInit, OnDestroy {
         this.router.navigate( [ 'report/view/', reportId ] );
     }
 
+    /** Function to show prompt for payment after report submission*/
 	showPaymentuploadPrompt(){
-		console.log('sdba');
 		this.payment_upload=true;
 	}
 
 	ngOnDestroy() {
 		this.generateReportSubscription.unsubscribe();
+		this.closePromptEventSubscription.unsubscribe();
 	}
 	
 }

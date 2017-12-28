@@ -8,7 +8,11 @@ import { DpDatePickerModule } from 'ng2-date-picker';
 
 
 @NgModule({
-	imports: [ CommonModule,FormsModule,DpDatePickerModule ],
+	imports: [
+		CommonModule,
+		FormsModule,
+		DpDatePickerModule,
+	],
 	declarations: [
 		PromptComponent,
 		EditProvinceZoneAreaComponent

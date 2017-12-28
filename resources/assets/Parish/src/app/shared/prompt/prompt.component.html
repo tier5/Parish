@@ -56,36 +56,54 @@
                 </div>
 
                 <div *ngIf="calledFrom=='viewUploadPayment'">
-                    <form  enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div *ngIf="!responseStatus && responseReceived" class="alert alert-danger">
+                                <strong>{{ responseMsg }}</strong>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
+                                <strong>{{ responseMsg }}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <form #uploadPaymentProof="ngForm" (submit)="onSubmitPayment(uploadPaymentProof)" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label >Choose Year & Month (*)</label>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <dp-date-picker id="paymentDate"
                                                     name="payment_date"
-                                                    class="form-control"
+                                                    #datePicker
+                                                    #paymentDate="ngModel"
+                                                    [(ngModel)]="paymentDate.payment_date"
                                                     [mode]="'month'"
-                                                    [placeholder]="'Pick Month & Year'">
+                                                    [placeholder]="'Pick Month & Year'"
+                                                    [config]="config"
+                                                    [theme]="'dp-material'">
                                     </dp-date-picker>
                                 </div>
                             </div>
 
-                            <!--<div class="col-md-6">
-                                <div class="alert alert-danger" >
+                            <div class="col-md-12">
+                                <div class="alert alert-danger" *ngIf="paymentDate.invalid && paymentDate.touched">
                                     Payment Date is Required!
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="pdescription">Payment Description</label>
-                                    <textarea class="form-control" rows="3" id="pdescription"   name="payment_description"></textarea>
+                                    <textarea class="form-control" rows="3" id="pdescription"  #paymentDate="ngModel"  [(ngModel)]="paymentDate.payment_description" name="payment_description"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -94,37 +112,47 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="pfile">Upload File (*)</label>
-                                    <input type="file"
+                                    <input
                                             id="pfile"
-                                            class="form-control"
-                                            name="uploadfile"
-                                            required
+                                           class="form-control"
+                                           name="uploadfile"
+                                           required
+                                           [ngModel]="paymentDate.uploadfile"
+                                           #uploadFile="ngModel"
+                                           type="file"
 
                                             accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"
-
+                                            (change)="checkUploadedFileType($event)"
                                     >
                                     <br>
                                     (.pdf, .doc, .docx, .jpeg, .jpg, .PDF, .DOC, .DOCX, .JPEG, .JPG only accepted)
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group" >
+                                        <label></label>
+                                        <div class="progress">
+                                            <div data-percentage="0%" [ngStyle]="{ 'width': progress  + '%' }" class="progress-bar progress-bar-blue" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4">
-                                <button class="btn btn-primary" (click)="proceedPrompt()">
-                                    <!--<i  class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>-->
+                            <div class="col-md-12">
+                                <button class="btn btn-primary" [disabled]=" !length || paymentDate.invalid || !paymentDate.payment_date">
+                                    <i *ngIf="showLoader" class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                                     Submit
                                 </button>
-                            </div>
-                            <div class="col-md-4">
-                                <button
+
+                                <button (click)="resetPaymentForm(uploadPaymentProof)"
                                         type="button"
                                         class="btn btn-default"
                                        >Reset
                                 </button>
                             </div>
-                            <div class="col-lg-4">
-                                <button class="btn btn-danger" (click)="hidePrompt()">Cancel</button>
+                            <div class="col-lg-12">
+                                <button class="btn btn-danger pull-right" type="button" (click)="hidePrompt()">Cancel</button>
                             </div>
                         </div>
                     </form>

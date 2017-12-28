@@ -469,7 +469,7 @@ class PaymentController extends Controller {
 
             $response = [
                 'status'    => true,
-                'message'   => "Payment receipt submitted successfully."
+                'message'   => "Payment proof uploaded successfully."
             ];
             $responseCode = 201;
            
