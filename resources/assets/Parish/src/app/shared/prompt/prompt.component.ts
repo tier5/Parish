@@ -116,7 +116,6 @@ export class PromptComponent {
             .subscribe(
                 (response: Response) => {
                     console.log(response.json().status);
-
                     this.responseReceived   = true;
                     this.responseStatus     = response.json().status;
                     this.showLoader         = false;
@@ -133,13 +132,12 @@ export class PromptComponent {
                     this.responseMsg        = error.json().error;
                 },
                 () => {
-
-                    setTimeout( () => {
+                   setTimeout( () => {
                         this.progress           = 0;
                         this.responseReceived   = false;
                         this.showLoader    		= false;
                         uploadPaymentProof.reset();
-                    }, 3000);
+                    }, 5000);
                 }
             );
 	}

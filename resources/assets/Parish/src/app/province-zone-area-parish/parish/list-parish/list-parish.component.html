@@ -6,7 +6,7 @@
 
 <!-- To add due date -->
 <div class="row" *ngIf="isWEM" >
-    <div class="col-lg-6">
+    <div class="col-md-6">
         <button
                 type="button"
                 (click)="onAddDueDate()"
@@ -73,6 +73,62 @@
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <button
+                type="button"
+                (click)="onSetPercentageDue()"
+                *ngIf="!percentageDue">Set Percentage Due
+        </button>
+        <p></p>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row" *ngIf="percentageDue">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-ms-2"></div>
+                    <div class="col-md-8">
+                        <form  #addPercentage="ngForm"
+                               (submit)="onPercentageSubmit(addPercentage)">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label > Provide Percentage Due </label>
+                                    <input type="number"
+                                           min="0"
+                                           id="penalty_percent"
+                                           name="penalty_percent"
+                                           [(ngModel)]="addPercentage.penalty_percent"
+                                           required
+                                           [placeholder]="'Enter Percentage'"
+                                           #penalty="ngModel">
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <button
+                                        class="btn btn-primary"
+                                        type="submit"
+                                        [disabled]=" ( addPercentage.invalid && addPercentage.touched ) || !addPercentage.penalty_percent"
+                                >
+                                    Save
+                                </button>
+
+                                <button
+                                        type="button"
+                                        class="btn btn-default"
+                                        (click)="onSetPercentageDue()"
+                                >Cancel
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-ms-2"></div>
+                </div>
+            </div>
+        </div>
             </div>
         </div>
     </div>

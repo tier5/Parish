@@ -241,4 +241,13 @@ export class ProvinceZoneAreaParishService {
 		return this.http.post( environment.API_URL + 'user/change-parish-status/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
 
 	}
+
+	/**Add Penalty Percentage For Parish */
+	addPercentage(body: any ): Observable<any> {
+		const obj = {
+			user_id: this.authService.getToken().user_id
+		};
+		const user_id = this.authService.getToken().user_id;
+		return this.http.post( environment.API_URL + 'parish/add-penalty/'+ user_id, Object.assign( body, obj ), { headers: this.headers } );
+	}
 }

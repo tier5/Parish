@@ -270,6 +270,11 @@ Route::group(['prefix' => 'v1'], function() {
                 'uses' => 'Api\V1\ParishController@getParishList',
                 'as' => 'api.v1.getParishList.post'
             ]);
+
+            Route::post('/add-penalty/{user_id}', [
+                'uses' => 'Api\V1\ParishController@addPenalty',
+                'as'   => 'api.v1.addPenalty.post'
+            ]);
             
 
         });

@@ -46,11 +46,12 @@ export class FullLayoutComponent {
 						(response: Response) => {
 							if (response.json().status) {
 								this.parishStatus = response.json().parish.payment_status;
-								if (this.parishStatus != 1) {
-									this.paymentStatus = true;
+								if (this.parishStatus == 1) {
 									this.paymentOption = true;
 								} else {
-									this.paymentOption = false;
+									this.paymentOption = true;
+									this.paymentStatus = true;
+
 								}
 							}
 						},

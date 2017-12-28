@@ -53,6 +53,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	deleteParishEventSubscription   : Subscription;
 
 	selectDate			: boolean 	= false;
+	percentageDue       : boolean   = false;
 	showLoader      	: boolean   = false;
 
 	config               : IDatePickerConfig   = {
@@ -536,6 +537,16 @@ export class ListParishComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	/** Function call for adding penalty percentage after due date  */
+	onSetPercentageDue() {
+		if(this.percentageDue) {
+			this.percentageDue   = false;
+		}
+		else {
+			this.percentageDue = true;
+		}
+	}
+
 	/** On submission of due date for the month */
 	onSubmit( addDueDate: NgForm) {
 		this.selectDate = true;
@@ -557,16 +568,16 @@ export class ListParishComponent implements OnInit, OnDestroy {
 					if ( response.json().status ) {
 						this.responseMsg = response.json().message;
 						this.selectDate  = false;
-						
+
 						this.pzapService.updatePayment()
 							.subscribe(
 								( response: Response ) =>
 								{
 									this.showLoader = false;
 									this.responseStatus = response.json().status;
-									
+
 									if ( response.json().status ) {
-										
+
 										this.selectDate  = false;
 										this.pzapService.refreshList.next( {} );
 									} else {
@@ -578,7 +589,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 										this.authService.removeToken();
 										this.router.navigate( [ '/login' ] );
 									}
-									
+
 									this.showLoader         = false;
 									this.responseStatus     = false;
 									this.responseReceived   = true;
@@ -595,10 +606,10 @@ export class ListParishComponent implements OnInit, OnDestroy {
 									}, 3000 )
 								}
 							);
-						
+
 						this.pzapService.refreshList.next({});
-						
-						
+
+
 					} else {
 						this.responseMsg = '';
 					}
@@ -651,6 +662,91 @@ export class ListParishComponent implements OnInit, OnDestroy {
 			});
 			addDueDate.reset();
 		}
+	}
+
+	/** Function call Penalty Percentage */
+	onPercentageSubmit(addPercentage : NgForm){
+
+		addPercentage.value.penalty_percent = addPercentage.value.penalty_percent;
+		this.pzapService.addPercentage( addPercentage.value )
+            .subscribe(
+				( response: Response ) => {
+					this.showLoader = false;
+					this.responseStatus = response.json().status;
+
+					if ( response.json().status ) {
+						this.responseMsg = response.json().message;
+						this.selectDate  = false;
+
+						this.pzapService.updatePayment()
+                            .subscribe(
+								( response: Response ) =>
+								{
+									this.showLoader = false;
+									this.responseStatus = response.json().status;
+
+									if ( response.json().status ) {
+
+										this.percentageDue  = false;
+										this.pzapService.refreshList.next( {} );
+									} else {
+										this.responseMsg = '';
+									}
+								},
+								( error: Response ) => {
+									if ( error.status === 401 ) {
+										this.authService.removeToken();
+										this.router.navigate( [ '/login' ] );
+									}
+
+									this.showLoader         = false;
+									this.responseStatus     = false;
+									this.responseReceived   = true;
+									this.responseMsg        = error.json().error;
+									setTimeout( () => {
+										this.responseReceived = false;
+									}, 3000 )
+								},
+								() => {
+									//createAreaForm.reset();
+									this.responseReceived = true;
+									setTimeout( () => {
+										this.responseReceived = false;
+									}, 3000 )
+								}
+							);
+
+						this.pzapService.refreshList.next({});
+
+
+					} else {
+						this.responseMsg = '';
+					}
+				},
+				( error: Response ) => {
+					if ( error.status === 401 ) {
+						this.authService.removeToken();
+						this.router.navigate( [ '/login' ] );
+					}
+
+					this.showLoader         = false;
+					this.responseStatus     = false;
+					this.responseReceived   = true;
+					this.responseMsg        = error.json().error;
+					setTimeout( () => {
+						this.responseReceived = false;
+					}, 5000 )
+				},
+				() => {
+					//createAreaForm.reset();
+					// this.responseReceived = true;
+					// setTimeout( () => {
+					// 	this.responseReceived = false;
+					// }, 3000 )
+				}
+			);
+
+
 	}
 
 	/** Function to update penalty */

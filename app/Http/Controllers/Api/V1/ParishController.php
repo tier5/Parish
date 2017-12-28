@@ -1354,4 +1354,60 @@ class ParishController extends Controller {
         return response()->json($response, $responseCode);
     }
 
+    /**
+     * Add penalty for all parishes
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function addPenalty(Request $request, $user_id) {
+
+        try {
+
+            DB::beginTransaction();
+
+            $parishes = Parish::where('created_by',$user_id)->whereNull('deleted_at')->get();
+            $noOfParish = count($parishes);
+
+            if($parishes){
+                $parishArray = [];
+
+                foreach ($parishes as  $parish) {
+
+                    $parish->penalty_percent  = $request->input('penalty_percent');
+                    $parish->save();
+                }
+                $response = [
+                    'status'    => true,
+                    'message'   => 'Penalty Percentage added successfully.'
+                ];
+                $responseCode = 200;
+            } else {
+                $response = [
+                    'status'    => false,
+                    'error'     => "Penalty Percentage not added."
+                ];
+                $responseCode = 200;
+            }
+        } catch (Exception $exception) {
+            DB::rollBack();
+
+            Log::error($exception->getMessage());
+
+            $response = [
+                'status'        => false,
+                'error'         => "Internal server error.",
+                'error_info'    => $exception->getMessage()
+            ];
+
+            $responseCode = 500;
+        } finally {
+            DB::commit();
+        }
+
+        return response()->json($response, $responseCode);
+    }
+
+
 }
