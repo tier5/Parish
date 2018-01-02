@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <button
                                             class="btn btn-primary"
                                             type="submit"
@@ -99,7 +99,7 @@
                                            min="0"
                                            id="penalty_percent"
                                            name="penalty_percent"
-                                           [(ngModel)]="addPercentage.penalty_percent"
+                                           [(ngModel)]="formData.penalty_percent"
                                            required
                                            [placeholder]="'Enter Percentage'"
                                            #penalty="ngModel">
@@ -110,7 +110,9 @@
                                 <button
                                         class="btn btn-primary"
                                         type="submit"
-                                        [disabled]=" ( addPercentage.invalid && addPercentage.touched ) || !addPercentage.penalty_percent"
+                                        [disabled]=" ( addPercentage.invalid && addPercentage.touched ) || !formData.penalty_percent"
+
+
                                 >
                                     Save
                                 </button>
@@ -244,7 +246,7 @@
                             <th>Parish / Area / Zone / Province</th>
                             <th>Username</th>
                             <th>Password</th>
-                            <th>Penalty</th>
+                            <!--<th>Penalty</th>-->
                             <th>Exemption</th>
                             <th>Actions</th>
                         </tr>
@@ -259,7 +261,7 @@
                                 </td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''"> {{ parish.parish_id }}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{ parish.password}}</td>
-                                <td [ngClass]="(parish.payment_status===2)?'danger': ''">
+                                <!--<td [ngClass]="(parish.payment_status===2)?'danger': ''">
                                     <switch
                                             [status]="(parish.penalty===1)?'true': 'false'"
                                             [size]="size"
@@ -276,12 +278,12 @@
                                         </button>
                                     </div>
 
-                                </td>
+                                </td>-->
 
 
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">{{parish.user_status}}</td>
                                 <td [ngClass]="(parish.payment_status===2)?'danger': ''">
-                                <button
+                                <!--<button
                                         class="btn btn-success btn-xs"
                                         type="button" *ngIf="parish.hold" title="Click to Hold this account" (click)="changeParishStatus(parish)">
                                     <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
@@ -290,7 +292,13 @@
                                         class="btn btn-danger btn-xs"
                                         type="button" *ngIf="!parish.hold" title="Click to put on Exemption this account" (click)="changeParishStatus(parish)">
                                     <i class="fa fa-hand-paper-o" aria-hidden="true"></i>
-                                </button>
+                                </button>-->
+                                <switch
+                                        [status]="(!parish.hold)?'true': 'false'"
+                                        [size]="size"
+                                        (statusChange)="changeParishStatus(parish)"
+                                >
+                                </switch>
                                 <button
                                         class="btn btn-warning btn-xs"
                                         type="button"

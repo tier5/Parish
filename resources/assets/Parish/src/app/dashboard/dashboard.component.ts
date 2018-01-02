@@ -180,13 +180,13 @@ export class DashboardComponent implements OnInit{
 							           this.loadder  = true;
 							           this.superAdmin = true;
 							           this.isParish = false;
-							           this.card1    = {color:"#1ebfae",icon:"fa-users fa fa-3x fa-fw",label:"WEM",data:response.json().userCount.wem};
+							           this.card1    = {color:"#1ebfae",icon:"fa-users fa fa-3x fa-fw",label:"Subscriber",data:response.json().userCount.wem};
 							           this.card2    = {color:"#30a5ff",icon:"fa-users  fa fa-3x fa-fw",label:"Province Pastor",data:response.json().userCount.province};
 							           this.card3    = {color:"#ffb53e",icon:"fa-users  fa fa-3x fa-fw",label:"Zone Pastor",data:response.json().userCount.zone};
 							           this.card4    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Area Pastor",data:response.json().userCount.area};
 							           this.card5    = {color:"#f9243f",icon:"fa-users  fa fa-3x fa-fw",label:"Parish",data:response.json().userCount.parish};
-				                       this.card8    = {color:"#30a5ff",icon:"fa-cogs",label:"On Exemption",data:response.json().userCount.wem_on_exemption};
-				                       this.card9    = {color:"#1ebfae",icon:"fa-cogs",label:"On hold",data:response.json().userCount.wem_on_hold};
+				                       this.card8    = {color:"#30a5ff",icon:"fa-cogs",label:"Subscriber On Exemption",data:response.json().userCount.wem_on_exemption};
+				                       this.card9    = {color:"#1ebfae",icon:"fa-cogs",label:"Subscriber On hold",data:response.json().userCount.wem_on_hold};
 				                    } else if(response.json().user_type == 'WEM') {
 							           this.loadder  = true;
 							           this.wem = true;

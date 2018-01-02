@@ -94,7 +94,8 @@ export class ListParishComponent implements OnInit, OnDestroy {
 	};
 
 	formData = {
-		due_date : null
+		due_date : null,
+		penalty_percent : null
 	};
 	
 	size:string ="mini";
@@ -119,7 +120,6 @@ export class ListParishComponent implements OnInit, OnDestroy {
 				const user_type = this.authService.getToken().user_type;
 				this.pzapService.filterParish( body ).subscribe(
 					( response: Response ) => {
-
 						this.responseStatus = response.json().status;
 
 						if( response.json().status ) {
@@ -149,6 +149,7 @@ export class ListParishComponent implements OnInit, OnDestroy {
 							this.config.min = moment(minDate1);
 							this.config.max = moment(maxDate1);
 							this.formData.due_date  = response.json().due_date;
+							this.formData.penalty_percent = response.json().penalty_percent;
 							this.responseNoRecord   = response.json().noData;
 						} else {
 							this.parishList         = [];

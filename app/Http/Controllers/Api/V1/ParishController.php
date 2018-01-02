@@ -594,14 +594,19 @@ class ParishController extends Controller {
                     if($userDetails->user_type == 1) {
                         $parishes=Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get();
                         if(count($parishes) >0) {
-                           $due_date       = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->due_date;  
+                           $due_date       = Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->due_date;
+
+                           $penalty_percent= Parish::where('created_by',$request->input('user_id'))->whereNull('deleted_at')->get()->first()->penalty_percent;
+
                         }
 
                     } else if ($userDetails->user_type == 0) {
                         
                         $parishes       = Parish::whereNull('deleted_at')->get();
                         if(count($parishes) >0) {
-                           $due_date       = Parish::whereNull('deleted_at')->get()->first()->due_date;
+                            $due_date       = Parish::whereNull('deleted_at')->get()->first()->due_date;
+                            $penalty_percent       = Parish::whereNull('deleted_at')->get()->first()->penalty_percent;
+
                         }
                     } else {
                         if($userDetails->pastor_type == 1) {
@@ -664,7 +669,8 @@ class ParishController extends Controller {
                 foreach ($parishes as $key=>$parish) {
 
                     $due_date                                   = $parish->due_date;
-                    
+                    $penalty_percent                            = $parish->penalty_percent;
+
                     $parishArray[$key]['id']                    = $parish->id;
                     $parishArray[$key]['user_id']               = $parish->users->id;
                     $parishArray[$key]['parish_id']             = $parish->users->parish_id;
@@ -688,10 +694,11 @@ class ParishController extends Controller {
                     $parishArray[$key]['penalty_percent']       = $parish->penalty_percent;
                 }
                 $response = [
-                'status'        => true,
-                'message'       => $noOfParishes . ($noOfParishes > 1 ? " parishes have " : " parish has ") . "been found.",
-                'parishes'      => $parishArray,
-                'due_date'      => $due_date
+                    'status'        => true,
+                    'message'       => $noOfParishes . ($noOfParishes > 1 ? " parishes have " : " parish has ") . "been found.",
+                    'parishes'      => $parishArray,
+                    'due_date'      => $due_date,
+                    'penalty_percent'=>$penalty_percent
                 ];
                 $responseCode = 200;
             }
