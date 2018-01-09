@@ -11,7 +11,7 @@
         <div *ngIf="responseStatus && responseReceived" class="alert alert-success">
             <strong>{{ responseMsg }}</strong>
             <!--<a [routerLink]="['/payment/upload']" *ngIf="showPrompt">Click Here To Make Payment</a>-->
-            <a (click)="showPaymentuploadPrompt()">Click Here To Make Payment</a>
+            <a *ngIf="showPayment"  (click)="showPaymentuploadPrompt()">Click Here To Make Payment</a>
         </div>
 
     </div>

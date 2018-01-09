@@ -28,6 +28,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 	responseMsg                    : string              = '';
 	responseStatus                 : boolean             = false;
 	responseReceived               : boolean             = false;
+	showPayment					   : boolean             = false;
 	parish_id                      : number;
 	child_sunday_service           : number;
 	child_sunday                   : number;
@@ -1367,10 +1368,14 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 				.subscribe(
 					
 					( response: Response ) => {
+						console.log(response.json());
 						this.responseStatus = response.json().status;
 						this.responseMsg = response.json().message;
+						this.showPayment = response.json().showPayment;
 						this.responseReceived = true;
+
                         this.reportService.generateReport.next({});
+
 					},
 					( error: Response ) => {
 
@@ -1380,6 +1385,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
                         }
 
 						this.responseStatus = false;
+						this.showPayment    = false;
 						this.responseReceived = true;
 						this.responseMsg = error.json().error;
 						setTimeout( () => {
@@ -1408,6 +1414,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 
 				( response: Response ) => {
 					this.responseStatus = response.json().status;
+					this.showPayment = response.json().showPayment;
 					this.responseReceived = true;
 					if(response.json().show_prompt == 0 ) {
 						this.responseMsg = response.json().message;
