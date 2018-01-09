@@ -14,6 +14,8 @@ import { ParishListModel } from "../../province-zone-area-parish/parish/parish-l
 import { ProvinceListModel } from "../../province-zone-area-parish/province/province-list.model";
 import { ZoneListModel } from "../../province-zone-area-parish/zone/zone-list.model";
 import { AreaListModel } from "../../province-zone-area-parish/area/area-list.model";
+import 'rxjs/add/operator/toPromise';
+import { saveAs } from 'file-saver/FileSaver';
 
 
 @Component({
@@ -615,6 +617,18 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
 		this.showDeletePrompt = true;
 		this.toDeletePayment = obj;
 	}
+
+    saveFile(payment){
+	    console.log(payment);
+
+        var link = document.createElement("a");
+        link.target = '_blank';
+        link.href = this.base_url+'/paymentReceipt/'+payment.file_name;
+        link.download =payment.file_name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
     
     /** Function to delete a payment */
     OnClickDelete(payment) {

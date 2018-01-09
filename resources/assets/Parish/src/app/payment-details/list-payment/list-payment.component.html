@@ -162,7 +162,7 @@
                         <tr *ngFor="let payment of paymentDetails">
                             <td>ROI{{ payment.parish_id }}</td>
                             <td>{{ payment.province_name }} / {{ payment.zone_name }} / {{ payment.area_name }} / {{ payment.parish_name }}</td>
-                            <td>{{ payment.payment_description }}</td>
+                            <td>{{ payment.payment_description  === 'undefined' ? '' : payment.payment_description }}</td>
                             <td>{{ months[payment.upload_month - 1].name }} / {{ payment.upload_year }}</td>
                             <td>{{ payment.file_name }}</td>
                             <td>{{ payment.pay_status }} <i class="fa fa-info-circle color-font" aria-hidden="true" title="{{ payment.reject_reason }}" *ngIf="payment.reject"></i> </td>
@@ -195,13 +195,13 @@
 
                                 </button>
 
-                                <button
+                                <!--<button
                                         class="btn btn-active btn-xs"
                                         type="button" *ngIf="isWEM || (!isWEM && payment.accept)">
                                     <i class="fa fa-download fa-fw"></i><a [href]="base_url+'/paymentReceipt/'+payment.file_name" [download]="payment.file_name">Download</a>
 
-                                </button>
-                                <!--<a (click)="downloadPayment(payment)" class="btn btn-active btn-xs" *ngIf="isWEM || (!isWEM && payment.accept)"><i class="fa fa-download fa-fw"></i>Download</a>-->
+                                </button>-->
+                                <a (click)="saveFile(payment)" class="btn btn-active btn-xs" *ngIf="isWEM || (!isWEM && payment.accept)"><i class="fa fa-download fa-fw"></i>Download</a>
 
                                 <input type="file" ng2FileSelect [uploader]="uploader" class="upload_file" *ngIf="isParishPastor && payment.payment_status == 1 " (change)="showUploader(payment,$event)" accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"/>
 
