@@ -9,4 +9,10 @@
 
 .alert.alert-success {
     background-color: #4CAF50;
+    color: #ffffff;
+}
+
+.alert.alert-success a{
+
+    color: #0000FF;
 }

@@ -41,8 +41,7 @@ class ReportController extends Controller {
     /**
      * @var null|string
      */
-    
-    
+
     /**
      * Create a new Report with Parish
      *
@@ -88,40 +87,62 @@ class ReportController extends Controller {
             else
                 throw new HttpBadRequestException("Year is required.");
             
-            $parish                 = Parish::where('user_id',$parish_id)->whereNull('deleted_at')->first();
+            $parish= Parish::where('user_id',$parish_id)->whereNull('deleted_at')->first();
 
             if($parish) {
-                /*$checkIfexists      = Report:: where('parish_id',$parish->id)
-                                            -> where('report_month', $request->input('report_month'))
-                                            -> where('report_year', $request->input('report_year'))
-                                            -> count();*/
+                /*$checkIfexists= Report:: where('parish_id',$parish->id)
+                                        -> where('report_month', $request->input('report_month'))
+                                        -> where('report_year', $request->input('report_year'))
+                                        -> count();*/
+
                 /*if($checkIfexists > 0) {
                     throw new HttpBadRequestException("Report already exists.");
                 } else {
                     $report->parish_id  = $parish->id;
                     $report->save(); 
-                }        */               
+                }*/
                 
                 
 
                 $showPrompt=0;
-                $checkPayments=Payment::where('created_by',$parish_id)->where('upload_month',$request->input('report_month'))->where('upload_year',$request->input('report_year'))->first();
-                    
+                $showPayment=false;
+                $status_of_payment=3;
+
+                $checkPayments=Payment::where('created_by',$parish_id)->where('upload_month',$request->input('report_month'))->where('upload_year',$request->input('report_year'))->get();
+
                 $report->parish_id  = $parish->id;
+
+                if(count($checkPayments)>0) {
+                    foreach($checkPayments as $payment){
+                        if( $payment->payment_status==0){
+                            $status_of_payment=0;
+                            break;
+                        }else{
+                            if($payment->payment_status==1){
+                                $status_of_payment=1;
+                            }else{
+                                $status_of_payment=3;
+                            }
+                        }
+                    }
+                }
+
                 if($request->input('status') == "save"){
-                    if(count($checkPayments)==1){
-                        if($checkPayments->payment_status==0){
+                    if(count($checkPayments)>0){
+                        if($status_of_payment==0){
                             $report->status  = 'submitted';
                             $message='Report created successfully.';
-                        }else if($checkPayments->payment_status==3){
+                        }else if($status_of_payment==3){
                             $report->status  = 'draft';
                             $message='Report created but your payment is on hold,so report is not submitted it is saved as draft.';
                         }else{
+                            $showPayment=true;
                             $showPrompt=1;
                             $report->status  = 'draft';
                             $message='Report created but your payment rejected, so report is not submitted it is saved as draft.';
                         }
                     }else{
+                        $showPayment=true;
                         $showPrompt=1;
                         $report->status  = 'draft';
                         $message='Report is not submitted due to payment it is saved as draft, first make the payment.';
@@ -138,6 +159,7 @@ class ReportController extends Controller {
             $response = [
                 'status'        => true,
                 'show_prompt'   =>  $showPrompt,
+                'showPayment'   =>  $showPayment,
                 'message'       =>  $message
             ];
             $responseCode = 201;
@@ -529,19 +551,50 @@ class ReportController extends Controller {
             else
                 throw new HttpBadRequestException("Progress report is required.");
 
+                $showPayment=false;
                 if($report) {
                     $report->progress_report    = $progress_report;
                     $getParishinfo=Parish::where('id',$report->parish_id)->first();
+
                     if(count($getParishinfo) >0){
+
                         $getParish_userid=$getParishinfo->user_id;
-                        $get_paymentinfo=Payment::where('created_by',$getParish_userid)->where('upload_month',$report->report_month)->where('upload_year',$report->report_year)->first();
+                        $get_paymentinfo=Payment::where('created_by',$getParish_userid)->where('upload_month',$report->report_month)->where('upload_year',$report->report_year)->get();
+
+                        if(count($get_paymentinfo)>0) {
+                            foreach($get_paymentinfo as $payment){
+                                if( $payment->payment_status==0){
+                                    $status_of_payment=0;
+                                    break;
+                                }else{
+                                    if($payment->payment_status==1){
+                                        $status_of_payment=1;
+                                    }else{
+                                        $status_of_payment=3;
+                                    }
+                                }
+                            }
+                            if($status_of_payment==3){
+                                $showPayment=true;
+                            }
+                        }else{
+                            $showPayment=true;
+                        }
+                    }else{
+                        $showPayment=true;
                     }
                     if($request->input('status') == "save"){
                         if($report->compliance==0 ){
                             if(count($get_paymentinfo)>0) {
-                                $report->status = 'resubmitted';
+                                if($status_of_payment==0) {
+                                    $report->status = 'resubmitted';
+                                }else{
+                                    $report->status = 'draft';
+
+                                }
                             }else{
                                 $report->status = 'draft';
+
                             }
                             $report->compliance=3;
                             $report->reject_reason=" ";
@@ -567,6 +620,7 @@ class ReportController extends Controller {
             
             $response = [
                 'status'        => true,
+                'showPayment'   => $showPayment,
                 'message'       => "Report updated successfully."
             ];
             $responseCode = 201;
