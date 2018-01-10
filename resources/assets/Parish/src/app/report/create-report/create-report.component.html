@@ -689,14 +689,14 @@
         </div>
     </div>
     <div class="col-md-6">
-        <button class="btn btn-primary form-control"
+        <button class="btn btn-primary form-control btn-submit"
                 *ngIf="progress_report.crucial_date != undefined && !viewMode"
                 (click)="onSubmit('save')">
             Submit
         </button>
     </div>
     <div class="col-md-6">
-        <button class="btn btn-primary form-control"
+        <button class="btn btn-primary form-control btn-submit"
                 *ngIf="progress_report.crucial_date != undefined && !viewMode"
                 (click)="onSubmit('draft')">
             Draft

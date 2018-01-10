@@ -70,13 +70,14 @@
     padding: 15px;
     color: #000;
     min-height: 300px;
+    max-height: calc(100% - 120px);
     padding-top: 70px;
-    position:fixed;
+    position:absolute;
     border-radius:4px;
     top: 50%;
     left: 50%;
-    margin-top: -150px;
-    margin-left: -250px;
+    transform: translate(-50%,-50%);
+    overflow-y: auto;
 }
 
 .alert-middle.closebtn{
@@ -87,3 +88,41 @@
     color: #fd7c02;
 }
 
+input[type="file"] {
+    height: auto;
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px){
+    .alert-middle-main {
+        width: 430px;
+        top: 55%;
+        left: 60%;
+        padding-top: 10px;
+        font-size: 12px;
+    }
+    .alert-middle-main h3{
+        font-size: 18px;
+    }
+    .form-group{
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .alert-middle-main {
+        width: 80%;
+        top: 60%;
+        padding-top: 10px;
+        font-size: 11px;
+    }
+    .alert-middle-main h3{
+        font-size: 18px;
+    }
+    .form-group{
+        margin-bottom: 10px;
+    }
+    .alert-middle-main button{
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+}
