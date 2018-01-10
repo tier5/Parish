@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from "rxjs/Observable";
 
 import { RegisterService } from './register.service';
+import {environment} from "../../../environments/environment.prod";
 
 @Component( {
 	selector: 'register',
@@ -36,7 +37,7 @@ export class RegisterComponent {
 	/** Function to be executed when component initializes */
 	ngOnInit() {
 
-        this.stripe = Stripe('pk_test_SIRpnt5y8OAGeLprrzbQKrKd');
+        this.stripe = Stripe(environment.stripeKey);
         this.elements = this.stripe.elements();
 
         // Custom styling can be passed to options when creating an Element.
