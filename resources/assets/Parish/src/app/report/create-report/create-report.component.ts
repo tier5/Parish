@@ -1390,14 +1390,14 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 						this.responseMsg = error.json().error;
 						setTimeout( () => {
 							this.responseReceived = false;
-						}, 5000);
+						}, 15000);
 					},
 					() => {
 						this.progress_report = this.temp_report;
 						this.progress_report.crucial_date = undefined;
 						setTimeout( () => {
 							this.responseReceived = false;
-						}, 5000);
+						}, 15000);
 					}
 				
 				);
@@ -1420,7 +1420,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 						this.responseMsg = response.json().message;
 						setTimeout( () => {
 							this.responseReceived = false;
-						}, 5000);
+						}, 15000);
 					} else {
 						this.responseMsg = response.json().message;
 						this.showPrompt = true;
@@ -1437,7 +1437,7 @@ export class CreateReportComponent implements OnInit, OnDestroy {
 					this.responseMsg = error.json().error;
 					setTimeout( () => {
 						this.responseReceived = false;
-					}, 5000);
+					}, 15000);
 				},
 				() => {
 					this.progress_report = this.temp_report;

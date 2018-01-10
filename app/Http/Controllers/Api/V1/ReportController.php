@@ -601,9 +601,17 @@ class ReportController extends Controller {
                         }else {
                             if(count($get_paymentinfo)>0) {
                                 if($report->status=='resubmitted'){
-                                    $report->status = 'resubmitted';
+                                    if($status_of_payment==0) {
+                                        $report->status = 'resubmitted';
+                                    }else{
+                                        $report->status = 'draft';
+                                    }
                                 }else {
-                                    $report->status = 'submitted';
+                                    if($status_of_payment==0) {
+                                        $report->status = 'submitted';
+                                    }else{
+                                        $report->status = 'draft';
+                                    }
                                 }
                             }else{
                                 $report->status = 'draft';

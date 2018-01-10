@@ -111,7 +111,7 @@ export class UploadPaymentComponent {
                             this.responseReceived   = false;
                             this.showLoader    		= false;
                             uploadPaymentForm.reset();
-                        }, 3000);
+                        }, 60000);
                     }
 			);
 	}
