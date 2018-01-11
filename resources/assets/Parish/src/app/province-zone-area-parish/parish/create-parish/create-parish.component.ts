@@ -5,7 +5,7 @@ import { ActivatedRoute, Data, Params, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Response } from '@angular/http';
-
+import { environment } from "../../../../environments/environment.prod";
 import { AuthService } from '../../../auth/auth.service';
 import { ProvinceZoneAreaParishService } from '../../province-zone-area-parish.service';
 import { IDatePickerConfig } from "ng2-date-picker";
@@ -172,7 +172,7 @@ export class CreateParishComponent {
 		
 		if(!this.editMode) {
 			
-			this.stripe = Stripe('pk_test_SIRpnt5y8OAGeLprrzbQKrKd');
+			this.stripe = Stripe(environment.stripeKey);
 			this.elements = this.stripe.elements();
 			
 			// Custom styling can be passed to options when creating an Element.
