@@ -629,6 +629,15 @@ export class ListPaymentComponent implements OnInit, OnDestroy {
         link.click();
         document.body.removeChild(link);
     }
+
+    viewFile(payment){
+        var link=document.createElement("a");
+        link.target="_blank";
+        link.href=this.base_url+'/paymentReceipt/'+payment.file_name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
     
     /** Function to delete a payment */
     OnClickDelete(payment) {

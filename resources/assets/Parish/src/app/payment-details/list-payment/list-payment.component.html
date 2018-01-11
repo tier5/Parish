@@ -180,10 +180,10 @@
 
                                 </span>
                                 <!-- End appear in admin section -->
-                                <button
+                                <button  (click)="viewFile(payment)"
                                         class="btn btn-active btn-xs"
                                         type="button" *ngIf="isWEM">
-                                    <i class="fa fa-eye fa-fw"></i><a target="_blank" class="btn btn-active btn-xs" [href]="base_url+'/paymentReceipt/'+payment.file_name" *ngIf="isWEM">View</a>
+                                    <i class="fa fa-eye fa-fw"></i><a target="_blank" class="btn btn-active btn-xs" *ngIf="isWEM">View</a>
 
                                 </button>
 
@@ -201,7 +201,7 @@
                                     <i class="fa fa-download fa-fw"></i><a [href]="base_url+'/paymentReceipt/'+payment.file_name" [download]="payment.file_name">Download</a>
 
                                 </button>-->
-                                <a (click)="saveFile(payment)" class="btn btn-active btn-xs" *ngIf="isWEM || (!isWEM && payment.accept)"><i class="fa fa-download fa-fw"></i>Download</a>
+                                <button (click)="saveFile(payment)" class="btn btn-active btn-xs" *ngIf="isWEM || (!isWEM && payment.accept)"><i class="fa fa-download fa-fw"></i><a>Download</a></button>
 
                                 <input type="file" ng2FileSelect [uploader]="uploader" class="upload_file" *ngIf="isParishPastor && payment.payment_status == 1 " (change)="showUploader(payment,$event)" accept=".pdf,.doc,.docx,.jpeg,.jpg,.PDF,.DOC,.DOCX,.JPEG,.JPG"/>
 
